@@ -10,25 +10,24 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GalaxyZooTouchTable
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserConsole.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class UserConsole : UserControl
     {
-        public MainWindow()
+        public UserConsole()
         {
             InitializeComponent();
         }
 
-        protected override void OnInitialized(EventArgs e)
+        private void StartButton_TouchUp(object sender, TouchEventArgs e)
         {
-            base.OnInitialized(e);
-            RootCanvas.AddDraggableElement(new InteractiveGalaxy());
-            //RootCanvas.AddDraggableElement(new UserConsole());
+            ControlPanel.Children.Add(new IntroUI());
         }
     }
 }

@@ -5,10 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <local:DragCanvas x:Name="RootCanvas" Background="LightBlue">
-        <Label Content="lkjhlkjhl" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="126" Canvas.Top="134"/>
-        <local:CollectionBin Height="100" Canvas.Left="634" Canvas.Top="213" Width="100"/>
+        Title="MainWindow" Height="1000" Width="1500">
+    <local:DragCanvas x:Name="RootCanvas" Background="Black">
 
+        <local:UserConsole Canvas.Left="1238" Canvas.Top="365" RenderTransformOrigin="0.5,0.5">
+            <local:UserConsole.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </local:UserConsole.RenderTransform>
+        </local:UserConsole>
+        <local:UserConsole Canvas.Left="877" Canvas.Top="772"/>
+        <local:UserConsole Canvas.Left="-48" Canvas.Top="377" RenderTransformOrigin="0.5,0.5">
+            <local:UserConsole.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </local:UserConsole.RenderTransform>
+        </local:UserConsole>
+        <local:UserConsole Canvas.Left="886" Canvas.Top="6" RenderTransformOrigin="0.5,0.5">
+            <local:UserConsole.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </local:UserConsole.RenderTransform>
+        </local:UserConsole>
+        <local:UserConsole Canvas.Left="354" Canvas.Top="8" RenderTransformOrigin="0.5,0.5">
+            <local:UserConsole.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </local:UserConsole.RenderTransform>
+        </local:UserConsole>
+        <local:UserConsole Height="200" Canvas.Left="372" Canvas.Top="772" Width="300"/>
     </local:DragCanvas>
 </Window>
