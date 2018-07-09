@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              mc:Ignorable="d" 
              Background="Green"
-             Width="350" Height="400">
+             Width="250" Height="300">
     <Grid>
         <Label Content="Drag Galaxies Here" Foreground="White" FontSize="30" HorizontalAlignment="Left" Margin="46,174,0,0" VerticalAlignment="Top"/>
 
