@@ -64,9 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationData.cs" />
-    <Compile Include="ClassificationUI.xaml.cs">
-      <DependentUpon>ClassificationUI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CollectionBin.xaml.cs">
       <DependentUpon>CollectionBin.xaml</DependentUpon>
     </Compile>
@@ -75,8 +72,8 @@
     <Compile Include="IDroppableArea.cs" />
     <Compile Include="InteractiveElement.cs" />
     <Compile Include="InteractiveGalaxy.cs" />
-    <Compile Include="IntroUI.xaml.cs">
-      <DependentUpon>IntroUI.xaml</DependentUpon>
+    <Compile Include="ClassificationPanel.xaml.cs">
+      <DependentUpon>ClassificationPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -107,15 +104,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ClassificationUI.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="CollectionBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="IntroUI.xaml">
+    <Page Include="ClassificationPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

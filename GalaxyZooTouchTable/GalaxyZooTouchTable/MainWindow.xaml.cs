@@ -27,8 +27,6 @@ namespace GalaxyZooTouchTable
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            RootCanvas.AddDraggableElement(new InteractiveGalaxy());
-            //RootCanvas.AddDraggableElement(new UserConsole());
         }
     }
 }

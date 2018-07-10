@@ -8,7 +8,7 @@ namespace GalaxyZooTouchTable
     {
         public InteractiveGalaxy()
         {
-            Child = new Image() { Source = new BitmapImage(new Uri("NGC_7479_HST.jpg", UriKind.Relative)) };
+            // Child = new Image() { Source = new BitmapImage(new Uri("NGC_7479_HST.jpg", UriKind.Relative)) };
         }
     }
 }

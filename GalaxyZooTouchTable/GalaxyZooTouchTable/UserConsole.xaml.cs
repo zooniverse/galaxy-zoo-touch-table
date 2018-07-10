@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GalaxyZooTouchTable
 {
@@ -20,6 +9,9 @@ namespace GalaxyZooTouchTable
     /// </summary>
     public partial class UserConsole : UserControl
     {
+        ClassificationPanel Classifier { get; set; }
+        string User { get; set; }
+
         public UserConsole()
         {
             InitializeComponent();
@@ -27,7 +19,10 @@ namespace GalaxyZooTouchTable
 
         private void StartButton_TouchUp(object sender, TouchEventArgs e)
         {
-            ControlPanel.Children.Add(new IntroUI());
+            ClassificationPanel panel = new ClassificationPanel(this);
+            ControlPanel.Children.Add(panel);
+            this.Classifier = panel;
+            this.StartButton.Visibility = Visibility.Hidden;
         }
     }
 }
