@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GalaxyZooTouchTable.Models;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GalaxyZooTouchTable
 {
@@ -22,6 +12,24 @@ namespace GalaxyZooTouchTable
         public MainWindow()
         {
             InitializeComponent();
+            SetUserContext();
+        }
+
+        private void SetUserContext()
+        {        
+           TableUser personUser = TableUserFactory.Create(UserType.Person);
+           TableUser lightUser = TableUserFactory.Create(UserType.Light);
+           TableUser starUser = TableUserFactory.Create(UserType.Star);
+           TableUser heartUser = TableUserFactory.Create(UserType.Heart);
+           TableUser faceUser = TableUserFactory.Create(UserType.Face);
+           TableUser earthUser = TableUserFactory.Create(UserType.Earth);
+
+           PersonUser.DataContext = personUser;
+           LightUser.DataContext = lightUser;
+           StarUser.DataContext = starUser;
+           HeartUser.DataContext = heartUser;
+           FaceUser.DataContext = faceUser;
+           EarthUser.DataContext = earthUser;
         }
 
         protected override void OnInitialized(EventArgs e)
