@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
 {
@@ -19,43 +16,43 @@ namespace GalaxyZooTouchTable.Models
     abstract class TableUser
     {
         public abstract string ThemeColor { get; }
-        public abstract string Avatar { get; }
+        public abstract BitmapImage StartButton { get; }
     }
 
     class PersonUser : TableUser
     {
         public override string ThemeColor => "#A5A2FB";
-        public override string Avatar => "Avatar";
+        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Person.png", UriKind.Relative));
     }
 
     class StarUser : TableUser
     {
         public override string ThemeColor => "#29A1FA";
-        public override string Avatar => "Avatar";
+        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Star.png", UriKind.Relative));
     }
 
     class EarthUser : TableUser
     {
         public override string ThemeColor => "#6ADCA3";
-        public override string Avatar => "Avatar";
+        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Earth.png", UriKind.Relative));
     }
 
     class LightUser : TableUser
     {
         public override string ThemeColor => "#A3DDEE";
-        public override string Avatar => "Avatar";
+        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Light.png", UriKind.Relative));
     }
 
     class FaceUser : TableUser
     {
         public override string ThemeColor => "#F3AB91";
-        public override string Avatar => "Avatar";
+        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Face.png", UriKind.Relative));
     }
 
     class HeartUser : TableUser
     {
         public override string ThemeColor => "#F3588B";
-        public override string Avatar => "Avatar";
+        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Heart.png", UriKind.Relative));
     }
 
     static class TableUserFactory

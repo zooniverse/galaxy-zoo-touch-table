@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/UserThemes.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
+            <FontFamily x:Key="Karla"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

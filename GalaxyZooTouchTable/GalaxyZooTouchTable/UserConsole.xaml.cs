@@ -10,8 +10,6 @@ namespace GalaxyZooTouchTable
     public partial class UserConsole : UserControl
     {
         ClassificationPanel Classifier { get; set; }
-        string User { get; set; }
-        public string Param { get; set; }
 
         public UserConsole()
         {

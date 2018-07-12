@@ -96,6 +96,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Karla-Bold.ttf" />
+    <Resource Include="Fonts\Karla-BoldItalic.ttf" />
+    <Resource Include="Fonts\Karla-Italic.ttf" />
+    <Resource Include="Fonts\Karla-Regular.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -117,14 +121,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserConsole.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\UserThemes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Avatars\Earth.png" />
+    <Resource Include="Images\Avatars\Face.png" />
+    <Resource Include="Images\Avatars\Heart.png" />
+    <Resource Include="Images\Avatars\Light.png" />
+    <Resource Include="Images\Avatars\Person.png" />
+    <Resource Include="Images\Avatars\Star.png" />
+    <Resource Include="Images\Logo.svg" />
+    <Resource Include="Images\NGC_7479_HST.jpg" />
+    <Resource Include="Images\StartIcon\Heart.png" />
+    <Resource Include="Images\StartIcon\Earth.png" />
+    <Resource Include="Images\StartIcon\Face.png" />
+    <Resource Include="Images\StartIcon\Light.png" />
+    <Resource Include="Images\StartIcon\Person.png" />
+    <Resource Include="Images\StartIcon\Star.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
