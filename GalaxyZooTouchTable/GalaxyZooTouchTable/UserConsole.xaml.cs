@@ -21,6 +21,7 @@ namespace GalaxyZooTouchTable
             ClassificationPanel panel = new ClassificationPanel(this);
             ControlPanel.Children.Add(panel);
             this.Classifier = panel;
+            this.ButtonArc.Visibility = Visibility.Hidden;
             this.StartButton.Visibility = Visibility.Hidden;
         }
     }

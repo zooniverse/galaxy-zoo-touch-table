@@ -7,10 +7,9 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="480">
     <Grid x:Name="ControlPanel">
-        <Path StrokeThickness="14" StrokeDashCap="Round" 
+        <Path x:Name="ButtonArc" StrokeThickness="14" StrokeDashCap="Round" 
               Data="M 5,600 A 100,100 45 1 1 470,600" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
         <Button x:Name="StartButton"
-            Background="Transparent"
             BorderThickness="0"
             FontSize="60"
             Height="235"

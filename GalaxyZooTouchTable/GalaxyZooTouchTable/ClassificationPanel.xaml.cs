@@ -18,6 +18,7 @@ namespace GalaxyZooTouchTable
         private void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
         {
             this.Console.StartButton.Visibility = System.Windows.Visibility.Visible;
+            this.Console.ButtonArc.Visibility = System.Windows.Visibility.Visible;
             this.Console.ControlPanel.Children.Remove(this);
         }
     }
