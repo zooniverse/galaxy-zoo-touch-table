@@ -19,42 +19,6 @@ namespace GalaxyZooTouchTable.Models
         public abstract BitmapImage StartButton { get; }
     }
 
-    class PersonUser : TableUser
-    {
-        public override string ThemeColor => "#A5A2FB";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Person.png", UriKind.Relative));
-    }
-
-    class StarUser : TableUser
-    {
-        public override string ThemeColor => "#29A1FA";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Star.png", UriKind.Relative));
-    }
-
-    class EarthUser : TableUser
-    {
-        public override string ThemeColor => "#6ADCA3";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Earth.png", UriKind.Relative));
-    }
-
-    class LightUser : TableUser
-    {
-        public override string ThemeColor => "#A3DDEE";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Light.png", UriKind.Relative));
-    }
-
-    class FaceUser : TableUser
-    {
-        public override string ThemeColor => "#F3AB91";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Face.png", UriKind.Relative));
-    }
-
-    class HeartUser : TableUser
-    {
-        public override string ThemeColor => "#F3588B";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Heart.png", UriKind.Relative));
-    }
-
     static class TableUserFactory
     {
         public static TableUser Create(UserType type)
@@ -77,6 +41,42 @@ namespace GalaxyZooTouchTable.Models
                     return new HeartUser();
 
             }
+        }
+
+        private class PersonUser : TableUser
+        {
+            public override string ThemeColor => "#A5A2FB";
+            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Person.png", UriKind.Relative));
+        }
+
+        private class StarUser : TableUser
+        {
+            public override string ThemeColor => "#29A1FA";
+            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Star.png", UriKind.Relative));
+        }
+
+        private class EarthUser : TableUser
+        {
+            public override string ThemeColor => "#6ADCA3";
+            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Earth.png", UriKind.Relative));
+        }
+
+        private class LightUser : TableUser
+        {
+            public override string ThemeColor => "#A3DDEE";
+            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Light.png", UriKind.Relative));
+        }
+
+        private class FaceUser : TableUser
+        {
+            public override string ThemeColor => "#F3AB91";
+            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Face.png", UriKind.Relative));
+        }
+
+        private class HeartUser : TableUser
+        {
+            public override string ThemeColor => "#F3588B";
+            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Heart.png", UriKind.Relative));
         }
     }
 }
