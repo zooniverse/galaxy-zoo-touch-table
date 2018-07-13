@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="GalaxyZooTouchTable.ClassificationPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             mc:Ignorable="d" 
+             Background="DimGray"
+             Width="250" Height="300">
+    <Grid>
+        
+        <Label Content="Classify galaxies to help astronomers!" Foreground="White" FontSize="14" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top"/>
+        <Button Content="Close Workspace" Name="CloseButton" HorizontalAlignment="Left" Foreground="White" Background="Transparent" Margin="170,5,0,0" VerticalAlignment="Top" Width="75" FontSize="8" TouchUp="CloseButton_TouchUp"/>
+
+    </Grid>
+</UserControl>
