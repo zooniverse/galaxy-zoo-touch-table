@@ -1,4 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace GalaxyZooTouchTable
 {
@@ -12,14 +16,30 @@ namespace GalaxyZooTouchTable
         public ClassificationPanel(UserConsole parent)
         {
             InitializeComponent();
-            this.Console = parent;
+            Console = parent;
         }
 
         private void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
         {
-            this.Console.StartButton.Visibility = System.Windows.Visibility.Visible;
-            this.Console.ButtonArc.Visibility = System.Windows.Visibility.Visible;
-            this.Console.ControlPanel.Children.Remove(this);
+            MoveClassifier();
+            Console.MoveButton();
+            Console.ClassifierOpen = !Console.ClassifierOpen;
+        }
+
+        public void MoveClassifier()
+        {
+            float StartPos = Console.ClassifierOpen ? -300 : 0;
+            float EndPos = Console.ClassifierOpen ? 200 : -300;
+
+            var PanelTransform = new TranslateTransform(0, StartPos);
+            RenderTransform = PanelTransform;
+            DoubleAnimation panelAnimation = new DoubleAnimation(EndPos, new Duration(TimeSpan.FromSeconds(0.25)));
+            PanelTransform.BeginAnimation(TranslateTransform.YProperty, panelAnimation);
+
+            panelAnimation.Completed += (s, e) =>
+            {
+                Console.ControlPanel.Children.Remove(this);
+            };
         }
     }
 }

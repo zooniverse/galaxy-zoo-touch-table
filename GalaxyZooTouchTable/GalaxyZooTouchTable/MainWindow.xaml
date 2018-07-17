@@ -8,40 +8,29 @@
         Title="MainWindow" Height="1080" Width="1920">
 
     <local:DragCanvas x:Name="RootCanvas" Background="Black">
-        <Grid Height="1050" Width="1920">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="404*" />
-                <ColumnDefinition Width="556*" />
-                <ColumnDefinition Width="539*" />
-                <ColumnDefinition Width="421*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <local:UserConsole x:Name="HeartUser" Style="{StaticResource HeartUser}" DataContext="{Binding Path=userVm}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalContentAlignment="Bottom" Width="480">
+        <Canvas Height="1050" Width="1920">
+            <local:UserConsole x:Name="HeartUser" Style="{StaticResource HeartUser}" Canvas.Left="932" Canvas.Top="351">
                 <UserControl.LayoutTransform>
-                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="180"/>
+                    <RotateTransform CenterX="0.5" Angle="180"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="StarUser" Style="{StaticResource StarUser}" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Width="485">
+            <local:UserConsole x:Name="StarUser" Style="{StaticResource StarUser}" Canvas.Left="1590" Canvas.Top="351">
                 <UserControl.LayoutTransform>
-                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="180"/>
+                    <RotateTransform Angle="180"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="EarthUser" Style="{StaticResource EarthUser}" ClipToBounds="False" Grid.RowSpan="3" Grid.Column="0" Grid.Row="0" VerticalContentAlignment="Bottom">
+            <local:UserConsole x:Name="EarthUser" Style="{StaticResource EarthUser}" Canvas.Left="347" Canvas.Top="241">
                 <UserControl.LayoutTransform>
-                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="90"/>
+                    <RotateTransform Angle="90"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="LightUser" Style="{StaticResource LightUser}" Grid.Column="3" Grid.RowSpan="3" Grid.Row="0" VerticalContentAlignment="Bottom">
+            <local:UserConsole x:Name="LightUser" Style="{StaticResource LightUser}" Canvas.Left="1565" Canvas.Top="786">
                 <UserControl.LayoutTransform>
-                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="-90"/>
+                    <RotateTransform Angle="-90"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="PersonUser" Style="{StaticResource PersonUser}" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalContentAlignment="Bottom" Width="480"/>
-            <local:UserConsole x:Name="FaceUser" Style="{StaticResource FaceUser}" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" VerticalContentAlignment="Bottom" Width="485"/>
-        </Grid>
+            <local:UserConsole x:Name="PersonUser" Style="{StaticResource PersonUser}" Canvas.Left="373" Canvas.Top="701"/>
+            <local:UserConsole x:Name="FaceUser" Style="{StaticResource FaceUser}" Canvas.Left="1034" Canvas.Top="703"/>
+        </Canvas>
     </local:DragCanvas>
 </Window>

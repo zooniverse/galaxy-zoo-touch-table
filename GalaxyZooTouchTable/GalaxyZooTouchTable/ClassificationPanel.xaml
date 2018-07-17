@@ -5,12 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              mc:Ignorable="d" 
-             Background="DimGray"
-             Width="250" Height="300">
-    <Grid>
-        
-        <Label Content="Classify galaxies to help astronomers!" Foreground="White" FontSize="14" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top"/>
-        <Button Content="Close Workspace" Name="CloseButton" HorizontalAlignment="Left" Foreground="White" Background="Transparent" Margin="170,5,0,0" VerticalAlignment="Top" Width="75" FontSize="8" TouchUp="CloseButton_TouchUp"/>
+             Width="325" Height="300">
+    <Border CornerRadius="5"
+                BorderBrush="#343438"
+                BorderThickness="1"
+                Padding="0" Background="#343438">
+        <Grid>
+            <Label Content="Classify galaxies to help astronomers!" Foreground="White" FontSize="14" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top"/>
+            <Button BorderThickness="0" Name="CloseButton" HorizontalAlignment="Left" Foreground="White" Background="Transparent" Margin="235,5,0,0" VerticalAlignment="Top" Width="75" TouchUp="CloseButton_TouchUp">
+                <WrapPanel>
+                    <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" Margin="0,2,2,0" FontSize="8"/>
+                    <TextBlock Text="X" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="12"/>
+                </WrapPanel>
+            </Button>
 
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>
