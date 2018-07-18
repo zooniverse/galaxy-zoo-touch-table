@@ -5,32 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920">
+        Title="MainWindow" Height="2160" Width="3840">
 
     <local:DragCanvas x:Name="RootCanvas" Background="Black">
-        <Canvas Height="1050" Width="1920">
-            <local:UserConsole x:Name="HeartUser" Style="{StaticResource HeartUser}" Canvas.Left="932" Canvas.Top="351">
+        <Canvas Height="2160" Width="3840">
+            <local:UserConsole x:Name="HeartUser" Style="{StaticResource HeartUser}" Canvas.Left="1800" Canvas.Top="700">
                 <UserControl.LayoutTransform>
                     <RotateTransform CenterX="0.5" Angle="180"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="StarUser" Style="{StaticResource StarUser}" Canvas.Left="1590" Canvas.Top="351">
+            <local:UserConsole x:Name="StarUser" Style="{StaticResource StarUser}" Canvas.Left="3200" Canvas.Top="700">
                 <UserControl.LayoutTransform>
                     <RotateTransform Angle="180"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="EarthUser" Style="{StaticResource EarthUser}" Canvas.Left="347" Canvas.Top="241">
+            <local:UserConsole x:Name="EarthUser" Style="{StaticResource EarthUser}" Canvas.Left="700" Canvas.Top="500">
                 <UserControl.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="LightUser" Style="{StaticResource LightUser}" Canvas.Left="1565" Canvas.Top="786">
+            <local:UserConsole x:Name="LightUser" Style="{StaticResource LightUser}" Canvas.Left="3140" Canvas.Top="1600">
                 <UserControl.LayoutTransform>
                     <RotateTransform Angle="-90"/>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="PersonUser" Style="{StaticResource PersonUser}" Canvas.Left="373" Canvas.Top="701"/>
-            <local:UserConsole x:Name="FaceUser" Style="{StaticResource FaceUser}" Canvas.Left="1034" Canvas.Top="703"/>
+            <local:UserConsole x:Name="PersonUser" Style="{StaticResource PersonUser}" Canvas.Left="700" Canvas.Top="1435"/>
+            <local:UserConsole x:Name="FaceUser" Style="{StaticResource FaceUser}" Canvas.Left="2100" Canvas.Top="1435"/>
         </Canvas>
     </local:DragCanvas>
 </Window>

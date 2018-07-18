@@ -28,18 +28,17 @@ namespace GalaxyZooTouchTable
 
         public void MoveClassifier()
         {
-            float StartPos = Console.ClassifierOpen ? -300 : 0;
-            float EndPos = Console.ClassifierOpen ? 200 : -300;
+            float StartPos = Console.ClassifierOpen ? -600 : 0;
+            float EndPos = Console.ClassifierOpen ? 400 : -600;
 
             var PanelTransform = new TranslateTransform(0, StartPos);
             RenderTransform = PanelTransform;
             DoubleAnimation panelAnimation = new DoubleAnimation(EndPos, new Duration(TimeSpan.FromSeconds(0.25)));
-            PanelTransform.BeginAnimation(TranslateTransform.YProperty, panelAnimation);
-
-            panelAnimation.Completed += (s, e) =>
+            if (Console.ClassifierOpen)
             {
-                Console.ControlPanel.Children.Remove(this);
-            };
+                panelAnimation.Completed += (s, e) => Console.ControlPanel.Children.Remove(this);
+            }
+            PanelTransform.BeginAnimation(TranslateTransform.YProperty, panelAnimation);
         }
     }
 }

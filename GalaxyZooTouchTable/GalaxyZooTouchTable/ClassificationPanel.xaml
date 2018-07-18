@@ -4,12 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              mc:Ignorable="d" 
-             Width="550" Height="350">
+             Width="1100" Height="700">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="600"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border
@@ -17,36 +18,67 @@
             CornerRadius="5"
             BorderBrush="#343438"
             BorderThickness="1"
-            Height="311"
-            Width="300"
+            Height="620"
+            Width="600"
             Padding="0">
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
             <Canvas Background="#343438">
-                <Image Source="{Binding Avatar}" Height="50" Width="50" Canvas.Left="120" Canvas.Top="-25"/>
-                <Button BorderThickness="0" Name="CloseButton" HorizontalAlignment="Left" Height="30"  Foreground="White" Background="Transparent" Margin="200,5,0,0" VerticalAlignment="Top" Width="75" TouchUp="CloseButton_TouchUp">
+                <Image Source="{Binding Avatar}" Height="80" Width="80" Canvas.Left="260" Canvas.Top="-40"/>
+                <Button BorderThickness="0" Name="CloseButton" HorizontalAlignment="Left" Height="40"  Foreground="White" Background="Transparent" Margin="420,10,0,0" VerticalAlignment="Top" Width="150" TouchUp="CloseButton_TouchUp">
                     <WrapPanel>
-                        <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" Margin="0,2,2,0" FontSize="8"/>
-                        <TextBlock Text="X" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="12"/>
+                        <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" Margin="0,4,4,0" FontSize="16"/>
+                        <TextBlock Text="X" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="24"/>
                     </WrapPanel>
                 </Button>
-                <Line X1="10" X2="290" Y1="40" Y2="40" Stroke="#404040" StrokeDashCap="Round" StrokeThickness="2"/>
-                <Label Content="Classify galaxies to help astronomers!" Foreground="White" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="6" Canvas.Top="45" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                <Rectangle Height="100" Width="100" Fill="Gray" Canvas.Top="78" Canvas.Left="13"/>
-                <StackPanel Canvas.Left="125" Canvas.Top="80">
-                    <TextBlock Foreground="White" Text="What type of galaxy is this?" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="10"/>
-                    <TextBlock Foreground="White" Text="Check the More Info tab on the right for help." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="8"/>
-                    <Button Width="150" Height="22" HorizontalAlignment="Left" Margin="0,2,0,2" Background="#55565A"></Button>
-                    <Button Width="150" Height="22" HorizontalAlignment="Left" Margin="0,2,0,2" Background="#55565A"></Button>
-                    <Button Width="150" Height="22" HorizontalAlignment="Left" Margin="0,2,0,2" Background="#55565A"></Button>
+                <Line X1="20" X2="580" Y1="60" Y2="60" Stroke="#404040" StrokeDashCap="Round" StrokeThickness="4"/>
+                <Label Content="Classify galaxies to help astronomers!" Foreground="White" FontSize="28" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="12" Canvas.Top="78" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                <Rectangle Height="200" Width="200" Fill="Gray" Canvas.Top="144" Canvas.Left="26"/>
+                <StackPanel Canvas.Left="250" Canvas.Top="150">
+                    <TextBlock Foreground="White" Text="What type of galaxy is this?" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="20"/>
+                    <TextBlock Foreground="White" Text="Check the More Info tab on the right for help." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="16"/>
+                    <Button Width="300" Height="44" HorizontalAlignment="Left" Margin="0,4,0,4" Background="#55565A"></Button>
+                    <Button Width="300" Height="44" HorizontalAlignment="Left" Margin="0,4,0,4" Background="#55565A"></Button>
+                    <Button Width="300" Height="44" HorizontalAlignment="Left" Margin="0,4,0,4" Background="#55565A"></Button>
                 </StackPanel>
-                <TextBlock Text="Not sure? That's ok! Here are a few additional resources to help your research." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="8" Canvas.Top="187" Canvas.Left="9" />
-                <WrapPanel Canvas.Top="210" Canvas.Left="10">
-                    <Button Height="18" Background="Transparent" Foreground="White" Width="125" Margin="10,0,0,0" FontSize="10" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">Ask a friend</Button>
-                    <Button Height="18" Background="Transparent" Foreground="White" Width="125" Margin="10,0,10,0" FontSize="10" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">See what others said</Button>
+                <TextBlock Text="Not sure? That's ok! Here are a few additional resources to help your research." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="15" Canvas.Top="375" Canvas.Left="30" />
+                <WrapPanel Canvas.Top="415" Canvas.Left="15">
+                    <Button Style="{StaticResource TransButton}">Ask a friend</Button>
+                    <Button Style="{StaticResource TransButton}">See what others said</Button>
                 </WrapPanel>
-                <Button Canvas.Left="10" Canvas.Top="233" Width="280" Height="25" Background="#63AB51" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="8">
+                <Button Style="{StaticResource SuccessBtn}" Canvas.Left="20" Canvas.Top="466">
                     Submit classification
                 </Button>
+                <Image Source="Images/General/Logo.png" Height="60" Width="150" Canvas.Left="222" Canvas.Top="526"/>
+                <TextBlock Text="zooniverse.org/galaxyzoo" Foreground="White" FontSize="12" Canvas.Top="574" Canvas.Left="276"/>
             </Canvas>
         </Border>
+        <Button Style="{StaticResource MoreInfoBtn}" Grid.Column="2">
+            <Button.LayoutTransform>
+                <RotateTransform Angle="90"/>
+            </Button.LayoutTransform>
+            More Info
+        </Button>
+        <Border
+            Grid.Column="0"
+            Background="Black"
+            HorizontalAlignment="Right"
+            Height="175"
+            Margin="0,125,599,400"
+            CornerRadius="5,0,0,5"
+            BorderThickness="1"
+            Padding="0" Grid.ColumnSpan="2">
+            <StackPanel>
+                <Rectangle Fill="{Binding ThemeColor}" Width="30" Height="30" Margin="3,3,3,1"/>
+                <Rectangle Fill="{Binding ThemeColor}" Width="30" Height="30" Margin="3,3,3,1"/>
+                <Rectangle Fill="{Binding ThemeColor}" Width="30" Height="30" Margin="3,3,3,1"/>
+                <Rectangle Fill="{Binding ThemeColor}" Width="30" Height="30" Margin="3,3,3,1"/>
+                <Rectangle Fill="{Binding ThemeColor}" Width="30" Height="30" Margin="3,3,3,1"/>
+            </StackPanel>
+        </Border>
+        <Button Style="{StaticResource BellBtn}" Background="{Binding ThemeColor}" Grid.Column="0" HorizontalAlignment="Left" Margin="214,312,0,352">
+            <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Height="18" Width="18" />
+        </Button>
     </Grid>
 </UserControl>

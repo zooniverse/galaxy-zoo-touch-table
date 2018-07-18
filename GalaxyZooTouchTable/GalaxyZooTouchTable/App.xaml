@@ -7,8 +7,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/UserThemes.xaml"/>
+                <ResourceDictionary Source="Styles/Buttons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
             <FontFamily x:Key="Karla"/>
         </ResourceDictionary>
     </Application.Resources>

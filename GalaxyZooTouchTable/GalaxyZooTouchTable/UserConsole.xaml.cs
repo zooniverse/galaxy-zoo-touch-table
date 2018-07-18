@@ -38,8 +38,8 @@ namespace GalaxyZooTouchTable
 
         public void MoveButton()
         {
-            float EndPos = ClassifierOpen ? 0 : 250;
-            float StartPos = ClassifierOpen ? 250 : 0;
+            float EndPos = ClassifierOpen ? 0 : 500;
+            float StartPos = ClassifierOpen ? 500 : 0;
             TranslateTransform Translate = new TranslateTransform(0, StartPos);
             DoubleAnimation animation = new DoubleAnimation(EndPos, new Duration(TimeSpan.FromSeconds(0.25)));
             StartButton.RenderTransform = Translate;
@@ -50,7 +50,7 @@ namespace GalaxyZooTouchTable
         {
             ClassificationPanel panel = new ClassificationPanel(this);
             Classifier = panel;
-            Canvas.SetTop(panel, 300);
+            Canvas.SetTop(panel, 600);
             ControlPanel.Children.Add(panel);
             panel.MoveClassifier();
         }
