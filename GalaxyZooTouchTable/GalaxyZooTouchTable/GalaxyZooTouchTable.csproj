@@ -62,9 +62,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\TableUserFactory.cs" />
+    <Compile Include="StartButton.xaml.cs">
+      <DependentUpon>StartButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserConsole.xaml.cs">
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserConsoleConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationData.cs" />
@@ -125,6 +129,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="StartButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Buttons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -154,6 +162,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\General\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

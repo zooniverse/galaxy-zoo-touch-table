@@ -134,4 +134,6 @@
             </Style>
         </Style.Resources>
     </Style>
+
+    <local:UserConsoleConverter x:Key="ConsoleConverter"/>
 </ResourceDictionary>

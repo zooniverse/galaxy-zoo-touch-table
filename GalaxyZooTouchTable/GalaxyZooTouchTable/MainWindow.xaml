@@ -5,32 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
         mc:Ignorable="d"
-        Title="MainWindow" Height="2160" Width="3840">
+        x:Name="Root"
+        Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
     <local:DragCanvas x:Name="RootCanvas" Background="Black">
-        <Canvas Height="2160" Width="3840">
-            <local:UserConsole x:Name="HeartUser" Style="{StaticResource HeartUser}" Canvas.Left="1800" Canvas.Top="700">
+        <Grid VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175*"/>
+                <ColumnDefinition Width="290*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="290*"/>
+                <ColumnDefinition Width="175*"/>
+            </Grid.ColumnDefinitions>
+
+            <local:UserConsole Grid.Column="1" x:Name="PersonUser" Style="{StaticResource PersonUser}"/>
+
+            <local:UserConsole Grid.Column="3" x:Name="FaceUser" Style="{StaticResource FaceUser}"/>
+        </Grid>
+
+        <Grid VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="175*"/>
+                <ColumnDefinition Width="290*"/>
+                <ColumnDefinition Width="70*"/>
+                <ColumnDefinition Width="290*"/>
+                <ColumnDefinition Width="175*"/>
+            </Grid.ColumnDefinitions>
+
+            <local:UserConsole Grid.Column="1" x:Name="HeartUser" Style="{StaticResource HeartUser}">
                 <UserControl.LayoutTransform>
-                    <RotateTransform CenterX="0.5" Angle="180"/>
+                    <TransformGroup>
+                        <RotateTransform Angle="180"/>
+                    </TransformGroup>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="StarUser" Style="{StaticResource StarUser}" Canvas.Left="3200" Canvas.Top="700">
+
+            <local:UserConsole Grid.Column="3" x:Name="StarUser" Style="{StaticResource StarUser}">
                 <UserControl.LayoutTransform>
-                    <RotateTransform Angle="180"/>
+                    <TransformGroup>
+                        <RotateTransform Angle="180"/>
+                    </TransformGroup>
                 </UserControl.LayoutTransform>
             </local:UserConsole>
-            <local:UserConsole x:Name="EarthUser" Style="{StaticResource EarthUser}" Canvas.Left="700" Canvas.Top="500">
-                <UserControl.LayoutTransform>
+        </Grid>
+
+        <local:UserConsole HorizontalAlignment="Left" x:Name="EarthUser" Style="{StaticResource EarthUser}">
+            <UserControl.LayoutTransform>
+                <TransformGroup>
                     <RotateTransform Angle="90"/>
-                </UserControl.LayoutTransform>
-            </local:UserConsole>
-            <local:UserConsole x:Name="LightUser" Style="{StaticResource LightUser}" Canvas.Left="3140" Canvas.Top="1600">
-                <UserControl.LayoutTransform>
+                </TransformGroup>
+            </UserControl.LayoutTransform>
+        </local:UserConsole>
+
+        <local:UserConsole HorizontalAlignment="Right" x:Name="LightUser" Style="{StaticResource LightUser}">
+            <UserControl.LayoutTransform>
+                <TransformGroup>
                     <RotateTransform Angle="-90"/>
-                </UserControl.LayoutTransform>
-            </local:UserConsole>
-            <local:UserConsole x:Name="PersonUser" Style="{StaticResource PersonUser}" Canvas.Left="700" Canvas.Top="1435"/>
-            <local:UserConsole x:Name="FaceUser" Style="{StaticResource FaceUser}" Canvas.Left="2100" Canvas.Top="1435"/>
-        </Canvas>
+                </TransformGroup>
+            </UserControl.LayoutTransform>
+        </local:UserConsole>
+
     </local:DragCanvas>
 </Window>
