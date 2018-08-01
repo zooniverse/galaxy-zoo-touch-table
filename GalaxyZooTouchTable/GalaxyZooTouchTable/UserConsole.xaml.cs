@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,7 +17,7 @@ namespace GalaxyZooTouchTable
     {
         ClassificationPanel Classifier { get; set; }
         public bool ClassifierOpen { get => classifierOpen; set => classifierOpen = value; }
-
+        
         private bool classifierOpen = false;
 
         public UserConsole()
@@ -23,23 +25,24 @@ namespace GalaxyZooTouchTable
             InitializeComponent();
         }
 
-        private void StartButton_TouchUp(object sender, TouchEventArgs e)
+        private async void StartButton_TouchUp(object sender, TouchEventArgs e)
         {
-            ToggleClassifier();
+            await ToggleClassifier();
+            AddClassifier();
+            ClassifierOpen = !ClassifierOpen;
         }
 
-        public void ToggleClassifier()
+        public Task ToggleClassifier()
         {
             MoveButton();
-            AddClassifier();
-
-            ClassifierOpen = !ClassifierOpen;
+            return Task.Delay(300);
         }
 
         public void MoveButton()
         {
-            float EndPos = ClassifierOpen ? 0 : 500;
-            float StartPos = ClassifierOpen ? 500 : 0;
+            float ButtonHeight = Convert.ToSingle(StartButton.ActualHeight);
+            float EndPos = ClassifierOpen ? 0 : ButtonHeight;
+            float StartPos = ClassifierOpen ? ButtonHeight : 0;
             TranslateTransform Translate = new TranslateTransform(0, StartPos);
             DoubleAnimation animation = new DoubleAnimation(EndPos, new Duration(TimeSpan.FromSeconds(0.25)));
             StartButton.RenderTransform = Translate;
@@ -50,7 +53,6 @@ namespace GalaxyZooTouchTable
         {
             ClassificationPanel panel = new ClassificationPanel(this);
             Classifier = panel;
-            Canvas.SetTop(panel, 600);
             ControlPanel.Children.Add(panel);
             panel.MoveClassifier();
         }

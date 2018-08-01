@@ -11,15 +11,6 @@
              mc:Ignorable="d">
 
     <Grid x:Name="ControlPanel">
-        <local:StartButton VerticalAlignment="Bottom"/>
-
-        <Path
-                x:Name="ButtonArc"/>
-
-        <Button x:Name="StartButton"
-            Background="Transparent"
-            BorderThickness="0"
-            TouchUp="StartButton_TouchUp">
-        </Button>
+        <local:StartButton x:Name="StartButton" TouchUp="StartButton_TouchUp" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

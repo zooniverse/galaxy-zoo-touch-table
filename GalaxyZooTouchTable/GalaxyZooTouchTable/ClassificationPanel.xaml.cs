@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,17 +20,18 @@ namespace GalaxyZooTouchTable
             Console = parent;
         }
 
-        private void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
+        private async void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
         {
-            MoveClassifier();
+            await MoveClassifier();
             Console.MoveButton();
             Console.ClassifierOpen = !Console.ClassifierOpen;
         }
 
-        public void MoveClassifier()
+        public Task MoveClassifier()
         {
-            float StartPos = Console.ClassifierOpen ? -600 : 0;
-            float EndPos = Console.ClassifierOpen ? 400 : -600;
+            float ConsoleHeight = Convert.ToSingle(Console.ActualHeight);
+            float StartPos = Console.ClassifierOpen ? 0 : ConsoleHeight;
+            float EndPos = Console.ClassifierOpen ? ConsoleHeight : 0;
 
             var PanelTransform = new TranslateTransform(0, StartPos);
             RenderTransform = PanelTransform;
@@ -39,6 +41,8 @@ namespace GalaxyZooTouchTable
                 panelAnimation.Completed += (s, e) => Console.ControlPanel.Children.Remove(this);
             }
             PanelTransform.BeginAnimation(TranslateTransform.YProperty, panelAnimation);
+
+            return Task.Delay(300);
         }
     }
 }
