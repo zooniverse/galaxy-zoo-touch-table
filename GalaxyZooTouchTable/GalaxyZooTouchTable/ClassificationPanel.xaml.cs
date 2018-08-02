@@ -38,7 +38,7 @@ namespace GalaxyZooTouchTable
             DoubleAnimation panelAnimation = new DoubleAnimation(EndPos, new Duration(TimeSpan.FromSeconds(0.25)));
             if (Console.ClassifierOpen)
             {
-                panelAnimation.Completed += (s, e) => Console.ControlPanel.Children.Remove(this);
+                panelAnimation.Completed += (sender, args) => Console.ControlPanel.Children.Remove(this);
             }
             PanelTransform.BeginAnimation(TranslateTransform.YProperty, panelAnimation);
 

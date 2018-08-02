@@ -23,13 +23,13 @@
             Margin="0,60,0,0"
             Width="20"
             HorizontalAlignment="Right">
-        
+
             <Border
                 Background="Black"
                 CornerRadius="5,0,0,5"
                 BorderThickness="1"
                 Padding="0">
-            
+
                 <StackPanel>
                     <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
                     <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
@@ -38,14 +38,14 @@
                     <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
                 </StackPanel>
             </Border>
-            
+
             <Button
                 Grid.Column="0"
                 Margin="0,5"
                 Style="{StaticResource BellBtn}"
                 Background="{Binding ThemeColor}"
                 HorizontalAlignment="Right">
-            
+
                 <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
             </Button>
         </StackPanel>
@@ -56,11 +56,11 @@
             BorderBrush="#343438"
             BorderThickness="1"
             Margin="0,22,0,35">
-            
+
             <Border.Effect>
                 <DropShadowEffect/>
             </Border.Effect>
-            
+
             <Grid Background="#343438">
 
                 <Grid.RowDefinitions>
@@ -81,17 +81,17 @@
                     </Button>
                     <Separator BorderBrush="#404040" Height="4" Margin="10,0"/>
                     <Viewbox Margin="0,0,75,0">
-                        
-                    <Label Content="Classify galaxies to help astronomers!" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+
+                        <Label Content="Classify galaxies to help astronomers!" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
                     </Viewbox>
                 </StackPanel>
-                
+
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <Rectangle Grid.Column="0" Fill="Gray" Margin="10" MaxHeight="200" MaxWidth="200"/>
 
                     <StackPanel Grid.Column="1" Margin="10">
