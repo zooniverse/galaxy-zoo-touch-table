@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace GalaxyZooTouchTable
 {
-    public class DragCanvas : Canvas
+    public class DragCanvas : Grid
     {
         /// <summary>
         /// 

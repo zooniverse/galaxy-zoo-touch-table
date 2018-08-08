@@ -4,25 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
-             mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="480">
+             d:DesignHeight="366"
+             d:DesignWidth="551"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.338'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.516'}"
+             mc:Ignorable="d">
+
     <Grid x:Name="ControlPanel">
-        <Path x:Name="ButtonArc" StrokeThickness="14" StrokeDashCap="Round" 
-              Data="M 5,600 A 100,100 45 1 1 470,600" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-        <Button x:Name="StartButton"
-            BorderThickness="0"
-            FontSize="60"
-            Height="235"
-            Width="470"
-            VerticalAlignment="Bottom" TouchUp="StartButton_TouchUp">
-            <StackPanel>
-                <WrapPanel HorizontalAlignment="Center">
-                    <TextBlock Text="TAP" FontFamily="Karla" FontSize="20" HorizontalAlignment="Center"/>
-                    <Image Source="{Binding StartButton}" Height="25" Width="25"/>
-                    <TextBlock Text="HERE" FontFamily="Karla" FontSize="20" HorizontalAlignment="Center"/>
-                </WrapPanel>
-                <TextBlock Text="Start!" FontSize="86" HorizontalAlignment="Center"/>
-            </StackPanel>
-        </Button>
+        <local:StartButton x:Name="StartButton" TouchUp="StartButton_TouchUp" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

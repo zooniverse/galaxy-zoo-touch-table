@@ -4,13 +4,145 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              mc:Ignorable="d" 
-             Background="DimGray"
-             Width="250" Height="300">
+             d:DesignWidth="558"
+             d:DesignHeight="366"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.338'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.516'}">
     <Grid>
-        
-        <Label Content="Classify galaxies to help astronomers!" Foreground="White" FontSize="14" HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top"/>
-        <Button Content="Close Workspace" Name="CloseButton" HorizontalAlignment="Left" Foreground="White" Background="Transparent" Margin="170,5,0,0" VerticalAlignment="Top" Width="75" FontSize="8" TouchUp="CloseButton_TouchUp"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="23*"/>
+            <ColumnDefinition Width="54*"/>
+            <ColumnDefinition Width="23*"/>
+        </Grid.ColumnDefinitions>
 
+        <StackPanel
+            Grid.Column="0"
+            VerticalAlignment="Top"
+            Margin="0,60,0,0"
+            Width="20"
+            HorizontalAlignment="Right">
+
+            <Border
+                Background="Black"
+                CornerRadius="5,0,0,5"
+                BorderThickness="1"
+                Padding="0">
+
+                <StackPanel>
+                    <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
+                    <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
+                    <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
+                    <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
+                    <Rectangle Fill="{Binding ThemeColor}" Margin="1" Stretch="UniformToFill"/>
+                </StackPanel>
+            </Border>
+
+            <Button
+                Grid.Column="0"
+                Margin="0,5"
+                Style="{StaticResource BellBtn}"
+                Background="{Binding ThemeColor}"
+                HorizontalAlignment="Right">
+
+                <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
+            </Button>
+        </StackPanel>
+
+        <Border
+            Grid.Column="1"
+            CornerRadius="5"
+            BorderBrush="#343438"
+            BorderThickness="1"
+            Margin="0,22,0,35">
+
+            <Border.Effect>
+                <DropShadowEffect/>
+            </Border.Effect>
+
+            <Grid Background="#343438">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+
+
+                <Image Grid.Row="0" Source="{Binding Avatar}" Margin="0,-20,0,0" Width="40" Height="40" VerticalAlignment="Top" />
+
+                <StackPanel Grid.Row="0">
+                    <Button BorderThickness="0" Name="CloseButton" HorizontalAlignment="Right" Foreground="White" Background="Transparent" VerticalAlignment="Top" TouchUp="CloseButton_TouchUp">
+                        <WrapPanel Margin="0,10">
+                            <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                            <TextBlock Text="X" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                        </WrapPanel>
+                    </Button>
+                    <Separator BorderBrush="#404040" Height="4" Margin="10,0"/>
+                    <Viewbox Margin="0,0,75,0">
+
+                        <Label Content="Classify galaxies to help astronomers!" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    </Viewbox>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Grid.Column="0" Fill="Gray" Margin="10" MaxHeight="200" MaxWidth="200"/>
+
+                    <StackPanel Grid.Column="1" Margin="10">
+                        <Viewbox>
+                            <TextBlock Foreground="White" Text="What type of galaxy is this?" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        </Viewbox>
+
+                        <Viewbox>
+                            <TextBlock Foreground="White" Text="Check the More Info tab on the right for help." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        </Viewbox>
+
+                        <Button Height="20" HorizontalAlignment="Stretch" Margin="0,4,0,4" Background="#55565A"></Button>
+                        <Button Height="20" HorizontalAlignment="Stretch" Margin="0,4,0,4" Background="#55565A"></Button>
+                        <Button Height="20" HorizontalAlignment="Stretch" Margin="0,4,0,4" Background="#55565A"></Button>
+                    </StackPanel>
+                </Grid>
+
+                <DockPanel Grid.Row="2">
+                    <Viewbox DockPanel.Dock="Top">
+                        <TextBlock Text="Not sure? That's ok! Here are a few additional resources to help your research." Margin="20,0" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                    </Viewbox>
+
+                    <Grid DockPanel.Dock="Top" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Style="{StaticResource TransButton}" HorizontalAlignment="Stretch" Grid.Column="0">Ask a friend</Button>
+                        <Button Style="{StaticResource TransButton}" HorizontalAlignment="Stretch" Grid.Column="1">See what others said</Button>
+                    </Grid>
+                    <Button DockPanel.Dock="Top" Style="{StaticResource SuccessBtn}">
+                        Submit classification
+                    </Button>
+
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.Row="0"  Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
+                        <TextBlock Grid.Row="1" Text="zooniverse.org/galaxyzoo" Foreground="White" HorizontalAlignment="Center" Margin="100,0,0,0"/>
+                    </Grid>
+                </DockPanel>
+            </Grid>
+        </Border>
+        <Button Style="{StaticResource MoreInfoBtn}" Grid.Column="2">
+            <Button.LayoutTransform>
+                <RotateTransform Angle="90"/>
+            </Button.LayoutTransform>
+            More Info
+        </Button>
     </Grid>
 </UserControl>

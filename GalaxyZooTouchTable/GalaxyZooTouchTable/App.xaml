@@ -7,8 +7,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/UserThemes.xaml"/>
+                <ResourceDictionary Source="Styles/Buttons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <local:UserConsoleConverter x:Key="UserConsoleConverter"/>
             <FontFamily x:Key="Karla"/>
         </ResourceDictionary>
     </Application.Resources>
