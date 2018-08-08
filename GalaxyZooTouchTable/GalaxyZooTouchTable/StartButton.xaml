@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              mc:Ignorable="d"
-             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.25'}"
-             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.5'}">
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.4'}">
     <Button
             Background="Transparent"
             BorderThickness="0">
@@ -29,24 +29,28 @@
             </Viewbox>
 
             <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="TAP" FontFamily="Karla">
+                <Viewbox Margin="0,30,0,10">
+                    <TextBlock Text="TAP" FontFamily="Karla">
                     <TextBlock.LayoutTransform>
                         <TransformGroup>
-                            <RotateTransform Angle="-30"/>
+                            <RotateTransform Angle="-15"/>
                         </TransformGroup>
                     </TextBlock.LayoutTransform>
                 </TextBlock>
-                <Image Source="{Binding StartButton}" Stretch="UniformToFill" Height="50" Width="50"/>
-                <TextBlock Text="HERE" FontFamily="Karla">
-                    <TextBlock.LayoutTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="30"/>
-                        </TransformGroup>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
+                </Viewbox>
+                <Image Grid.Row="1" Source="{Binding StartButton}" Stretch="Uniform"/>
+                <Viewbox Margin="0,30,0,10">
+                    <TextBlock Text="HERE" FontFamily="Karla">
+                        <TextBlock.LayoutTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="15"/>
+                            </TransformGroup>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Viewbox>
             </WrapPanel>
 
-            <Viewbox Grid.Row="2" Stretch="Uniform">
+            <Viewbox Grid.Row="2" Stretch="Uniform" Margin="0,0,0,20">
                 <Grid>
                     <Path
                         Stroke="Black"

@@ -33,7 +33,7 @@
                         <Style.Triggers>
                             <Trigger Property="Name" Value="ButtonArc">
                                 <Setter Property="Stroke" Value="#A5A2FB"/>
-                                <Setter Property="StrokeDashArray" Value="0.5 1.5 2.5 1.5"/>
+                                <Setter Property="StrokeDashArray" Value="0.25 1.5 2 1.5"/>
                                 <Setter Property="Fill" Value="Transparent"/>
                             </Trigger>
                         </Style.Triggers>
@@ -101,7 +101,7 @@
                         <Style.Triggers>
                             <Trigger Property="Name" Value="ButtonArc">
                                 <Setter Property="Stroke" Value="#A3DDEE"/>
-                                <Setter Property="StrokeDashArray" Value="0.65 2"/>
+                                <Setter Property="StrokeDashArray" Value="0.5 2"/>
                                 <Setter Property="Fill" Value="Transparent"/>
                             </Trigger>
                         </Style.Triggers>
@@ -124,7 +124,7 @@
                         <Style.Triggers>
                             <Trigger Property="Name" Value="ButtonArc">
                                 <Setter Property="Stroke" Value="#F3AB91"/>
-                                <Setter Property="StrokeDashArray" Value="0.25 1.5"/>
+                                <Setter Property="StrokeDashArray" Value="0.05 1.35"/>
                                 <Setter Property="Fill" Value="Transparent"/>
                             </Trigger>
                         </Style.Triggers>
@@ -146,7 +146,7 @@
                         <Style.Triggers>
                             <Trigger Property="Name" Value="ButtonArc">
                                 <Setter Property="Stroke" Value="#F3588B"/>
-                                <Setter Property="StrokeDashArray" Value="0.25 3"/>
+                                <Setter Property="StrokeDashArray" Value="0.15 2.25"/>
                                 <Setter Property="Fill" Value="Transparent"/>
                             </Trigger>
                         </Style.Triggers>
