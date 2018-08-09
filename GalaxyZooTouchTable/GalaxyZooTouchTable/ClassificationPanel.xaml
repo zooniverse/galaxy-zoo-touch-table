@@ -64,85 +64,128 @@
             <Grid Background="#343438">
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="5*"/>
                     <RowDefinition Height="4*"/>
                 </Grid.RowDefinitions>
 
 
-                <Image Grid.Row="0" Source="{Binding Avatar}" Margin="0,-20,0,0" Width="40" Height="40" VerticalAlignment="Top" />
+                <Image Grid.Row="0" Grid.Column="1" Source="{Binding Avatar}" Margin="0,-30,0,0" Width="60" Height="60" VerticalAlignment="Top" />
 
-                <StackPanel Grid.Row="0">
-                    <Button BorderThickness="0" Name="CloseButton" HorizontalAlignment="Right" Foreground="White" Background="Transparent" VerticalAlignment="Top" TouchUp="CloseButton_TouchUp">
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Row="0" Grid.Column="1" BorderThickness="0" Name="CloseButton" HorizontalAlignment="Right" Foreground="White" Background="Transparent" VerticalAlignment="Top" TouchUp="CloseButton_TouchUp">
                         <WrapPanel Margin="0,10">
                             <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
                             <TextBlock Text="X" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
                         </WrapPanel>
                     </Button>
-                    <Separator BorderBrush="#404040" Height="4" Margin="10,0"/>
-                    <Viewbox Margin="0,0,75,0">
-
-                        <Label Content="Classify galaxies to help astronomers!" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    <Border Grid.Row="1" Grid.Column="1" BorderThickness="0 1 0 0" BorderBrush="#55565A"/>
+                    <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+                        <TextBlock Text="Help classify the galaxy below" Foreground="White" Margin="0,0,40,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                     </Viewbox>
-                </StackPanel>
-
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Rectangle Grid.Column="0" Fill="Gray" Margin="10" MaxHeight="200" MaxWidth="200"/>
-
-                    <StackPanel Grid.Column="1" Margin="10">
-                        <Viewbox>
-                            <TextBlock Foreground="White" Text="What type of galaxy is this?" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                        </Viewbox>
-
-                        <Viewbox>
-                            <TextBlock Foreground="White" Text="Check the More Info tab on the right for help." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                        </Viewbox>
-
-                        <Button Height="20" HorizontalAlignment="Stretch" Margin="0,4,0,4" Background="#55565A"></Button>
-                        <Button Height="20" HorizontalAlignment="Stretch" Margin="0,4,0,4" Background="#55565A"></Button>
-                        <Button Height="20" HorizontalAlignment="Stretch" Margin="0,4,0,4" Background="#55565A"></Button>
-                    </StackPanel>
+                    <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
+                        <Label Content="Please consider only the galaxy in the center of the image" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla BoldItalic"/>
+                    </Viewbox>
                 </Grid>
 
-                <DockPanel Grid.Row="2">
-                    <Viewbox DockPanel.Dock="Top">
-                        <TextBlock Text="Not sure? That's ok! Here are a few additional resources to help your research." Margin="20,0" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
-                    </Viewbox>
+                <Grid Grid.Row="1" Margin="0,5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Grid DockPanel.Dock="Top" Margin="0,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Border Grid.Column="1" CornerRadius="3" BorderThickness="2" BorderBrush="White" Background="Gray"/>
 
-                        <Button Style="{StaticResource TransButton}" HorizontalAlignment="Stretch" Grid.Column="0">Ask a friend</Button>
-                        <Button Style="{StaticResource TransButton}" HorizontalAlignment="Stretch" Grid.Column="1">See what others said</Button>
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" CornerRadius="3" BorderBrush="#55565A" BorderThickness="1" Margin="0,5">
+                            <Button Background="#55565A" BorderBrush="#55565A"/>
+                        </Border>
+
+                        <Border Grid.Row="1" CornerRadius="3" BorderBrush="#55565A" BorderThickness="1" Margin="0,5">
+                            <Button Background="#55565A" BorderBrush="#55565A"/>
+                        </Border>
+
+                        <Border Grid.Row="2" CornerRadius="3" BorderBrush="#55565A" BorderThickness="1" Margin="0,5">
+                            <Button Background="#55565A" BorderBrush="#55565A"/>
+                        </Border>
                     </Grid>
-                    <Button DockPanel.Dock="Top" Style="{StaticResource SuccessBtn}">
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button BorderBrush="#55565A" BorderThickness="1" Grid.Column="1" Grid.Row="0" Margin="0,3" Style="{StaticResource TransButton}" HorizontalAlignment="Stretch">
+                        <Viewbox Margin="30,0">
+                            <TextBlock Text="Send this galaxy image to a neighbor at the table"/>
+                        </Viewbox>
+                    </Button>
+                    <Button Grid.Column="1" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}">
                         Submit classification
                     </Button>
 
-                    <Grid DockPanel.Dock="Top">
+                    <Grid Grid.Column="1" Grid.Row="2" Margin="0,5">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="1*"/>
                         </Grid.RowDefinitions>
                         <Image Grid.Row="0"  Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
-                        <TextBlock Grid.Row="1" Text="zooniverse.org/galaxyzoo" Foreground="White" HorizontalAlignment="Center" Margin="100,0,0,0"/>
+                        <Viewbox Grid.Row="1">
+                            <TextBlock Text="adler.zooniverse.org" Foreground="White" HorizontalAlignment="Center" Margin="100,0,0,0"/>
+                        </Viewbox>
                     </Grid>
-                </DockPanel>
+                </Grid>
             </Grid>
         </Border>
-        <Button Style="{StaticResource MoreInfoBtn}" Grid.Column="2">
-            <Button.LayoutTransform>
-                <RotateTransform Angle="90"/>
-            </Button.LayoutTransform>
-            More Info
-        </Button>
+        <Grid Grid.Column="2" Panel.ZIndex="-1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" Background="#55565A" HorizontalAlignment="Left">
+                <Button BorderBrush="#55565A" Style="{StaticResource MoreInfoBtn}">
+                    <StackPanel>
+                        <Label Content="Examples" BorderBrush="Red" Foreground="White" Margin="0,5" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                            <Label.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </Label.LayoutTransform>
+                        </Label>
+                        <fa:ImageAwesome Icon="ArrowRight" Foreground="White" Width="10"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
