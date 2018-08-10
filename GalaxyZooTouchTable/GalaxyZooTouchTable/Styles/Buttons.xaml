@@ -22,7 +22,6 @@
     </Style>
 
     <Style BasedOn="{StaticResource StandardBtn}"  x:Key="MoreInfoBtn" TargetType="Button">
-        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Background" Value="#55565A"/>
     </Style>
 

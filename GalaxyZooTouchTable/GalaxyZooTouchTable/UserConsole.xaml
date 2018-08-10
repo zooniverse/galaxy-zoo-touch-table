@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              d:DesignHeight="366"
              d:DesignWidth="551"
-             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.338'}"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.35'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.516'}"
              mc:Ignorable="d">
 
