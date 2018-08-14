@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PanoptesNetClient.Models;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,11 +14,13 @@ namespace GalaxyZooTouchTable
     public partial class ClassificationPanel : UserControl
     {
         public UserConsole Console { get; set; }
+        public Subject CurrentSubject { get; set; }
 
         public ClassificationPanel(UserConsole parent)
         {
             InitializeComponent();
             Console = parent;
+            ShowSubject();
         }
 
         private async void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
@@ -25,6 +28,16 @@ namespace GalaxyZooTouchTable
             await MoveClassifier();
             Console.MoveButton();
             Console.ClassifierOpen = !Console.ClassifierOpen;
+        }
+
+        public void ShowSubject()
+        {
+            if (Console.Subjects.Count > 0)
+            {
+                CurrentSubject = Console.Subjects[0];
+                Console.Subjects.RemoveAt(0);
+            }
+            System.Console.WriteLine(CurrentSubject);
         }
 
         public Task MoveClassifier()

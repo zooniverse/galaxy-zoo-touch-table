@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GalaxyZooTouchTable", "Gala
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GalaxyZooTouchTable_setup", "GalaxyZooTouchTable_setup\GalaxyZooTouchTable_setup.vdproj", "{A2C096EB-A63E-4F62-88ED-E145CFF26EC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanoptesNetClient", "..\..\panoptes-net-client\PanoptesNetClient\PanoptesNetClient\PanoptesNetClient.csproj", "{B68A3599-51B8-40E1-9006-D6D4601C42FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{5C767B76-0D94-4520-B639-6FF05EFF077D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2C096EB-A63E-4F62-88ED-E145CFF26EC4}.Debug|Any CPU.ActiveCfg = Debug
 		{A2C096EB-A63E-4F62-88ED-E145CFF26EC4}.Release|Any CPU.ActiveCfg = Release
+		{B68A3599-51B8-40E1-9006-D6D4601C42FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B68A3599-51B8-40E1-9006-D6D4601C42FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B68A3599-51B8-40E1-9006-D6D4601C42FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B68A3599-51B8-40E1-9006-D6D4601C42FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Threading;
+﻿using PanoptesNetClient;
+using PanoptesNetClient.Models;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace GalaxyZooTouchTable
 {
@@ -17,10 +19,12 @@ namespace GalaxyZooTouchTable
     {
         ClassificationPanel Classifier { get; set; }
         public bool ClassifierOpen { get; set; } = false;
+        public List<Subject> Subjects { get; set; }
 
         public UserConsole()
         {
             InitializeComponent();
+            LoadSubjects();
         }
 
         private async void StartButton_TouchUp(object sender, TouchEventArgs e)
@@ -53,6 +57,16 @@ namespace GalaxyZooTouchTable
             Classifier = panel;
             ControlPanel.Children.Add(panel);
             panel.MoveClassifier();
+        }
+
+        private async void LoadSubjects()
+        {
+            ApiClient client = new ApiClient();
+            NameValueCollection query = new NameValueCollection
+            {
+                { "workflow_id", Config.WorkflowId }
+            };
+            Subjects = await client.Subjects.GetList("queued", query);
         }
     }
 }
