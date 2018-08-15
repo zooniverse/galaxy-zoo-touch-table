@@ -74,6 +74,9 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -99,13 +102,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-<<<<<<< HEAD
     <Compile Include="Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
-=======
     <Compile Include="Config.cs" />
->>>>>>> Prepare App To Work with Client
+    <Compile Include="Lib\Utilities.cs" />
     <Compile Include="Models\TableUserFactory.cs" />
     <Compile Include="StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
@@ -153,16 +154,13 @@
     <Content Include="Fonts\Karla-BoldItalic.ttf" />
     <Content Include="Fonts\Karla-Italic.ttf" />
     <Content Include="Fonts\Karla-Regular.ttf" />
-<<<<<<< HEAD
     <Resource Include="Fonts\Poppins-Bold.ttf" />
-=======
     <None Include="App.Debug.config">
       <DependentUpon>App.config</DependentUpon>
     </None>
     <None Include="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
     </None>
->>>>>>> Prepare App To Work with Client
     <None Include="GalaxyZooTouchTable_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

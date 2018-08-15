@@ -1,10 +1,12 @@
-﻿using PanoptesNetClient.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using PanoptesNetClient.Models;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable
 {
@@ -35,9 +37,18 @@ namespace GalaxyZooTouchTable
             if (Console.Subjects.Count > 0)
             {
                 CurrentSubject = Console.Subjects[0];
+                string src = Utilities.GetSubjectLocation(CurrentSubject);
+                System.Console.WriteLine(src);
+
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri(src, UriKind.Absolute);
+                image.EndInit();
+                //myImage3.Stretch = Stretch.Fill;
+                SubjectImage.Source = image;
+
                 Console.Subjects.RemoveAt(0);
             }
-            System.Console.WriteLine(CurrentSubject);
         }
 
         public Task MoveClassifier()
