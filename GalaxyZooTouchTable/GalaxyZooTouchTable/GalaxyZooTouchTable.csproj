@@ -89,6 +89,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Centerpiece.xaml.cs">
+      <DependentUpon>Centerpiece.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\TableUserFactory.cs" />
     <Compile Include="StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
@@ -127,6 +130,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\General\NSF.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -135,6 +139,7 @@
     <Content Include="Fonts\Karla-BoldItalic.ttf" />
     <Content Include="Fonts\Karla-Italic.ttf" />
     <Content Include="Fonts\Karla-Regular.ttf" />
+    <Resource Include="Fonts\Poppins-Bold.ttf" />
     <None Include="GalaxyZooTouchTable_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -146,6 +151,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Centerpiece.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CollectionBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

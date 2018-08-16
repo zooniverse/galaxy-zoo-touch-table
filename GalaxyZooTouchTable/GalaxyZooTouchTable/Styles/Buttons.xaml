@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1" Padding="2">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="2">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -22,17 +22,12 @@
     </Style>
 
     <Style BasedOn="{StaticResource StandardBtn}"  x:Key="MoreInfoBtn" TargetType="Button">
-        <Setter Property="Panel.ZIndex" Value="-1"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="0,60,0,0"/>
         <Setter Property="Background" Value="#55565A"/>
     </Style>
 
     <Style BasedOn="{StaticResource StandardBtn}" x:Key="SuccessBtn" TargetType="Button">
         <Setter Property="Background" Value="#63AB51"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="Margin" Value="10,5"/>
+        <Setter Property="BorderBrush" Value="#63AB51"/>
     </Style>
 
     <Style x:Key="BellBtn" TargetType="Button">

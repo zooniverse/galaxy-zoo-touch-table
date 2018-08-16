@@ -9,6 +9,9 @@
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
     <local:DragCanvas x:Name="RootCanvas" Background="Black">
+
+        <local:Centerpiece x:Name="Centerpiece"/>
+
         <Grid VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="175*"/>

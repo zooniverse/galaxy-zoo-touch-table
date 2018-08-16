@@ -12,6 +12,7 @@
 
             <local:UserConsoleConverter x:Key="UserConsoleConverter"/>
             <FontFamily x:Key="Karla"/>
+            <FontFamily x:Key="Poppins"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

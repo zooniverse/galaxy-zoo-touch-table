@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="GalaxyZooTouchTable.Centerpiece"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             mc:Ignorable="d" 
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.75'}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="104*"/>
+            <RowDefinition Height="102*"/>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="35*"/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="25*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="1" Margin="20,0" Source="Images/General/NSF.png" VerticalAlignment="Stretch"/>
+            <Border Grid.Column="2" BorderThickness="2 0 0 0" BorderBrush="White"/>
+            <Image Grid.Column="2" Margin="20,10" Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
+        </Grid>
+
+        <Viewbox Grid.Row="1">
+            <TextBlock Foreground="#FFE5FF4D" Text="Join our research exploration!" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" Margin="100,0">
+            <TextBlock Foreground="White" Text="Astronomers need your help to study how galaxies form." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="3">
+            <TextBlock Grid.Row="3" Foreground="White" Margin="0,3" Text="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
+        </Viewbox>
+    </Grid>
+</UserControl>
