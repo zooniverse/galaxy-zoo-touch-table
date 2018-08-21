@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using System;
 using System.Threading.Tasks;
@@ -17,11 +18,16 @@ namespace GalaxyZooTouchTable
     {
         public UserConsole Console { get; set; }
         public Subject CurrentSubject { get; set; }
+        public Workflow Workflow { get; }
+        public Classification Classification { get; }
+        public string CurrentTask { get; set; }
 
-        public ClassificationPanel(UserConsole parent)
+        public ClassificationPanel(UserConsole parent, Workflow workflow)
         {
             InitializeComponent();
             Console = parent;
+            Workflow = workflow;
+            DataContext = new ClassificationPanelViewModel(workflow);
             ShowSubject();
         }
 
@@ -38,13 +44,11 @@ namespace GalaxyZooTouchTable
             {
                 CurrentSubject = Console.Subjects[0];
                 string src = Utilities.GetSubjectLocation(CurrentSubject);
-                System.Console.WriteLine(src);
 
                 BitmapImage image = new BitmapImage();
                 image.BeginInit();
                 image.UriSource = new Uri(src, UriKind.Absolute);
                 image.EndInit();
-                //myImage3.Stretch = Stretch.Fill;
                 SubjectImage.Source = image;
 
                 Console.Subjects.RemoveAt(0);

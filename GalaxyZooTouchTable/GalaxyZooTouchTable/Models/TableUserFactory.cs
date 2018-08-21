@@ -13,11 +13,11 @@ namespace GalaxyZooTouchTable.Models
         Heart
     }
 
-    abstract class TableUser
+    public class TableUser
     {
-        public abstract string ThemeColor { get; }
-        public abstract BitmapImage StartButton { get; }
-        public abstract BitmapImage Avatar { get; }
+        string ThemeColor { get; }
+        BitmapImage StartButton { get; }
+        BitmapImage Avatar { get; }
     }
 
     static class TableUserFactory
@@ -46,44 +46,44 @@ namespace GalaxyZooTouchTable.Models
 
         private class PersonUser : TableUser
         {
-            public override string ThemeColor => "#A5A2FB";
-            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Person.png", UriKind.Relative));
-            public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Person.png", UriKind.Relative));
+            public string ThemeColor => "#A5A2FB";
+            public BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Person.png", UriKind.Relative));
+            public BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Person.png", UriKind.Relative));
         }
 
         private class StarUser : TableUser
         {
-            public override string ThemeColor => "#29A1FA";
-            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Star.png", UriKind.Relative));
-            public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Star.png", UriKind.Relative));
+            public string ThemeColor => "#29A1FA";
+            public BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Star.png", UriKind.Relative));
+            public BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Star.png", UriKind.Relative));
         }
 
         private class EarthUser : TableUser
         {
-            public override string ThemeColor => "#6ADCA3";
-            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Earth.png", UriKind.Relative));
-            public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Earth.png", UriKind.Relative));
+            public string ThemeColor => "#6ADCA3";
+            public BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Earth.png", UriKind.Relative));
+            public BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Earth.png", UriKind.Relative));
         }
 
         private class LightUser : TableUser
         {
-            public override string ThemeColor => "#A3DDEE";
-            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Light.png", UriKind.Relative));
-            public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Light.png", UriKind.Relative));
+            public string ThemeColor => "#A3DDEE";
+            public BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Light.png", UriKind.Relative));
+            public BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Light.png", UriKind.Relative));
         }
 
         private class FaceUser : TableUser
         {
-            public override string ThemeColor => "#F3AB91";
-            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Face.png", UriKind.Relative));
-            public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Face.png", UriKind.Relative));
+            public string ThemeColor => "#F3AB91";
+            public BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Face.png", UriKind.Relative));
+            public BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Face.png", UriKind.Relative));
         }
 
         private class HeartUser : TableUser
         {
-            public override string ThemeColor => "#F3588B";
-            public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Heart.png", UriKind.Relative));
-            public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Heart.png", UriKind.Relative));
+            public string ThemeColor => "#F3588B";
+            public BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Heart.png", UriKind.Relative));
+            public BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Heart.png", UriKind.Relative));
         }
     }
 }
