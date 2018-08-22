@@ -118,8 +118,10 @@
                         <ColumnDefinition Width="14*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <Image Name="SubjectImage" Grid.Column="1" MaxHeight="200" MaxWidth="200"/>
+
+                    <Border Grid.Column="1" BorderThickness="2" BorderBrush="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200"/>
+                    </Border>
 
                     <ItemsControl Grid.Column="3" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" VerticalContentAlignment="Stretch">
                         <ItemsControl.ItemsPanel>
@@ -129,10 +131,12 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:Name="ClassificationAnswers">
-                                <Button DockPanel.Dock="Top"  Margin="0,2" Background="#55565A" HorizontalContentAlignment="Stretch" BorderBrush="#55565A">
+                                <Button DockPanel.Dock="Top" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}" Margin="0,2" Background="#55565A" HorizontalContentAlignment="Stretch" BorderBrush="#55565A">
                                     <StackPanel Orientation="Horizontal">
-                                        <Image HorizontalAlignment="Left" Source="{Binding Url}"/>
-                                        <TextBlock Text="{Binding Label}"/>
+                                        <Grid HorizontalAlignment="Left" Background="#FFE5FF4D">
+                                            <Image Margin="5" Source="{Binding Url}"/>
+                                        </Grid>
+                                        <TextBlock Text="{Binding Label}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
                                     </StackPanel>
                                 </Button>
                             </DataTemplate>
@@ -158,7 +162,7 @@
                             <TextBlock Text="Send this galaxy image to a neighbor at the table"/>
                         </Viewbox>
                     </Button>
-                    <Button Grid.Column="1" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}">
+                    <Button Grid.Column="1" Command="{Binding SubmitClassification}" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}" Foreground="Black">
                         Submit classification
                     </Button>
 
