@@ -25,7 +25,6 @@ namespace GalaxyZooTouchTable
         public UserConsole()
         {
             InitializeComponent();
-            LoadSubjects();
             GetWorkflow();
         }
 

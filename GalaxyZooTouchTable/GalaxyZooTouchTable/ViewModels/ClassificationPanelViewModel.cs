@@ -7,11 +7,15 @@ using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Collections.Specialized;
+using GalaxyZooTouchTable.Lib;
+using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
         public Workflow Workflow { get; }
         public WorkflowTask CurrentTask { get; set; }
         public Classification CurrentClassification { get; set; }
@@ -19,6 +23,20 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public Annotation CurrentAnnotation { get; set; }
         public string CurrentTaskIndex { get; set; }
+
+        private string _subjectImageSource;
+        public string SubjectImageSource
+        {
+            get
+            {
+                return _subjectImageSource;
+            }
+            set
+            {
+                _subjectImageSource = value;
+                OnPropertyRaised("SubjectImageSource");
+            }
+        }
 
         public ICommand SelectAnswer { get; set; }
         public ICommand SubmitClassification { get; set; }
@@ -37,14 +55,13 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, Subject subject)
+        public ClassificationPanelViewModel(Workflow workflow)
         {
+            GetSubject();
             LoadCommands();
-            CurrentSubject = subject;
             Workflow = workflow;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            StartNewClassification();
 
             if (CurrentTask.Answers != null)
             {
@@ -56,10 +73,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnPropertyRaised(string propertyname)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
-            }
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
         private void LoadCommands()
@@ -74,6 +88,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentClassification.Annotations.Add(CurrentAnnotation);
             ApiClient client = new ApiClient();
             await client.Classifications.Create(CurrentClassification);
+            GetSubject();
         }
 
         private bool CanSendClassification(object obj)
@@ -105,8 +120,11 @@ namespace GalaxyZooTouchTable.ViewModels
             return renderedAnswers;
         }
 
-        public void StartNewClassification()
+        public void StartNewClassification(Subject subject)
         {
+            CurrentAnnotation = null;
+            SelectedItem = null;
+
             CurrentClassification = new Classification();
             CurrentClassification.Metadata.WorkflowVersion = Workflow.Version;
             CurrentClassification.Metadata.StartedAt = DateTime.Now.ToString();
@@ -114,7 +132,37 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentClassification.Metadata.UserLanguage = "en";
 
             CurrentClassification.Links = new ClassificationLinks(Config.ProjectId, Config.WorkflowId);
-            CurrentClassification.Links.Subjects.Add(CurrentSubject.Id);
+            CurrentClassification.Links.Subjects.Add(subject.Id);
+        }
+
+        private async void GetSubject()
+        {
+            if (Subjects.Count > 0)
+            {
+                SetSubject();
+            } else {
+                ApiClient client = new ApiClient();
+                NameValueCollection query = new NameValueCollection
+                {
+                    { "workflow_id", Config.WorkflowId }
+                };
+                Subjects = await client.Subjects.GetList("queued", query);
+                SetSubject();
+            }
+        }
+
+        private void SetSubject()
+        {
+            CurrentSubject = Subjects[0];
+            StartNewClassification(CurrentSubject);
+            SubjectImageSource = Utilities.GetSubjectLocation(CurrentSubject);
+            Subjects.RemoveAt(0);
+
+            //BitmapImage image = new BitmapImage();
+            //image.BeginInit();
+            //image.UriSource = new Uri(src, UriKind.Absolute);
+            //image.EndInit();
+            //SubjectImageSource = image;
         }
     }
 }

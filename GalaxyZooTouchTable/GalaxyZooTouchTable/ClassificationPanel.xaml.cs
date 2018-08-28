@@ -28,8 +28,7 @@ namespace GalaxyZooTouchTable
             InitializeComponent();
             Console = parent;
             Workflow = workflow;
-            ShowSubject();
-            DataContext = new ClassificationPanelViewModel(workflow, CurrentSubject);
+            DataContext = new ClassificationPanelViewModel(workflow);
         }
 
         private async void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
@@ -37,23 +36,6 @@ namespace GalaxyZooTouchTable
             await MoveClassifier();
             Console.MoveButton();
             Console.ClassifierOpen = !Console.ClassifierOpen;
-        }
-
-        public void ShowSubject()
-        {
-            if (Console.Subjects.Count > 0)
-            {
-                CurrentSubject = Console.Subjects[0];
-                string src = Utilities.GetSubjectLocation(CurrentSubject);
-
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.UriSource = new Uri(src, UriKind.Absolute);
-                image.EndInit();
-                SubjectImage.Source = image;
-
-                Console.Subjects.RemoveAt(0);
-            }
         }
 
         public Task MoveClassifier()

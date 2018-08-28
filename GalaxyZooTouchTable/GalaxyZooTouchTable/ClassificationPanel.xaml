@@ -121,7 +121,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="1" BorderThickness="2" BorderBrush="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200"/>
+                        <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200" Source="{Binding SubjectImageSource, Mode=TwoWay, Converter={StaticResource NullImageConverter}}"/>
                     </Border>
 
                     <ListView Grid.Column="3" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">

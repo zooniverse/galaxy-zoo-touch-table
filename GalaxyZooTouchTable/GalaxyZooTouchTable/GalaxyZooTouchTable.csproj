@@ -115,6 +115,7 @@
     <Compile Include="Lib\Utilities.cs" />
     <Compile Include="Models\AnswerButton.cs" />
     <Compile Include="Models\TableUserFactory.cs" />
+    <Compile Include="NullImageConverter.cs" />
     <Compile Include="StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
     </Compile>
