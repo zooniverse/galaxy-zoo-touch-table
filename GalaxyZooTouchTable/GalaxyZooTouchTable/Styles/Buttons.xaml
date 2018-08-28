@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="2">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
                         <ContentPresenter/>
                     </Border>
                 </ControlTemplate>
@@ -35,31 +35,6 @@
                 <Setter Property="BorderBrush" Value="Gray"/>
             </Trigger>
         </Style.Triggers>
-    </Style>
-
-    <Style x:Key="AnswerButtons" TargetType="{x:Type ListViewItem}">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Margin" Value="0,5"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListViewItem">
-                    <Border x:Name="Bg" CornerRadius="5" Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="2">
-                        <ContentPresenter />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <!--<Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="IsSelected" Value="True" />
-                        </Trigger>-->
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#FFE5FF4D" TargetName="Bg"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
     <Style x:Key="BellBtn" TargetType="Button">

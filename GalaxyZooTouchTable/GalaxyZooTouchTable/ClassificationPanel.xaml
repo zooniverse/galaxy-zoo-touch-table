@@ -124,25 +124,50 @@
                         <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200"/>
                     </Border>
 
-                    <ListView Grid.Column="3" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" ItemContainerStyle="{StaticResource AnswerButtons}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListView Grid.Column="3" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Columns="1"/>
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
 
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Grid Background="#FFE5FF4D">
-                                            <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
-                                        </Grid>
-                                        <TextBlock Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                                    </StackPanel>
-                                </Button>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,3"/>
+
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Grid>
+                                                <Grid.OpacityMask>
+                                                    <VisualBrush Visual="{Binding ElementName=Bg}" />
+                                                </Grid.OpacityMask>
+                                                <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
+                                                <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Grid Background="#FFE5FF4D">
+                                                            <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
+                                                        </Grid>
+                                                        <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                                                    </StackPanel>
+                                                </Button>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="False">
+                                                    <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#FFE5FF4D" TargetName="Bg"/>
+                                                    <Setter Property="Foreground" Value="Black" TargetName="Text"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
                     </ListView>
 
                 </Grid>
