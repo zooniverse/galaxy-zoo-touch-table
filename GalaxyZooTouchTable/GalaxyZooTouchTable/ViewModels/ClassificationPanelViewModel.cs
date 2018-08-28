@@ -17,6 +17,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public Annotation CurrentAnnotation { get; set; }
         public string CurrentTaskIndex { get; set; }
+        public AnswerButton SelectedItem { get; set; }
 
         public ICommand SelectAnswer { get; set; }
         public ICommand SubmitClassification { get; set; }
@@ -58,6 +59,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void ChooseAnswer(object obj)
         {
             AnswerButton button = (AnswerButton)obj;
+            SelectedItem = button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 

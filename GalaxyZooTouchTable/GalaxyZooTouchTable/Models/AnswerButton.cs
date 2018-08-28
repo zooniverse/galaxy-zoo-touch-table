@@ -1,5 +1,7 @@
-﻿using PanoptesNetClient.Models;
+﻿using GalaxyZooTouchTable.Utility;
+using PanoptesNetClient.Models;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.Models
 {
@@ -8,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
         public string Label { get; set; }
         public string Url { get; set; }
         public int Index { get; set; }
-        
+
         public AnswerButton(TaskAnswer answer, int index)
         {
             var UrlMatch = Regex.Match(answer.Label, @"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");

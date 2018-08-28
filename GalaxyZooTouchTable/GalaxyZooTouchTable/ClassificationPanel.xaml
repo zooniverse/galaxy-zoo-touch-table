@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              mc:Ignorable="d" 
@@ -123,25 +124,27 @@
                         <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200"/>
                     </Border>
 
-                    <ItemsControl Grid.Column="3" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" VerticalContentAlignment="Stretch">
-                        <ItemsControl.ItemsPanel>
+                    <ListView Grid.Column="3" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" ItemContainerStyle="{StaticResource AnswerButtons}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                        <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Columns="1"/>
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:Name="ClassificationAnswers">
-                                <Button DockPanel.Dock="Top" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}" Margin="0,2" Background="#55565A" HorizontalContentAlignment="Stretch" BorderBrush="#55565A">
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
                                     <StackPanel Orientation="Horizontal">
-                                        <Grid HorizontalAlignment="Left" Background="#FFE5FF4D">
-                                            <Image Margin="5" Source="{Binding Url}"/>
+                                        <Grid Background="#FFE5FF4D">
+                                            <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
                                         </Grid>
-                                        <TextBlock Text="{Binding Label}" Margin="5,0" VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                                        <TextBlock Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
                                     </StackPanel>
                                 </Button>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </Grid>
 
                 <Grid Grid.Row="2">
@@ -162,8 +165,8 @@
                             <TextBlock Text="Send this galaxy image to a neighbor at the table"/>
                         </Viewbox>
                     </Button>
-                    <Button Grid.Column="1" Command="{Binding SubmitClassification}" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}" Foreground="Black">
-                        Submit classification
+                    <Button Grid.Column="1" Command="{Binding SubmitClassification}" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}" Foreground="Black" Click="Button_Click">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Submit Classification"/>
                     </Button>
 
                     <Grid Grid.Column="1" Grid.Row="2" Margin="0,5">
