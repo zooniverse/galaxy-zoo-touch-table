@@ -49,9 +49,9 @@
                         <ContentPresenter />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                        <!--<Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter Property="IsSelected" Value="True" />
-                        </Trigger>
+                        </Trigger>-->
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="#FFE5FF4D" TargetName="Bg"/>
                             <Setter Property="Foreground" Value="Black"/>

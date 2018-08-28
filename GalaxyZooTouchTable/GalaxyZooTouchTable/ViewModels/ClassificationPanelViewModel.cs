@@ -5,10 +5,12 @@ using PanoptesNetClient.Models;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class ClassificationPanelViewModel
+    public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
         public Workflow Workflow { get; }
         public WorkflowTask CurrentTask { get; set; }
@@ -17,10 +19,23 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public Annotation CurrentAnnotation { get; set; }
         public string CurrentTaskIndex { get; set; }
-        public AnswerButton SelectedItem { get; set; }
 
         public ICommand SelectAnswer { get; set; }
         public ICommand SubmitClassification { get; set; }
+
+        private AnswerButton _selectedItem;
+        public AnswerButton SelectedItem
+        {
+            get
+            {
+                return _selectedItem;
+            }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyRaised("SelectedItem");
+            }
+        }
 
         public ClassificationPanelViewModel(Workflow workflow, Subject subject)
         {
@@ -34,6 +49,16 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentTask.Answers != null)
             {
                 CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyRaised(string propertyname)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
             }
         }
 
