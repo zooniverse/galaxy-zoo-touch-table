@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Linq;
 using PanoptesNetClient.Models;
+using System.Linq;
 
 namespace GalaxyZooTouchTable.Lib
 {

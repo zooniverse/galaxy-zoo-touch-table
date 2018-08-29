@@ -1,15 +1,13 @@
-﻿using System;
-using System.Windows.Input;
-using System.Collections.Generic;
-using PanoptesNetClient.Models;
+﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using PanoptesNetClient.Models;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using GalaxyZooTouchTable.Lib;
-using System.Windows.Media.Imaging;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -21,8 +19,21 @@ namespace GalaxyZooTouchTable.ViewModels
         public Classification CurrentClassification { get; set; }
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Subject CurrentSubject { get; set; }
-        public Annotation CurrentAnnotation { get; set; }
         public string CurrentTaskIndex { get; set; }
+
+        private Annotation _currentAnnotation;
+        public Annotation CurrentAnnotation
+        {
+            get
+            {
+                return _currentAnnotation;
+            }
+            set
+            {
+                _currentAnnotation = value;
+                OnPropertyRaised("CurrentAnnotation");
+            }
+        }
 
         private string _subjectImageSource;
         public string SubjectImageSource
@@ -122,9 +133,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void StartNewClassification(Subject subject)
         {
-            CurrentAnnotation = null;
-            SelectedItem = null;
-
             CurrentClassification = new Classification();
             CurrentClassification.Metadata.WorkflowVersion = Workflow.Version;
             CurrentClassification.Metadata.StartedAt = DateTime.Now.ToString();
@@ -133,6 +141,10 @@ namespace GalaxyZooTouchTable.ViewModels
 
             CurrentClassification.Links = new ClassificationLinks(Config.ProjectId, Config.WorkflowId);
             CurrentClassification.Links.Subjects.Add(subject.Id);
+
+            CurrentAnnotation = null;
+            SelectedItem = null;
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private async void GetSubject()
@@ -157,12 +169,6 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(CurrentSubject);
             SubjectImageSource = Utilities.GetSubjectLocation(CurrentSubject);
             Subjects.RemoveAt(0);
-
-            //BitmapImage image = new BitmapImage();
-            //image.BeginInit();
-            //image.UriSource = new Uri(src, UriKind.Absolute);
-            //image.EndInit();
-            //SubjectImageSource = image;
         }
     }
 }

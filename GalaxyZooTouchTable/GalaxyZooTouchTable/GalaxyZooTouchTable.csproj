@@ -123,10 +123,9 @@
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserConsoleConverter.cs" />
-    <Compile Include="Utility\CustomCommand.cs" />
+    <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\UserConsoleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassificationData.cs" />

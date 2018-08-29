@@ -1,6 +1,4 @@
-﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Models;
-using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable
 {

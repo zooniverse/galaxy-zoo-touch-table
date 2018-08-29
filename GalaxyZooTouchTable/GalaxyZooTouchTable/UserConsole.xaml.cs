@@ -19,7 +19,6 @@ namespace GalaxyZooTouchTable
     {
         ClassificationPanel Classifier { get; set; }
         public bool ClassifierOpen { get; set; } = false;
-        public List<Subject> Subjects { get; set; }
         public Workflow Workflow { get; set; }
 
         public UserConsole()
@@ -64,16 +63,6 @@ namespace GalaxyZooTouchTable
             Classifier = panel;
             ControlPanel.Children.Add(panel);
             panel.MoveClassifier();
-        }
-
-        private async void LoadSubjects()
-        {
-            ApiClient client = new ApiClient();
-            NameValueCollection query = new NameValueCollection
-            {
-                { "workflow_id", Config.WorkflowId }
-            };
-            Subjects = await client.Subjects.GetList("queued", query);
         }
     }
 }
