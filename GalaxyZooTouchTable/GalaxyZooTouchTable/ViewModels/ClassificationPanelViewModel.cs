@@ -109,7 +109,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ChooseAnswer(object sender)
         {
-            AnswerButton button = (AnswerButton)sender;
+            AnswerButton button = sender as AnswerButton;
             SelectedItem = button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }

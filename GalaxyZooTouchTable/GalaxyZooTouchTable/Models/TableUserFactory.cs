@@ -13,7 +13,7 @@ namespace GalaxyZooTouchTable.Models
         Heart
     }
 
-    public class TableUser
+    public interface TableUser
     {
         string ThemeColor { get; }
         BitmapImage StartButton { get; }

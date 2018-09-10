@@ -142,7 +142,7 @@
                                         <ControlTemplate TargetType="ListViewItem">
                                             <Grid>
                                                 <Grid.OpacityMask>
-                                                    <VisualBrush Visual="{TemplateBinding ElementName=Bg}" />
+                                                    <VisualBrush Visual="{Binding ElementName=Bg}" />
                                                 </Grid.OpacityMask>
                                                 <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
                                                 <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">

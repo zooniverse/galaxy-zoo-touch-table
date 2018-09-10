@@ -11,7 +11,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <local:UserConsoleConverter x:Key="UserConsoleConverter"/>
-            <local:NullImageConverter x:Key="NullImageConverter"/>
+            <local:NullImageConverter x:Key="NullImageConverter"/> 
             <FontFamily x:Key="Karla"/>
             <FontFamily x:Key="Poppins"/>
         </ResourceDictionary>
