@@ -93,7 +93,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
         }
 
-        private async void SendClassification(object obj)
+        private async void SendClassification(object sender)
         {
             CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
             CurrentClassification.Annotations.Add(CurrentAnnotation);
@@ -102,19 +102,19 @@ namespace GalaxyZooTouchTable.ViewModels
             GetSubject();
         }
 
-        private bool CanSendClassification(object obj)
+        private bool CanSendClassification(object sender)
         {
             return CurrentAnnotation != null;
         }
 
-        private void ChooseAnswer(object obj)
+        private void ChooseAnswer(object sender)
         {
-            AnswerButton button = (AnswerButton)obj;
+            AnswerButton button = (AnswerButton)sender;
             SelectedItem = button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
-        private bool CanSelectAnswer(object obj)
+        private bool CanSelectAnswer(object sender)
         {
             return CurrentAnswers.Count > 0;
         }
@@ -123,9 +123,9 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             List<AnswerButton> renderedAnswers = new List<AnswerButton>();
 
-            for (int i = 0; i < answers.Count; i++)
+            for (int index = 0; index < answers.Count; index++)
             {
-                AnswerButton item = new AnswerButton(answers[i], i);
+                AnswerButton item = new AnswerButton(answers[index], index);
                 renderedAnswers.Add(item);
             }
             return renderedAnswers;
@@ -149,25 +149,18 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void GetSubject()
         {
-            if (Subjects.Count > 0)
+            if (Subjects.Count <= 0)
             {
-                SetSubject();
-            } else {
                 ApiClient client = new ApiClient();
                 NameValueCollection query = new NameValueCollection
                 {
                     { "workflow_id", Config.WorkflowId }
                 };
                 Subjects = await client.Subjects.GetList("queued", query);
-                SetSubject();
             }
-        }
-
-        private void SetSubject()
-        {
             CurrentSubject = Subjects[0];
             StartNewClassification(CurrentSubject);
-            SubjectImageSource = Utilities.GetSubjectLocation(CurrentSubject);
+            SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
         }
     }

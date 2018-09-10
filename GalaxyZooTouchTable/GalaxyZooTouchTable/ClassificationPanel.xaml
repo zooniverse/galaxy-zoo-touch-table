@@ -142,7 +142,7 @@
                                         <ControlTemplate TargetType="ListViewItem">
                                             <Grid>
                                                 <Grid.OpacityMask>
-                                                    <VisualBrush Visual="{Binding ElementName=Bg}" />
+                                                    <VisualBrush Visual="{TemplateBinding ElementName=Bg}" />
                                                 </Grid.OpacityMask>
                                                 <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
                                                 <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
@@ -159,8 +159,7 @@
                                                     <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
                                                 </Trigger>
                                                 <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="#FFE5FF4D" TargetName="Bg"/>
-                                                    <Setter Property="Foreground" Value="Black" TargetName="Text"/>
+                                                    <Setter Property="Background" Value="#015F7B" TargetName="Bg"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>

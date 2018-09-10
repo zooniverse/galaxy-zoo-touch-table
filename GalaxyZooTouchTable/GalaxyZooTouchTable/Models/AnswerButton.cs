@@ -11,14 +11,18 @@ namespace GalaxyZooTouchTable.Models
         public string Url { get; set; }
         public int Index { get; set; }
 
+        /// <summary>
+        /// The Galaxy Zoo workflow contains image links in Markdown. 
+        /// The Regex in this constructor extract the necessary URL link and leave the answer text remaining.
+        /// </summary>
         public AnswerButton(TaskAnswer answer, int index)
         {
-            var UrlMatch = Regex.Match(answer.Label, @"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");
+            var ExtractedUrl = Regex.Match(answer.Label, @"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");
             string removedBrackets = Regex.Replace(answer.Label, @"!\[(.*?)\]", "");
-            string removedUrl = Regex.Replace(removedBrackets, @"\(" + UrlMatch + @"(.*?)\)", "");
+            string BaseAnswer = Regex.Replace(removedBrackets, @"\(" + ExtractedUrl + @"(.*?)\)", "");
 
-            Url = UrlMatch.Value;
-            Label = removedUrl.Trim();
+            Url = ExtractedUrl.Value;
+            Label = BaseAnswer.Trim();
             Index = index;
         }
     }

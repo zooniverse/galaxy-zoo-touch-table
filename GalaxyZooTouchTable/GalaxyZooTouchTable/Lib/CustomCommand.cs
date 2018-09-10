@@ -16,8 +16,7 @@ namespace GalaxyZooTouchTable.Utility
 
         public bool CanExecute(object parameter)
         {
-            bool b = canExecute == null ? true : canExecute(parameter);
-            return b;
+            return canExecute == null ? true : canExecute(parameter);
         }
 
         public event EventHandler CanExecuteChanged
