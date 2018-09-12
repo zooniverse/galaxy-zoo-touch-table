@@ -120,14 +120,14 @@
       <DependentUpon>CloseConfirmation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\TableUserFactory.cs" />
-    <Compile Include="NullImageConverter.cs" />
+    <Compile Include="Converters\NullImageConverter.cs" />
     <Compile Include="StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserConsole.xaml.cs">
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserConsoleConverter.cs" />
+    <Compile Include="Converters\UserConsoleConverter.cs" />
     <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -247,10 +247,7 @@
   <ItemGroup>
     <Resource Include="Images\General\Logo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

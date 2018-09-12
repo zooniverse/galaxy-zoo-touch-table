@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Styles/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
             <local:UserConsoleConverter x:Key="UserConsoleConverter"/>
             <local:NullImageConverter x:Key="NullImageConverter"/> 
             <FontFamily x:Key="Karla"/>

@@ -7,20 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="300">
     <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="2"/>
+        </Border.Effect>
+
         <Grid Margin="10, 20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="12*"/>
+                <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
 
             <Image Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,10" Source="Images/General/Logo.png"/>
 
-            <Separator Grid.Row="0" VerticalAlignment="Bottom" Foreground="Black"/>
+            <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="Black"/>
 
             <Viewbox Grid.Row="1">
-                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Margin="0,0,20,0">
+                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Margin="0,0,40,0">
                     <Run>Close workspace and</Run>
                     <LineBreak/>
                     <Run>end your session?</Run>
@@ -54,8 +58,16 @@
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource StandardBtn}" Background="Transparent" BorderBrush="Black" Grid.Column="0" Content="Keep classifying" FontWeight="Bold"/>
-                <Button Style="{StaticResource StandardBtn}" BorderBrush="{StaticResource SuccessColor}" Foreground="Black" Background="{StaticResource SuccessColor}" Grid.Column="2" Content="Close &amp; end" FontWeight="Bold"/>
+                <Button Style="{StaticResource OutlineBtn}" Grid.Column="0" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.CloseConfirmationBox}">
+                    <Viewbox Margin="5">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keep classifying"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource SuccessBtn}" Foreground="Black" Grid.Column="2" FontWeight="Bold">
+                    <Viewbox Margin="5">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Close &amp; end"/>
+                    </Viewbox>
+                </Button>
             </Grid>
         </Grid>
     </Border>
