@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GalaxyZooTouchTable.Styles">
+    <SolidColorBrush Color="#343438" x:Key="DarkGrayColor" />
+    <SolidColorBrush Color="#55565A" x:Key="MedGrayColor" />
+    <SolidColorBrush Color="#63AB51" x:Key="SuccessColor" />
+    <SolidColorBrush Color="#FFE5FF4D" x:Key="LimeGreenColor" />
+</ResourceDictionary>

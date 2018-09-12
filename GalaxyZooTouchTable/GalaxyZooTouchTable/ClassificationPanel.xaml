@@ -59,6 +59,8 @@
                 <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
             </Button>
         </Grid>
+        
+        
 
         <Border
             Grid.Column="1"
@@ -78,8 +80,6 @@
                     <RowDefinition Height="5*"/>
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
-
-
 
                 <Grid Grid.Row="0">
                     <Grid.RowDefinitions>
