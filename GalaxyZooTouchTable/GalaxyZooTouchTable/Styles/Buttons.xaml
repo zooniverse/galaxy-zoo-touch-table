@@ -8,8 +8,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" Padding="2">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                        <ContentPresenter/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -28,6 +28,13 @@
     <Style BasedOn="{StaticResource StandardBtn}" x:Key="SuccessBtn" TargetType="Button">
         <Setter Property="Background" Value="#63AB51"/>
         <Setter Property="BorderBrush" Value="#63AB51"/>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="Gray"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="BellBtn" TargetType="Button">
