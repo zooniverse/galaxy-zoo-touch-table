@@ -63,7 +63,7 @@
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keep classifying"/>
                     </Viewbox>
                 </Button>
-                <Button Style="{StaticResource SuccessBtn}" Foreground="Black" Grid.Column="2" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.EndSession}>
+                <Button Style="{StaticResource SuccessBtn}" Foreground="Black" Grid.Column="2" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.EndSession}">
                     <Viewbox Margin="5">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Close &amp; end"/>
                     </Viewbox>
