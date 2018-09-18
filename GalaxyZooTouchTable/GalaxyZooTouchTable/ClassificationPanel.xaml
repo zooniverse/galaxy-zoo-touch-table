@@ -253,23 +253,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="5*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Row="1" Background="#55565A">
-                <Button BorderBrush="#55565A" Style="{StaticResource MoreInfoBtn}">
-                </Button>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel.LayoutTransform>
-                        <RotateTransform Angle="90"/>
-                    </StackPanel.LayoutTransform>
-                    <Label Content="Examples" Foreground="White" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                    </Label>
-                    <fa:ImageAwesome Margin="0,5" Icon="ArrowUp" Foreground="White"/>
-                </StackPanel>
-            </Grid>
+            <local:ExamplesPanel Grid.Row="1" />
         </Grid>
     </Grid>
 </UserControl>

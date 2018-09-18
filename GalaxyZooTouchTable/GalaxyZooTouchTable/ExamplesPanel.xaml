@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="GalaxyZooTouchTable.ExamplesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             Background="Gray"
+             mc:Ignorable="d" 
+             x:Name="Panel"
+             d:DesignHeight="500" d:DesignWidth="300">
+    <UserControl.RenderTransform>
+        <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
+    </UserControl.RenderTransform>
+
+    <UserControl.Resources>
+        <Storyboard x:Key="SlideRight">
+            <DoubleAnimation
+                Storyboard.TargetName="Panel"
+                Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)"
+                To="0" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="SlideLeft">
+            <DoubleAnimation
+                Storyboard.TargetName="Panel"
+                Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)"
+                To="{Binding Path=ActualWidth, Source={x:Reference Panel}, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}" Duration="0:0:0.2"/>
+        </Storyboard>
+    </UserControl.Resources>
+    
+    <Button Content="Hello" TouchDown="Grid_TouchDown">
+    
+    </Button>
+</UserControl>
