@@ -4,13 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
-             Background="Gray"
-             mc:Ignorable="d" 
-             x:Name="Panel"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+             Background="Transparent"
+             mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="300">
-    <UserControl.RenderTransform>
-        <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
-    </UserControl.RenderTransform>
 
     <UserControl.Resources>
         <Storyboard x:Key="SlideRight">
@@ -27,8 +24,50 @@
                 To="{Binding Path=ActualWidth, Source={x:Reference Panel}, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}" Duration="0:0:0.2"/>
         </Storyboard>
     </UserControl.Resources>
-    
-    <Button Content="Hello" TouchDown="Grid_TouchDown">
-    
-    </Button>
+
+    <Grid>
+        <TextBlock Text="Examples"/>
+
+        <Border x:Name="Panel" Background="Gray" CornerRadius="0,10,10,0">
+            <Border.RenderTransform>
+                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
+            </Border.RenderTransform>
+
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="5*"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <fa:ImageAwesome x:Name="RightArrow" Icon="ChevronRight" Margin="5" HorizontalAlignment="Right" Foreground="White" TouchDown="Grid_TouchDown"/>
+                </Grid>
+
+                <Border x:Name="SelectedElement"
+                    Grid.Row="1"
+                    BorderBrush="White"
+                    IsHitTestVisible="False"
+                    BorderThickness="5"
+                    VerticalAlignment="Top"
+                    Width="111"
+                    Height="100">
+                    <TextBlock Text="Target"/>
+                </Border>
+
+                <StackPanel TouchDown="UIElement_TouchDown" Grid.Row="1">
+                    <Rectangle Fill="Blue" Width="100" Height="100"/>
+                    <Rectangle Fill="Red" Width="100" Height="100"/>
+                    <Rectangle x:Name="Box" Width="100" Height="100" Fill="Yellow"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+
+
 </UserControl>

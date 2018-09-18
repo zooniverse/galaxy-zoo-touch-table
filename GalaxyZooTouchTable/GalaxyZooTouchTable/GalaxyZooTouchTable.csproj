@@ -119,6 +119,7 @@
     <Compile Include="ExamplesPanel.xaml.cs">
       <DependentUpon>ExamplesPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Lib\TranslateTransformExtensions.cs" />
     <Compile Include="Models\AnswerButton.cs" />
     <Compile Include="CloseConfirmation.xaml.cs">
       <DependentUpon>CloseConfirmation.xaml</DependentUpon>
