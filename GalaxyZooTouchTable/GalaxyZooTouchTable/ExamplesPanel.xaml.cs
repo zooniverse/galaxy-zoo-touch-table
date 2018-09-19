@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ namespace GalaxyZooTouchTable
         public ExamplesPanel()
         {
             InitializeComponent();
+            DataContext = new ExamplesPanelViewModel();
         }
 
         private void Grid_TouchDown(object sender, TouchEventArgs e)
@@ -50,7 +52,7 @@ namespace GalaxyZooTouchTable
 
         private void UIElement_TouchDown(object sender, TouchEventArgs e)
         {
-            var element = e.OriginalSource as FrameworkElement;
+            var element = sender as Border;
             if (element !=null)
             {
                 GeneralTransform generalTransform = SelectedElement.TransformToVisual(element);
@@ -63,7 +65,15 @@ namespace GalaxyZooTouchTable
                     translateTransform = new TranslateTransform();
                     element.RenderTransform = translateTransform;
                 }
-                translateTransform.AnimateTo(point);
+                bool elementReachedOrigin = point.X == 0 && point.Y == 0;
+                if(elementReachedOrigin)
+                {
+                    translateTransform.AnimateTo(new Point());
+                }
+                else
+                {
+                    translateTransform.AnimateTo(point);
+                }
             }
         }
     }

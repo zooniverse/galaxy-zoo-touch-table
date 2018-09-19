@@ -124,8 +124,10 @@
     <Compile Include="CloseConfirmation.xaml.cs">
       <DependentUpon>CloseConfirmation.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\GalaxyExampleFactory.cs" />
     <Compile Include="Models\TableUserFactory.cs" />
     <Compile Include="Converters\NullImageConverter.cs" />
+    <Compile Include="MoreInfoViewModel.cs" />
     <Compile Include="StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
     </Compile>
@@ -135,6 +137,7 @@
     <Compile Include="Converters\UserConsoleConverter.cs" />
     <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
+    <Compile Include="ViewModels\ExamplesPanelViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +170,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Resource Include="Images\General\qrcode.png" />
+    <Resource Include="Images\GalaxyExamples\features1.jpeg" />
+    <Resource Include="Images\GalaxyExamples\features2.jpg" />
+    <Resource Include="Images\GalaxyExamples\features3.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth1.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth2.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth3.jpg" />
+    <Resource Include="Images\GalaxyExamples\star1.jpg" />
+    <Resource Include="Images\GalaxyExamples\star2.jpg" />
+    <Resource Include="Images\GalaxyExamples\star3.jpg" />
     <Resource Include="Images\General\NSF.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
