@@ -22,17 +22,6 @@ namespace GalaxyZooTouchTable
             DataContext = new ExamplesPanelViewModel();
         }
 
-        private void RotateArrow()
-        {
-            double RotateFrom = IsOpen ? 180 : 0;
-            double RotateTo = IsOpen ? 0 : 180;
-            var doubleAnimation = new DoubleAnimation(RotateFrom, RotateTo, new Duration(TimeSpan.FromSeconds(0.2)));
-            var rotateTransform = new RotateTransform();
-            RightArrow.RenderTransform = rotateTransform;
-            RightArrow.RenderTransformOrigin = new Point(0.5, 0.5);
-            rotateTransform.BeginAnimation(RotateTransform.AngleProperty, doubleAnimation);
-        }
-
         private void UIElement_TouchDown(object sender, TouchEventArgs e)
         {
             var source = sender as UIElement;

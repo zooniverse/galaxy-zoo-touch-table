@@ -13,21 +13,9 @@
     <UserControl.Resources>
         <Style x:Key="MainPanelStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <!--<DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation
-                                    Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)"
-                                    To="0" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                </DataTrigger>-->
-
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard Name="OpenPanel">
+                        <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.2"/>
                             </Storyboard>
@@ -41,7 +29,27 @@
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
+        <Style x:Key="RightArrowStyle" TargetType="{x:Type fa:ImageAwesome}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -68,7 +76,13 @@
                         Icon="ChevronRight"
                         Grid.Column="1"
                         Margin="5"
-                        Foreground="White">
+                        Foreground="White"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource RightArrowStyle}">
+                    <fa:ImageAwesome.RenderTransform>
+                        <RotateTransform/>
+                    </fa:ImageAwesome.RenderTransform>
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
@@ -108,18 +122,6 @@
                     <Border Grid.Row="0" Margin="2" x:Name="SelectedElement"/>
                 </Grid>
 
-                <!--<Grid TouchDown="UIElement_TouchDown" Grid.Row="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    
-                    <Rectangle Fill="Blue" Grid.Row="0"/>
-                    <Rectangle Fill="Red" Grid.Row="1"/>
-                    <Rectangle x:Name="Box" Grid.Row="2" Fill="Yellow"/>
-                </Grid>-->
-
                 <ListView Grid.Row="1" BorderThickness="0" SelectionMode="Single" SelectedItem="{Binding SelectedExample, Mode=TwoWay}" ItemsSource="{Binding ExampleGalaxies}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -156,17 +158,6 @@
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
-                            <!--<Style.Triggers>
-                                <MultiTrigger>
-                                    <MultiTrigger.Conditions>
-                                        <Condition Property="IsSelected" Value="True"/>
-                                    </MultiTrigger.Conditions>
-                                    <MultiTrigger.Setters>
-                                        <Setter Property="Background" Value="Green"/>
-                                    </MultiTrigger.Setters>
-                                </MultiTrigger>
-                            </Style.Triggers>-->
-                            
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="Template">
                                 <Setter.Value>
