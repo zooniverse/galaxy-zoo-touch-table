@@ -4,39 +4,85 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              Background="Transparent"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="300">
 
     <UserControl.Resources>
-        <Storyboard x:Key="SlideRight">
-            <DoubleAnimation
-                Storyboard.TargetName="Panel"
-                Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)"
-                To="0" Duration="0:0:0.2"/>
-        </Storyboard>
+        <Style x:Key="MainPanelStyle" TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <!--<DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)"
+                                    To="0" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                </DataTrigger>-->
 
-        <Storyboard x:Key="SlideLeft">
-            <DoubleAnimation
-                Storyboard.TargetName="Panel"
-                Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)"
-                To="{Binding Path=ActualWidth, Source={x:Reference Panel}, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}" Duration="0:0:0.2"/>
-        </Storyboard>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Name="OpenPanel">
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
-        <Border x:Name="Panel" Background="Gray" CornerRadius="0,10,10,0">
+        <Border x:Name="Panel" Style="{StaticResource MainPanelStyle}" Background="Gray" CornerRadius="0,10,10,0">
             <Border.RenderTransform>
                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
             </Border.RenderTransform>
 
-            
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="5*"/>
                 </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <fa:ImageAwesome
+                        x:Name="RightArrow"
+                        Icon="ChevronRight"
+                        Grid.Column="1"
+                        Margin="5"
+                        Foreground="White">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchDown">
+                            <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </fa:ImageAwesome>
+
+                <Border Grid.Column="1" Grid.Row="1" Background="Gray" CornerRadius="0,0,10,0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchDown">
+                            <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Border>
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -44,12 +90,18 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <fa:ImageAwesome x:Name="RightArrow" Icon="ChevronRight" Margin="5" HorizontalAlignment="Right" Foreground="White" TouchDown="Grid_TouchDown"/>
+                    <Viewbox HorizontalAlignment="Left">
+                        <TextBlock Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="1" Margin="0,0,10,0">
+                        <TextBlock Text="Tap each item to learn more." Foreground="White"/>
+                    </Viewbox>
                 </Grid>
 
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
@@ -68,7 +120,7 @@
                     <Rectangle x:Name="Box" Grid.Row="2" Fill="Yellow"/>
                 </Grid>-->
 
-                <ListView Grid.Row="1" ItemsSource="{Binding ExampleGalaxies}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListView Grid.Row="1" BorderThickness="0" SelectionMode="Single" SelectedItem="{Binding SelectedExample, Mode=TwoWay}" ItemsSource="{Binding ExampleGalaxies}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="1"/>
@@ -77,8 +129,8 @@
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Border Background="Gray" BorderThickness="0 1 0 0" BorderBrush="Black" TouchDown="UIElement_TouchDown">
-                                <Grid Margin="0">
+                            <Border x:Name="Sidebar" Background="Gray" Margin="10, 5" BorderThickness="0 1 0 0" BorderBrush="Black">
+                                <Grid Margin="0,10,0,0" TouchDown="UIElement_TouchDown">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="1*"/>
@@ -86,14 +138,17 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="3*"/>
+                                        <RowDefinition Height="2*"/>
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="{Binding Title}"/>
+                                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" Tag="{Binding ElementName=Sidebar}">
+                                        <TextBlock Foreground="White" Text="{Binding Title}" VerticalAlignment="Center" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                                        <fa:ImageAwesome VerticalAlignment="Center" Icon="ChevronRight" Foreground="White" Margin="5"/>
+                                    </StackPanel>
 
-                                    <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImageOne}" Margin="2"/>
-                                    <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageTwo}" Margin="2"/>
-                                    <Image Grid.Column="2" Grid.Row="1" Source="{Binding ImageThree}" Margin="2"/>
+                                    <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImageOne}"/>
+                                    <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageTwo}"/>
+                                    <Image Grid.Column="2" Grid.Row="1" Source="{Binding ImageThree}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -101,6 +156,17 @@
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
+                            <!--<Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="Background" Value="Green"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
+                            </Style.Triggers>-->
+                            
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="Template">
                                 <Setter.Value>

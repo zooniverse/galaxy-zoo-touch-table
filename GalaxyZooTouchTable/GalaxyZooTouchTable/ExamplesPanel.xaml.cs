@@ -22,23 +22,6 @@ namespace GalaxyZooTouchTable
             DataContext = new ExamplesPanelViewModel();
         }
 
-        private void Grid_TouchDown(object sender, TouchEventArgs e)
-        {
-            var sb = new Storyboard();
-            if (IsOpen)
-            {
-                sb = (Storyboard)FindResource("SlideLeft");
-            }
-            else
-            {
-                sb = (Storyboard)FindResource("SlideRight");
-            }
-
-            RotateArrow();
-            IsOpen = !IsOpen;
-            sb.Begin();
-        }
-
         private void RotateArrow()
         {
             double RotateFrom = IsOpen ? 180 : 0;
@@ -52,7 +35,9 @@ namespace GalaxyZooTouchTable
 
         private void UIElement_TouchDown(object sender, TouchEventArgs e)
         {
-            var element = sender as Border;
+            var source = sender as UIElement;
+            var element = FindParent<Border>(source);
+
             if (element !=null)
             {
                 GeneralTransform generalTransform = SelectedElement.TransformToVisual(element);
@@ -75,6 +60,19 @@ namespace GalaxyZooTouchTable
                     translateTransform.AnimateTo(point);
                 }
             }
+        }
+
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+            else
+                return FindParent<T>(parentObject);
         }
     }
 }
