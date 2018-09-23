@@ -17,6 +17,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ICommand OpenPanel { get; set; }
         public ICommand TogglePanel { get; set; }
+        public ICommand SelectItem { get; set; }
 
         public bool _isOpen = false;
         public bool IsOpen
@@ -35,7 +36,17 @@ namespace GalaxyZooTouchTable.ViewModels
             get { return _selectedExample; }
             set
             {
-                _selectedExample = value;
+                Console.WriteLine(_selectedExample);
+                if (_selectedExample != null)
+                {
+                    Console.WriteLine("not null");
+                    _selectedExample = null;
+                }
+                else
+                {
+                    Console.WriteLine("now we are setting");
+                    _selectedExample = value;
+                }
                 OnPropertyRaised("SelectedExample");
             }
         }
@@ -53,6 +64,17 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);
+            SelectItem = new CustomCommand(ChooseExample, CanChoose);
+        }
+
+        public void ChooseExample(object sender)
+        {
+            //Console.WriteLine("WOOOO");
+        }
+
+        public bool CanChoose(object sender)
+        {
+            return true;
         }
 
         public void SlidePanel(object sender)

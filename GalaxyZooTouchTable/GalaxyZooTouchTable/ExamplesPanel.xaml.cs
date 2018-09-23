@@ -14,18 +14,19 @@ namespace GalaxyZooTouchTable
     /// </summary>
     public partial class ExamplesPanel : UserControl
     {
-        public bool IsOpen { get; set; } = false;
-
         public ExamplesPanel()
         {
             InitializeComponent();
             DataContext = new ExamplesPanelViewModel();
         }
 
-        private void UIElement_TouchDown(object sender, TouchEventArgs e)
+        public void UIElement_TouchDown(object sender, TouchEventArgs e)
         {
             var source = sender as UIElement;
             var element = FindParent<Border>(source);
+
+            var selectedItem = element.DataContext;
+
 
             if (element !=null)
             {
@@ -42,10 +43,13 @@ namespace GalaxyZooTouchTable
                 bool elementReachedOrigin = point.X == 0 && point.Y == 0;
                 if(elementReachedOrigin)
                 {
+                    Console.WriteLine("TO ORIGIN");
+                    ListItems.SelectedItem = null;
                     translateTransform.AnimateTo(new Point());
                 }
                 else
                 {
+                    Console.WriteLine("TO TOP");
                     translateTransform.AnimateTo(point);
                 }
             }
