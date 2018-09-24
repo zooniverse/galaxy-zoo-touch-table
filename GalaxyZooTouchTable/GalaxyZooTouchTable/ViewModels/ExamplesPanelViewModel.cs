@@ -13,11 +13,21 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ExamplesPanelViewModel : INotifyPropertyChanged
     {
         public List<GalaxyExample> ExampleGalaxies { get; set; } = new List<GalaxyExample>();
-        public bool IsSelected { get; set; } = false;
+
+        private bool _isSelected = false;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyRaised("IsSelected");
+            }
+        }
 
         public ICommand OpenPanel { get; set; }
         public ICommand TogglePanel { get; set; }
-        public ICommand SelectItem { get; set; }
+        public ICommand SelectionChanged { get; set; }
 
         public bool _isOpen = false;
         public bool IsOpen
@@ -36,17 +46,7 @@ namespace GalaxyZooTouchTable.ViewModels
             get { return _selectedExample; }
             set
             {
-                Console.WriteLine(_selectedExample);
-                if (_selectedExample != null)
-                {
-                    Console.WriteLine("not null");
-                    _selectedExample = null;
-                }
-                else
-                {
-                    Console.WriteLine("now we are setting");
-                    _selectedExample = value;
-                }
+                _selectedExample = value;
                 OnPropertyRaised("SelectedExample");
             }
         }
@@ -64,12 +64,18 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);
-            SelectItem = new CustomCommand(ChooseExample, CanChoose);
+            SelectionChanged = new CustomCommand(SelectExample, CanChoose);
         }
 
-        public void ChooseExample(object sender)
+        public void SelectExample(object sender)
         {
-            //Console.WriteLine("WOOOO");
+            if (sender == null)
+            {
+                IsSelected = false;
+            } else
+            {
+                IsSelected = true;
+            }
         }
 
         public bool CanChoose(object sender)

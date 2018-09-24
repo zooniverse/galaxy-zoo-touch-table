@@ -52,6 +52,27 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="ExampleStyle" TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="-10" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -60,7 +81,7 @@
                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
             </Border.RenderTransform>
 
-            <Grid>
+            <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="5*"/>
@@ -120,19 +141,30 @@
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0" Margin="2" x:Name="SelectedElement"/>
+
+                    <StackPanel Grid.Row="1">
+                        <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Text="{Binding SelectedExample.Description}" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        <TextBlock TextWrapping="Wrap" Text="{Binding SelectedExample.Description2}" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    </StackPanel>
                 </Grid>
 
-                <ListView x:Name="ListItems" Grid.Row="1" BorderThickness="0" SelectionMode="Single" SelectedItem="{Binding SelectedExample, Mode=TwoWay}" ItemsSource="{Binding ExampleGalaxies}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                    <ListView.ItemsPanel>
+                <ListBox x:Name="ExampleList" Grid.Row="1" SelectionChanged="ExampleList_SelectionChanged" BorderThickness="0" SelectionMode="Multiple" SelectedItem="{Binding SelectedExample, Mode=TwoWay}" ItemsSource="{Binding ExampleGalaxies}" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChanged}"  CommandParameter="{Binding ElementName=ExampleList, Path=SelectedItem}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="1"/>
                         </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
+                    </ListBox.ItemsPanel>
 
-                    <!--<ListView.ItemTemplate>
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border x:Name="Sidebar" Background="Gray" Margin="10, 5" BorderThickness="0 1 0 0" BorderBrush="Black">
-                                <Grid Margin="0,10,0,0" TouchDown="UIElement_TouchDown">
+                            <Border x:Name="Sidebar" Background="Gray" BorderThickness="0 1 0 0" BorderBrush="Black" Style="{StaticResource ExampleStyle}">
+                                <Grid Margin="0,10,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="1*"/>
                                         <ColumnDefinition Width="1*"/>
@@ -154,79 +186,14 @@
                                 </Grid>
                             </Border>
                         </DataTemplate>
-                    </ListView.ItemTemplate>-->
+                    </ListBox.ItemTemplate>
 
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListViewItem}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="Background" Value="Transparent" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                        <ControlTemplate.Triggers>
-                                            <MultiTrigger>
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="IsSelected" Value="True"/>
-                                                </MultiTrigger.Conditions>
-                                                <MultiTrigger.EnterActions>
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <ColorAnimation Storyboard.TargetName="Sidebar" Storyboard.TargetProperty="Background.Color" To="Red" Duration="00:00:00.5" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </MultiTrigger.EnterActions>
-                                                <MultiTrigger.ExitActions>
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <ColorAnimation Storyboard.TargetName="Sidebar" Storyboard.TargetProperty="Background.Color" Duration="00:00:00.5" />
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </MultiTrigger.ExitActions>
-                                            </MultiTrigger>
-                                        </ControlTemplate.Triggers>
-
-
-
-
-
-                                        <Border x:Name="Sidebar" Background="Gray" Margin="10, 5" BorderThickness="0 1 0 0" BorderBrush="Black">
-                                            <Grid Margin="0,10,0,0" TouchDown="UIElement_TouchDown">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="TouchDown">
-                                                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ExamplesPanel}}, Path=DataContext.SelectItem}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="1*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="1*"/>
-                                                    <RowDefinition Height="2*"/>
-                                                </Grid.RowDefinitions>
-
-                                                <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" Tag="{Binding ElementName=Sidebar}">
-                                                    <TextBlock Foreground="White" Text="{Binding Title}" VerticalAlignment="Center" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                                    <fa:ImageAwesome VerticalAlignment="Center" Icon="ChevronRight" Foreground="White" Margin="5"/>
-                                                </StackPanel>
-
-                                                <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImageOne}"/>
-                                                <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageTwo}"/>
-                                                <Image Grid.Column="2" Grid.Row="1" Source="{Binding ImageThree}"/>
-                                            </Grid>
-                                        </Border>
-
-
-
-
-
-
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
                         </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
             </Grid>
         </Border>
     </Grid>

@@ -1,5 +1,9 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Utility;
+using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
@@ -18,6 +22,7 @@ namespace GalaxyZooTouchTable.Models
         BitmapImage ImageThree { get; }
         string Title { get; }
         string Description { get; }
+        string Description2 { get; }
     }
 
     static class GalaxyExampleFactory
@@ -43,7 +48,8 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageTwo => new BitmapImage(new Uri("../Images/GalaxyExamples/smooth2.jpg", UriKind.Relative));
             public BitmapImage ImageThree => new BitmapImage(new Uri("../Images/GalaxyExamples/smooth3.jpg", UriKind.Relative));
             public string Title => "Smooth";
-            public string Description => throw new NotImplementedException();
+            public string Description => "Smooth galaxies fade gradually in all directions from the center";
+            public string Description2 => "There may be a small bright symmetric core.";
         }
 
         private class FeaturesGalaxy : GalaxyExample
@@ -52,7 +58,8 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageTwo => new BitmapImage(new Uri("../Images/GalaxyExamples/features2.jpg", UriKind.Relative));
             public BitmapImage ImageThree => new BitmapImage(new Uri("../Images/GalaxyExamples/features3.jpg", UriKind.Relative));
             public string Title => "Features or Disk";
-            public string Description => throw new NotImplementedException();
+            public string Description => "Galaxies might have spiral arms, a bulge or bar, or any other interesting feature.";
+            public string Description2 => "Choose this option if you see anything unique about the galaxy";
         }
 
         private class StarGalaxy : GalaxyExample
@@ -61,7 +68,8 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageTwo => new BitmapImage(new Uri("../Images/GalaxyExamples/star2.jpg", UriKind.Relative));
             public BitmapImage ImageThree => new BitmapImage(new Uri("../Images/GalaxyExamples/smooth3.jpg", UriKind.Relative));
             public string Title => "Star or Artifact";
-            public string Description => "If you can see any interesting features at all in the central falaxy, or if you think it is an edge-on disk, click \"Features or Disk.\"";
+            public string Description => "Choose \"Star or Artifact\" if there is no central galaxy to classify or if the artifact is so badly displayed that you can't ignore it and classify the galaxy with reasonable confidence.";
+            public string Description2 => "The telescopes taking our data were designed to look at faint galaxies, which means that bright, compact objects like stars sometimes look a bit strange.";
         }
 
         private async static Task<BitmapImage> GetBitmap(string filename)

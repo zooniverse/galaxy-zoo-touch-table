@@ -1,6 +1,7 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.ViewModels;
 using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,52 +21,98 @@ namespace GalaxyZooTouchTable
             DataContext = new ExamplesPanelViewModel();
         }
 
-        public void UIElement_TouchDown(object sender, TouchEventArgs e)
+        private void ExampleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var source = sender as UIElement;
-            var element = FindParent<Border>(source);
+            var selectedItem = ExampleList.SelectedItem;
 
-            var selectedItem = element.DataContext;
-
-
-            if (element !=null)
+            // if the user selects more than one item, remove that item and deny animation when the method runs again
+            if (ExampleList.SelectedItems.Count > 1)
             {
+                foreach (var example in new ArrayList(ExampleList.SelectedItems))
+                {
+                    if (example != selectedItem)
+                    {
+                        ExampleList.SelectedItems.Remove(example);
+                    }
+                }
+                return;
+            } else if (e.AddedItems.Count == 0 && selectedItem != null)
+            {
+                return;
+            }
+
+            ListBoxItem element = (ListBoxItem)(ExampleList.ItemContainerGenerator.ContainerFromItem(selectedItem));
+
+            // A selected item exists, move it to top
+            if (element != null)
+            {
+                HideItems();
                 GeneralTransform generalTransform = SelectedElement.TransformToVisual(element);
                 Point point = generalTransform.Transform(new Point());
 
                 TranslateTransform translateTransform
                     = element.RenderTransform as TranslateTransform;
-                if(translateTransform==null)
+                if (translateTransform == null)
+                {
+                    translateTransform = new TranslateTransform();
+                    element.RenderTransform = translateTransform;
+                }
+                translateTransform.AnimateTo(point);
+            }
+            // A selected item doesn't exist, reset all items
+            else
+            {
+                ResetItems();
+            }
+        }
+
+        private void ResetItems()
+        {
+            foreach(var item in ExampleList.Items)
+            {
+                ListBoxItem element = (ListBoxItem)(ExampleList.ItemContainerGenerator.ContainerFromItem(item));
+                GeneralTransform generalTransform = SelectedElement.TransformToVisual(element);
+                Point point = generalTransform.Transform(new Point());
+
+                TranslateTransform translateTransform
+                    = element.RenderTransform as TranslateTransform;
+                if (translateTransform == null)
                 {
                     translateTransform = new TranslateTransform();
                     element.RenderTransform = translateTransform;
                 }
                 bool elementReachedOrigin = point.X == 0 && point.Y == 0;
-                if(elementReachedOrigin)
+                if (elementReachedOrigin)
                 {
-                    Console.WriteLine("TO ORIGIN");
-                    ListItems.SelectedItem = null;
                     translateTransform.AnimateTo(new Point());
-                }
-                else
+                } else
                 {
-                    Console.WriteLine("TO TOP");
-                    translateTransform.AnimateTo(point);
+                    DoubleAnimation animation = new DoubleAnimation();
+                    animation.From = 0.0;
+                    animation.To = 1.0;
+                    animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
+                    element.BeginAnimation(OpacityProperty, animation);
                 }
             }
         }
 
-        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        private void HideItems()
         {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            var item = ExampleList.SelectedItem;
 
-            if (parentObject == null) return null;
+            foreach (var example in ExampleList.Items)
+            {
+                ListBoxItem boxItem = (ListBoxItem)(ExampleList.ItemContainerGenerator.ContainerFromItem(example));
 
-            T parent = parentObject as T;
-            if (parent != null)
-                return parent;
-            else
-                return FindParent<T>(parentObject);
+                if (item != example)
+                {
+                    DoubleAnimation animation = new DoubleAnimation();
+                    animation.From = 1.0;
+                    animation.To = 0.0;
+                    animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
+                    boxItem.BeginAnimation(OpacityProperty, animation);
+                }
+            }
         }
     }
 }
