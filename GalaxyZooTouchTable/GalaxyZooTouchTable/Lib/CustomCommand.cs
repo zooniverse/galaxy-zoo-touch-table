@@ -8,6 +8,10 @@ namespace GalaxyZooTouchTable.Utility
         private Action<object> execute;
         private Predicate<object> canExecute;
 
+        public CustomCommand(Action<object> execute) : this(execute, DefaultCanExecute)
+        {
+        }
+
         public CustomCommand(Action<Object> execute, Predicate<object> canExecute)
         {
             this.execute = execute;
@@ -34,6 +38,11 @@ namespace GalaxyZooTouchTable.Utility
         public void Execute(object parameter)
         {
             execute(parameter);
+        }
+
+        private static bool DefaultCanExecute(object parameter)
+        {
+            return true;
         }
     }
 }

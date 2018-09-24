@@ -19,6 +19,27 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Subject CurrentSubject { get; set; }
         public string CurrentTaskIndex { get; set; }
+        public UserConsole Console { get; set; }
+
+        public ICommand SelectAnswer { get; set; }
+        public ICommand SubmitClassification { get; set; }
+        public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand CloseConfirmationBox { get; set; }
+        public ICommand EndSession { get; set; }
+
+        private bool _closeConfirmationVisible = false;
+        public bool CloseConfirmationVisible
+        {
+            get
+            {
+                return _closeConfirmationVisible;
+            }
+            set
+            {
+                _closeConfirmationVisible = value;
+                OnPropertyRaised("CloseConfirmationVisible");
+            }
+        }
 
         private Annotation _currentAnnotation;
         public Annotation CurrentAnnotation
@@ -48,8 +69,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ICommand SelectAnswer { get; set; }
-        public ICommand SubmitClassification { get; set; }
 
         private AnswerButton _selectedItem;
         public AnswerButton SelectedItem
@@ -65,13 +84,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow)
+        public ClassificationPanelViewModel(Workflow workflow, UserConsole console)
         {
             GetSubject();
             LoadCommands();
             Workflow = workflow;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
+            Console = console;
 
             if (CurrentTask.Answers != null)
             {
@@ -90,6 +110,20 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             SelectAnswer = new CustomCommand(ChooseAnswer, CanSelectAnswer);
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
+            ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
+            EndSession = new CustomCommand(CloseClassifier);
+        }
+
+        private async void CloseClassifier(object sender)
+        {
+            await Console.Classifier.MoveClassifier();
+            Console.MoveButton();
+            Console.ClassifierOpen = !Console.ClassifierOpen;
+        }
+
+        private void ToggleCloseConfirmation(object sender)
+        {
+            CloseConfirmationVisible = !CloseConfirmationVisible;
         }
 
         private async void SendClassification(object sender)

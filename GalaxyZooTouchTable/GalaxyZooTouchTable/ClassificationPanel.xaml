@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Border
                 Grid.Row="1"
                 Grid.Column="1"
@@ -59,153 +59,184 @@
                 <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
             </Button>
         </Grid>
+        
+        <Grid Grid.Column="1" Panel.ZIndex="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Source="{Binding DataContext.Avatar, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" VerticalAlignment="Top" />
+        </Grid>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
 
-        <Border
-            Grid.Column="1"
-            CornerRadius="5"
-            BorderBrush="#343438"
-            BorderThickness="1"
-            Margin="0,22,0,35">
+            
+            <Border
+                Grid.Row="1"
+                CornerRadius="5"
+                BorderBrush="#343438"
+                BorderThickness="1">
 
-            <Border.Effect>
-                <DropShadowEffect/>
-            </Border.Effect>
+                <Border.Effect>
+                    <DropShadowEffect/>
+                </Border.Effect>
 
-            <Grid Background="#343438">
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"/>
-                    <RowDefinition Height="5*"/>
-                    <RowDefinition Height="5*"/>
-                </Grid.RowDefinitions>
-
-
-
-                <Grid Grid.Row="0">
+                <Grid Background="#343438">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="8*"/>
-                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="5*"/>
                         <RowDefinition Height="5*"/>
                     </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="25*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.RowSpan="3" Panel.ZIndex="1" Visibility="{Binding CloseConfirmationVisible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+                        <Grid.Background>
+                            <SolidColorBrush Color="#343438" Opacity="0.8"/>
+                        </Grid.Background>
 
-                    <Image Grid.Row="0" Grid.Column="1" Margin="0,-40,0,0" Source="{Binding DataContext.Avatar, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" VerticalAlignment="Top" />
-
-                    <Button Grid.Row="0" Grid.Column="1" BorderThickness="0" Name="CloseButton" HorizontalAlignment="Right" Foreground="White" Background="Transparent" VerticalAlignment="Center" TouchUp="CloseButton_TouchUp">
-                        <WrapPanel>
-                            <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
-                            <TextBlock Text="X" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
-                        </WrapPanel>
-                    </Button>
-                    <Border Grid.Row="1" Grid.Column="1" BorderThickness="0 1 0 0" BorderBrush="#55565A"/>
-                    <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-                        <TextBlock Text="Help classify the galaxy below" Foreground="White" Margin="0,0,40,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                    </Viewbox>
-                    <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
-                        <Label Content="Please consider only the galaxy in the center of the image" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla BoldItalic"/>
-                    </Viewbox>
-                </Grid>
-
-                <Grid Grid.Row="1" Margin="0,5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="14*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="14*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border Grid.Column="1" BorderThickness="2" BorderBrush="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200" Source="{Binding SubjectImageSource, Mode=TwoWay, Converter={StaticResource NullImageConverter}}"/>
-                    </Border>
-
-                    <ListView Grid.Column="3" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="1"/>
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
-
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Margin" Value="0,3"/>
-
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <Grid>
-                                                <Grid.OpacityMask>
-                                                    <VisualBrush Visual="{Binding ElementName=Bg}" />
-                                                </Grid.OpacityMask>
-                                                <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
-                                                <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Grid Background="#FFE5FF4D">
-                                                            <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
-                                                        </Grid>
-                                                        <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                                                    </StackPanel>
-                                                </Button>
-                                            </Grid>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsSelected" Value="False">
-                                                    <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
-                                                </Trigger>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="#015F7B" TargetName="Bg"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
-
-                </Grid>
-
-                <Grid Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="4*"/>
-                        <RowDefinition Height="5*"/>
-                        <RowDefinition Height="6*"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button BorderBrush="#55565A" BorderThickness="1" Grid.Column="1" Grid.Row="0" Margin="0,3" Style="{StaticResource TransButton}" HorizontalAlignment="Stretch">
-                        <Viewbox Margin="30,0">
-                            <TextBlock Text="Send this galaxy image to a neighbor at the table"/>
-                        </Viewbox>
-                    </Button>
-                    <Button Grid.Column="1" Command="{Binding SubmitClassification}" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}" Foreground="Black">
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Submit Classification"/>
-                    </Button>
-
-                    <Grid Grid.Column="1" Grid.Row="2" Margin="0,5">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="2*"/>
                         </Grid.RowDefinitions>
-                        <Image Grid.Row="0"  Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
-                        <Viewbox Grid.Row="1">
-                            <TextBlock Text="adler.zooniverse.org" Foreground="White" HorizontalAlignment="Center" Margin="100,0,0,0"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <local:CloseConfirmation Grid.Row="1" Grid.Column="1"/>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="5*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <Button Style="{StaticResource StandardBtn}" Grid.Row="0" Grid.Column="1" BorderThickness="0" Name="CloseButton" HorizontalAlignment="Right" Foreground="White" Background="Transparent" VerticalAlignment="Center" Command="{Binding ShowCloseConfirmation}">
+                            <WrapPanel>
+                                <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                                <TextBlock Text="X" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                            </WrapPanel>
+                        </Button>
+                        <Border Grid.Row="1" Grid.Column="1" BorderThickness="0 1 0 0" BorderBrush="#55565A"/>
+                        <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+                            <TextBlock Text="Help classify the galaxy below" Foreground="White" Margin="0,0,40,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                        </Viewbox>
+                        <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
+                            <Label Content="Please consider only the galaxy in the center of the image" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla BoldItalic"/>
                         </Viewbox>
                     </Grid>
+
+                    <Grid Grid.Row="1" Margin="0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="14*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="1" BorderThickness="2" BorderBrush="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200" Source="{Binding SubjectImageSource, Mode=TwoWay, Converter={StaticResource NullImageConverter}}"/>
+                        </Border>
+
+                        <ListView Grid.Column="3" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="1"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0,3"/>
+
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <Grid>
+                                                    <Grid.OpacityMask>
+                                                        <VisualBrush Visual="{Binding ElementName=Bg}" />
+                                                    </Grid.OpacityMask>
+                                                    <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
+                                                    <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Grid Background="#FFE5FF4D">
+                                                                <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
+                                                            </Grid>
+                                                            <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                                                        </StackPanel>
+                                                    </Button>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="False">
+                                                        <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="#015F7B" TargetName="Bg"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+
+                    </Grid>
+
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="6*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button BorderBrush="#55565A" BorderThickness="1" Grid.Column="1" Grid.Row="0" Margin="0,3" Style="{StaticResource TransButton}" HorizontalAlignment="Stretch">
+                            <Viewbox Margin="30,0">
+                                <TextBlock Text="Send this galaxy image to a neighbor at the table"/>
+                            </Viewbox>
+                        </Button>
+                        <Button Grid.Column="1" Command="{Binding SubmitClassification}" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}" Foreground="Black">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Submit Classification"/>
+                        </Button>
+
+                        <Grid Grid.Column="1" Grid.Row="2" Margin="0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0"  Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
+                            <Viewbox Grid.Row="1">
+                                <TextBlock Text="adler.zooniverse.org" Foreground="White" HorizontalAlignment="Center" Margin="100,0,0,0"/>
+                            </Viewbox>
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Border>
+            </Border>
+        </Grid>
         <Grid Grid.Column="2" Panel.ZIndex="-1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>

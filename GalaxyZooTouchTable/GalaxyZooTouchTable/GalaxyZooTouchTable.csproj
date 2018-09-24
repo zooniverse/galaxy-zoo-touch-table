@@ -116,15 +116,18 @@
     </Compile>
     <Compile Include="Config.cs" />
     <Compile Include="Models\AnswerButton.cs" />
+    <Compile Include="CloseConfirmation.xaml.cs">
+      <DependentUpon>CloseConfirmation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\TableUserFactory.cs" />
-    <Compile Include="NullImageConverter.cs" />
+    <Compile Include="Converters\NullImageConverter.cs" />
     <Compile Include="StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserConsole.xaml.cs">
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserConsoleConverter.cs" />
+    <Compile Include="Converters\UserConsoleConverter.cs" />
     <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -190,6 +193,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CloseConfirmation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CollectionBin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -207,6 +214,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,9 +247,7 @@
   <ItemGroup>
     <Resource Include="Images\General\Logo.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

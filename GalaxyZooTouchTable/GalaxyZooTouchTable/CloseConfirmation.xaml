@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="GalaxyZooTouchTable.CloseConfirmation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="300">
+    <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="2"/>
+        </Border.Effect>
+
+        <Grid Margin="10, 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="12*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,10" Source="Images/General/Logo.png"/>
+
+            <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="Black"/>
+
+            <Viewbox Grid.Row="1">
+                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Margin="0,0,40,0">
+                    <Run>Close workspace and</Run>
+                    <LineBreak/>
+                    <Run>end your session?</Run>
+                </TextBlock>
+            </Viewbox>
+
+            <Grid Grid.Row="2" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="0" VerticalAlignment="Top" Margin="0,0,10,0">
+                    <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
+                        <Run>Do real science at home!</Run>
+                        <LineBreak/>
+                        <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">adler.Zooniverse.org</Run> <Run>or</Run>
+                        <LineBreak/>
+                        <Run>download the Zooniverse app for iOS</Run>
+                        <LineBreak/>
+                        <Run>and Android.</Run>
+                    </TextBlock>
+                </Viewbox>
+
+                <Rectangle Grid.Column="1" Fill="White"/>
+            </Grid>
+            
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10*"/>
+                </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource OutlineBtn}" Grid.Column="0" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.ShowCloseConfirmation}">
+                    <Viewbox Margin="5">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keep classifying"/>
+                    </Viewbox>
+                </Button>
+                <Button Style="{StaticResource SuccessBtn}" Foreground="Black" Grid.Column="2" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.EndSession}">
+                    <Viewbox Margin="5">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Close &amp; end"/>
+                    </Viewbox>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

@@ -17,7 +17,7 @@ namespace GalaxyZooTouchTable
     /// </summary>
     public partial class UserConsole : UserControl
     {
-        ClassificationPanel Classifier { get; set; }
+        public ClassificationPanel Classifier { get; set; }
         public bool ClassifierOpen { get; set; } = false;
         public Workflow Workflow { get; set; }
 

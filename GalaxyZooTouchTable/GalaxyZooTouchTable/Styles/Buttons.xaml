@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                    <Border CornerRadius="5" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter/>
                     </Border>
                 </ControlTemplate>
@@ -21,8 +21,13 @@
         <Setter Property="Margin" Value="10,0" />
     </Style>
 
-    <Style BasedOn="{StaticResource StandardBtn}"  x:Key="MoreInfoBtn" TargetType="Button">
+    <Style BasedOn="{StaticResource StandardBtn}" x:Key="MoreInfoBtn" TargetType="Button">
         <Setter Property="Background" Value="#55565A"/>
+    </Style>    
+    
+    <Style BasedOn="{StaticResource StandardBtn}" x:Key="OutlineBtn" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 
     <Style BasedOn="{StaticResource StandardBtn}" x:Key="SuccessBtn" TargetType="Button">
