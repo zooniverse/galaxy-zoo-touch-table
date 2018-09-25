@@ -52,10 +52,5 @@ namespace GalaxyZooTouchTable
 
             return Task.Delay(300);
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
