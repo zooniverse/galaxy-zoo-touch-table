@@ -4,7 +4,6 @@ using System;
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -23,46 +22,49 @@ namespace GalaxyZooTouchTable
 
         private void ExampleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedItem = ExampleList.SelectedItem;
-
             // if the user selects more than one item, remove that item and deny animation when the method runs again
             if (ExampleList.SelectedItems.Count > 1)
             {
-                foreach (var example in new ArrayList(ExampleList.SelectedItems))
-                {
-                    if (example != selectedItem)
-                    {
-                        ExampleList.SelectedItems.Remove(example);
-                    }
-                }
+                RemoveExtraItem();
                 return;
-            } else if (e.AddedItems.Count == 0 && selectedItem != null)
+            } else if (e.AddedItems.Count == 0 && ExampleList.SelectedItem != null)
             {
                 return;
             }
 
-            ListBoxItem element = (ListBoxItem)(ExampleList.ItemContainerGenerator.ContainerFromItem(selectedItem));
+            ListBoxItem SelectedUIElement = (ListBoxItem)(ExampleList.ItemContainerGenerator.ContainerFromItem(ExampleList.SelectedItem));
 
             // A selected item exists, move it to top
-            if (element != null)
+            if (SelectedUIElement != null)
             {
                 HideItems();
-                GeneralTransform generalTransform = SelectedElement.TransformToVisual(element);
+                GeneralTransform generalTransform = SelectedElement.TransformToVisual(SelectedUIElement);
                 Point point = generalTransform.Transform(new Point());
 
                 TranslateTransform translateTransform
-                    = element.RenderTransform as TranslateTransform;
+                    = SelectedUIElement.RenderTransform as TranslateTransform;
                 if (translateTransform == null)
                 {
                     translateTransform = new TranslateTransform();
-                    element.RenderTransform = translateTransform;
+                    SelectedUIElement.RenderTransform = translateTransform;
                 }
                 translateTransform.AnimateTo(point);
             }
-            // A selected item doesn't exist, reset all items
+            // The item has been unselected, reset all items
             else
             {
                 ResetItems();
+            }
+        }
+
+        private void RemoveExtraItem()
+        {
+            foreach (var example in new ArrayList(ExampleList.SelectedItems))
+            {
+                if (example != ExampleList.SelectedItem)
+                {
+                    ExampleList.SelectedItems.Remove(example);
+                }
             }
         }
 
@@ -87,30 +89,29 @@ namespace GalaxyZooTouchTable
                     translateTransform.AnimateTo(new Point());
                 } else
                 {
-                    DoubleAnimation animation = new DoubleAnimation();
-                    animation.From = 0.0;
-                    animation.To = 1.0;
-                    animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
-                    element.BeginAnimation(OpacityProperty, animation);
+                    ToggleOpacity(element, false);
                 }
             }
         }
 
+        private void ToggleOpacity(ListBoxItem Element, bool HideItem)
+        {
+            DoubleAnimation animation = new DoubleAnimation();
+            animation.From = HideItem ? 1.0 : 0.0;
+            animation.To = HideItem ? 0.0 : 1.0;
+            animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
+            Element.BeginAnimation(OpacityProperty, animation);
+        }
+
         private void HideItems()
         {
-            var item = ExampleList.SelectedItem;
-
             foreach (var example in ExampleList.Items)
             {
                 ListBoxItem boxItem = (ListBoxItem)(ExampleList.ItemContainerGenerator.ContainerFromItem(example));
 
-                if (item != example)
+                if (ExampleList.SelectedItem != example)
                 {
-                    DoubleAnimation animation = new DoubleAnimation();
-                    animation.From = 1.0;
-                    animation.To = 0.0;
-                    animation.Duration = new Duration(TimeSpan.FromSeconds(0.25));
-                    boxItem.BeginAnimation(OpacityProperty, animation);
+                    ToggleOpacity(boxItem, true);
                 }
             }
         }

@@ -1,11 +1,7 @@
 ﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -13,6 +9,9 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ExamplesPanelViewModel : INotifyPropertyChanged
     {
         public List<GalaxyExample> ExampleGalaxies { get; set; } = new List<GalaxyExample>();
+        public ICommand OpenPanel { get; set; }
+        public ICommand TogglePanel { get; set; }
+        public ICommand SelectionChanged { get; set; }
 
         private bool _isSelected = false;
         public bool IsSelected
@@ -24,10 +23,6 @@ namespace GalaxyZooTouchTable.ViewModels
                 OnPropertyRaised("IsSelected");
             }
         }
-
-        public ICommand OpenPanel { get; set; }
-        public ICommand TogglePanel { get; set; }
-        public ICommand SelectionChanged { get; set; }
 
         public bool _isOpen = false;
         public bool IsOpen

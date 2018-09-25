@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 
 namespace GalaxyZooTouchTable
 {
     /// <summary>
-    /// When binding, if an image source is not yet available (null), this converts the object to an acceptable unset value so the UI doesn't throw an exception
+    /// This converter is designed to move an element a percentage of the parameter given
     /// </summary>
     public class HidePanelConverter : IValueConverter
     {
