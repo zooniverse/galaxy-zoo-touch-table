@@ -70,6 +70,30 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="HeaderGrid" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" To="0" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" To="0" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
     </UserControl.Resources>
 
     <Grid>
@@ -94,7 +118,7 @@
                         x:Name="RightArrow"
                         Icon="ChevronRight"
                         Grid.Column="2"
-                        Margin="5"
+                        Margin="8"
                         Foreground="White"
                         RenderTransformOrigin="0.5,0.5"
                         Style="{StaticResource RightArrowStyle}">
@@ -117,7 +141,14 @@
                     </i:Interaction.Triggers>
                 </Border>
 
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" RenderTransformOrigin="0,1" Style="{StaticResource HeaderGrid}">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform x:Name="RotateHeader" Angle="90"/>
+                            <TranslateTransform x:Name="TranslateHeader" X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.66'}"/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
@@ -135,7 +166,7 @@
                 <Grid Grid.Row="1" Grid.Column="1" Panel.ZIndex="1" Style="{StaticResource SelectedItemGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
                     <Border Grid.Row="0" Margin="2" x:Name="SelectedElement"/>
@@ -191,9 +222,9 @@
                                                     </fa:ImageAwesome>
                                                 </DockPanel>
 
-                                                <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImageOne}"/>
-                                                <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageTwo}"/>
-                                                <Image Grid.Column="2" Grid.Row="1" Source="{Binding ImageThree}"/>
+                                                <Image Grid.Column="0" Grid.Row="1" Source="{Binding ImageOne}" Margin="2"/>
+                                                <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageTwo}" Margin="2"/>
+                                                <Image Grid.Column="2" Grid.Row="1" Source="{Binding ImageThree}" Margin="2"/>
                                             </Grid>
                                         </Border>
 
