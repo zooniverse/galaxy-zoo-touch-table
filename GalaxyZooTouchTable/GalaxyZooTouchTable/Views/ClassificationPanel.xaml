@@ -236,11 +236,11 @@
                                 <ColumnDefinition Width="55*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="Images/General/qrcode.png"/>
-                            <Image Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Source="Images/General/Logo.png" HorizontalAlignment="Left" Width="81"/>
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="../Images/General/qrcode.png"/>
+                            <Image Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Source="../Images/General/Logo.png" HorizontalAlignment="Left" Width="81"/>
                             <Viewbox Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" Height="8">
-                                <TextBlock Text="adler.zooniverse.org" Foreground="White"/>
-                            </Viewbox>
+                                    <TextBlock Text="adler.zooniverse.org" Foreground="White"/>
+                                </Viewbox>
                         </Grid>
                     </Grid>
                 </Grid>
