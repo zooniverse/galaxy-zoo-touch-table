@@ -12,28 +12,77 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        public List<Subject> Subjects { get; set; } = new List<Subject>();
-        public Workflow Workflow { get; }
-        public WorkflowTask CurrentTask { get; set; }
-        public Classification CurrentClassification { get; set; }
-        public List<AnswerButton> CurrentAnswers { get; set; }
-        public Subject CurrentSubject { get; set; }
-        public string CurrentTaskIndex { get; set; }
         public UserConsole Console { get; set; }
+        public List<AnswerButton> CurrentAnswers { get; set; }
+        public Classification CurrentClassification { get; set; }
+        public Subject CurrentSubject { get; set; }
+        public WorkflowTask CurrentTask { get; set; }
+        public string CurrentTaskIndex { get; set; }
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
+        public TableUser User { get; set; }
+        public Workflow Workflow { get; }
 
-        public ICommand SelectAnswer { get; set; }
-        public ICommand SubmitClassification { get; set; }
-        public ICommand ShowCloseConfirmation { get; set; }
         public ICommand CloseConfirmationBox { get; set; }
         public ICommand EndSession { get; set; }
+        public ICommand SelectAnswer { get; set; }
+        public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand SubmitClassification { get; set; }
+        public ICommand ToggleLeveler { get; set; }
+
+        private string _classificationLevel { get; set; } = "One";
+        public string ClassificationLevel
+        {
+            get { return _classificationLevel; }
+            set
+            {
+                _classificationLevel = value;
+                OnPropertyRaised("ClassificationLevel");
+            }
+        }
+
+        private int _classificationsUntilUpgrade { get; set; } = 5;
+        public int ClassificationsUntilUpgrade
+        {
+            get { return _classificationsUntilUpgrade; }
+            set
+            {
+                if (value == 0)
+                {
+                    value = 5;
+                    LevelUp();
+                }
+                _classificationsUntilUpgrade = value;
+                OnPropertyRaised("ClassificationsUntilUpgrade");
+            }
+        }
+
+        private int _classificationsThisSession = 0;
+        public int ClassificationsThisSession
+        {
+            get { return _classificationsThisSession; }
+            set
+            {
+                ClassificationsUntilUpgrade -= 1;
+                _classificationsThisSession = value;
+                OnPropertyRaised("ClassificationsThisSession");
+            }
+        }
+
+        private bool _levelerIsOpen = false;
+        public bool LevelerIsOpen
+        {
+            get { return _levelerIsOpen; }
+            set
+            {
+                _levelerIsOpen = value;
+                OnPropertyRaised("LevelerIsOpen");
+            }
+        }
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
         {
-            get
-            {
-                return _closeConfirmationVisible;
-            }
+            get { return _closeConfirmationVisible; }
             set
             {
                 _closeConfirmationVisible = value;
@@ -44,10 +93,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private Annotation _currentAnnotation;
         public Annotation CurrentAnnotation
         {
-            get
-            {
-                return _currentAnnotation;
-            }
+            get { return _currentAnnotation; }
             set
             {
                 _currentAnnotation = value;
@@ -58,10 +104,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private string _subjectImageSource;
         public string SubjectImageSource
         {
-            get
-            {
-                return _subjectImageSource;
-            }
+            get { return _subjectImageSource; }
             set
             {
                 _subjectImageSource = value;
@@ -69,14 +112,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-
         private AnswerButton _selectedItem;
         public AnswerButton SelectedItem
         {
-            get
-            {
-                return _selectedItem;
-            }
+            get { return _selectedItem; }
             set
             {
                 _selectedItem = value;
@@ -84,11 +123,12 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, UserConsole console)
+        public ClassificationPanelViewModel(Workflow workflow, UserConsole console, TableUser user)
         {
             GetSubject();
             LoadCommands();
             Workflow = workflow;
+            User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
             Console = console;
@@ -112,6 +152,12 @@ namespace GalaxyZooTouchTable.ViewModels
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             EndSession = new CustomCommand(CloseClassifier);
+            ToggleLeveler = new CustomCommand(SlideLeveler);
+        }
+
+        private void SlideLeveler(object sender)
+        {
+            LevelerIsOpen = !LevelerIsOpen;
         }
 
         private async void CloseClassifier(object sender)
@@ -128,11 +174,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SendClassification(object sender)
         {
-            CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
-            CurrentClassification.Annotations.Add(CurrentAnnotation);
-            ApiClient client = new ApiClient();
-            await client.Classifications.Create(CurrentClassification);
-            GetSubject();
+            //CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
+            //CurrentClassification.Annotations.Add(CurrentAnnotation);
+            //ApiClient client = new ApiClient();
+            //await client.Classifications.Create(CurrentClassification);
+            ClassificationsThisSession += 1;
+            //GetSubject();
         }
 
         private bool CanSendClassification(object sender)
@@ -195,6 +242,32 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
+        }
+
+        private void LevelUp()
+        {
+            if (ClassificationsThisSession > 25)
+            {
+                return;
+            }
+            switch (ClassificationsThisSession)
+            {
+                case int n when (n <= 5):
+                    ClassificationLevel = "Two";
+                    break;
+                case int n when (n <= 10):
+                    ClassificationLevel = "Three";
+                    break;
+                case int n when (n <= 15):
+                    ClassificationLevel = "Four";
+                    break;
+                case int n when (n <= 20):
+                    ClassificationLevel = "Five";
+                    break;
+                default:
+                    ClassificationLevel = "One";
+                    break;
+            }
         }
     }
 }

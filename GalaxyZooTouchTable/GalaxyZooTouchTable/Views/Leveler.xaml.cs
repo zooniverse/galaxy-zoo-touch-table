@@ -1,4 +1,6 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GalaxyZooTouchTable.Views
@@ -11,7 +13,6 @@ namespace GalaxyZooTouchTable.Views
         public Leveler()
         {
             InitializeComponent();
-            DataContext = new LevelerViewModel();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using System;
 using System.Threading.Tasks;
@@ -18,14 +19,16 @@ namespace GalaxyZooTouchTable
         public Subject CurrentSubject { get; set; }
         public Workflow Workflow { get; }
         public Classification Classification { get; }
+        public TableUser User { get; set; }
         public string CurrentTask { get; set; }
 
-        public ClassificationPanel(UserConsole parent, Workflow workflow)
+        public ClassificationPanel(UserConsole parent, Workflow workflow, TableUser user)
         {
             InitializeComponent();
             Console = parent;
+            User = user;
             Workflow = workflow;
-            DataContext = new ClassificationPanelViewModel(workflow, parent);
+            DataContext = new ClassificationPanelViewModel(workflow, parent, user);
         }
 
         private async void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)
