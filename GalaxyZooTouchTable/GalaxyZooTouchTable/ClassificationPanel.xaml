@@ -59,7 +59,7 @@
                 <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
             </Button>
         </Grid>
-        
+
         <Grid Grid.Column="1" Panel.ZIndex="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -67,7 +67,7 @@
             </Grid.RowDefinitions>
             <Image Grid.Row="0" Source="{Binding DataContext.Avatar, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" VerticalAlignment="Top" />
         </Grid>
-        
+
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -75,7 +75,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            
+
             <Border
                 Grid.Row="1"
                 CornerRadius="5"
@@ -225,12 +225,21 @@
 
                         <Grid Grid.Column="1" Grid.Row="2" Margin="0,5">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="2*"/>
                                 <RowDefinition Height="1*"/>
                             </Grid.RowDefinitions>
-                            <Image Grid.Row="0"  Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
-                            <Viewbox Grid.Row="1">
-                                <TextBlock Text="adler.zooniverse.org" Foreground="White" HorizontalAlignment="Center" Margin="100,0,0,0"/>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45*"/>
+                                <ColumnDefinition Width="154*"/>
+                                <ColumnDefinition Width="36*"/>
+                                <ColumnDefinition Width="55*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="Images/General/qrcode.png"/>
+                            <Image Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Source="Images/General/Logo.png" HorizontalAlignment="Left" Width="81"/>
+                            <Viewbox Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" Height="8">
+                                <TextBlock Text="adler.zooniverse.org" Foreground="White"/>
                             </Viewbox>
                         </Grid>
                     </Grid>
@@ -252,14 +261,14 @@
             <Grid Grid.Row="1" Background="#55565A">
                 <Button BorderBrush="#55565A" Style="{StaticResource MoreInfoBtn}">
                 </Button>
-                    <StackPanel Orientation="Horizontal">
-                            <StackPanel.LayoutTransform>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.LayoutTransform>
                         <RotateTransform Angle="90"/>
-                            </StackPanel.LayoutTransform>
-                        <Label Content="Examples" Foreground="White" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                        </Label>
-                        <fa:ImageAwesome Margin="0,5" Icon="ArrowUp" Foreground="White"/>
-                    </StackPanel>
+                    </StackPanel.LayoutTransform>
+                    <Label Content="Examples" Foreground="White" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                    </Label>
+                    <fa:ImageAwesome Margin="0,5" Icon="ArrowUp" Foreground="White"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

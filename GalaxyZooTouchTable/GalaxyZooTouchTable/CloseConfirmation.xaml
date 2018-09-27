@@ -49,7 +49,7 @@
                     </TextBlock>
                 </Viewbox>
 
-                <Rectangle Grid.Column="1" Fill="White"/>
+                <Image Grid.Column="1" Source="Images/General/qrcode.png"/>
             </Grid>
             
             <Grid Grid.Row="3">
