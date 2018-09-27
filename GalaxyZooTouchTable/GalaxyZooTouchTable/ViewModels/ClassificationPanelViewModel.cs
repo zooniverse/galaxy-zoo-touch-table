@@ -29,6 +29,50 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SubmitClassification { get; set; }
         public ICommand ToggleLeveler { get; set; }
 
+        private double _levelTwoOpacity { get; set; } = 0.5;
+        public double LevelTwoOpacity
+        {
+            get { return _levelTwoOpacity; }
+            set
+            {
+                _levelTwoOpacity = value;
+                OnPropertyRaised("LevelTwoOpacity");
+            }
+        }
+
+        private double _levelThreeOpacity { get; set; } = 0.5;
+        public double LevelThreeOpacity
+        {
+            get { return _levelThreeOpacity; }
+            set
+            {
+                _levelThreeOpacity = value;
+                OnPropertyRaised("LevelThreeOpacity");
+            }
+        }
+
+        private double _levelFourOpacity { get; set; } = 0.5;
+        public double LevelFourOpacity
+        {
+            get { return _levelFourOpacity; }
+            set
+            {
+                _levelFourOpacity = value;
+                OnPropertyRaised("LevelFourOpacity");
+            }
+        }
+
+        private double _levelFiveOpacity { get; set; } = 0.5;
+        public double LevelFiveOpacity
+        {
+            get { return _levelFiveOpacity; }
+            set
+            {
+                _levelFiveOpacity = value;
+                OnPropertyRaised("LevelFiveOpacity");
+            }
+        }
+
         private string _classificationLevel { get; set; } = "One";
         public string ClassificationLevel
         {
@@ -62,7 +106,10 @@ namespace GalaxyZooTouchTable.ViewModels
             get { return _classificationsThisSession; }
             set
             {
-                ClassificationsUntilUpgrade -= 1;
+                if (ClassificationLevel != "Five")
+                {
+                    ClassificationsUntilUpgrade -= 1;
+                }
                 _classificationsThisSession = value;
                 OnPropertyRaised("ClassificationsThisSession");
             }
@@ -254,15 +301,19 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 case int n when (n <= 5):
                     ClassificationLevel = "Two";
+                    LevelTwoOpacity = 1;
                     break;
                 case int n when (n <= 10):
                     ClassificationLevel = "Three";
+                    LevelThreeOpacity = 1;
                     break;
                 case int n when (n <= 15):
                     ClassificationLevel = "Four";
+                    LevelFourOpacity = 1;
                     break;
                 case int n when (n <= 20):
                     ClassificationLevel = "Five";
+                    LevelFiveOpacity = 1;
                     break;
                 default:
                     ClassificationLevel = "One";
