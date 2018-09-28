@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
@@ -28,6 +29,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
         public ICommand ToggleLeveler { get; set; }
+
+        public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
 
         private double _levelTwoOpacity { get; set; } = 0.5;
         public double LevelTwoOpacity
@@ -179,6 +182,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
             Console = console;
+            LevelerVM = new LevelerViewModel(user);
 
             if (CurrentTask.Answers != null)
             {
@@ -225,7 +229,9 @@ namespace GalaxyZooTouchTable.ViewModels
             //CurrentClassification.Annotations.Add(CurrentAnnotation);
             //ApiClient client = new ApiClient();
             //await client.Classifications.Create(CurrentClassification);
+            System.Console.WriteLine(ClassificationsThisSession);
             ClassificationsThisSession += 1;
+            Messenger.Default.Send<int>(ClassificationsThisSession);
             //GetSubject();
         }
 

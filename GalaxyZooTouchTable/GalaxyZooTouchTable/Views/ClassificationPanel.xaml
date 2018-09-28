@@ -25,7 +25,7 @@
                 <RowDefinition Height="13*"/>
             </Grid.RowDefinitions>
 
-            <Views:Leveler Grid.Row="1"/>
+            <Views:Leveler Grid.Row="1" DataContext="{Binding LevelerVM}"/>
 
             <!--<Button
                 Grid.Column="1"

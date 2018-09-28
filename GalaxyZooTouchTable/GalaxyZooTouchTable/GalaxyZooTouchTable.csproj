@@ -112,6 +112,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\HidePanelConverter.cs" />
+    <Compile Include="Lib\Messenger.cs" />
+    <Compile Include="ViewModels\LevelerViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
