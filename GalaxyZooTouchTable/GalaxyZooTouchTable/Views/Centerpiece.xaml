@@ -7,7 +7,8 @@
              mc:Ignorable="d" 
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.75'}">
-    <Grid>
+    
+    <!--<Grid x:Name="NoUsers">
         <Grid.RowDefinitions>
             <RowDefinition Height="104*"/>
             <RowDefinition Height="102*"/>
@@ -39,5 +40,75 @@
         <Viewbox Grid.Row="3">
             <TextBlock Grid.Row="3" Foreground="White" Margin="0,3" Text="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
         </Viewbox>
+    </Grid>-->
+
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="15*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="Images/General/Uwhite.png" Grid.Row="2" Grid.Column="1"/>
+
+        <Separator Background="White" Grid.Row="1" Grid.Column="1" Margin="10">
+            <Separator.LayoutTransform>
+                <RotateTransform Angle="90"/>
+            </Separator.LayoutTransform>
+        </Separator>
+        <Separator Background="White" Grid.Row="3" Grid.Column="1" Margin="10">
+            <Separator.LayoutTransform>
+                <RotateTransform Angle="90"/>
+            </Separator.LayoutTransform>
+        </Separator>
+
+        <TextBlock Grid.ColumnSpan="3" Foreground="White" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
+            <TextBlock.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+
+        <Viewbox Grid.Row="1" HorizontalAlignment="Right">
+            <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" HorizontalAlignment="Right">
+            <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        </Viewbox>
+        
+        <Viewbox Grid.Row="3" HorizontalAlignment="Right">
+            <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="1" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+            <Viewbox.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Viewbox.RenderTransform>
+            <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="2" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+            <Viewbox.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Viewbox.RenderTransform>
+            <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        </Viewbox>
+
+        <Viewbox Grid.Row="3" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+            <Viewbox.RenderTransform>
+                <RotateTransform Angle="180"/>
+            </Viewbox.RenderTransform>
+            <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        </Viewbox>
+
+        <TextBlock Grid.Row="4" Grid.ColumnSpan="3" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
     </Grid>
 </UserControl>
