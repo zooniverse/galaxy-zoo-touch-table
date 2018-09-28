@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters"
-             xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -18,7 +17,6 @@
             <local:NullImageConverter x:Key="NullImageConverter"/>
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>
-            <ViewModels:ViewModelLocator x:Key="ViewModelLocator"/>
 
             <FontFamily x:Key="Karla"/>
             <FontFamily x:Key="Poppins"/>

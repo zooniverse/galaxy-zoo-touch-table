@@ -121,13 +121,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SendClassification(object sender)
         {
-            //CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
-            //CurrentClassification.Annotations.Add(CurrentAnnotation);
-            //ApiClient client = new ApiClient();
-            //await client.Classifications.Create(CurrentClassification);
+            CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
+            CurrentClassification.Annotations.Add(CurrentAnnotation);
+            ApiClient client = new ApiClient();
+            await client.Classifications.Create(CurrentClassification);
             ClassificationsThisSession += 1;
             Messenger.Default.Send<int>(ClassificationsThisSession, User);
-            //GetSubject();
+            GetSubject();
         }
 
         private bool CanSendClassification(object sender)
