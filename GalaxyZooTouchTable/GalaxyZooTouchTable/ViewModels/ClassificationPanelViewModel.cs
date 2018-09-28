@@ -13,12 +13,14 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
+        public int ClassificationsThisSession { get; set; } = 0;
         public UserConsole Console { get; set; }
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
         public Subject CurrentSubject { get; set; }
         public WorkflowTask CurrentTask { get; set; }
         public string CurrentTaskIndex { get; set; }
+        public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
@@ -28,106 +30,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
-        public ICommand ToggleLeveler { get; set; }
-
-        public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
-
-        private double _levelTwoOpacity { get; set; } = 0.5;
-        public double LevelTwoOpacity
-        {
-            get { return _levelTwoOpacity; }
-            set
-            {
-                _levelTwoOpacity = value;
-                OnPropertyRaised("LevelTwoOpacity");
-            }
-        }
-
-        private double _levelThreeOpacity { get; set; } = 0.5;
-        public double LevelThreeOpacity
-        {
-            get { return _levelThreeOpacity; }
-            set
-            {
-                _levelThreeOpacity = value;
-                OnPropertyRaised("LevelThreeOpacity");
-            }
-        }
-
-        private double _levelFourOpacity { get; set; } = 0.5;
-        public double LevelFourOpacity
-        {
-            get { return _levelFourOpacity; }
-            set
-            {
-                _levelFourOpacity = value;
-                OnPropertyRaised("LevelFourOpacity");
-            }
-        }
-
-        private double _levelFiveOpacity { get; set; } = 0.5;
-        public double LevelFiveOpacity
-        {
-            get { return _levelFiveOpacity; }
-            set
-            {
-                _levelFiveOpacity = value;
-                OnPropertyRaised("LevelFiveOpacity");
-            }
-        }
-
-        private string _classificationLevel { get; set; } = "One";
-        public string ClassificationLevel
-        {
-            get { return _classificationLevel; }
-            set
-            {
-                _classificationLevel = value;
-                OnPropertyRaised("ClassificationLevel");
-            }
-        }
-
-        private int _classificationsUntilUpgrade { get; set; } = 5;
-        public int ClassificationsUntilUpgrade
-        {
-            get { return _classificationsUntilUpgrade; }
-            set
-            {
-                if (value == 0)
-                {
-                    value = 5;
-                    LevelUp();
-                }
-                _classificationsUntilUpgrade = value;
-                OnPropertyRaised("ClassificationsUntilUpgrade");
-            }
-        }
-
-        private int _classificationsThisSession = 0;
-        public int ClassificationsThisSession
-        {
-            get { return _classificationsThisSession; }
-            set
-            {
-                if (ClassificationLevel != "Five")
-                {
-                    ClassificationsUntilUpgrade -= 1;
-                }
-                _classificationsThisSession = value;
-                OnPropertyRaised("ClassificationsThisSession");
-            }
-        }
-
-        private bool _levelerIsOpen = false;
-        public bool LevelerIsOpen
-        {
-            get { return _levelerIsOpen; }
-            set
-            {
-                _levelerIsOpen = value;
-                OnPropertyRaised("LevelerIsOpen");
-            }
-        }
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
@@ -203,12 +105,6 @@ namespace GalaxyZooTouchTable.ViewModels
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             EndSession = new CustomCommand(CloseClassifier);
-            ToggleLeveler = new CustomCommand(SlideLeveler);
-        }
-
-        private void SlideLeveler(object sender)
-        {
-            LevelerIsOpen = !LevelerIsOpen;
         }
 
         private async void CloseClassifier(object sender)
@@ -229,9 +125,8 @@ namespace GalaxyZooTouchTable.ViewModels
             //CurrentClassification.Annotations.Add(CurrentAnnotation);
             //ApiClient client = new ApiClient();
             //await client.Classifications.Create(CurrentClassification);
-            System.Console.WriteLine(ClassificationsThisSession);
             ClassificationsThisSession += 1;
-            Messenger.Default.Send<int>(ClassificationsThisSession);
+            Messenger.Default.Send<int>(ClassificationsThisSession, User);
             //GetSubject();
         }
 
@@ -295,36 +190,6 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
-        }
-
-        private void LevelUp()
-        {
-            if (ClassificationsThisSession > 25)
-            {
-                return;
-            }
-            switch (ClassificationsThisSession)
-            {
-                case int n when (n <= 5):
-                    ClassificationLevel = "Two";
-                    LevelTwoOpacity = 1;
-                    break;
-                case int n when (n <= 10):
-                    ClassificationLevel = "Three";
-                    LevelThreeOpacity = 1;
-                    break;
-                case int n when (n <= 15):
-                    ClassificationLevel = "Four";
-                    LevelFourOpacity = 1;
-                    break;
-                case int n when (n <= 20):
-                    ClassificationLevel = "Five";
-                    LevelFiveOpacity = 1;
-                    break;
-                default:
-                    ClassificationLevel = "One";
-                    break;
-            }
         }
     }
 }

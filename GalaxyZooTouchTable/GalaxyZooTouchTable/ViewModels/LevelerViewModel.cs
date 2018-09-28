@@ -1,7 +1,6 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
-using System;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -12,16 +11,29 @@ namespace GalaxyZooTouchTable.ViewModels
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; set; }
 
+        private int _classificationsUntilUpgrade { get; set; } = 6;
+        public int ClassificationsUntilUpgrade
+        {
+            get { return _classificationsUntilUpgrade; }
+            set
+            {
+                if (value <= 0)
+                {
+                    value = 6;
+                    LevelUp();
+                }
+                _classificationsUntilUpgrade = value;
+                OnPropertyRaised("ClassificationsUntilUpgrade");
+            }
+        }
+
         private int _classificationsThisSession { get; set; } = 0;
         public int ClassificationsThisSession
         {
             get { return _classificationsThisSession; }
             set
             {
-                if (ClassificationLevel != "Five")
-                {
-                    ClassificationsUntilUpgrade -= 1;
-                }
+                ClassificationsUntilUpgrade--;
                 _classificationsThisSession = value;
                 OnPropertyRaised("ClassificationsThisSession");
             }
@@ -35,66 +47,6 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 _classificationLevel = value;
                 OnPropertyRaised("ClassificationLevel");
-            }
-        }
-
-        private int _classificationsUntilUpgrade { get; set; } = 5;
-        public int ClassificationsUntilUpgrade
-        {
-            get { return _classificationsUntilUpgrade; }
-            set
-            {
-                if (value == 0)
-                {
-                    value = 5;
-                    LevelUp();
-                }
-                _classificationsUntilUpgrade = value;
-                OnPropertyRaised("ClassificationsUntilUpgrade");
-            }
-        }
-
-        private double _levelTwoOpacity { get; set; } = 0.5;
-        public double LevelTwoOpacity
-        {
-            get { return _levelTwoOpacity; }
-            set
-            {
-                _levelTwoOpacity = value;
-                OnPropertyRaised("LevelTwoOpacity");
-            }
-        }
-
-        private double _levelThreeOpacity { get; set; } = 0.5;
-        public double LevelThreeOpacity
-        {
-            get { return _levelThreeOpacity; }
-            set
-            {
-                _levelThreeOpacity = value;
-                OnPropertyRaised("LevelThreeOpacity");
-            }
-        }
-
-        private double _levelFourOpacity { get; set; } = 0.5;
-        public double LevelFourOpacity
-        {
-            get { return _levelFourOpacity; }
-            set
-            {
-                _levelFourOpacity = value;
-                OnPropertyRaised("LevelFourOpacity");
-            }
-        }
-
-        private double _levelFiveOpacity { get; set; } = 0.5;
-        public double LevelFiveOpacity
-        {
-            get { return _levelFiveOpacity; }
-            set
-            {
-                _levelFiveOpacity = value;
-                OnPropertyRaised("LevelFiveOpacity");
             }
         }
 
@@ -114,12 +66,14 @@ namespace GalaxyZooTouchTable.ViewModels
             User = user;
             LoadCommands();
 
-            Messenger.Default.Register<int>(this, OnClassificationReceived);
+            if (user != null)
+            {
+                Messenger.Default.Register<int>(this, OnClassificationReceived, user);
+            }
         }
 
         private void OnClassificationReceived(int TotalClassifications)
         {
-            Console.WriteLine(TotalClassifications);
             ClassificationsThisSession = TotalClassifications;
         }
 
@@ -141,21 +95,17 @@ namespace GalaxyZooTouchTable.ViewModels
             }
             switch (ClassificationsThisSession)
             {
-                case int n when (n <= 5):
+                case int n when (n <= 6):
                     ClassificationLevel = "Two";
-                    LevelTwoOpacity = 1;
                     break;
-                case int n when (n <= 10):
+                case int n when (n <= 12):
                     ClassificationLevel = "Three";
-                    LevelThreeOpacity = 1;
                     break;
-                case int n when (n <= 15):
+                case int n when (n <= 18):
                     ClassificationLevel = "Four";
-                    LevelFourOpacity = 1;
                     break;
-                case int n when (n <= 20):
+                case int n when (n <= 24):
                     ClassificationLevel = "Five";
-                    LevelFiveOpacity = 1;
                     break;
                 default:
                     ClassificationLevel = "One";
