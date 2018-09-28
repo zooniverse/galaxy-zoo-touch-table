@@ -48,9 +48,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ExamplesPanelViewModel()
         {
-            ExampleGalaxies.Add(GalaxyExampleFactory.Create(GalaxyType.Smooth));
-            ExampleGalaxies.Add(GalaxyExampleFactory.Create(GalaxyType.Features));
-            ExampleGalaxies.Add(GalaxyExampleFactory.Create(GalaxyType.Star));
+            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Smooth));
+            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Features));
+            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Star));
 
             LoadCommands();
         }

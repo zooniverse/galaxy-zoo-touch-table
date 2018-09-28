@@ -20,14 +20,14 @@ namespace GalaxyZooTouchTable
             DataContext = new ExamplesPanelViewModel();
         }
 
-        private void ExampleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ExampleList_SelectionChanged(object sender, SelectionChangedEventArgs eventArgs)
         {
             // if the user selects more than one item, remove that item and deny animation when the method runs again
             if (ExampleList.SelectedItems.Count > 1)
             {
                 RemoveExtraItem();
                 return;
-            } else if (e.AddedItems.Count == 0 && ExampleList.SelectedItem != null)
+            } else if (eventArgs.AddedItems.Count == 0 && ExampleList.SelectedItem != null)
             {
                 return;
             }
@@ -41,8 +41,7 @@ namespace GalaxyZooTouchTable
                 GeneralTransform generalTransform = SelectedElement.TransformToVisual(SelectedUIElement);
                 Point point = generalTransform.Transform(new Point());
 
-                TranslateTransform translateTransform
-                    = SelectedUIElement.RenderTransform as TranslateTransform;
+                TranslateTransform translateTransform = SelectedUIElement.RenderTransform as TranslateTransform;
                 if (translateTransform == null)
                 {
                     translateTransform = new TranslateTransform();
@@ -89,12 +88,12 @@ namespace GalaxyZooTouchTable
                     translateTransform.AnimateTo(new Point());
                 } else
                 {
-                    ToggleOpacity(element, false);
+                    AnimateToggleOpacity(element, false);
                 }
             }
         }
 
-        private void ToggleOpacity(ListBoxItem Element, bool HideItem)
+        private void AnimateToggleOpacity(ListBoxItem Element, bool HideItem)
         {
             DoubleAnimation animation = new DoubleAnimation();
             animation.From = HideItem ? 1.0 : 0.0;
@@ -111,7 +110,7 @@ namespace GalaxyZooTouchTable
 
                 if (ExampleList.SelectedItem != example)
                 {
-                    ToggleOpacity(boxItem, true);
+                    AnimateToggleOpacity(boxItem, true);
                 }
             }
         }
