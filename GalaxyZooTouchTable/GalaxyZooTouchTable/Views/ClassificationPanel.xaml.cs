@@ -28,7 +28,7 @@ namespace GalaxyZooTouchTable
             Console = parent;
             User = user;
             Workflow = workflow;
-            DataContext = new ClassificationPanelViewModel(workflow, parent, user);
+            //DataContext = new ClassificationPanelViewModel(workflow, parent);
         }
 
         private async void CloseButton_TouchUp(object sender, System.Windows.Input.TouchEventArgs e)

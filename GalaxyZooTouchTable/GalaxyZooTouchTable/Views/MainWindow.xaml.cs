@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
 using System;
 using System.Windows;
 
@@ -13,6 +14,7 @@ namespace GalaxyZooTouchTable
         {
             InitializeComponent();
             SetUserContext();
+            DataContext = new MainWindowViewModel();
         }
 
         private void SetUserContext()
@@ -24,12 +26,12 @@ namespace GalaxyZooTouchTable
            TableUser faceUser = TableUserFactory.Create(UserType.Face);
            TableUser earthUser = TableUserFactory.Create(UserType.Earth);
 
-           PersonUser.DataContext = personUser;
-           LightUser.DataContext = lightUser;
-           StarUser.DataContext = starUser;
-           HeartUser.DataContext = heartUser;
-           FaceUser.DataContext = faceUser;
-           EarthUser.DataContext = earthUser;
+           //PersonUser.DataContext = personUser;
+           //LightUser.DataContext = lightUser;
+           //StarUser.DataContext = starUser;
+           //HeartUser.DataContext = heartUser;
+           //FaceUser.DataContext = faceUser;
+           //EarthUser.DataContext = earthUser;
         }
 
         protected override void OnInitialized(EventArgs e)

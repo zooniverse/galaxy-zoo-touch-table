@@ -42,6 +42,17 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private bool _classifierOpen = false;
+        public bool ClassifierOpen
+        {
+            get { return _classifierOpen; }
+            set
+            {
+                _classifierOpen = value;
+                OnPropertyRaised("ClassifierOpen");
+            }
+        }
+
         private Annotation _currentAnnotation;
         public Annotation CurrentAnnotation
         {
@@ -77,13 +88,15 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ClassificationPanelViewModel(Workflow workflow, UserConsole console, TableUser user)
         {
-            GetSubject();
+            if (workflow != null)
+            {
+                GetSubject();
+            }
             LoadCommands();
             Workflow = workflow;
             User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            Console = console;
             LevelerVM = new LevelerViewModel(user);
 
             if (CurrentTask.Answers != null)
@@ -96,7 +109,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnPropertyRaised(string propertyname)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
         private void LoadCommands()
@@ -105,6 +119,12 @@ namespace GalaxyZooTouchTable.ViewModels
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             EndSession = new CustomCommand(CloseClassifier);
+            ToggleClassifier = new CustomCommand(SwitchClassifier);
+        }
+
+        private void SwitchClassifier(object sender)
+        {
+            ClassifierOpen = !ClassifierOpen;
         }
 
         private async void CloseClassifier(object sender)

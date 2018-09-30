@@ -34,8 +34,8 @@ namespace GalaxyZooTouchTable
 
         private async void StartButton_TouchUp(object sender, TouchEventArgs e)
         {
-            await ToggleClassifier();
-            AddClassifier();
+            //await ToggleClassifier();
+            //AddClassifier();
             ClassifierOpen = !ClassifierOpen;
         }
 

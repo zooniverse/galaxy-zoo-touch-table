@@ -7,9 +7,30 @@
              mc:Ignorable="d"
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.4'}">
+    <UserControl.Resources>
+        <Style x:Key="StartButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardBtn}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ClassifierOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(TranslateTransform.Y)" To="-100" Duration="0:0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
     <Button
             Background="Transparent"
-            BorderThickness="0">
+            BorderThickness="0"
+            Command="{Binding ToggleClassifier}"
+            Style="{StaticResource StartButtonStyle}">
+        <Button.RenderTransform>
+            <TranslateTransform/>
+        </Button.RenderTransform>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
@@ -38,7 +59,7 @@
                     </TextBlock.LayoutTransform>
                 </TextBlock>
                 </Viewbox>
-                <Image Grid.Row="1" Source="{Binding StartButton}" Stretch="Uniform"/>
+                <Image Grid.Row="1" Source="{Binding User.StartButton}" Stretch="Uniform"/>
                 <Viewbox Margin="0,30,0,10">
                     <TextBlock Text="HERE" FontFamily="Karla">
                         <TextBlock.LayoutTransform>

@@ -21,9 +21,9 @@
                 <ColumnDefinition Width="175*"/>
             </Grid.ColumnDefinitions>
 
-            <local:UserConsole Grid.Column="1" x:Name="PersonUser" Style="{StaticResource PersonUser}"/>
+            <local:UserConsole Grid.Column="1" x:Name="PersonUser" DataContext="{Binding PersonUserVM}" Style="{StaticResource PersonUser}"/>
 
-            <local:UserConsole Grid.Column="3" x:Name="FaceUser" Style="{StaticResource FaceUser}"/>
+            <local:UserConsole Grid.Column="3" x:Name="FaceUser" DataContext="{Binding FaceUserVM}" Style="{StaticResource FaceUser}"/>
         </Grid>
 
         <Grid VerticalAlignment="Top">
@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="175*"/>
             </Grid.ColumnDefinitions>
 
-            <local:UserConsole Grid.Column="1" x:Name="HeartUser" Style="{StaticResource HeartUser}">
+            <local:UserConsole Grid.Column="1" x:Name="HeartUser" DataContext="{Binding HeartUserVM}" Style="{StaticResource HeartUser}">
                 <UserControl.LayoutTransform>
                     <TransformGroup>
                         <RotateTransform Angle="180"/>
@@ -43,7 +43,7 @@
                 </UserControl.LayoutTransform>
             </local:UserConsole>
 
-            <local:UserConsole Grid.Column="3" x:Name="StarUser" Style="{StaticResource StarUser}">
+            <local:UserConsole Grid.Column="3" x:Name="StarUser" DataContext="{Binding StarUserVM}" Style="{StaticResource StarUser}">
                 <UserControl.LayoutTransform>
                     <TransformGroup>
                         <RotateTransform Angle="180"/>
@@ -52,7 +52,7 @@
             </local:UserConsole>
         </Grid>
 
-        <local:UserConsole HorizontalAlignment="Left" x:Name="EarthUser" Style="{StaticResource EarthUser}">
+        <local:UserConsole HorizontalAlignment="Left" x:Name="EarthUser" DataContext="{Binding EarthUserVM}" Style="{StaticResource EarthUser}">
             <UserControl.LayoutTransform>
                 <TransformGroup>
                     <RotateTransform Angle="90"/>
@@ -60,7 +60,7 @@
             </UserControl.LayoutTransform>
         </local:UserConsole>
 
-        <local:UserConsole HorizontalAlignment="Right" x:Name="LightUser" Style="{StaticResource LightUser}">
+        <local:UserConsole HorizontalAlignment="Right" x:Name="LightUser" DataContext="{Binding LightUserVM}" Style="{StaticResource LightUser}">
             <UserControl.LayoutTransform>
                 <TransformGroup>
                     <RotateTransform Angle="-90"/>
