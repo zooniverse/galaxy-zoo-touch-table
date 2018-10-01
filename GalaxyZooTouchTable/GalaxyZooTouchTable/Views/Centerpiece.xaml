@@ -112,48 +112,45 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
 
-            <Image Source="Images/General/Uwhite.png" Grid.Row="2" Grid.Column="1"/>
+            <Image Source="Images/General/Uwhite.png" Grid.Row="3" Grid.Column="1"/>
 
-            <Separator Background="White" Grid.Row="1" Grid.Column="1" Margin="10">
+            <Separator Background="White" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
                 <Separator.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </Separator.LayoutTransform>
             </Separator>
-            <Separator Background="White" Grid.Row="3" Grid.Column="1" Margin="10">
+            <Separator Background="White" Grid.Row="4" Grid.Column="1" Margin="0,10,0,0">
                 <Separator.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </Separator.LayoutTransform>
             </Separator>
 
-            <TextBlock Grid.ColumnSpan="3" Foreground="White" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
-                <TextBlock.RenderTransform>
-                    <RotateTransform Angle="180"/>
-                </TextBlock.RenderTransform>
-            </TextBlock>
-
-            <Viewbox Grid.Row="1" HorizontalAlignment="Right">
-                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            <Viewbox Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Foreground="White" RenderTransformOrigin="0.5,0.5" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
+                    <TextBlock.RenderTransform>
+                        <RotateTransform Angle="180"/>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
             </Viewbox>
 
             <Viewbox Grid.Row="2" HorizontalAlignment="Right">
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="3" HorizontalAlignment="Right">
                 <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
             </Viewbox>
         
-            <Viewbox Grid.Row="3" HorizontalAlignment="Right">
-                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-            </Viewbox>
-
-            <Viewbox Grid.Row="1" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
-                <Viewbox.RenderTransform>
-                    <RotateTransform Angle="180"/>
-                </Viewbox.RenderTransform>
+            <Viewbox Grid.Row="4" HorizontalAlignment="Right">
                 <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
             </Viewbox>
 
@@ -161,17 +158,26 @@
                 <Viewbox.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </Viewbox.RenderTransform>
-                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
             </Viewbox>
 
             <Viewbox Grid.Row="3" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
                 <Viewbox.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </Viewbox.RenderTransform>
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="4" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+                <Viewbox.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Viewbox.RenderTransform>
                 <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
             </Viewbox>
 
-            <TextBlock Grid.Row="4" Grid.ColumnSpan="3" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            <Viewbox Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Foreground="White" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
         </Grid>
     </Grid>
 
