@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
              mc:Ignorable="d" 
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.75'}">
@@ -12,22 +13,60 @@
         <Style x:Key="JoinMessageStyle" TargetType="{x:Type Grid}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value ="False">
-                    <Setter Property="Visibility" Value="Hidden"/>
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="0.5" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ParallelTimeline BeginTime="0:0:0.25">
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" Duration="0:0:0.25"/>
+                                </ParallelTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="VoteMessageStyle" TargetType="{x:Type Grid}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value ="True">
-                    <Setter Property="Visibility" Value="Hidden"/>
+                <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value ="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ParallelTimeline BeginTime="0:0:0.25">
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.25"/>
+                                </ParallelTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
     <Grid>
-        <Grid Style="{StaticResource JoinMessageStyle}">
+        <Grid Style="{StaticResource JoinMessageStyle}" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform/>
+            </Grid.RenderTransform>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="104*"/>
                 <RowDefinition Height="102*"/>
@@ -61,7 +100,11 @@
             </Viewbox>
         </Grid>
         
-        <Grid Style="{StaticResource VoteMessageStyle}">
+        <Grid Style="{StaticResource VoteMessageStyle}" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform ScaleX="0" ScaleY="0.5"/>
+            </Grid.RenderTransform>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="15*"/>
                 <ColumnDefinition Width="3*"/>
