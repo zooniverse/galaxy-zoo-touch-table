@@ -17,7 +17,6 @@
             <local:NullImageConverter x:Key="NullImageConverter"/>
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>
-
             <FontFamily x:Key="Karla"/>
             <FontFamily x:Key="Poppins"/>
         </ResourceDictionary>

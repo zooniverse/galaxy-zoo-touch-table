@@ -4,20 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             x:Name="ButtonContainer"
              mc:Ignorable="d"
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.4'}">
     <UserControl.Resources>
         <Style x:Key="StartButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardBtn}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=ClassifierOpen}" Value="True">
+                <DataTrigger Binding="{Binding Path=ClassifierOpen}" Value="False">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(TranslateTransform.Y)" To="-100" Duration="0:0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0:0.5">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase EasingMode="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -29,7 +41,7 @@
             Command="{Binding ToggleClassifier}"
             Style="{StaticResource StartButtonStyle}">
         <Button.RenderTransform>
-            <TranslateTransform/>
+            <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
         </Button.RenderTransform>
         <Grid>
             <Grid.RowDefinitions>

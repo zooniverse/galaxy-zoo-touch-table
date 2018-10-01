@@ -8,7 +8,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<TableUser> ActiveUsers { get; set; }
+        public ObservableCollection<TableUser> ActiveUsers { get; set; } = new ObservableCollection<TableUser>();
         public Workflow Workflow { get; set; }
         public Project Project { get; set; }
 
@@ -102,12 +102,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (Workflow != null)
             {
-                PersonUserVM = new ClassificationPanelViewModel(Workflow, personUser);
-                LightUserVM = new ClassificationPanelViewModel(Workflow, lightUser);
-                StarUserVM = new ClassificationPanelViewModel(Workflow, starUser);
-                HeartUserVM = new ClassificationPanelViewModel(Workflow, heartUser);
-                FaceUserVM = new ClassificationPanelViewModel(Workflow, faceUser);
-                EarthUserVM = new ClassificationPanelViewModel(Workflow, earthUser);
+                PersonUserVM = new ClassificationPanelViewModel(Workflow, personUser, ActiveUsers);
+                LightUserVM = new ClassificationPanelViewModel(Workflow, lightUser, ActiveUsers);
+                StarUserVM = new ClassificationPanelViewModel(Workflow, starUser, ActiveUsers);
+                HeartUserVM = new ClassificationPanelViewModel(Workflow, heartUser, ActiveUsers);
+                FaceUserVM = new ClassificationPanelViewModel(Workflow, faceUser, ActiveUsers);
+                EarthUserVM = new ClassificationPanelViewModel(Workflow, earthUser, ActiveUsers);
             }
         }
 

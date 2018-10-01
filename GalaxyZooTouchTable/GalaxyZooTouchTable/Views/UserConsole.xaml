@@ -6,11 +6,45 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              d:DesignHeight="366"
              d:DesignWidth="551"
+             x:Name="MainConsole"
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.363'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.516'}"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <Style x:Key="ClassificationPanelStyle" TargetType="{x:Type local:ClassificationPanel}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ClassifierOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UserControl.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.5">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuinticEase EasingMode="EaseIn"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UserControl.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid x:Name="ControlPanel">
-        <local:StartButton x:Name="StartButton" TouchUp="StartButton_TouchUp" VerticalAlignment="Bottom"/>
+        <local:StartButton VerticalAlignment="Bottom"/>
+
+        <local:ClassificationPanel VerticalAlignment="Bottom" Style="{StaticResource ClassificationPanelStyle}">
+            <local:ClassificationPanel.RenderTransform>
+                <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=MainConsole, Converter={StaticResource HidePanelConverter}, ConverterParameter='1.0'}"/>
+            </local:ClassificationPanel.RenderTransform>
+        </local:ClassificationPanel>
     </Grid>
 </UserControl>

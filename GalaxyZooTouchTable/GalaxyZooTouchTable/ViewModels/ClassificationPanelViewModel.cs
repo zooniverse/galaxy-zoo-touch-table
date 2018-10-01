@@ -5,6 +5,7 @@ using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -24,6 +25,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
+        public ObservableCollection<TableUser> ActiveUsers { get; set; }
 
         public ICommand CloseConfirmationBox { get; set; }
         public ICommand EndSession { get; set; }
@@ -86,7 +88,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, UserConsole console, TableUser user)
+        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> activeUsers)
         {
             if (workflow != null)
             {
@@ -98,6 +100,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
             LevelerVM = new LevelerViewModel(user);
+            ActiveUsers = activeUsers;
 
             if (CurrentTask.Answers != null)
             {
@@ -119,19 +122,18 @@ namespace GalaxyZooTouchTable.ViewModels
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             EndSession = new CustomCommand(CloseClassifier);
-            ToggleClassifier = new CustomCommand(SwitchClassifier);
         }
 
         private void SwitchClassifier(object sender)
         {
             ClassifierOpen = !ClassifierOpen;
+            ActiveUsers.Add(User);
         }
 
         private async void CloseClassifier(object sender)
         {
-            await Console.Classifier.MoveClassifier();
-            Console.MoveButton();
-            Console.ClassifierOpen = !Console.ClassifierOpen;
+            ClassifierOpen = !ClassifierOpen;
+            CloseConfirmationVisible = false;
         }
 
         private void ToggleCloseConfirmation(object sender)
