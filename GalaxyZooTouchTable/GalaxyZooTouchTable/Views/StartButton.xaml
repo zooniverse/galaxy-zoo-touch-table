@@ -38,7 +38,7 @@
     <Button
             Background="Transparent"
             BorderThickness="0"
-            Command="{Binding ToggleClassifier}"
+            Command="{Binding OpenClassifier}"
             Style="{StaticResource StartButtonStyle}">
         <Button.RenderTransform>
             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>

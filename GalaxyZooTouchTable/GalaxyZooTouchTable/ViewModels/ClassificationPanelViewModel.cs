@@ -28,10 +28,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
 
         public ICommand CloseConfirmationBox { get; set; }
-        public ICommand EndSession { get; set; }
+        public ICommand CloseClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
+        public ICommand OpenClassifier { get; set; }
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
@@ -121,19 +122,28 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectAnswer = new CustomCommand(ChooseAnswer, CanSelectAnswer);
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
-            EndSession = new CustomCommand(CloseClassifier);
+            CloseClassifier = new CustomCommand(OnCloseClassifier);
+            OpenClassifier = new CustomCommand(OnOpenClassifier);
         }
 
-        private void SwitchClassifier(object sender)
+        private void OnOpenClassifier(object sender)
         {
-            ClassifierOpen = !ClassifierOpen;
+            ClassifierOpen = true;
             ActiveUsers.Add(User);
         }
 
-        private async void CloseClassifier(object sender)
+        private void OnCloseClassifier(object sender)
         {
-            ClassifierOpen = !ClassifierOpen;
+            ClassifierOpen = false;
             CloseConfirmationVisible = false;
+            foreach (TableUser user in ActiveUsers)
+            {
+                if (User == user)
+                {
+                    ActiveUsers.Remove(user);
+                    break;
+                }
+            }
         }
 
         private void ToggleCloseConfirmation(object sender)

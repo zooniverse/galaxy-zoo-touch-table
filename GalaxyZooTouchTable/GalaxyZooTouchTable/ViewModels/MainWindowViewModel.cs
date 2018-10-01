@@ -2,6 +2,7 @@
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -11,6 +12,17 @@ namespace GalaxyZooTouchTable.ViewModels
         public ObservableCollection<TableUser> ActiveUsers { get; set; } = new ObservableCollection<TableUser>();
         public Workflow Workflow { get; set; }
         public Project Project { get; set; }
+
+        private bool _showJoinMessage = true;
+        public bool ShowJoinMessage
+        {
+            get { return _showJoinMessage; }
+            set
+            {
+                _showJoinMessage = value;
+                OnPropertyRaised("ShowJoinMessage");
+            }
+        }
 
         private ClassificationPanelViewModel _personUserVM;
         public ClassificationPanelViewModel PersonUserVM
@@ -81,6 +93,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public MainWindowViewModel()
         {
             GetWorkflow();
+
+            ActiveUsers.CollectionChanged += ActiveUsersChanged;
         }
 
         private async void GetWorkflow()
@@ -89,6 +103,18 @@ namespace GalaxyZooTouchTable.ViewModels
             Workflow = await client.Workflows.Get(Config.WorkflowId);
 
             SetChildDataContext();
+        }
+
+        private void ActiveUsersChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (ActiveUsers.Count > 0)
+            {
+                ShowJoinMessage = false;
+            }
+            else
+            {
+                ShowJoinMessage = true;
+            }
         }
 
         private void SetChildDataContext()
