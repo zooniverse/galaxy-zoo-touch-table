@@ -6,26 +6,26 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <Grid Background="{StaticResource MedGrayColor}">
+    <Grid Background="{StaticResource DarkGrayColor}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="12*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="24*"/>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="120*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="12*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="16*"/>
         </Grid.ColumnDefinitions>
 
-        <Viewbox Grid.ColumnSpan="3">
-            <TextBlock Margin="0,0,15,0" Text="Help classify the galaxy below" Foreground="White" FontWeight="Bold" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+        <Viewbox Grid.ColumnSpan="3" HorizontalAlignment="Left">
+            <TextBlock Text="Help classify the galaxy below" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
         </Viewbox>
 
-        <Viewbox Grid.Row="1" Grid.ColumnSpan="3">
+        <Viewbox Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <TextBlock Text="Please consider only the object in the center of the image" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
         </Viewbox>
 
@@ -42,24 +42,25 @@
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="0,3"/>
+                    <Setter Property="Margin" Value="3"/>
 
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListViewItem">
                                 <Grid>
+                                    <Grid.Effect>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
+                                    </Grid.Effect>
                                     <Grid.OpacityMask>
                                         <VisualBrush Visual="{Binding ElementName=Bg}" />
                                     </Grid.OpacityMask>
                                     <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
-                                    <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
+                                    <Button BorderBrush="Transparent" HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
                                         <StackPanel Orientation="Horizontal">
                                             <Grid Background="#FFE5FF4D">
                                                 <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
                                             </Grid>
-                                            <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                                            <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                         </StackPanel>
                                     </Button>
                                 </Grid>
