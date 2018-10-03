@@ -10,6 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; set; }
+        const string MAX_LEVEL = "Five";
 
         private int _classificationsUntilUpgrade { get; set; } = 6;
         public int ClassificationsUntilUpgrade
@@ -89,7 +90,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LevelUp()
         {
-            if (ClassificationsThisSession > 25)
+            if (ClassificationLevel == MAX_LEVEL)
             {
                 return;
             }
@@ -105,7 +106,7 @@ namespace GalaxyZooTouchTable.ViewModels
                     ClassificationLevel = "Four";
                     break;
                 case int n when (n <= 24):
-                    ClassificationLevel = "Five";
+                    ClassificationLevel = MAX_LEVEL;
                     break;
                 default:
                     ClassificationLevel = "One";

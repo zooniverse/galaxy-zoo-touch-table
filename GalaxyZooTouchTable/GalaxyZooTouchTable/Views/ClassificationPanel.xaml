@@ -27,6 +27,7 @@
 
             <Views:Leveler Grid.Row="1" DataContext="{Binding LevelerVM}"/>
 
+            <!--October 2018: The notification bell design is pending-->
             <!--<Button
                 Grid.Column="1"
                 Grid.Row="2"
