@@ -107,14 +107,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ActiveUsersChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (ActiveUsers.Count > 0)
-            {
-                ShowJoinMessage = false;
-            }
-            else
-            {
-                ShowJoinMessage = true;
-            }
+            ShowJoinMessage = ActiveUsers.Count <= 0;
         }
 
         private void SetChildDataContext()

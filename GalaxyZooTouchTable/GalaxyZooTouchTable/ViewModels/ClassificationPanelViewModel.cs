@@ -15,7 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
         public int ClassificationsThisSession { get; set; } = 0;
-        public UserConsole Console { get; set; }
+        public ObservableCollection<TableUser> ActiveUsers { get; set; }
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
         public Subject CurrentSubject { get; set; }
@@ -25,14 +25,13 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
-        public ObservableCollection<TableUser> ActiveUsers { get; set; }
 
-        public ICommand CloseConfirmationBox { get; set; }
         public ICommand CloseClassifier { get; set; }
+        public ICommand CloseConfirmationBox { get; set; }
+        public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
-        public ICommand OpenClassifier { get; set; }
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
@@ -136,11 +135,11 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
-            foreach (TableUser user in ActiveUsers)
+            foreach (TableUser ActiveUser in ActiveUsers)
             {
-                if (User == user)
+                if (User == ActiveUser)
                 {
-                    ActiveUsers.Remove(user);
+                    ActiveUsers.Remove(ActiveUser);
                     break;
                 }
             }
