@@ -119,8 +119,7 @@
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
-    <Compile Include="Converters\HidePanelConverter.cs" />
-    <Compile Include="ExamplesPanel.xaml.cs">
+    <Compile Include="Views\ExamplesPanel.xaml.cs">
       <DependentUpon>ExamplesPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lib\TranslateTransformExtensions.cs" />
@@ -233,7 +232,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExamplesPanel.xaml">
+    <Page Include="Views\ExamplesPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
