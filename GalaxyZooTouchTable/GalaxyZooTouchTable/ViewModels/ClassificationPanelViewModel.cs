@@ -16,6 +16,11 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public int ClassificationsThisSession { get; set; } = 0;
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
+        const int SUBJECT_VIEW = 0;
+        const int SUMMARY_VIEW = 1;
+        const string SUBMIT_TEXT = "Submit classification";
+        const string CONTINUE_TEXT = "Classify another galaxy";
+
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
         public Subject CurrentSubject { get; set; }
@@ -29,9 +34,33 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseConfirmationBox { get; set; }
         public ICommand OpenClassifier { get; set; }
+        public ICommand ContinueClassification { get; set; }
+        public ICommand EndSession { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
+
+        private string _successBtnText = SUBMIT_TEXT;
+        public string SuccessBtnText
+        {
+            get { return _successBtnText; }
+            set
+            {
+                _successBtnText = value;
+                OnPropertyRaised("SuccessBtnText");
+            }
+        }
+
+        private int _switchView = SUBJECT_VIEW;
+        public int SwitchView
+        {
+            get { return _switchView; }
+            set
+            {
+                _switchView = value;
+                OnPropertyRaised("SwitchView");
+            }
+        } 
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
@@ -119,7 +148,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadCommands()
         {
             SelectAnswer = new CustomCommand(ChooseAnswer, CanSelectAnswer);
-            SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
+            ContinueClassification = new CustomCommand(OnContinueClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
@@ -150,15 +179,25 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseConfirmationVisible = !CloseConfirmationVisible;
         }
 
-        private async void SendClassification(object sender)
+        private async void OnContinueClassification(object sender)
         {
-            CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
-            CurrentClassification.Annotations.Add(CurrentAnnotation);
-            ApiClient client = new ApiClient();
-            await client.Classifications.Create(CurrentClassification);
-            ClassificationsThisSession += 1;
-            Messenger.Default.Send<int>(ClassificationsThisSession, User);
-            GetSubject();
+            if (SwitchView == SUBJECT_VIEW)
+            {
+                //CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
+                //CurrentClassification.Annotations.Add(CurrentAnnotation);
+                //ApiClient client = new ApiClient();
+                //await client.Classifications.Create(CurrentClassification);
+                //GetSubject();
+                ClassificationsThisSession += 1;
+                Messenger.Default.Send<int>(ClassificationsThisSession, User);
+                SwitchView = SUMMARY_VIEW;
+                SuccessBtnText = CONTINUE_TEXT;
+            }
+            else
+            {
+                SwitchView = SUBJECT_VIEW;
+                SuccessBtnText = SUBMIT_TEXT;
+            }
         }
 
         private bool CanSendClassification(object sender)
