@@ -1,6 +1,9 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
+using GraphQL.Client;
+using GraphQL.Client.Http;
+using GraphQL.Common.Request;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System;
@@ -15,7 +18,10 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
         public int ClassificationsThisSession { get; set; } = 0;
+<<<<<<< HEAD
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
+=======
+>>>>>>> Successful GraphQL Query
         const int SUBJECT_VIEW = 0;
         const int SUMMARY_VIEW = 1;
         const string SUBMIT_TEXT = "Submit classification";
@@ -30,6 +36,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
+        public UserConsole Console { get; set; }
+        public GraphQLHttpClient GraphQLClient { get;set;} = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
 
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseConfirmationBox { get; set; }
@@ -39,6 +47,17 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
+
+        private int _totalVotes = 0;
+        public int TotalVotes
+        {
+            get { return _totalVotes; }
+            set
+            {
+                _totalVotes = value;
+                OnPropertyRaised("TotalVotes");
+            }
+        }
 
         private string _successBtnText = SUBMIT_TEXT;
         public string SuccessBtnText
@@ -192,11 +211,45 @@ namespace GalaxyZooTouchTable.ViewModels
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 SwitchView = SUMMARY_VIEW;
                 SuccessBtnText = CONTINUE_TEXT;
+
+                GraphQLRequest();
             }
             else
             {
                 SwitchView = SUBJECT_VIEW;
                 SuccessBtnText = SUBMIT_TEXT;
+            }
+        }
+
+        private async void GraphQLRequest()
+        {
+            var answersRequest = new GraphQLRequest
+            {
+                Query = @"
+                    query AnswerCount($workflowId: ID!, $subjectId: ID!) {
+                      workflow(id: $workflowId) {
+                        subject_reductions(subjectId: $subjectId, reducerKey: T0_Stats) {
+                            data
+                        }
+                      }
+                    }",
+                OperationName = "AnswerCount",
+                Variables = new
+                {
+                    workflowId = Workflow.Id,
+                    subjectId = CurrentSubject.Id
+                }
+            };
+            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
+            var reductions = graphQLResponse.Data.workflow.subject_reductions;
+            var data = reductions.First.data;
+            System.Console.WriteLine(data);
+            TotalVotes = 0;
+            foreach(var count in data)
+            {
+                System.Console.WriteLine(count.Value.GetType());
+                int answerCount = (int)count.Value;
+                TotalVotes += answerCount;
             }
         }
 

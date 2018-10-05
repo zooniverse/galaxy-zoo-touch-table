@@ -8,8 +8,8 @@
              d:DesignHeight="600" d:DesignWidth="800">
     <Grid Background="{StaticResource DarkGrayColor}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="3*"/>
-            <RowDefinition Height="4*"/>
             <RowDefinition Height="6*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="3*"/>
@@ -55,7 +55,11 @@
             </Border>
 
             <Viewbox Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Top" Margin="10,0,0,0">
-                <TextBlock Text="Here are the results so far (19/25)" FontWeight="Bold" Foreground="White"/>
+                <TextBlock FontWeight="Bold" Foreground="White">
+                    <Run Text="Here are the results so far ("/>
+                    <Run Text="{Binding TotalVotes}"/>
+                    <Run Text="/25)"/>
+                </TextBlock>
             </Viewbox>
 
             <Viewbox Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,5,0">
@@ -70,9 +74,9 @@
                 <TextBlock Text="STAR OR ARTIFACT" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" />
             </Viewbox>
 
-            <Border Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="5" Background="Gray"></Border>
-            <Border Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="5" Background="Gray"></Border>
-            <Border Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" CornerRadius="5" Background="Gray"></Border>
+            <ProgressBar Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="5" Background="Gray"></ProgressBar>
+            <ProgressBar Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="2" Background="Gray"></ProgressBar>
+            <ProgressBar Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="3" Background="Gray"></ProgressBar>
         </Grid>
         
         <Separator Grid.Row="3" Grid.ColumnSpan="3" Foreground="Gray"/>
