@@ -74,8 +74,20 @@
                 <TextBlock Text="STAR OR ARTIFACT" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" />
             </Viewbox>
 
-            <ProgressBar Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="0" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
-
+            <ProgressBar x:Name="ProgressBar" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="{Binding TestThis}" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
+            <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                <Grid.Width>
+                    <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
+                        <Binding ElementName="ProgressBar" Path="ActualWidth"/>
+                        <Binding ElementName="ProgressBar" Path="Value"/>
+                        <Binding ElementName="ProgressBar" Path="Maximum"/>
+                    </MultiBinding>
+                </Grid.Width>
+                <Viewbox HorizontalAlignment="Right" Margin="2,0">
+                    <TextBlock Text="20" HorizontalAlignment="Right" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                </Viewbox>
+            </Grid>
+            
             <ProgressBar Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="2" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
 
             <ProgressBar Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="3" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>

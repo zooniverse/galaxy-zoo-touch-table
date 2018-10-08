@@ -161,6 +161,7 @@
       <DependentUpon>ClassificationSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
+    <Compile Include="Converters\HidePanelConverter.cs" />
     <Compile Include="Converters\ProgressBarWidthConverter.cs" />
     <Compile Include="Views\ExamplesPanel.xaml.cs">
       <DependentUpon>ExamplesPanel.xaml</DependentUpon>

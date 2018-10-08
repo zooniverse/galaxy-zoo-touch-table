@@ -1,7 +1,6 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
-using GraphQL.Client;
 using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using PanoptesNetClient;
@@ -18,10 +17,8 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
         public int ClassificationsThisSession { get; set; } = 0;
-<<<<<<< HEAD
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
-=======
->>>>>>> Successful GraphQL Query
+
         const int SUBJECT_VIEW = 0;
         const int SUMMARY_VIEW = 1;
         const string SUBMIT_TEXT = "Submit classification";
@@ -48,7 +45,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
 
-        private int _totalVotes = 25;
+        private int _totalVotes = 0;
         public int TotalVotes
         {
             get { return _totalVotes; }
