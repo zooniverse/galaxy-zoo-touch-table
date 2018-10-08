@@ -74,9 +74,11 @@
                 <TextBlock Text="STAR OR ARTIFACT" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" />
             </Viewbox>
 
-            <ProgressBar Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="5" Background="Gray"></ProgressBar>
-            <ProgressBar Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="2" Background="Gray"></ProgressBar>
-            <ProgressBar Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="3" Background="Gray"></ProgressBar>
+            <ProgressBar Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="0" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
+
+            <ProgressBar Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="2" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
+
+            <ProgressBar Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="3" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
         </Grid>
         
         <Separator Grid.Row="3" Grid.ColumnSpan="3" Foreground="Gray"/>

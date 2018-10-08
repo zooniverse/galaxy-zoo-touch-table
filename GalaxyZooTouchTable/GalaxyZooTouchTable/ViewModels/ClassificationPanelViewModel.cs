@@ -48,7 +48,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
 
-        private int _totalVotes = 0;
+        private int _totalVotes = 25;
         public int TotalVotes
         {
             get { return _totalVotes; }
