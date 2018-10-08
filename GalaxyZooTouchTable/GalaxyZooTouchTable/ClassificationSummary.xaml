@@ -87,8 +87,7 @@
                                             <TextBlock Text="{Binding Label}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Foreground="White" Typography.Capitals="AllSmallCaps"/>
                                         </Viewbox>
 
-                                        <ProgressBar x:Name="ProgressBar" Grid.Column="2" Minimum="0" Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationSummary}}, Path=DataContext.TotalVotes}" Value="{Binding AnswerCount}" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
-
+                                        <ProgressBar x:Name="ProgressBar" Style="{StaticResource RoundedProgressBar}" Grid.Column="2" Minimum="0" Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationSummary}}, Path=DataContext.TotalVotes}" Value="{Binding AnswerCount}" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
                                         <Grid Grid.Column="2" HorizontalAlignment="Left">
                                             <Grid.Width>
                                                 <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
