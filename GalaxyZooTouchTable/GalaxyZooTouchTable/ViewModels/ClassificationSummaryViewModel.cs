@@ -1,18 +1,19 @@
-﻿using GraphQL.Client;
+﻿using GalaxyZooTouchTable.Models;
+using GraphQL.Client;
 using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using PanoptesNetClient.Models;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationSummaryViewModel : INotifyPropertyChanged
     {
+        public List<AnswerButton> Answers {get;set;}
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
         public Subject Subject { get; set; }
         public Workflow Workflow { get; set; }
-
-        public int TestThis { get; set; } = 5;
 
         private int _answerOneCount = 0;
         public int AnswerOneCount
@@ -69,8 +70,9 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationSummaryViewModel(Workflow workflow, Subject subject)
+        public ClassificationSummaryViewModel(Workflow workflow, Subject subject, List<AnswerButton> answers)
         {
+            Answers = answers;
             Workflow = workflow;
             Subject = subject;
             SubjectImageSource = Subject.GetSubjectLocation();
@@ -103,7 +105,12 @@ namespace GalaxyZooTouchTable.ViewModels
             TotalVotes = 0;
             foreach (var count in data)
             {
+                var index = System.Convert.ToInt32(count.Name);
+                AnswerButton test = Answers[index];
+
                 int answerCount = (int)count.Value;
+                test.AnswerCount = answerCount;
+
                 TotalVotes += answerCount;
             }
         }

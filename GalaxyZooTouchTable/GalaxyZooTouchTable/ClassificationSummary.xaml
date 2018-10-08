@@ -74,7 +74,7 @@
                 <TextBlock Text="STAR OR ARTIFACT" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" />
             </Viewbox>
 
-            <ProgressBar x:Name="ProgressBar" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="{Binding TestThis}" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
+            <ProgressBar x:Name="ProgressBar" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Minimum="0" Maximum="{Binding TotalVotes}" Value="8" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
             <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" HorizontalAlignment="Left">
                 <Grid.Width>
                     <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
@@ -84,7 +84,7 @@
                     </MultiBinding>
                 </Grid.Width>
                 <Viewbox HorizontalAlignment="Right" Margin="2,0">
-                    <TextBlock Text="20" HorizontalAlignment="Right" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                    <TextBlock Text="8" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                 </Viewbox>
             </Grid>
             

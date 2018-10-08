@@ -10,6 +10,7 @@ namespace GalaxyZooTouchTable.Models
         public string Label { get; set; }
         public string Url { get; set; }
         public int Index { get; set; }
+        public int AnswerCount { get; set; } = 0;
 
         /// <summary>
         /// The Galaxy Zoo workflow contains image links in Markdown. 
