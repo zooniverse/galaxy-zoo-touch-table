@@ -1,8 +1,7 @@
-﻿using PanoptesNetClient;
+﻿using GalaxyZooTouchTable.Models;
+using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,7 +58,8 @@ namespace GalaxyZooTouchTable
 
         private void AddClassifier()
         {
-            ClassificationPanel panel = new ClassificationPanel(this, Workflow);
+            TableUser user = DataContext as TableUser;
+            ClassificationPanel panel = new ClassificationPanel(this, Workflow, user);
             Classifier = panel;
             ControlPanel.Children.Add(panel);
             panel.MoveClassifier();

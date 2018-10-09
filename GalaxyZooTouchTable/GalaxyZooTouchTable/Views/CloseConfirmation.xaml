@@ -19,7 +19,7 @@
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,10" Source="Images/General/Logo.png"/>
+            <Image Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,10" Source="../Images/General/Logo.png"/>
 
             <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="Black"/>
 
@@ -49,7 +49,7 @@
                     </TextBlock>
                 </Viewbox>
 
-                <Image Grid.Column="1" Source="Images/General/qrcode.png"/>
+                <Image Grid.Column="1" Source="../Images/General/qrcode.png"/>
             </Grid>
             
             <Grid Grid.Row="3">

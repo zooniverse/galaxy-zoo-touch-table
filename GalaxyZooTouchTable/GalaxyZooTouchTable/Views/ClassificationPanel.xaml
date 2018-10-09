@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              mc:Ignorable="d" 
              d:DesignWidth="558"
@@ -25,29 +25,10 @@
                 <RowDefinition Height="13*"/>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+            <Views:Leveler Grid.Row="1" DataContext="{Binding LevelerVM}"/>
 
-            <Border
-                Grid.Row="1"
-                Grid.Column="1"
-                Background="Black"
-                CornerRadius="5,0,0,5"
-                BorderThickness="1"
-                Padding="0">
-
-                <StackPanel>
-                    <Rectangle Fill="{Binding DataContext.ThemeColor, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" Margin="1" Stretch="UniformToFill"/>
-                    <Rectangle Fill="{Binding DataContext.ThemeColor, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" Margin="1" Stretch="UniformToFill"/>
-                    <Rectangle Fill="{Binding DataContext.ThemeColor, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" Margin="1" Stretch="UniformToFill"/>
-                    <Rectangle Fill="{Binding DataContext.ThemeColor, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" Margin="1" Stretch="UniformToFill"/>
-                    <Rectangle Fill="{Binding DataContext.ThemeColor, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" Margin="1" Stretch="UniformToFill"/>
-                </StackPanel>
-            </Border>
-
-            <Button
+            <!--October 2018: The notification bell design is pending-->
+            <!--<Button
                 Grid.Column="1"
                 Grid.Row="2"
                 Margin="0,5"
@@ -57,7 +38,7 @@
                 HorizontalAlignment="Right">
 
                 <fa:ImageAwesome Icon="BellOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
-            </Button>
+            </Button>-->
         </Grid>
 
         <Grid Grid.Column="1" Panel.ZIndex="2">
@@ -236,11 +217,11 @@
                                 <ColumnDefinition Width="55*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="Images/General/qrcode.png"/>
-                            <Image Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Source="Images/General/Logo.png" HorizontalAlignment="Left" Width="81"/>
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="../Images/General/qrcode.png"/>
+                            <Image Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Source="../Images/General/Logo.png" HorizontalAlignment="Left" Width="81"/>
                             <Viewbox Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" Height="8">
-                                <TextBlock Text="adler.zooniverse.org" Foreground="White"/>
-                            </Viewbox>
+                                    <TextBlock Text="adler.zooniverse.org" Foreground="White"/>
+                                </Viewbox>
                         </Grid>
                     </Grid>
                 </Grid>

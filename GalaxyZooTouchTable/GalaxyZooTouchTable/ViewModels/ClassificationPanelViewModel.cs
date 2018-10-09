@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
@@ -12,28 +13,28 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        public List<Subject> Subjects { get; set; } = new List<Subject>();
-        public Workflow Workflow { get; }
-        public WorkflowTask CurrentTask { get; set; }
-        public Classification CurrentClassification { get; set; }
-        public List<AnswerButton> CurrentAnswers { get; set; }
-        public Subject CurrentSubject { get; set; }
-        public string CurrentTaskIndex { get; set; }
+        public int ClassificationsThisSession { get; set; } = 0;
         public UserConsole Console { get; set; }
+        public List<AnswerButton> CurrentAnswers { get; set; }
+        public Classification CurrentClassification { get; set; }
+        public Subject CurrentSubject { get; set; }
+        public WorkflowTask CurrentTask { get; set; }
+        public string CurrentTaskIndex { get; set; }
+        public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
+        public TableUser User { get; set; }
+        public Workflow Workflow { get; }
 
-        public ICommand SelectAnswer { get; set; }
-        public ICommand SubmitClassification { get; set; }
-        public ICommand ShowCloseConfirmation { get; set; }
         public ICommand CloseConfirmationBox { get; set; }
         public ICommand EndSession { get; set; }
+        public ICommand SelectAnswer { get; set; }
+        public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand SubmitClassification { get; set; }
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
         {
-            get
-            {
-                return _closeConfirmationVisible;
-            }
+            get { return _closeConfirmationVisible; }
             set
             {
                 _closeConfirmationVisible = value;
@@ -44,10 +45,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private Annotation _currentAnnotation;
         public Annotation CurrentAnnotation
         {
-            get
-            {
-                return _currentAnnotation;
-            }
+            get { return _currentAnnotation; }
             set
             {
                 _currentAnnotation = value;
@@ -58,10 +56,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private string _subjectImageSource;
         public string SubjectImageSource
         {
-            get
-            {
-                return _subjectImageSource;
-            }
+            get { return _subjectImageSource; }
             set
             {
                 _subjectImageSource = value;
@@ -69,14 +64,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-
         private AnswerButton _selectedItem;
         public AnswerButton SelectedItem
         {
-            get
-            {
-                return _selectedItem;
-            }
+            get { return _selectedItem; }
             set
             {
                 _selectedItem = value;
@@ -84,14 +75,16 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, UserConsole console)
+        public ClassificationPanelViewModel(Workflow workflow, UserConsole console, TableUser user)
         {
             GetSubject();
             LoadCommands();
             Workflow = workflow;
+            User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
             Console = console;
+            LevelerVM = new LevelerViewModel(user);
 
             if (CurrentTask.Answers != null)
             {
@@ -132,6 +125,8 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentClassification.Annotations.Add(CurrentAnnotation);
             ApiClient client = new ApiClient();
             await client.Classifications.Create(CurrentClassification);
+            ClassificationsThisSession += 1;
+            Messenger.Default.Send<int>(ClassificationsThisSession, User);
             GetSubject();
         }
 

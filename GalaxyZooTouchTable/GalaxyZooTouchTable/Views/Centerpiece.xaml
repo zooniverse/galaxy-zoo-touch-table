@@ -23,9 +23,9 @@
                 <ColumnDefinition Width="25*"/>
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="1" Margin="20,0" Source="Images/General/NSF.png" VerticalAlignment="Stretch"/>
+            <Image Grid.Column="1" Margin="20,0" Source="../Images/General/NSF.png" VerticalAlignment="Stretch"/>
             <Border Grid.Column="2" BorderThickness="2 0 0 0" BorderBrush="White"/>
-            <Image Grid.Column="2" Margin="20,10" Source="Images/General/Logo.png" VerticalAlignment="Stretch"/>
+            <Image Grid.Column="2" Margin="20,10" Source="../Images/General/Logo.png" VerticalAlignment="Stretch"/>
         </Grid>
 
         <Viewbox Grid.Row="1">

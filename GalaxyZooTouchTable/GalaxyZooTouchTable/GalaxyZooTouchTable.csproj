@@ -111,26 +111,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Centerpiece.xaml.cs">
+    <Compile Include="Converters\HidePanelConverter.cs" />
+    <Compile Include="Converters\LevelOpacityConverter.cs" />
+    <Compile Include="Lib\Messenger.cs" />
+    <Compile Include="ViewModels\LevelerViewModel.cs" />
+    <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
-    <Compile Include="Converters\HidePanelConverter.cs" />
-    <Compile Include="ExamplesPanel.xaml.cs">
+    <Compile Include="Views\ExamplesPanel.xaml.cs">
       <DependentUpon>ExamplesPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Lib\TranslateTransformExtensions.cs" />
     <Compile Include="Models\AnswerButton.cs" />
-    <Compile Include="CloseConfirmation.xaml.cs">
+    <Compile Include="Views\CloseConfirmation.xaml.cs">
       <DependentUpon>CloseConfirmation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\GalaxyExample.cs" />
     <Compile Include="Models\TableUserFactory.cs" />
     <Compile Include="Converters\NullImageConverter.cs" />
-    <Compile Include="StartButton.xaml.cs">
+    <Compile Include="Views\Leveler.xaml.cs">
+      <DependentUpon>Leveler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserConsole.xaml.cs">
+    <Compile Include="Views\UserConsole.xaml.cs">
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\UserConsoleConverter.cs" />
@@ -149,10 +155,10 @@
     <Compile Include="IDroppableArea.cs" />
     <Compile Include="InteractiveElement.cs" />
     <Compile Include="InteractiveGalaxy.cs" />
-    <Compile Include="ClassificationPanel.xaml.cs">
+    <Compile Include="Views\ClassificationPanel.xaml.cs">
       <DependentUpon>ClassificationPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -206,11 +212,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Centerpiece.xaml">
+    <Page Include="Views\Centerpiece.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CloseConfirmation.xaml">
+    <Page Include="Views\CloseConfirmation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -218,19 +224,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ClassificationPanel.xaml">
+    <Page Include="Views\ClassificationPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ExamplesPanel.xaml">
+    <Page Include="Views\Leveler.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\ExamplesPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartButton.xaml">
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StartButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,7 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserConsole.xaml">
+    <Page Include="Views\UserConsole.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
