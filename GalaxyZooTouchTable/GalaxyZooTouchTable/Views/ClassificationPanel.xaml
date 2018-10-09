@@ -46,7 +46,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="7*"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{Binding DataContext.Avatar, RelativeSource={RelativeSource AncestorType=local:UserConsole}}" VerticalAlignment="Top" />
+            <Image Grid.Row="0" Source="{Binding User.Avatar}" VerticalAlignment="Top" />
         </Grid>
 
         <Grid Grid.Column="1">
