@@ -16,14 +16,13 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        public int ClassificationsThisSession { get; set; } = 0;
-        public ObservableCollection<TableUser> ActiveUsers { get; set; }
-
         const int SUBJECT_VIEW = 0;
         const int SUMMARY_VIEW = 1;
         const string SUBMIT_TEXT = "Submit classification";
         const string CONTINUE_TEXT = "Classify another galaxy";
 
+        public ObservableCollection<TableUser> ActiveUsers { get; set; }
+        public int ClassificationsThisSession { get; set; } = 0;
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
         public Subject CurrentSubject { get; set; }
@@ -34,14 +33,10 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
-        public UserConsole Console { get; set; }
-        public GraphQLHttpClient GraphQLClient { get;set;} = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
 
         public ICommand CloseClassifier { get; set; }
-        public ICommand CloseConfirmationBox { get; set; }
-        public ICommand OpenClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
-        public ICommand EndSession { get; set; }
+        public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
@@ -138,7 +133,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (workflow != null)
             {
-                GetSubject();
+                PrepareForNewClassification();
             }
             LoadCommands();
             Workflow = workflow;
@@ -179,6 +174,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
+            PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
             foreach (TableUser ActiveUser in ActiveUsers)
@@ -189,6 +185,14 @@ namespace GalaxyZooTouchTable.ViewModels
                     break;
                 }
             }
+        }
+
+        private void PrepareForNewClassification()
+        {
+            GetSubject();
+            CurrentView = SUBJECT_VIEW;
+            SuccessBtnText = SUBMIT_TEXT;
+            TotalVotes = 0;
         }
 
         private void ToggleCloseConfirmation(object sender)
@@ -208,46 +212,10 @@ namespace GalaxyZooTouchTable.ViewModels
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
                 SuccessBtnText = CONTINUE_TEXT;
-
-                GraphQLRequest();
             }
             else
             {
-                GetSubject();
-                CurrentView = SUBJECT_VIEW;
-                SuccessBtnText = SUBMIT_TEXT;
-            }
-        }
-
-        private async void GraphQLRequest()
-        {
-            var answersRequest = new GraphQLRequest
-            {
-                Query = @"
-                    query AnswerCount($workflowId: ID!, $subjectId: ID!) {
-                      workflow(id: $workflowId) {
-                        subject_reductions(subjectId: $subjectId, reducerKey: T0_Stats) {
-                            data
-                        }
-                      }
-                    }",
-                OperationName = "AnswerCount",
-                Variables = new
-                {
-                    workflowId = Workflow.Id,
-                    subjectId = CurrentSubject.Id
-                }
-            };
-            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
-            var reductions = graphQLResponse.Data.workflow.subject_reductions;
-            var data = reductions.First.data;
-            System.Console.WriteLine(data);
-            TotalVotes = 0;
-            foreach(var count in data)
-            {
-                System.Console.WriteLine(count.Value.GetType());
-                int answerCount = (int)count.Value;
-                TotalVotes += answerCount;
+                PrepareForNewClassification();
             }
         }
 
@@ -336,7 +304,6 @@ namespace GalaxyZooTouchTable.ViewModels
             var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
             var reductions = graphQLResponse.Data.workflow.subject_reductions;
             var data = reductions.First.data;
-            TotalVotes = 0;
             foreach (var count in data)
             {
                 var index = System.Convert.ToInt32(count.Name);
