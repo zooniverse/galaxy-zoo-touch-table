@@ -5,6 +5,7 @@ using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -14,7 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
         public int ClassificationsThisSession { get; set; } = 0;
-        public UserConsole Console { get; set; }
+        public ObservableCollection<TableUser> ActiveUsers { get; set; }
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
         public Subject CurrentSubject { get; set; }
@@ -25,8 +26,9 @@ namespace GalaxyZooTouchTable.ViewModels
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
 
+        public ICommand CloseClassifier { get; set; }
         public ICommand CloseConfirmationBox { get; set; }
-        public ICommand EndSession { get; set; }
+        public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand SubmitClassification { get; set; }
@@ -39,6 +41,17 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 _closeConfirmationVisible = value;
                 OnPropertyRaised("CloseConfirmationVisible");
+            }
+        }
+
+        private bool _classifierOpen = false;
+        public bool ClassifierOpen
+        {
+            get { return _classifierOpen; }
+            set
+            {
+                _classifierOpen = value;
+                OnPropertyRaised("ClassifierOpen");
             }
         }
 
@@ -75,16 +88,19 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, UserConsole console, TableUser user)
+        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> activeUsers)
         {
-            GetSubject();
+            if (workflow != null)
+            {
+                GetSubject();
+            }
             LoadCommands();
             Workflow = workflow;
             User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            Console = console;
             LevelerVM = new LevelerViewModel(user);
+            ActiveUsers = activeUsers;
 
             if (CurrentTask.Answers != null)
             {
@@ -96,7 +112,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnPropertyRaised(string propertyname)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
         private void LoadCommands()
@@ -104,14 +121,28 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectAnswer = new CustomCommand(ChooseAnswer, CanSelectAnswer);
             SubmitClassification = new CustomCommand(SendClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
-            EndSession = new CustomCommand(CloseClassifier);
+            CloseClassifier = new CustomCommand(OnCloseClassifier);
+            OpenClassifier = new CustomCommand(OnOpenClassifier);
         }
 
-        private async void CloseClassifier(object sender)
+        private void OnOpenClassifier(object sender)
         {
-            await Console.Classifier.MoveClassifier();
-            Console.MoveButton();
-            Console.ClassifierOpen = !Console.ClassifierOpen;
+            ClassifierOpen = true;
+            ActiveUsers.Add(User);
+        }
+
+        private void OnCloseClassifier(object sender)
+        {
+            ClassifierOpen = false;
+            CloseConfirmationVisible = false;
+            foreach (TableUser ActiveUser in ActiveUsers)
+            {
+                if (User == ActiveUser)
+                {
+                    ActiveUsers.Remove(ActiveUser);
+                    break;
+                }
+            }
         }
 
         private void ToggleCloseConfirmation(object sender)

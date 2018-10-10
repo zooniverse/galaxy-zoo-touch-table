@@ -4,40 +4,181 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:wpf="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
              mc:Ignorable="d" 
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.75'}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="104*"/>
-            <RowDefinition Height="102*"/>
-            <RowDefinition Height="47*"/>
-            <RowDefinition Height="35*"/>
-        </Grid.RowDefinitions>
 
-        <Grid>
+    <UserControl.Resources>
+        <Style x:Key="JoinMessageStyle" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value ="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="0.5" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ParallelTimeline BeginTime="0:0:0.25">
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" Duration="0:0:0.25"/>
+                                </ParallelTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="VoteMessageStyle" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value ="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ParallelTimeline BeginTime="0:0:0.25">
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.25"/>
+                                </ParallelTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid Style="{StaticResource JoinMessageStyle}" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform/>
+            </Grid.RenderTransform>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="104*"/>
+                <RowDefinition Height="102*"/>
+                <RowDefinition Height="47*"/>
+                <RowDefinition Height="35*"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="25*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="1" Margin="20,0" Source="../Images/General/NSF.png" VerticalAlignment="Stretch"/>
+                <Border Grid.Column="2" BorderThickness="2 0 0 0" BorderBrush="White"/>
+                <Image Grid.Column="2" Margin="20,10" Source="../Images/General/Logo.png" VerticalAlignment="Stretch"/>
+            </Grid>
+
+            <Viewbox Grid.Row="1">
+                <TextBlock Foreground="#FFE5FF4D" Text="Join our research exploration!" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="2" Margin="100,0">
+                <TextBlock Foreground="White" Text="Astronomers need your help to study how galaxies form." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="3">
+                <TextBlock Grid.Row="3" Foreground="White" Margin="0,3" Text="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
+            </Viewbox>
+        </Grid>
+        
+        <Grid Style="{StaticResource VoteMessageStyle}" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <ScaleTransform ScaleX="0" ScaleY="0.5"/>
+            </Grid.RenderTransform>
+
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25*"/>
-                <ColumnDefinition Width="10*"/>
-                <ColumnDefinition Width="25*"/>
-                <ColumnDefinition Width="25*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="15*"/>
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="1" Margin="20,0" Source="../Images/General/NSF.png" VerticalAlignment="Stretch"/>
-            <Border Grid.Column="2" BorderThickness="2 0 0 0" BorderBrush="White"/>
-            <Image Grid.Column="2" Margin="20,10" Source="../Images/General/Logo.png" VerticalAlignment="Stretch"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <Image Source="../Images/General/Uwhite.png" Grid.Row="3" Grid.Column="1"/>
+
+            <Separator Background="White" Grid.Row="2" Grid.Column="1" Margin="0,0,0,10">
+                <Separator.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </Separator.LayoutTransform>
+            </Separator>
+            <Separator Background="White" Grid.Row="4" Grid.Column="1" Margin="0,10,0,0">
+                <Separator.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </Separator.LayoutTransform>
+            </Separator>
+
+            <Viewbox Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Foreground="White" RenderTransformOrigin="0.5,0.5" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
+                    <TextBlock.RenderTransform>
+                        <RotateTransform Angle="180"/>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </Viewbox>
+
+            <Viewbox Grid.Row="2" HorizontalAlignment="Right">
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="3" HorizontalAlignment="Right">
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+        
+            <Viewbox Grid.Row="4" HorizontalAlignment="Right">
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="2" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+                <Viewbox.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Viewbox.RenderTransform>
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="the universe." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="3" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+                <Viewbox.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Viewbox.RenderTransform>
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="astronomers study" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="4" Grid.Column="2" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left">
+                <Viewbox.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </Viewbox.RenderTransform>
+                <TextBlock Foreground="{StaticResource LimeGreenColor}" Text="Your vote helps" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
+
+            <Viewbox Grid.Row="6" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Foreground="White" Text="DO MORE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+            </Viewbox>
         </Grid>
-
-        <Viewbox Grid.Row="1">
-            <TextBlock Foreground="#FFE5FF4D" Text="Join our research exploration!" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
-        </Viewbox>
-
-        <Viewbox Grid.Row="2" Margin="100,0">
-            <TextBlock Foreground="White" Text="Astronomers need your help to study how galaxies form." FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
-        </Viewbox>
-
-        <Viewbox Grid.Row="3">
-            <TextBlock Grid.Row="3" Foreground="White" Margin="0,3" Text="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins"/>
-        </Viewbox>
     </Grid>
+
 </UserControl>
