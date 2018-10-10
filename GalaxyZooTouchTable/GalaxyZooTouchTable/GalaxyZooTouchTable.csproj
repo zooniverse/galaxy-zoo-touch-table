@@ -152,6 +152,7 @@
     </Compile>
     <Compile Include="Converters\HidePanelConverter.cs" />
     <Compile Include="Converters\LevelOpacityConverter.cs" />
+    <Compile Include="Converters\ProgressWidthConverter.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
     <Compile Include="Views\Centerpiece.xaml.cs">
@@ -161,8 +162,6 @@
       <DependentUpon>ClassificationSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
-    <Compile Include="Converters\HidePanelConverter.cs" />
-    <Compile Include="Converters\ProgressBarWidthConverter.cs" />
     <Compile Include="Views\ExamplesPanel.xaml.cs">
       <DependentUpon>ExamplesPanel.xaml</DependentUpon>
     </Compile>
@@ -190,7 +189,6 @@
     <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
     <Compile Include="ViewModels\ExamplesPanelViewModel.cs" />
-    <Compile Include="ViewModels\ClassificationSummaryViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SubjectViewerViewModel.cs" />
   </ItemGroup>

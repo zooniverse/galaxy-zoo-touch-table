@@ -29,6 +29,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public WorkflowTask CurrentTask { get; set; }
         public string CurrentTaskIndex { get; set; }
+        public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
         public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
@@ -199,11 +200,10 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == SUBJECT_VIEW)
             {
-                //CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
-                //CurrentClassification.Annotations.Add(CurrentAnnotation);
-                //ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
-                //GetSubject();
+                CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
+                CurrentClassification.Annotations.Add(CurrentAnnotation);
+                ApiClient client = new ApiClient();
+                await client.Classifications.Create(CurrentClassification);
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
@@ -213,6 +213,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
             else
             {
+                GetSubject();
                 CurrentView = SUBJECT_VIEW;
                 SuccessBtnText = SUBMIT_TEXT;
             }
@@ -310,6 +311,42 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
+            GraphQLRequest();
+        }
+
+        private async void GraphQLRequest()
+        {
+            var answersRequest = new GraphQLRequest
+            {
+                Query = @"
+                    query AnswerCount($workflowId: ID!, $subjectId: ID!) {
+                      workflow(id: $workflowId) {
+                        subject_reductions(subjectId: $subjectId, reducerKey: T0_Stats) {
+                            data
+                        }
+                      }
+                    }",
+                OperationName = "AnswerCount",
+                Variables = new
+                {
+                    workflowId = Workflow.Id,
+                    subjectId = CurrentSubject.Id
+                }
+            };
+            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
+            var reductions = graphQLResponse.Data.workflow.subject_reductions;
+            var data = reductions.First.data;
+            TotalVotes = 0;
+            foreach (var count in data)
+            {
+                var index = System.Convert.ToInt32(count.Name);
+                AnswerButton test = CurrentAnswers[index];
+
+                int answerCount = (int)count.Value;
+                test.AnswerCount = answerCount;
+
+                TotalVotes += answerCount;
+            }
         }
     }
 }

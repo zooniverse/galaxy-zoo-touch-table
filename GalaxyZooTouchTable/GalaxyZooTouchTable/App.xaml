@@ -18,7 +18,7 @@
             <local:NullImageConverter x:Key="NullImageConverter"/>
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>
-            <local:ProgressBarWidthConverter x:Key="ProgressBarWidthConverter"/> 
+            <local:ProgressWidthConverter x:Key="ProgressWidthConverter"/> 
             <FontFamily x:Key="Karla"/>
             <FontFamily x:Key="Poppins"/>
         </ResourceDictionary>

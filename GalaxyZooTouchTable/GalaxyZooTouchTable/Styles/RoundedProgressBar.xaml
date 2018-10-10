@@ -25,20 +25,14 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="PART_Track" CornerRadius="4" BorderThickness="0">
-                            <Border.Background>
-                                <SolidColorBrush Color="#55565A"/>
-                            </Border.Background>
-                        </Border>
+                        <Border x:Name="PART_Track" Background="{TemplateBinding Background}" CornerRadius="4" BorderThickness="0"/>
 
                         <Border CornerRadius="4" BorderThickness="1" x:Name="PART_Indicator"
                                     HorizontalAlignment="Left"
-                                    BorderBrush="#FFE5FF4D"
-                                    Margin="0,0,0,0">
-                            <Border.Background>
-                                <SolidColorBrush Color="#FFE5FF4D"/>
-                            </Border.Background>
-                        </Border>
+                                    Background="{TemplateBinding Foreground}"
+                                    BorderBrush="{TemplateBinding Foreground}"
+                                    Margin="0,0,0,0"/>
+
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

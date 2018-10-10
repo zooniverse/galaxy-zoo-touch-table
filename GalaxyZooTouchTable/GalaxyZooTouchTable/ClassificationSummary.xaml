@@ -62,7 +62,7 @@
                 </TextBlock>
             </Viewbox>
 
-            <ListView Grid.Row="1" Grid.Column="2" BorderBrush="Transparent"  Grid.RowSpan="5" Grid.ColumnSpan="3" ItemsSource="{Binding Answers}" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListView Grid.Row="1" Grid.Column="2" BorderBrush="Transparent" SelectedItem="{Binding SelectedItem}" Grid.RowSpan="5" Grid.ColumnSpan="3" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="1"/>
@@ -84,10 +84,19 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Viewbox HorizontalAlignment="Right">
-                                            <TextBlock Text="{Binding Label}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Foreground="White" Typography.Capitals="AllSmallCaps"/>
+                                            <TextBlock Name="AnswerText" Text="{Binding Label}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Foreground="White" Typography.Capitals="AllSmallCaps"/>
                                         </Viewbox>
 
-                                        <ProgressBar x:Name="ProgressBar" Style="{StaticResource RoundedProgressBar}" Grid.Column="2" Minimum="0" Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationSummary}}, Path=DataContext.TotalVotes}" Value="{Binding AnswerCount}" Background="{StaticResource MedGrayColor}" BorderBrush="Transparent" Foreground="{StaticResource LimeGreenColor}"/>
+                                        <ProgressBar
+                                            x:Name="ProgressBar"
+                                            Style="{StaticResource RoundedProgressBar}"
+                                            Grid.Column="2"
+                                            Minimum="0"
+                                            Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationSummary}}, Path=DataContext.TotalVotes}"
+                                            Value="{Binding AnswerCount}"
+                                            Background="{StaticResource MedGrayColor}"
+                                            BorderBrush="Transparent"
+                                            Foreground="{StaticResource LightGrayColor}"/>
                                         <Grid Grid.Column="2" HorizontalAlignment="Left">
                                             <Grid.Width>
                                                 <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
@@ -101,6 +110,13 @@
                                             </Viewbox>
                                         </Grid>
                                     </Grid>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="AnswerText" Property="Foreground" Value="#FFE5FF4D"/>
+                                            <Setter TargetName="ProgressBar" Property="Foreground" Value="#FFE5FF4D"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
