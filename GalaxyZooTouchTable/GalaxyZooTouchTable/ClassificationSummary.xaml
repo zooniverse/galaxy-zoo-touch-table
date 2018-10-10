@@ -96,7 +96,7 @@
                                                     <Binding ElementName="ProgressBar" Path="Maximum"/>
                                                 </MultiBinding>
                                             </Grid.Width>
-                                            <Viewbox HorizontalAlignment="Right" Margin="2,0">
+                                            <Viewbox HorizontalAlignment="Right" Margin="4,0">
                                                 <TextBlock Text="{Binding AnswerCount}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                             </Viewbox>
                                         </Grid>

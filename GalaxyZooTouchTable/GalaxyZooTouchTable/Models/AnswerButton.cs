@@ -11,6 +11,7 @@ namespace GalaxyZooTouchTable.Models
         public string Url { get; set; }
         public int Index { get; set; }
         public int AnswerCount { get; set; } = 0;
+        public bool SelectedAnswer { get; set; } = false;
 
         /// <summary>
         /// The Galaxy Zoo workflow contains image links in Markdown. 

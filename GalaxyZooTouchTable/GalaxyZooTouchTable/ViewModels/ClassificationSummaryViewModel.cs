@@ -1,5 +1,4 @@
 ﻿using GalaxyZooTouchTable.Models;
-using GraphQL.Client;
 using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using PanoptesNetClient.Models;

@@ -120,7 +120,7 @@
                                 <Style TargetType="{x:Type ContentControl}">
                                     <Setter Property="ContentTemplate" Value="{StaticResource SubjectViewerTemplate}" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding SwitchView}" Value="1">
+                                        <DataTrigger Binding="{Binding CurrentView}" Value="1">
                                             <Setter Property="ContentTemplate" Value="{StaticResource ClassificationSummaryTemplate}" />
                                         </DataTrigger>
                                     </Style.Triggers>

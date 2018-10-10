@@ -67,14 +67,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private int _switchView = SUBJECT_VIEW;
-        public int SwitchView
+        private int _currentView = SUBJECT_VIEW;
+        public int CurrentView
         {
-            get { return _switchView; }
+            get { return _currentView; }
             set
             {
-                _switchView = value;
-                OnPropertyRaised("SwitchView");
+                _currentView = value;
+                OnPropertyRaised("CurrentView");
             }
         } 
 
@@ -197,7 +197,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void OnContinueClassification(object sender)
         {
-            if (SwitchView == SUBJECT_VIEW)
+            if (CurrentView == SUBJECT_VIEW)
             {
                 //CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
                 //CurrentClassification.Annotations.Add(CurrentAnnotation);
@@ -206,14 +206,14 @@ namespace GalaxyZooTouchTable.ViewModels
                 //GetSubject();
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
-                SwitchView = SUMMARY_VIEW;
+                CurrentView = SUMMARY_VIEW;
                 SuccessBtnText = CONTINUE_TEXT;
 
                 GraphQLRequest();
             }
             else
             {
-                SwitchView = SUBJECT_VIEW;
+                CurrentView = SUBJECT_VIEW;
                 SuccessBtnText = SUBMIT_TEXT;
             }
         }
