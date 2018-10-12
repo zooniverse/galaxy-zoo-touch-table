@@ -17,7 +17,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>publish/</PublishUrl>
+    <PublishUrl>C:\Users\wgranger\Desktop\TouchTable\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -59,7 +59,7 @@
     <ManifestKeyFile>GalaxyZooTouchTable_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -356,11 +356,18 @@
     <!--Generate transformed app config in the intermediate directory-->
     <TransformXml Source="App.config" Destination="$(IntermediateOutputPath)$(TargetFileName).config" Transform="App.$(Configuration).config" />
     <!--Force build process to use the transformed configuration file from now on.-->
-    <ItemGroup>
+    <!--<ItemGroup>
       <AppConfigWithTargetPath Remove="app.config" />
       <AppConfigWithTargetPath Include="$(IntermediateOutputPath)$(TargetFileName).config">
         <TargetPath>$(TargetFileName).config</TargetPath>
       </AppConfigWithTargetPath>
+    </ItemGroup>-->
+  </Target>
+  <Target Name="UpdateOriginalItemSpecs" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferencePath>
+        <OriginalItemSpec>%(ReferencePath.FileName)</OriginalItemSpec>
+      </ReferencePath>
     </ItemGroup>
   </Target>
   <!--Override After Publish to support ClickOnce AfterPublish. Target replaces the untransformed config file copied to the deployment directory with the transformed one.-->
