@@ -11,12 +11,16 @@ namespace GalaxyZooTouchTable
     {
         public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            double Width = System.Convert.ToDouble(values[0]);
-            double Value = System.Convert.ToDouble(values[1]);
-            double Maximum = System.Convert.ToDouble(values[2]);
+            if (values.Length >= 3)
+            {
+                double Width = System.Convert.ToDouble(values[0]);
+                double Value = System.Convert.ToDouble(values[1]);
+                double Maximum = System.Convert.ToDouble(values[2]);
 
-            double Percent = Value / Maximum;
-            return Percent * Width;
+                double Percent = Value / Maximum;
+                return Percent * Width;
+            }
+            return null;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

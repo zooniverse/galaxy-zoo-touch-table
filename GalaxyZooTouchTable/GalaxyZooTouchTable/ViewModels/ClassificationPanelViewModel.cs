@@ -16,10 +16,10 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        const int SUBJECT_VIEW = 0;
-        const int SUMMARY_VIEW = 1;
-        const string SUBMIT_TEXT = "Submit classification";
-        const string CONTINUE_TEXT = "Classify another galaxy";
+        private const int SUBJECT_VIEW = 0;
+        private const int SUMMARY_VIEW = 1;
+        private const string SUBMIT_TEXT = "Submit classification";
+        private const string CONTINUE_TEXT = "Classify another galaxy";
 
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
         public int ClassificationsThisSession { get; set; } = 0;
