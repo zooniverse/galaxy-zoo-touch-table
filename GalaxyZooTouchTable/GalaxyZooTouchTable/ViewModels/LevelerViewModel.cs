@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ToggleLeveler { get; set; }
         const string MAX_LEVEL = "Five";
 
-        private int _classificationsUntilUpgrade { get; set; } = 6;
+        private int _classificationsUntilUpgrade { get; set; } = 5;
         public int ClassificationsUntilUpgrade
         {
             get { return _classificationsUntilUpgrade; }
@@ -20,7 +20,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 if (value <= 0)
                 {
-                    value = 6;
+                    value = 5;
                     LevelUp();
                 }
                 _classificationsUntilUpgrade = value;
