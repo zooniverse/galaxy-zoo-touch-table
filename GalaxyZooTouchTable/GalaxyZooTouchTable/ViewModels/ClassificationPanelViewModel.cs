@@ -173,6 +173,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
+            LevelerVM.LevelerIsOpen = false;
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
