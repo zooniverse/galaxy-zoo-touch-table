@@ -108,7 +108,7 @@
 
                         <Button Style="{StaticResource StandardBtn}" Grid.Column="1" BorderThickness="0" Name="CloseButton" Foreground="White" Background="Transparent" VerticalAlignment="Center" Command="{Binding ShowCloseConfirmation}">
                             <TextBlock>
-                                <Run Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                                <Run Text="Close workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
                                 <Run Text="X" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
                             </TextBlock>
                         </Button>
