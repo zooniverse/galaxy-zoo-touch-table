@@ -11,6 +11,14 @@
              d:DesignHeight="366"
              Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.338'}"
              Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.516'}">
+    <UserControl.Resources>
+        <DataTemplate x:Key="SubjectViewerTemplate">
+            <local:SubjectViewer/>
+        </DataTemplate>
+        <DataTemplate x:Key="ClassificationSummaryTemplate">
+            <local:ClassificationSummary/>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="23*"/>
@@ -56,7 +64,6 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-
             <Border
                 Grid.Row="1"
                 CornerRadius="5"
@@ -67,11 +74,11 @@
                     <DropShadowEffect/>
                 </Border.Effect>
 
-                <Grid Background="#343438">
+                <Grid Background="{StaticResource DarkGrayColor}">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*"/>
-                        <RowDefinition Height="5*"/>
-                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="14*"/>
+                        <RowDefinition Height="6*"/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" Grid.RowSpan="3" Panel.ZIndex="1" Visibility="{Binding CloseConfirmationVisible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
@@ -93,118 +100,47 @@
                         <local:CloseConfirmation Grid.Row="1" Grid.Column="1"/>
                     </Grid>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="8*"/>
-                            <RowDefinition Height="8*"/>
-                            <RowDefinition Height="5*"/>
-                        </Grid.RowDefinitions>
-
+                    <Grid Margin="10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="25*"/>
+                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-
-                        <Button Style="{StaticResource StandardBtn}" Grid.Row="0" Grid.Column="1" BorderThickness="0" Name="CloseButton" HorizontalAlignment="Right" Foreground="White" Background="Transparent" VerticalAlignment="Center" Command="{Binding ShowCloseConfirmation}">
-                            <WrapPanel>
-                                <TextBlock Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
-                                <TextBlock Text="X" Margin="5,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
-                            </WrapPanel>
+                        <Button Style="{StaticResource StandardBtn}" Grid.Column="1" BorderThickness="0" Name="CloseButton" Foreground="White" Background="Transparent" VerticalAlignment="Center" Command="{Binding ShowCloseConfirmation}">
+                            <TextBlock>
+                                <Run Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                                <Run Text="X" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                            </TextBlock>
                         </Button>
-                        <Border Grid.Row="1" Grid.Column="1" BorderThickness="0 1 0 0" BorderBrush="#55565A"/>
-                        <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-                            <TextBlock Text="Help classify the galaxy below" Foreground="White" Margin="0,0,40,0" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                        </Viewbox>
-                        <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
-                            <Label Content="Please consider only the galaxy in the center of the image" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla BoldItalic"/>
-                        </Viewbox>
                     </Grid>
 
-                    <Grid Grid.Row="1" Margin="0,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="14*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="14*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Border Grid.Column="1" BorderThickness="2" BorderBrush="White" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Name="SubjectImage" MaxHeight="200" MaxWidth="200" Source="{Binding SubjectImageSource, Mode=TwoWay, Converter={StaticResource NullImageConverter}}"/>
-                        </Border>
-
-                        <ListView Grid.Column="3" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="1"/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                    <Setter Property="Padding" Value="0"/>
-                                    <Setter Property="Margin" Value="0,3"/>
-
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListViewItem">
-                                                <Grid>
-                                                    <Grid.OpacityMask>
-                                                        <VisualBrush Visual="{Binding ElementName=Bg}" />
-                                                    </Grid.OpacityMask>
-                                                    <Border x:Name="Bg" CornerRadius="5" Background="{TemplateBinding Background}"/>
-                                                    <Button HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <Grid Background="#FFE5FF4D">
-                                                                <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
-                                                            </Grid>
-                                                            <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                                                        </StackPanel>
-                                                    </Button>
-                                                </Grid>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsSelected" Value="False">
-                                                        <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter Property="Background" Value="#015F7B" TargetName="Bg"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
+                    <Grid Grid.Row="1" Margin="10">
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource SubjectViewerTemplate}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CurrentView}" Value="1">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource ClassificationSummaryTemplate}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
                                 </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-
+                            </ContentControl.Style>
+                        </ContentControl>
                     </Grid>
 
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="2" Margin="10">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"/>
                             <RowDefinition Height="4*"/>
-                            <RowDefinition Height="5*"/>
-                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="12*"/>
                         </Grid.RowDefinitions>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="20*"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Button BorderBrush="#55565A" BorderThickness="1" Grid.Column="1" Grid.Row="0" Margin="0,3" Style="{StaticResource TransButton}" HorizontalAlignment="Stretch">
-                            <Viewbox Margin="30,0">
-                                <TextBlock Text="Send this galaxy image to a neighbor at the table"/>
-                            </Viewbox>
-                        </Button>
-                        <Button Grid.Column="1" Command="{Binding SubmitClassification}" Grid.Row="1" Margin="0,3" Style="{StaticResource SuccessBtn}" Foreground="Black">
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Submit Classification"/>
+                        <Button Command="{Binding ContinueClassification}" Style="{StaticResource SuccessBtn}" Foreground="Black">
+                            <TextBlock HorizontalAlignment="Center" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" VerticalAlignment="Center" Text="{Binding SuccessBtnText}"/>
                         </Button>
 
-                        <Grid Grid.Column="1" Grid.Row="2" Margin="0,5">
+                        <Grid Grid.Row="2">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="1*"/>
@@ -212,14 +148,15 @@
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="45*"/>
-                                <ColumnDefinition Width="154*"/>
-                                <ColumnDefinition Width="36*"/>
-                                <ColumnDefinition Width="55*"/>
+                                <ColumnDefinition Width="220*"/>
+                                <ColumnDefinition Width="30*"/>
+                                <ColumnDefinition Width="60*"/>
+                                <ColumnDefinition Width="20*"/>
                             </Grid.ColumnDefinitions>
 
                             <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Source="../Images/General/qrcode.png"/>
                             <Image Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Source="../Images/General/Logo.png" HorizontalAlignment="Left" Width="81"/>
-                            <Viewbox Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" Height="8">
+                                <Viewbox Grid.Row="1" Grid.Column="3" VerticalAlignment="Top">
                                     <TextBlock Text="adler.zooniverse.org" Foreground="White"/>
                                 </Viewbox>
                         </Grid>
