@@ -30,6 +30,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public string CurrentTaskIndex { get; set; }
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
         public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
+        public ExamplesPanelViewModel ExamplesVM { get; set; } = new ExamplesPanelViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
@@ -173,7 +174,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
-            LevelerVM.LevelerIsOpen = false;
+            LevelerVM.IsOpen = false;
+            ExamplesVM.IsOpen = true;
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;

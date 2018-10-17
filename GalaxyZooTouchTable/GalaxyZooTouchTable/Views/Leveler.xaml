@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <Style x:Key="LevelerPanelStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=LevelerIsOpen}" Value="True">
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
