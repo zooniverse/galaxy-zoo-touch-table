@@ -176,6 +176,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             LevelerVM.IsOpen = false;
             ExamplesVM.IsOpen = true;
+            ExamplesVM.SelectedExample = null;
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
