@@ -8,6 +8,7 @@ namespace GalaxyZooTouchTable.Models
     public class AnswerButton
     {
         public string Label { get; set; }
+        public string SubLabel { get; set; }
         public string Url { get; set; }
         public int Index { get; set; }
         public int AnswerCount { get; set; } = 0;
@@ -20,11 +21,14 @@ namespace GalaxyZooTouchTable.Models
         {
             var ExtractedUrl = Regex.Match(answer.Label, @"((http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)");
             string removedBrackets = Regex.Replace(answer.Label, @"!\[(.*?)\]", "");
-            string BaseAnswer = Regex.Replace(removedBrackets, @"\(" + ExtractedUrl + @"(.*?)\)", "");
+            string CleanedText = Regex.Replace(removedBrackets, @"\(" + ExtractedUrl + @"(.*?)\)", "");
+            var ItalicizedText = Regex.Match(CleanedText, @"(?<=_).*?(?=_)");
+            string BaseAnswer = Regex.Replace(CleanedText, @"(_).*?(_)", "");
 
             Url = ExtractedUrl.Value;
             Label = BaseAnswer.Trim();
             Index = index;
+            SubLabel = ItalicizedText.Value;
         }
     }
 }
