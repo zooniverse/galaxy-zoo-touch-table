@@ -12,6 +12,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenPanel { get; set; }
         public ICommand TogglePanel { get; set; }
         public ICommand SelectionChanged { get; set; }
+        public ICommand SelectItem { get; set; }
+
+        public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
+        public GalaxyExample Features { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Features);
+        public GalaxyExample NotAGalaxy { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Star);
 
         private bool _isSelected = false;
         public bool IsSelected
@@ -48,9 +53,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ExamplesPanelViewModel()
         {
-            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Smooth));
-            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Features));
-            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Star));
+            ExampleGalaxies.Add(GalaxyExampleFactory.Create(GalaxyType.Smooth));
+            ExampleGalaxies.Add(GalaxyExampleFactory.Create(GalaxyType.Features));
+            ExampleGalaxies.Add(GalaxyExampleFactory.Create(GalaxyType.Star));
 
             LoadCommands();
         }
@@ -60,6 +65,19 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);
             SelectionChanged = new CustomCommand(SelectExample, CanChoose);
+            SelectItem = new CustomCommand(OnSelectItem);
+        }
+
+        public void OnSelectItem(object sender)
+        {
+            var example = sender as GalaxyExample;
+            if (example == SelectedExample)
+            {
+                SelectedExample = null;
+            } else
+            {
+                SelectedExample = example;
+            }
         }
 
         public void SelectExample(object sender)

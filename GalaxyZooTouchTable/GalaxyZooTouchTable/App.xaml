@@ -19,6 +19,7 @@
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>
             <Converters:FontSizeConverter x:Key="FontSizeConverter"/>
+            <Converters:ObjectToTypeStringConverter x:Key="ObjectToTypeStringConverter"/>
             <local:ProgressWidthConverter x:Key="ProgressWidthConverter"/> 
             <FontFamily x:Key="Karla"/>
             <FontFamily x:Key="Poppins"/>
