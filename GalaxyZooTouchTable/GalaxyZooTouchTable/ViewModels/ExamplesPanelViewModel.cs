@@ -73,9 +73,11 @@ namespace GalaxyZooTouchTable.ViewModels
             var example = sender as GalaxyExample;
             if (example == SelectedExample)
             {
+                IsSelected = false;
                 SelectedExample = null;
             } else
             {
+                IsSelected = true;
                 SelectedExample = example;
             }
         }
