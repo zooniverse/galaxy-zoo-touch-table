@@ -158,6 +158,7 @@
     <Compile Include="Converters\LevelOpacityConverter.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
     <Compile Include="Converters\ProgressWidthConverter.cs" />
+    <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
     <Compile Include="Views\Centerpiece.xaml.cs">

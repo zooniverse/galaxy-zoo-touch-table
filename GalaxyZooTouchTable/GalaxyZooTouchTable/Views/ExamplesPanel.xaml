@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              Background="Transparent"
@@ -276,6 +277,29 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="TestThis" TargetType="{x:Type RowDefinition}">
+            <Setter Property="Height" Value="1"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <Lib:GridLengthAnimation Storyboard.TargetProperty="Height" From="1" To="2" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <Lib:GridLengthAnimation Storyboard.TargetProperty="Height" From="2" To="1" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -374,7 +398,7 @@
 
                 <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="{Binding ExamplePanelHeight}"/>
+                        <RowDefinition Style="{StaticResource TestThis}"/>
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
