@@ -2,6 +2,7 @@
 using GalaxyZooTouchTable.Utility;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -73,10 +74,12 @@ namespace GalaxyZooTouchTable.ViewModels
             var example = sender as GalaxyExample;
             if (example == SelectedExample)
             {
+                ExamplePanelHeight = new GridLength(1, GridUnitType.Star);
                 IsSelected = false;
                 SelectedExample = null;
             } else
             {
+                ExamplePanelHeight = new GridLength(2, GridUnitType.Star);
                 IsSelected = true;
                 SelectedExample = example;
             }
@@ -111,6 +114,17 @@ namespace GalaxyZooTouchTable.ViewModels
         public bool CanToggle(object sender)
         {
             return true;
+        }
+
+        private GridLength _examplePanelHeight = new GridLength(1, GridUnitType.Star);
+        public GridLength ExamplePanelHeight
+        {
+            get { return _examplePanelHeight; }
+            set
+            {
+                _examplePanelHeight = value;
+                OnPropertyRaised("ExamplePanelHeight");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

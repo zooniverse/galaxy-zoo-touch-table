@@ -95,17 +95,11 @@
         </Style>
 
         <Style x:Key="SmoothExampleBorder" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Visible"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="SmoothGalaxy">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                </DataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
@@ -118,10 +112,11 @@
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.ExitActions>
+                    </DataTrigger.ExitActions>-->
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
@@ -134,12 +129,13 @@
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.ExitActions>
+                    </DataTrigger.ExitActions>-->
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="FeaturesExampleBorder" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Visible"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
                     <DataTrigger.EnterActions>
@@ -158,41 +154,45 @@
                     </DataTrigger.ExitActions>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="SmoothGalaxy">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.ExitActions>
+                    </DataTrigger.ExitActions>-->
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="0" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.ExitActions>
+                    </DataTrigger.ExitActions>-->
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="StarExampleBorder" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Visible"/>
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
                     <DataTrigger.EnterActions>
@@ -211,7 +211,8 @@
                     </DataTrigger.ExitActions>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
@@ -224,10 +225,11 @@
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
                             </Storyboard>
                         </BeginStoryboard>
-                    </DataTrigger.ExitActions>
+                    </DataTrigger.ExitActions>-->
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="SmoothGalaxy">
-                    <DataTrigger.EnterActions>
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <!--<DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.5"/>
@@ -238,6 +240,36 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>-->
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SelectedItemText" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SelectedTextStackPanel" TargetType="{x:Type StackPanel}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
@@ -324,7 +356,7 @@
                     </Viewbox>
                 </Grid>
 
-                <Grid Grid.Row="1" Grid.Column="1" Panel.ZIndex="1" Style="{StaticResource SelectedItemGrid}">
+                <!--<Grid Grid.Row="1" Grid.Column="1" Panel.ZIndex="1" Style="{StaticResource SelectedItemGrid}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="2*"/>
@@ -338,13 +370,12 @@
                             <TextBlock TextWrapping="Wrap" Text="{Binding SelectedExample.Description2}" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
                         </StackPanel>
                     </ScrollViewer>
-                </Grid>
+                </Grid>-->
 
                 <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="{Binding ExamplePanelHeight}"/>
+                        <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
                     <Border Background="Blue" Style="{StaticResource SmoothExampleBorder}" Opacity="1">
@@ -376,6 +407,16 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Border>
+
+                    <ScrollViewer x:Name="ItemText" Style="{StaticResource SelectedItemText}" Grid.Row="1" PanningMode="VerticalOnly" VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Style="{StaticResource SelectedTextStackPanel}">
+                            <StackPanel.RenderTransform>
+                                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
+                            </StackPanel.RenderTransform>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,10" Text="{Binding SelectedExample.Description}" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding SelectedExample.Description2}" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
                 
                 
