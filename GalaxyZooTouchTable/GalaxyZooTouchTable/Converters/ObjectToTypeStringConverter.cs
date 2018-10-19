@@ -10,6 +10,7 @@ namespace GalaxyZooTouchTable.Converters
         {
             if (value != null)
             {
+                Console.WriteLine(value.GetType().Name);
                 return value.GetType().Name;
             }
             return null;
