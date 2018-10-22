@@ -1,11 +1,5 @@
-﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.ViewModels;
-using System;
-using System.Collections;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable
 {
@@ -17,6 +11,11 @@ namespace GalaxyZooTouchTable
         public ExamplesPanel()
         {
             InitializeComponent();
+        }
+
+        protected override void OnManipulationBoundaryFeedback(ManipulationBoundaryFeedbackEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

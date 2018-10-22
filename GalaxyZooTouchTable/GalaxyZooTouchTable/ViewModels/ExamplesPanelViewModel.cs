@@ -14,6 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand TogglePanel { get; set; }
         public ICommand SelectionChanged { get; set; }
         public ICommand SelectItem { get; set; }
+        public ICommand UnselectItem { get; set; }
 
         public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
         public GalaxyExample Features { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Features);
@@ -66,10 +67,11 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);
             SelectionChanged = new CustomCommand(SelectExample, CanChoose);
-            SelectItem = new CustomCommand(OnSelectItem);
+            SelectItem = new CustomCommand(OnToggleItem, CanSelectItem);
+            UnselectItem = new CustomCommand(OnToggleItem);
         }
 
-        public void OnSelectItem(object sender)
+        public void OnToggleItem(object sender)
         {
             var example = sender as GalaxyExample;
             if (example == SelectedExample)
@@ -83,6 +85,11 @@ namespace GalaxyZooTouchTable.ViewModels
                 IsSelected = true;
                 SelectedExample = example;
             }
+        }
+
+        public bool CanSelectItem(object sender)
+        {
+            return SelectedExample == null;
         }
 
         public void SelectExample(object sender)
