@@ -7,6 +7,7 @@
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              Background="Transparent"
              mc:Ignorable="d"
              d:DesignHeight="500" d:DesignWidth="300">
@@ -100,24 +101,92 @@
 
         <Style x:Key="SmoothExampleBorder" TargetType="{x:Type Border}">
             <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Opacity" Value="1"/>
+
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
+                <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                        <Condition>
+                            <Condition.Binding>
+                                <Binding Path="SelectedExample" Converter="{StaticResource ObjectEqualityStringConverter}">
+                                    <Binding.ConverterParameter>
+                                        <System:String>SmoothGalaxy</System:String>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </Condition.Binding>
+                            <Condition.Value>
+                                <System:Boolean>False</System:Boolean>
+                            </Condition.Value>
+                        </Condition>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.EnterActions>
+                    <MultiDataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="FeaturesExampleBorder" TargetType="{x:Type Border}">
             <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Opacity" Value="1"/>
+
             <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                        <Condition>
+                            <Condition.Binding>
+                                <Binding Path="SelectedExample" Converter="{StaticResource ObjectEqualityStringConverter}">
+                                    <Binding.ConverterParameter>
+                                        <System:String>FeaturesGalaxy</System:String>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </Condition.Binding>
+                            <Condition.Value>
+                                <System:Boolean>False</System:Boolean>
+                            </Condition.Value>
+                        </Condition>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.EnterActions>
+                    <MultiDataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.25"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -128,24 +197,55 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="SmoothGalaxy">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
-                    <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="StarExampleBorder" TargetType="{x:Type Border}">
             <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Opacity" Value="1"/>
+
             <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
+                        <Condition>
+                            <Condition.Binding>
+                                <Binding Path="SelectedExample" Converter="{StaticResource ObjectEqualityStringConverter}">
+                                    <Binding.ConverterParameter>
+                                        <System:String>StarGalaxy</System:String>
+                                    </Binding.ConverterParameter>
+                                </Binding>
+                            </Condition.Binding>
+                            <Condition.Value>
+                                <System:Boolean>False</System:Boolean>
+                            </Condition.Value>
+                        </Condition>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.EnterActions>
+                    <MultiDataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.25"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -156,12 +256,6 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="SmoothGalaxy">
-                    <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -181,7 +275,7 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
+                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -202,7 +296,7 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <Lib:GridLengthAnimation Storyboard.TargetProperty="Height" From="1" To="2" Duration="0:0:0.15"/>
+                                <Lib:GridLengthAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Height" From="1" To="2" Duration="0:0:0.15"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -220,12 +314,10 @@
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Margin" Value="2"/>
+            <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.3'}"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.6'}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="False">
-                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.3'}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
