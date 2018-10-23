@@ -127,14 +127,14 @@
                     <MultiDataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.EnterActions>
                     <MultiDataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.ExitActions>
@@ -177,7 +177,7 @@
                     <MultiDataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.ExitActions>
@@ -186,14 +186,14 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
@@ -229,14 +229,14 @@
                     <MultiDataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.EnterActions>
                     <MultiDataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </MultiDataTrigger.ExitActions>
@@ -245,14 +245,14 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
@@ -275,7 +275,7 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
+                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(StackPanel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.25"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -296,14 +296,14 @@
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <Lib:GridLengthAnimation BeginTime="0:0:0.25" Storyboard.TargetProperty="Height" From="1" To="2" Duration="0:0:0.15"/>
+                                <Lib:GridLengthAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="Height" From="1" To="3" Duration="0:0:0.15"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <Lib:GridLengthAnimation Storyboard.TargetProperty="Height" From="2" To="1" Duration="0:0:0.15"/>
+                                <Lib:GridLengthAnimation Storyboard.TargetProperty="Height" From="3" To="1" Duration="0:0:0.15"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
@@ -314,12 +314,8 @@
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Margin" Value="2"/>
-            <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.3'}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Width" Value="{Binding Path=ActualWidth, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.6'}"/>
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.7'}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.7'}"/>
         </Style>
     </UserControl.Resources>
 
@@ -404,10 +400,10 @@
                     <Border Style="{StaticResource SmoothExampleBorder}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource DarkGrayColor}">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="5*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="12*"/>
+                                <RowDefinition Height="24*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -434,7 +430,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" x:Name="SelectionPanel">
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
@@ -462,10 +458,10 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="5*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="12*"/>
+                                <RowDefinition Height="24*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -521,10 +517,10 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="4*"/>
+                                <RowDefinition Height="5*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="3*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="12*"/>
+                                <RowDefinition Height="24*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
