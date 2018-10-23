@@ -217,7 +217,7 @@
                             <Condition.Binding>
                                 <Binding Path="SelectedExample" Converter="{StaticResource ObjectEqualityStringConverter}">
                                     <Binding.ConverterParameter>
-                                        <System:String>StarGalaxy</System:String>
+                                        <System:String>NotAGalaxy</System:String>
                                     </Binding.ConverterParameter>
                                 </Binding>
                             </Condition.Binding>
@@ -241,7 +241,7 @@
                         </BeginStoryboard>
                     </MultiDataTrigger.ExitActions>
                 </MultiDataTrigger>
-                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="StarGalaxy">
+                <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="NotAGalaxy">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -313,9 +313,8 @@
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="5"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.7'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.7'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
         </Style>
     </UserControl.Resources>
 
@@ -400,10 +399,10 @@
                     <Border Style="{StaticResource SmoothExampleBorder}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource DarkGrayColor}">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="4*"/>
-                                <RowDefinition Height="5*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="24*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="7*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -436,7 +435,7 @@
                                             <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
                                         </Border.Background>
@@ -458,10 +457,10 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="4*"/>
-                                <RowDefinition Height="5*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="24*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="7*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -495,7 +494,7 @@
                                             <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
                                         </Border.Background>
@@ -517,10 +516,10 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="4*"/>
-                                <RowDefinition Height="5*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="24*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="7*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -554,7 +553,7 @@
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
                                         </Border.Background>

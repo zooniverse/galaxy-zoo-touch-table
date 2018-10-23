@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.Converters
             {
                 return value.GetType().Name == parameter as string;
             }
-            return true;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

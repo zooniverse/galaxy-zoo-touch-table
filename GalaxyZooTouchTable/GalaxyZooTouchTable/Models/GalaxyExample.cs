@@ -7,7 +7,7 @@ namespace GalaxyZooTouchTable.Models
     {
         Smooth,
         Features,
-        Star
+        NotAGalaxy
     }
 
     public class GalaxyExample
@@ -30,10 +30,10 @@ namespace GalaxyZooTouchTable.Models
                     return new SmoothGalaxy();
                 case GalaxyType.Features:
                     return new FeaturesGalaxy();
-                case GalaxyType.Star:
-                    return new StarGalaxy();
+                case GalaxyType.NotAGalaxy:
+                    return new NotAGalaxy();
                 default:
-                    return new StarGalaxy();
+                    return new NotAGalaxy();
             }
         }
 
@@ -57,13 +57,13 @@ namespace GalaxyZooTouchTable.Models
             public string Description2 => "Choose this option if you see anything unique about the galaxy";
         }
 
-        private class StarGalaxy : GalaxyExample
+        private class NotAGalaxy : GalaxyExample
         {
             public BitmapImage ImageOne => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/star1.jpg"));
             public BitmapImage ImageTwo => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/star2.jpg"));
-            public BitmapImage ImageThree => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/smooth3.jpg"));
+            public BitmapImage ImageThree => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/star3.jpg"));
             public string Title => "Not a Galaxy";
-            public string Description => "Choose \"Star or Artifact\" if there is no central galaxy to classify or if the artifact is so badly displayed that you can't ignore it and classify the galaxy with reasonable confidence.";
+            public string Description => "Choose \"Not a Galaxy\" if there is no central galaxy to classify or if the artifact is so badly displayed that you can't ignore it and classify the galaxy with reasonable confidence.";
             public string Description2 => "The telescopes taking our data were designed to look at faint galaxies, which means that bright, compact objects like stars sometimes look a bit strange.";
         }
     }
