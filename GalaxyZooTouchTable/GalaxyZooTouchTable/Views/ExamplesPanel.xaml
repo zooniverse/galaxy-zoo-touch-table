@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
@@ -13,6 +12,30 @@
              d:DesignHeight="500" d:DesignWidth="300">
 
     <UserControl.Resources>
+        <Storyboard x:Key="FadeOutStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveUpStoryboard">
+            <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveBackStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="BeginRotateArrowStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
+        </Storyboard>
+
+        <Storyboard x:Key="ReturnRotateArrowStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" Duration="0:0:0.1"/>
+        </Storyboard>
+
         <Style x:Key="MainPanelStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
@@ -38,18 +61,10 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource BeginRotateArrowStoryboard}"/>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource ReturnRotateArrowStoryboard}"/>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
@@ -59,18 +74,10 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource BeginRotateArrowStoryboard}"/>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource ReturnRotateArrowStoryboard}"/>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
@@ -99,15 +106,19 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="SmoothExampleBorder" TargetType="{x:Type Border}">
-            <Setter Property="Visibility" Value="Visible"/>
+        <Style x:Key="GalaxyExamples" TargetType="{x:Type Border}">
             <Setter Property="Opacity" Value="1"/>
+            <Setter Property="Visibility" Value="Visible"/>
 
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
+        <Style x:Key="SmoothExampleBorder" TargetType="{x:Type Border}" BasedOn="{StaticResource GalaxyExamples}">
+            <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
@@ -125,32 +136,17 @@
                         </Condition>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
                     </MultiDataTrigger.EnterActions>
                     <MultiDataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
                     </MultiDataTrigger.ExitActions>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="FeaturesExampleBorder" TargetType="{x:Type Border}">
-            <Setter Property="Visibility" Value="Visible"/>
-            <Setter Property="Opacity" Value="1"/>
-
+        <Style x:Key="FeaturesExampleBorder" TargetType="{x:Type Border}" BasedOn="{StaticResource GalaxyExamples}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
-
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
@@ -168,48 +164,26 @@
                         </Condition>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.25"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
                     </MultiDataTrigger.EnterActions>
                     <MultiDataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
                     </MultiDataTrigger.ExitActions>
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource MoveUpStoryboard}"/>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource MoveBackStoryboard}"/>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="StarExampleBorder" TargetType="{x:Type Border}">
-            <Setter Property="Visibility" Value="Visible"/>
-            <Setter Property="Opacity" Value="1"/>
 
+        <Style x:Key="StarExampleBorder" TargetType="{x:Type Border}" BasedOn="{StaticResource GalaxyExamples}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
-
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=IsSelected}" Value="True"/>
@@ -227,34 +201,18 @@
                         </Condition>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
                     </MultiDataTrigger.EnterActions>
                     <MultiDataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
                     </MultiDataTrigger.ExitActions>
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="NotAGalaxy">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource MoveUpStoryboard}"/>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource MoveBackStoryboard}"/>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
@@ -324,10 +282,12 @@
                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
             </Border.RenderTransform>
 
-            <Grid Margin="0,10,0,10">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="28*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -337,8 +297,8 @@
                 </Grid.ColumnDefinitions>
 
                 <fa:ImageAwesome
-                        x:Name="RightArrow"
                         Icon="ChevronRight"
+                        Grid.Row="1"
                         Grid.Column="2"
                         Margin="8"
                         Foreground="White"
@@ -356,7 +316,7 @@
                     </i:Interaction.Triggers>
                 </fa:ImageAwesome>
 
-                <Border Grid.Column="2" Grid.RowSpan="2" Background="#55565A">
+                <Border Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Background="{StaticResource MedGrayColor}" CornerRadius="0,5,5,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
@@ -364,7 +324,15 @@
                     </i:Interaction.Triggers>
                 </Border>
 
-                <Grid Grid.Column="1" RenderTransformOrigin="0,1" Style="{StaticResource HeaderGrid}">
+                <Border Grid.RowSpan="2" Grid.ColumnSpan="3" Background="{StaticResource MedGrayColor}" CornerRadius="0,5,0,0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchDown">
+                            <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Border>
+
+                <Grid Grid.Row="1" Grid.Column="1" RenderTransformOrigin="0,1" Style="{StaticResource HeaderGrid}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
@@ -390,7 +358,7 @@
                     </Viewbox>
                 </Grid>
 
-                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="1">
+                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Style="{StaticResource ActiveExample}" Height="1*"/>
                         <RowDefinition Height="2*"/>
@@ -487,7 +455,6 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 
-
                                 <StackPanel Orientation="Horizontal">
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
@@ -546,7 +513,6 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
 
-
                                 <StackPanel Orientation="Horizontal">
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
@@ -584,6 +550,4 @@
             </Grid>
         </Border>
     </Grid>
-
-
 </UserControl>
