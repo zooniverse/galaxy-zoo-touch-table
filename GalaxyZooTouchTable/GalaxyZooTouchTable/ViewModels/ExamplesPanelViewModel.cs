@@ -9,7 +9,6 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public ICommand OpenPanel { get; set; }
         public ICommand TogglePanel { get; set; }
-        public ICommand SelectionChanged { get; set; }
         public ICommand SelectItem { get; set; }
         public ICommand UnselectItem { get; set; }
 
@@ -100,7 +99,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyRaised(string propertyname)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
     }

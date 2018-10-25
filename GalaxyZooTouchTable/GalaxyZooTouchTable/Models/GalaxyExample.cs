@@ -33,7 +33,7 @@ namespace GalaxyZooTouchTable.Models
                 case GalaxyType.NotAGalaxy:
                     return new NotAGalaxy();
                 default:
-                    return new NotAGalaxy();
+                    throw new Exception("Example model not found.");
             }
         }
 
