@@ -210,7 +210,9 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                await client.Classifications.Create(CurrentClassification);
+                //await client.Classifications.Create(CurrentClassification);
+                SelectedItem.AnswerCount += 1;
+                TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
@@ -306,16 +308,19 @@ namespace GalaxyZooTouchTable.ViewModels
             };
             var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
             var reductions = graphQLResponse.Data.workflow.subject_reductions;
-            var data = reductions.First.data;
-            foreach (var count in data)
+            if (reductions.Count > 0)
             {
-                var index = System.Convert.ToInt32(count.Name);
-                AnswerButton test = CurrentAnswers[index];
+                var data = reductions.First.data;
+                foreach (var count in data)
+                {
+                    var index = System.Convert.ToInt32(count.Name);
+                    AnswerButton test = CurrentAnswers[index];
 
-                int answerCount = (int)count.Value;
-                test.AnswerCount = answerCount;
+                    int answerCount = (int)count.Value;
+                    test.AnswerCount = answerCount;
 
-                TotalVotes += answerCount;
+                    TotalVotes += answerCount;
+                }
             }
         }
     }
