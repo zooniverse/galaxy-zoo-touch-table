@@ -29,8 +29,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public WorkflowTask CurrentTask { get; set; }
         public string CurrentTaskIndex { get; set; }
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
-        public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
-        public ExamplesPanelViewModel ExamplesVM { get; set; } = new ExamplesPanelViewModel();
+        public LevelerViewModel LevelerViewModel { get; set; } = new LevelerViewModel();
+        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
@@ -140,7 +140,7 @@ namespace GalaxyZooTouchTable.ViewModels
             User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            LevelerVM = new LevelerViewModel(user);
+            LevelerViewModel = new LevelerViewModel(user);
             ActiveUsers = activeUsers;
 
             if (CurrentTask.Answers != null)
@@ -174,9 +174,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
-            LevelerVM.IsOpen = false;
-            ExamplesVM.IsOpen = true;
-            ExamplesVM.SelectedExample = null;
+            LevelerViewModel.IsOpen = false;
+            ExamplesViewModel.IsOpen = true;
+            ExamplesViewModel.SelectedExample = null;
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
@@ -210,7 +210,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
+                await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
