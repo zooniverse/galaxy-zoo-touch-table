@@ -109,6 +109,7 @@
         <Style x:Key="GalaxyExamples" TargetType="{x:Type Border}">
             <Setter Property="Opacity" Value="1"/>
             <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Background" Value="Transparent"/>
 
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
@@ -365,6 +366,12 @@
                     </Grid.RowDefinitions>
 
                     <Border Style="{StaticResource SmoothExampleBorder}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource DarkGrayColor}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TouchDown">
+                                <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="2*"/>
@@ -374,11 +381,11 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
-                            <DockPanel Grid.Row="1">
+                            <DockPanel Background="Transparent" Grid.Row="1">
                                 <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="TouchDown">
+                                    <Lib:HandlingEventTrigger EventName="TouchDown">
                                         <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
-                                    </i:EventTrigger>
+                                    </Lib:HandlingEventTrigger>
                                 </i:Interaction.Triggers>
                                 <Viewbox>
                                     <TextBlock Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
@@ -391,12 +398,6 @@
                             </DockPanel>
 
                             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
                                 <StackPanel Orientation="Horizontal" x:Name="SelectionPanel">
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
@@ -422,6 +423,11 @@
                         <Border.RenderTransform>
                             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.33'}"/>
                         </Border.RenderTransform>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TouchDown">
+                                <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Features}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
                         <Grid>
                             <Grid.RowDefinitions>
@@ -432,11 +438,11 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
-                            <DockPanel Grid.Row="1">
+                            <DockPanel Grid.Row="1" Background="Transparent">
                                 <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="TouchDown">
+                                    <Lib:HandlingEventTrigger EventName="TouchDown">
                                         <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
-                                    </i:EventTrigger>
+                                    </Lib:HandlingEventTrigger>
                                 </i:Interaction.Triggers>
                                 <Viewbox>
                                     <TextBlock Foreground="White" Text="{Binding Features.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
@@ -449,12 +455,6 @@
                             </DockPanel>
 
                             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Features}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
                                 <StackPanel Orientation="Horizontal">
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
@@ -480,6 +480,11 @@
                         <Border.RenderTransform>
                             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.66'}"/>
                         </Border.RenderTransform>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TouchDown">
+                                <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding NotAGalaxy}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
                         <Grid>
                             <Grid.RowDefinitions>
@@ -490,11 +495,11 @@
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
-                            <DockPanel Grid.Row="1">
+                            <DockPanel Grid.Row="1" Background="Transparent">
                                 <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="TouchDown">
+                                    <Lib:HandlingEventTrigger EventName="TouchDown">
                                         <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
-                                    </i:EventTrigger>
+                                    </Lib:HandlingEventTrigger>
                                 </i:Interaction.Triggers>
                                 <Viewbox>
                                     <TextBlock Foreground="White" Text="{Binding NotAGalaxy.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
@@ -507,12 +512,6 @@
                             </DockPanel>
 
                             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding NotAGalaxy}"/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
                                 <StackPanel Orientation="Horizontal">
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
