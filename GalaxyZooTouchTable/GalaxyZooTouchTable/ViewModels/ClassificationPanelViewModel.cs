@@ -287,6 +287,14 @@ namespace GalaxyZooTouchTable.ViewModels
             GraphQLRequest();
         }
 
+        private void ResetAnswerCount()
+        {
+            foreach (AnswerButton Answer in CurrentAnswers)
+            {
+                Answer.AnswerCount = 0;
+            }
+        }
+
         private async void GraphQLRequest()
         {
             var answersRequest = new GraphQLRequest
@@ -308,6 +316,7 @@ namespace GalaxyZooTouchTable.ViewModels
             };
             var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
             var reductions = graphQLResponse.Data.workflow.subject_reductions;
+            ResetAnswerCount();
             if (reductions.Count > 0)
             {
                 var data = reductions.First.data;
@@ -315,6 +324,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     var index = System.Convert.ToInt32(count.Name);
                     AnswerButton Answer = CurrentAnswers[index];
+
 
                     int answerCount = (int)count.Value;
                     Answer.AnswerCount = answerCount;
