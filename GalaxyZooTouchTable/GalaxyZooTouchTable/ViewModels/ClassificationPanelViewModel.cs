@@ -28,7 +28,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public WorkflowTask CurrentTask { get; set; }
         public string CurrentTaskIndex { get; set; }
-        public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
+        public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
         public LevelerViewModel LevelerViewModel { get; set; } = new LevelerViewModel();
         public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
@@ -314,10 +314,10 @@ namespace GalaxyZooTouchTable.ViewModels
                 foreach (var count in data)
                 {
                     var index = System.Convert.ToInt32(count.Name);
-                    AnswerButton test = CurrentAnswers[index];
+                    AnswerButton Answer = CurrentAnswers[index];
 
                     int answerCount = (int)count.Value;
-                    test.AnswerCount = answerCount;
+                    Answer.AnswerCount = answerCount;
 
                     TotalVotes += answerCount;
                 }
