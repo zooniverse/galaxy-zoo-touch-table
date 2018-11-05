@@ -17,7 +17,6 @@ namespace GalaxyZooTouchTable
         public ExamplesPanel()
         {
             InitializeComponent();
-            DataContext = new ExamplesPanelViewModel();
         }
 
         private void ExampleList_SelectionChanged(object sender, SelectionChangedEventArgs eventArgs)

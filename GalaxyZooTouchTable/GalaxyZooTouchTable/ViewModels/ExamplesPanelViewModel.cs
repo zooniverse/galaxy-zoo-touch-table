@@ -24,7 +24,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public bool _isOpen = false;
+        public bool _isOpen = true;
         public bool IsOpen
         {
             get { return _isOpen; }

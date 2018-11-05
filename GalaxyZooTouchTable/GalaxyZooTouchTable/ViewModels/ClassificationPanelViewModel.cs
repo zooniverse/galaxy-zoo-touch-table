@@ -28,8 +28,9 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public WorkflowTask CurrentTask { get; set; }
         public string CurrentTaskIndex { get; set; }
-        public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient("https://caesar-staging.zooniverse.org/graphql");
-        public LevelerViewModel LevelerVM { get; set; } = new LevelerViewModel();
+        public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
+        public LevelerViewModel LevelerViewModel { get; set; } = new LevelerViewModel();
+        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
@@ -39,7 +40,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
-        public ICommand SubmitClassification { get; set; }
 
         private int _totalVotes = 0;
         public int TotalVotes
@@ -140,7 +140,7 @@ namespace GalaxyZooTouchTable.ViewModels
             User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            LevelerVM = new LevelerViewModel(user);
+            LevelerViewModel = new LevelerViewModel(user);
             ActiveUsers = activeUsers;
 
             if (CurrentTask.Answers != null)
@@ -174,6 +174,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
+            LevelerViewModel.IsOpen = false;
+            ExamplesViewModel.IsOpen = true;
+            ExamplesViewModel.SelectedExample = null;
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
@@ -208,6 +211,8 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
                 await client.Classifications.Create(CurrentClassification);
+                SelectedItem.AnswerCount += 1;
+                TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
@@ -282,6 +287,14 @@ namespace GalaxyZooTouchTable.ViewModels
             GraphQLRequest();
         }
 
+        private void ResetAnswerCount()
+        {
+            foreach (AnswerButton Answer in CurrentAnswers)
+            {
+                Answer.AnswerCount = 0;
+            }
+        }
+
         private async void GraphQLRequest()
         {
             var answersRequest = new GraphQLRequest
@@ -303,16 +316,21 @@ namespace GalaxyZooTouchTable.ViewModels
             };
             var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
             var reductions = graphQLResponse.Data.workflow.subject_reductions;
-            var data = reductions.First.data;
-            foreach (var count in data)
+            ResetAnswerCount();
+            if (reductions.Count > 0)
             {
-                var index = System.Convert.ToInt32(count.Name);
-                AnswerButton test = CurrentAnswers[index];
+                var data = reductions.First.data;
+                foreach (var count in data)
+                {
+                    var index = System.Convert.ToInt32(count.Name);
+                    AnswerButton Answer = CurrentAnswers[index];
 
-                int answerCount = (int)count.Value;
-                test.AnswerCount = answerCount;
 
-                TotalVotes += answerCount;
+                    int answerCount = (int)count.Value;
+                    Answer.AnswerCount = answerCount;
+
+                    TotalVotes += answerCount;
+                }
             }
         }
     }

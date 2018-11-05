@@ -36,7 +36,7 @@ namespace GalaxyZooTouchTable.Models
                     ImageOne = new BitmapImage(new Uri("../Images/GalaxyExamples/features1.jpeg", UriKind.Relative));
                     ImageTwo = new BitmapImage(new Uri("../Images/GalaxyExamples/features2.jpg", UriKind.Relative));
                     ImageThree = new BitmapImage(new Uri("../Images/GalaxyExamples/features3.jpg", UriKind.Relative));
-                    Title = "Features or Disk";
+                    Title = "Features";
                     Description = "Galaxies might have spiral arms, a bulge or bar, or any other interesting feature.";
                     Description2 = "Choose this option if you see anything unique about the galaxy";
                     break;
@@ -44,7 +44,7 @@ namespace GalaxyZooTouchTable.Models
                     ImageOne = new BitmapImage(new Uri("../Images/GalaxyExamples/star1.jpg", UriKind.Relative));
                     ImageTwo = new BitmapImage(new Uri("../Images/GalaxyExamples/star2.jpg", UriKind.Relative));
                     ImageThree = new BitmapImage(new Uri("../Images/GalaxyExamples/smooth3.jpg", UriKind.Relative));
-                    Title = "Star or Artifact";
+                    Title = "Not a Galaxy";
                     Description = "Choose \"Star or Artifact\" if there is no central galaxy to classify or if the artifact is so badly displayed that you can't ignore it and classify the galaxy with reasonable confidence.";
                     Description2 = "The telescopes taking our data were designed to look at faint galaxies, which means that bright, compact objects like stars sometimes look a bit strange.";
                     break;

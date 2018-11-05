@@ -33,7 +33,7 @@
                 <RowDefinition Height="13*"/>
             </Grid.RowDefinitions>
 
-            <Views:Leveler Grid.Row="1" DataContext="{Binding LevelerVM}"/>
+            <Views:Leveler Grid.Row="1" DataContext="{Binding LevelerViewModel}"/>
 
             <!--October 2018: The notification bell design is pending-->
             <!--<Button
@@ -108,7 +108,7 @@
 
                         <Button Style="{StaticResource StandardBtn}" Grid.Column="1" BorderThickness="0" Name="CloseButton" Foreground="White" Background="Transparent" VerticalAlignment="Center" Command="{Binding ShowCloseConfirmation}">
                             <TextBlock>
-                                <Run Text="Close Workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
+                                <Run Text="Close workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
                                 <Run Text="X" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
                             </TextBlock>
                         </Button>
@@ -171,7 +171,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <local:ExamplesPanel Grid.Row="1" />
+            <local:ExamplesPanel Grid.Row="1" DataContext="{Binding ExamplesViewModel}"/>
         </Grid>
     </Grid>
 </UserControl>

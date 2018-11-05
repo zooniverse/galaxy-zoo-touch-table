@@ -33,7 +33,7 @@
             <Image MaxHeight="200" MaxWidth="200" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
         </Border>
 
-        <ListView Grid.Column="2" Grid.Row="3" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <ListView Grid.Column="2" Grid.Row="3" SelectedItem="{Binding SelectedItem}" SelectionMode="Single" ItemsSource="{Binding CurrentAnswers}" Background="Transparent" BorderBrush="Transparent" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="1"/>
@@ -57,7 +57,12 @@
                                             <Grid Background="#FFE5FF4D">
                                                 <Image Margin="5" Source="{Binding Url}" Stretch="Uniform" StretchDirection="Both"/>
                                             </Grid>
-                                            <TextBlock x:Name="Text" Text="{Binding Label}" Margin="5,0"  VerticalAlignment="Center" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" Margin="15">
+                                                        <Run Text="{Binding Label}" FontWeight="Bold"/><LineBreak/>
+                                                        <Run Text="{Binding SubLabel}" FontSize="{Binding FontSize, Converter={StaticResource FontSizeConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType=TextBlock}, ConverterParameter='0.6'}" FontStyle="Italic"/>
+                                                </TextBlock>
+                                            </StackPanel>
                                         </StackPanel>
                                     </Button>
                                     <Grid.OpacityMask>
