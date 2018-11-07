@@ -1,6 +1,5 @@
 ﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 
@@ -8,10 +7,14 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ExamplesPanelViewModel : INotifyPropertyChanged
     {
-        public List<GalaxyExample> ExampleGalaxies { get; set; } = new List<GalaxyExample>();
         public ICommand OpenPanel { get; set; }
         public ICommand TogglePanel { get; set; }
-        public ICommand SelectionChanged { get; set; }
+        public ICommand SelectItem { get; set; }
+        public ICommand UnselectItem { get; set; }
+
+        public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
+        public GalaxyExample Features { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Features);
+        public GalaxyExample NotAGalaxy { get; set; } = GalaxyExampleFactory.Create(GalaxyType.NotAGalaxy);
 
         private bool _isSelected = false;
         public bool IsSelected
@@ -48,10 +51,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ExamplesPanelViewModel()
         {
-            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Smooth));
-            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Features));
-            ExampleGalaxies.Add(new GalaxyExample(GalaxyType.Star));
-
             LoadCommands();
         }
 
@@ -59,23 +58,27 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);
-            SelectionChanged = new CustomCommand(SelectExample, CanChoose);
+            SelectItem = new CustomCommand(OnToggleItem, CanSelectItem);
+            UnselectItem = new CustomCommand(OnToggleItem);
         }
 
-        public void SelectExample(object sender)
+        public void OnToggleItem(object sender)
         {
-            if (sender == null)
+            var example = sender as GalaxyExample;
+            if (example == SelectedExample)
             {
                 IsSelected = false;
+                SelectedExample = null;
             } else
             {
                 IsSelected = true;
+                SelectedExample = example;
             }
         }
 
-        public bool CanChoose(object sender)
+        public bool CanSelectItem(object sender)
         {
-            return true;
+            return SelectedExample == null;
         }
 
         public void SlidePanel(object sender)
@@ -96,7 +99,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyRaised(string propertyname)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
     }
