@@ -1,9 +1,11 @@
 ﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -12,6 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ObservableCollection<TableUser> ActiveUsers { get; set; } = new ObservableCollection<TableUser>();
         public Workflow Workflow { get; set; }
         public Project Project { get; set; }
+        public ICommand WindowLoaded { get; set; }
 
         private bool _showJoinMessage = true;
         public bool ShowJoinMessage
@@ -92,12 +95,17 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public MainWindowViewModel()
         {
-            GetWorkflow();
+            LoadCommands();
 
             ActiveUsers.CollectionChanged += ActiveUsersChanged;
         }
 
-        private async void GetWorkflow()
+        private void LoadCommands()
+        {
+            WindowLoaded = new CustomCommand(GetWorkflow);
+        }
+
+        private async void GetWorkflow(object sender)
         {
             ApiClient client = new ApiClient();
             Workflow = await client.Workflows.Get(Config.WorkflowId);
