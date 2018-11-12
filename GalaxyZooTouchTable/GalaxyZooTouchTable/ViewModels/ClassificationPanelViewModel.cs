@@ -314,24 +314,24 @@ namespace GalaxyZooTouchTable.ViewModels
                     subjectId = CurrentSubject.Id
                 }
             };
-            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
-            var reductions = graphQLResponse.Data.workflow.subject_reductions;
-            ResetAnswerCount();
-            if (reductions.Count > 0)
-            {
-                var data = reductions.First.data;
-                foreach (var count in data)
-                {
-                    var index = System.Convert.ToInt32(count.Name);
-                    AnswerButton Answer = CurrentAnswers[index];
+            //var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
+            //var reductions = graphQLResponse.Data.workflow.subject_reductions;
+            //ResetAnswerCount();
+            //if (reductions.Count > 0)
+            //{
+            //    var data = reductions.First.data;
+            //    foreach (var count in data)
+            //    {
+            //        var index = System.Convert.ToInt32(count.Name);
+            //        AnswerButton Answer = CurrentAnswers[index];
 
 
-                    int answerCount = (int)count.Value;
-                    Answer.AnswerCount = answerCount;
+            //        int answerCount = (int)count.Value;
+            //        Answer.AnswerCount = answerCount;
 
-                    TotalVotes += answerCount;
-                }
-            }
+            //        TotalVotes += answerCount;
+            //    }
+            //}
         }
     }
 }

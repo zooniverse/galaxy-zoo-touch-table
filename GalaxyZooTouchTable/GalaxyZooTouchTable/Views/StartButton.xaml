@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              x:Name="ButtonContainer"
              mc:Ignorable="d"
-             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
-             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.4'}">
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.2'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.4'}">
     <UserControl.Resources>
         <Style x:Key="StartButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardBtn}">
             <Style.Triggers>

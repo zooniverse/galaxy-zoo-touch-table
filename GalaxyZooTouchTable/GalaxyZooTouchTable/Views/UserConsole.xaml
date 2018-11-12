@@ -7,8 +7,8 @@
              d:DesignHeight="366"
              d:DesignWidth="551"
              x:Name="MainConsole"
-             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.363'}"
-             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.516'}"
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.363'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.516'}"
              mc:Ignorable="d">
 
     <UserControl.Resources>

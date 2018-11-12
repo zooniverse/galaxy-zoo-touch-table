@@ -5,7 +5,7 @@ using System.Windows.Data;
 
 namespace GalaxyZooTouchTable
 {
-    public class UserConsoleConverter : IValueConverter
+    public class PercentSizeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

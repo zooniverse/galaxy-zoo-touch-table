@@ -193,7 +193,7 @@
     <Compile Include="Views\UserConsole.xaml.cs">
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\UserConsoleConverter.cs" />
+    <Compile Include="Converters\PercentSizeConverter.cs" />
     <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
     <Compile Include="ViewModels\ExamplesPanelViewModel.cs" />
