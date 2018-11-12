@@ -170,13 +170,14 @@
 
                         <Button x:Name="SubmitButton" Command="{Binding ContinueClassification}" Style="{StaticResource SuccessBtn}" Foreground="Black">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                                    FontWeight="Bold"
-                                    VerticalAlignment="Center"
-                                    FontSize="{Binding Path=ActualHeight, ElementName=SubmitButton, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.4'}"
-                                    Text="{Binding SuccessBtnText}"/>
+                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=SubmitButton, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.4'}">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                                        FontWeight="Bold"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding SuccessBtnText}"/>
+                                </Viewbox>
                                 <fa:ImageAwesome
                                     Icon="ChevronRight"
                                     Style="{StaticResource ContinueChevron}"

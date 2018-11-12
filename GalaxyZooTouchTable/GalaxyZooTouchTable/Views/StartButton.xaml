@@ -62,18 +62,22 @@
             </Viewbox>
 
             <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Viewbox Margin="0,30,0,10">
-                    <TextBlock Text="TAP" FontFamily="Karla">
-                    <TextBlock.LayoutTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="-15"/>
-                        </TransformGroup>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
+                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.15'}">
+                    <TextBlock
+                    Text="TAP"
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins">
+                        <TextBlock.LayoutTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="-15"/>
+                            </TransformGroup>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
                 </Viewbox>
                 <Image Grid.Row="1" Source="{Binding User.StartButton}" Stretch="Uniform"/>
-                <Viewbox Margin="0,30,0,10">
-                    <TextBlock Text="HERE" FontFamily="Karla">
+                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.15'}">
+                    <TextBlock
+                        Text="HERE"
+                        FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins">
                         <TextBlock.LayoutTransform>
                             <TransformGroup>
                                 <RotateTransform Angle="15"/>
