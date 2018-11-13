@@ -97,7 +97,7 @@
                     <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
                         <Run Text="Classify"/>
                         <Run Text="{Binding ClassificationsUntilUpgrade}" FontWeight="Bold"/>
-                        <Run Text="More"/>
+                        <Run Text="more"/>
                     </TextBlock>
                 </Viewbox>
 

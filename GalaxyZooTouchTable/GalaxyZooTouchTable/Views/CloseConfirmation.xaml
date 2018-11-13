@@ -11,7 +11,7 @@
             <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
 
-        <Grid Margin="10, 20">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
                 <RowDefinition Height="3*"/>
@@ -33,8 +33,8 @@
 
             <Separator Grid.Row="2" Grid.Column="1" Background="{StaticResource DarkGrayColor}"/>
 
-            <Viewbox Grid.Row="1">
-                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Margin="0,0,40,0">
+            <Viewbox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left">
+                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
                     <Run>Close workspace and</Run>
                     <LineBreak/>
                     <Run>end your session?</Run>
