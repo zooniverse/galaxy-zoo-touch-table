@@ -8,20 +8,30 @@
              d:DesignHeight="250" d:DesignWidth="300">
     <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
         <Border.Effect>
-            <DropShadowEffect ShadowDepth="2"/>
+            <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
 
         <Grid Margin="10, 20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="4*"/>
-                <RowDefinition Height="9*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="12*"/>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,10" Source="../Images/General/Logo.png"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="18*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
 
-            <Separator Grid.Row="0" VerticalAlignment="Bottom" Background="Black"/>
+            <Image Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Source="../Images/General/Logo.png"/>
+
+            <Separator Grid.Row="2" Grid.Column="1" Background="{StaticResource DarkGrayColor}"/>
 
             <Viewbox Grid.Row="1">
                 <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold" Margin="0,0,40,0">
@@ -31,40 +41,48 @@
                 </TextBlock>
             </Viewbox>
 
-            <Grid Grid.Row="2" Margin="0,0,0,10">
+            <Grid Grid.Row="5" Grid.Column="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="7*"/>
-                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="15*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="6*"/>
                 </Grid.ColumnDefinitions>
 
-                <Viewbox Grid.Column="0" VerticalAlignment="Top" Margin="0,0,10,0">
+                <Viewbox Grid.Column="0" VerticalAlignment="Top">
                     <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
                         <Run>Do real science at home!</Run>
                         <LineBreak/>
-                        <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">adler.Zooniverse.org</Run> <Run>or</Run>
+                        <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">adler.zooniverse.org</Run> <Run>or</Run>
                         <LineBreak/>
-                        <Run>download the Zooniverse app for iOS</Run>
+                        <Run>download the Zooniverse app for</Run>
                         <LineBreak/>
-                        <Run>and Android.</Run>
+                        <Run>iOS and Android.</Run>
                     </TextBlock>
                 </Viewbox>
 
-                <Image Grid.Column="1" Source="../Images/General/qrcode.png"/>
+                <Image Grid.Column="2" VerticalAlignment="Top" Source="../Images/General/qrcode.png"/>
             </Grid>
             
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="6" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource OutlineBtn}" Grid.Column="0" FontWeight="Bold" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.ShowCloseConfirmation}">
-                    <Viewbox Margin="5">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Keep classifying"/>
+                <Button
+                    Style="{StaticResource OutlineBtn}"
+                    Grid.Column="0"
+                    FontWeight="Bold"
+                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.ShowCloseConfirmation}">
+                    <Viewbox Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.45'}">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Text="Keep classifying"/>
                     </Viewbox>
                 </Button>
                 <Button Style="{StaticResource SuccessBtn}" Foreground="Black" Grid.Column="2" FontWeight="Bold" Command="{Binding CloseClassifier}">
-                    <Viewbox Margin="5">
+                    <Viewbox Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.45'}">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Close &amp; end"/>
                     </Viewbox>
                 </Button>
