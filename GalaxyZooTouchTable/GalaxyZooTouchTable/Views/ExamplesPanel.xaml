@@ -83,7 +83,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="HeaderGrid" TargetType="{x:Type Grid}">
+        <Style x:Key="HeaderText" TargetType="{x:Type Viewbox}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
@@ -91,6 +91,7 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" To="0" Duration="0:0:0.1"/>
                                 <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" To="0" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[2].Y" To="0" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -99,6 +100,7 @@
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" Duration="0:0:0.1"/>
                                 <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" Duration="0:0:0.1"/>
+                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[2].Y" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
@@ -113,6 +115,9 @@
 
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -272,8 +277,9 @@
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="5"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
+            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.05'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.9'}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.9'}"/>
         </Style>
     </UserControl.Resources>
 
@@ -297,26 +303,6 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
 
-                <fa:ImageAwesome
-                        Icon="ChevronRight"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Margin="8"
-                        Foreground="White"
-                        Panel.ZIndex="1"
-                        RenderTransformOrigin="0.5,0.5"
-                        Style="{StaticResource RightArrowStyle}">
-                    <fa:ImageAwesome.RenderTransform>
-                        <RotateTransform/>
-                    </fa:ImageAwesome.RenderTransform>
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchDown">
-                            <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </fa:ImageAwesome>
-
                 <Border Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Background="{StaticResource MedGrayColor}" CornerRadius="0,5,5,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
@@ -333,30 +319,51 @@
                     </i:Interaction.Triggers>
                 </Border>
 
-                <Grid Grid.Row="1" Grid.Column="1" RenderTransformOrigin="0,1" Style="{StaticResource HeaderGrid}">
+                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" RenderTransformOrigin="0,1">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <RotateTransform x:Name="RotateHeader" Angle="90"/>
-                            <TranslateTransform x:Name="TranslateHeader" X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.66'}"/>
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Viewbox Grid.Row="1" Margin="0,0,10,0">
+                    <Viewbox Style="{StaticResource HeaderText}" HorizontalAlignment="Left">
+                        <Viewbox.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="90"/>
+                                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.87'}"/>
+                                <TranslateTransform Y="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.2'}"/>
+                            </TransformGroup>
+                        </Viewbox.RenderTransform>
+                        <TextBlock Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                    </Viewbox>
+
+                    <Viewbox Grid.Row="1">
                         <TextBlock Text="Tap each item to learn more." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontStyle="Italic"/>
                     </Viewbox>
+
+                    <fa:ImageAwesome
+                        Icon="ChevronRight"
+                        Grid.Column="2"
+                        Foreground="White"
+                        Panel.ZIndex="1"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource RightArrowStyle}">
+                        <fa:ImageAwesome.RenderTransform>
+                            <RotateTransform/>
+                        </fa:ImageAwesome.RenderTransform>
+                    </fa:ImageAwesome>
                 </Grid>
 
                 <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2">
@@ -377,7 +384,7 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="7*"/>
+                                <RowDefinition Height="10*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -404,7 +411,7 @@
                                             <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
+                                    <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
                                         </Border.Background>
@@ -434,7 +441,7 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="7*"/>
+                                <RowDefinition Height="10*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -461,7 +468,7 @@
                                             <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
+                                    <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
                                         </Border.Background>
@@ -491,7 +498,7 @@
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="2*"/>
                                 <RowDefinition Height="2*"/>
-                                <RowDefinition Height="7*"/>
+                                <RowDefinition Height="10*"/>
                                 <RowDefinition Height="2*"/>
                             </Grid.RowDefinitions>
 
@@ -518,7 +525,7 @@
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
+                                    <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
                                         </Border.Background>
