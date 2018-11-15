@@ -71,6 +71,13 @@
         </Style>
 
         <Style x:Key="ExampleArrow" TargetType="{x:Type fa:ImageAwesome}">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource BoundMarginConverter}, ConverterParameter='Left=0.75 Top=0.25 Bottom=0.25'}"/>
+            <Setter Property="Icon" Value="CaretRight"/>
+            <Setter Property="Foreground" Value="White"/>
+            
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
@@ -276,9 +283,16 @@
         </Style>
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.1'}"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.9'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.9'}"/>
+            <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.075'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.95'}"/>
+                    <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.95'}"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="LeftExampleImage" BasedOn="{StaticResource ExampleImages}" TargetType="{x:Type Border}">
@@ -291,6 +305,16 @@
 
         <Style x:Key="RightExampleImage" BasedOn="{StaticResource ExampleImages}" TargetType="{x:Type Border}">
             <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource BoundMarginConverter}, ConverterParameter='Left=0.1'}"/>
+        </Style>
+
+        <Style x:Key="HideWhenOpen" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Visible"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
@@ -314,7 +338,7 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="2" CornerRadius="0,5,5,0">
+                <Border Style="{StaticResource HideWhenOpen}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="2" CornerRadius="0,5,5,0" Background="{StaticResource MedGrayColor}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
@@ -377,7 +401,7 @@
                     </fa:ImageAwesome>
                 </Grid>
 
-                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Style="{StaticResource ActiveExample}" Height="1*"/>
                         <RowDefinition Height="2*"/>
@@ -396,7 +420,7 @@
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="1"/>
                                 <RowDefinition Height="35*"/>
-                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="8"/>
                             </Grid.RowDefinitions>
 
                             <DockPanel Background="Transparent" Grid.Row="1">
@@ -408,7 +432,7 @@
                                 <Viewbox>
                                     <TextBlock Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                 </Viewbox>
-                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2" Icon="CaretRight" Foreground="White">
+                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
                                     <fa:ImageAwesome.RenderTransform>
                                         <RotateTransform/>
                                     </fa:ImageAwesome.RenderTransform>
@@ -453,7 +477,7 @@
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="1"/>
                                 <RowDefinition Height="35*"/>
-                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="8"/>
                             </Grid.RowDefinitions>
 
                             <DockPanel Grid.Row="1" Background="Transparent">
@@ -465,7 +489,7 @@
                                 <Viewbox>
                                     <TextBlock Foreground="White" Text="{Binding Features.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                 </Viewbox>
-                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2" Icon="CaretRight" Foreground="White">
+                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
                                     <fa:ImageAwesome.RenderTransform>
                                         <RotateTransform/>
                                     </fa:ImageAwesome.RenderTransform>
@@ -510,7 +534,7 @@
                                 <RowDefinition Height="10"/>
                                 <RowDefinition Height="1"/>
                                 <RowDefinition Height="35*"/>
-                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="8"/>
                             </Grid.RowDefinitions>
 
                             <DockPanel Grid.Row="1" Background="Transparent">
@@ -522,7 +546,7 @@
                                 <Viewbox>
                                     <TextBlock Foreground="White" Text="{Binding NotAGalaxy.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                 </Viewbox>
-                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2" Icon="CaretRight" Foreground="White">
+                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
                                     <fa:ImageAwesome.RenderTransform>
                                         <RotateTransform/>
                                     </fa:ImageAwesome.RenderTransform>
