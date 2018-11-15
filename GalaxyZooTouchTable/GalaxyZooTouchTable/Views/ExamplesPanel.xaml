@@ -276,10 +276,21 @@
         </Style>
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius" Value="5"/>
-            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.05'}"/>
+            <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.1'}"/>
             <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.9'}"/>
             <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.9'}"/>
+        </Style>
+
+        <Style x:Key="LeftExampleImage" BasedOn="{StaticResource ExampleImages}" TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource BoundMarginConverter}, ConverterParameter='Right=0.1'}"/>
+        </Style>
+
+        <Style x:Key="MiddleExampleImage" BasedOn="{StaticResource ExampleImages}" TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource BoundMarginConverter}, ConverterParameter='Left=0.05 Right=0.05'}"/>
+        </Style>
+
+        <Style x:Key="RightExampleImage" BasedOn="{StaticResource ExampleImages}" TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource BoundMarginConverter}, ConverterParameter='Left=0.1'}"/>
         </Style>
     </UserControl.Resources>
 
@@ -294,16 +305,16 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="4*"/>
                     <RowDefinition Height="28*"/>
-                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="18*"/>
-                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Background="{StaticResource MedGrayColor}" CornerRadius="0,5,5,0">
+                <Border Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Grid.ColumnSpan="2" CornerRadius="0,5,5,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
@@ -319,7 +330,7 @@
                     </i:Interaction.Triggers>
                 </Border>
 
-                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" RenderTransformOrigin="0,1">
+                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" RenderTransformOrigin="0,1">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchDown">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
@@ -366,7 +377,7 @@
                     </fa:ImageAwesome>
                 </Grid>
 
-                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2">
+                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Style="{StaticResource ActiveExample}" Height="1*"/>
                         <RowDefinition Height="2*"/>
@@ -381,11 +392,11 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="10*"/>
-                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="35*"/>
+                                <RowDefinition Height="10"/>
                             </Grid.RowDefinitions>
 
                             <DockPanel Background="Transparent" Grid.Row="1">
@@ -406,17 +417,17 @@
 
                             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
                                 <StackPanel Orientation="Horizontal" x:Name="SelectionPanel">
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource LeftExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource MiddleExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource RightExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
                                         </Border.Background>
@@ -438,11 +449,11 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="10*"/>
-                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="35*"/>
+                                <RowDefinition Height="10"/>
                             </Grid.RowDefinitions>
 
                             <DockPanel Grid.Row="1" Background="Transparent">
@@ -463,17 +474,17 @@
 
                             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource LeftExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource MiddleExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource RightExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Features.ImageThree}"/>
                                         </Border.Background>
@@ -495,11 +506,11 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="10*"/>
-                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="35*"/>
+                                <RowDefinition Height="10"/>
                             </Grid.RowDefinitions>
 
                             <DockPanel Grid.Row="1" Background="Transparent">
@@ -520,17 +531,17 @@
 
                             <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
                                 <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource LeftExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource MiddleExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
+                                    <Border Style="{StaticResource RightExampleImage}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding NotAGalaxy.ImageThree}"/>
                                         </Border.Background>
