@@ -14,7 +14,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-            <local:UserConsoleConverter x:Key="UserConsoleConverter"/>
+            <local:PercentSizeConverter x:Key="PercentSizeConverter"/>
             <local:NullImageConverter x:Key="NullImageConverter"/>
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>

@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              x:Name="ButtonContainer"
              mc:Ignorable="d"
-             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.2'}"
-             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource UserConsoleConverter}, ConverterParameter='0.4'}">
+             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.2'}"
+             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.4'}">
     <UserControl.Resources>
         <Style x:Key="StartButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardBtn}">
             <Style.Triggers>
@@ -62,18 +62,22 @@
             </Viewbox>
 
             <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Viewbox Margin="0,30,0,10">
-                    <TextBlock Text="TAP" FontFamily="Karla">
-                    <TextBlock.LayoutTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="-15"/>
-                        </TransformGroup>
-                    </TextBlock.LayoutTransform>
-                </TextBlock>
+                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.15'}">
+                    <TextBlock
+                    Text="TAP"
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins">
+                        <TextBlock.LayoutTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="-15"/>
+                            </TransformGroup>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
                 </Viewbox>
                 <Image Grid.Row="1" Source="{Binding User.StartButton}" Stretch="Uniform"/>
-                <Viewbox Margin="0,30,0,10">
-                    <TextBlock Text="HERE" FontFamily="Karla">
+                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.15'}">
+                    <TextBlock
+                        Text="HERE"
+                        FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins">
                         <TextBlock.LayoutTransform>
                             <TransformGroup>
                                 <RotateTransform Angle="15"/>

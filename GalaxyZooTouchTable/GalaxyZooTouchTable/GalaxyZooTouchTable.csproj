@@ -27,8 +27,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
-    <ApplicationVersion>1.0.0.1</ApplicationVersion>
+    <ApplicationRevision>29</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -90,7 +90,7 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PanoptesNetClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PanoptesNetClient.1.1.0\lib\net461\PanoptesNetClient.dll</HintPath>
+      <HintPath>..\packages\PanoptesNetClient.1.1.1\lib\net461\PanoptesNetClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -193,7 +193,7 @@
     <Compile Include="Views\UserConsole.xaml.cs">
       <DependentUpon>UserConsole.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\UserConsoleConverter.cs" />
+    <Compile Include="Converters\PercentSizeConverter.cs" />
     <Compile Include="Lib\CustomCommand.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModel.cs" />
     <Compile Include="ViewModels\ExamplesPanelViewModel.cs" />
