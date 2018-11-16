@@ -12,7 +12,6 @@ namespace GalaxyZooTouchTable
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel();
             this.Cursor = Cursors.None;
         }
     }
