@@ -37,6 +37,8 @@
         </Storyboard>
 
         <Style x:Key="MainPanelStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{StaticResource MedGrayColor}"/>
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
@@ -74,7 +76,7 @@
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.75'}"/>
+            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.5'}"/>
             <Setter Property="Icon" Value="CaretRight"/>
             <Setter Property="Foreground" Value="White"/>
             
@@ -278,14 +280,13 @@
         </Style>
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
-            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.075'}"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.85'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.85'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
         </Style>
 
         <Style x:Key="ExampleImageSeparator" TargetType="{x:Type Rectangle}">
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.1'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.075'}"/>
         </Style>
 
         <Style x:Key="HideWhenOpen" TargetType="{x:Type Border}">
@@ -321,13 +322,16 @@
         <Style x:Key="ExampleTopSeparator" TargetType="{x:Type Separator}">
             <Setter Property="DockPanel.Dock" Value="Top"/>
             <Setter Property="Background" Value="{StaticResource DarkGrayColor}"/>
-            <Setter Property="Width" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.9'}"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.8'}"/>
         </Style>
 
         <Style x:Key="TitleSpacer" TargetType="{x:Type Rectangle}">
             <Setter Property="Height" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.025'}"/>
             <Setter Property="DockPanel.Dock" Value="Top"/>
+        </Style>
+
+        <Style x:Key="ExampleTitleViewbox" TargetType="{x:Type Viewbox}">
+            <Setter Property="Height" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.08'}"/>
         </Style>
     </UserControl.Resources>
 
@@ -337,7 +341,7 @@
                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
             </Border.RenderTransform>
 
-            <Grid Background="{StaticResource MedGrayColor}">
+            <Grid Background="Transparent">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="4*"/>
@@ -350,7 +354,7 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Background="{StaticResource MedGrayColor}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+                <Border CornerRadius="0,0,5,0" Background="{StaticResource MedGrayColor}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
@@ -413,7 +417,7 @@
                     </fa:ImageAwesome>
                 </Grid>
 
-                <Grid x:Name="ExampleGrid" Style="{StaticResource HideWhenClosed}" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2">
+                <Grid x:Name="ExampleGrid" Style="{StaticResource HideWhenClosed}" Grid.ColumnSpan="3" Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Style="{StaticResource ActiveExample}" Height="1*"/>
                         <RowDefinition Height="2*"/>
@@ -426,28 +430,44 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <DockPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="9*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Hello" Foreground="White"/>
+                        </Grid>
+                        
+                        <!--<DockPanel>
                             <Separator Style="{StaticResource ExampleTopSeparator}"/>
-                            <Rectangle Style="{StaticResource TitleSpacer}"/>
-                            <StackPanel Style="{StaticResource ExampleTitle}">
-                                <i:Interaction.Triggers>
-                                    <Lib:HandlingEventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
-                                    </Lib:HandlingEventTrigger>
-                                </i:Interaction.Triggers>
 
-                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ExamplesHeader, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.75'}">
-                                    <TextBlock Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                </Viewbox>
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="9*"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ExamplesHeader}">
-                                    <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
-                                        <fa:ImageAwesome.RenderTransform>
-                                            <RotateTransform/>
-                                        </fa:ImageAwesome.RenderTransform>
-                                    </fa:ImageAwesome>
-                                </Viewbox>
-                            </StackPanel>
+                                <StackPanel Grid.Column="1" Style="{StaticResource ExampleTitle}">
+                                    <i:Interaction.Triggers>
+                                        <Lib:HandlingEventTrigger EventName="TouchDown">
+                                            <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
+                                        </Lib:HandlingEventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                    <Viewbox Style="{StaticResource ExampleTitleViewbox}">
+                                        <TextBlock Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+                                    </Viewbox>
+
+                                    <Viewbox Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.1'}">
+                                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                                            <fa:ImageAwesome.RenderTransform>
+                                                <RotateTransform/>
+                                            </fa:ImageAwesome.RenderTransform>
+                                        </fa:ImageAwesome>
+                                    </Viewbox>
+                                </StackPanel>
+                            </Grid>
 
                             <ScrollViewer Style="{StaticResource ExampleScrollViewer}">
                                 <StackPanel Orientation="Horizontal">
@@ -456,13 +476,11 @@
                                             <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Rectangle Style="{StaticResource ExampleImageSeparator}"/>
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
                                         </Border.Background>
                                     </Border>
-                                    <Rectangle Style="{StaticResource ExampleImageSeparator}"/>
                                     <Border Style="{StaticResource ExampleImages}">
                                         <Border.Background>
                                             <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
@@ -470,7 +488,7 @@
                                     </Border>
                                 </StackPanel>
                             </ScrollViewer>
-                        </DockPanel>
+                        </DockPanel>-->
                     </Border>
 
                     <Border Style="{StaticResource FeaturesExampleBorder}">
@@ -493,7 +511,7 @@
                                     </Lib:HandlingEventTrigger>
                                 </i:Interaction.Triggers>
 
-                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ExamplesHeader, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.75'}">
+                                <Viewbox Style="{StaticResource ExampleTitleViewbox}">
                                     <TextBlock Foreground="White" Text="{Binding Features.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                 </Viewbox>
 
@@ -550,7 +568,7 @@
                                     </Lib:HandlingEventTrigger>
                                 </i:Interaction.Triggers>
 
-                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ExamplesHeader, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.75'}">
+                                <Viewbox Style="{StaticResource ExampleTitleViewbox}">
                                     <TextBlock Foreground="White" Text="{Binding NotAGalaxy.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                 </Viewbox>
 
