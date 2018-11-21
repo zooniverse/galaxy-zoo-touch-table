@@ -74,8 +74,6 @@
 
         <Style x:Key="ExampleArrow" TargetType="{x:Type fa:ImageAwesome}">
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Icon" Value="CaretRight"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="5,0,0,0"/>
@@ -93,35 +91,8 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="MainHeaderText" TargetType="{x:Type Viewbox}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" To="0" Duration="0:0:0.1"/>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" To="0" Duration="0:0:0.1"/>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[2].Y" To="0" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" Duration="0:0:0.1"/>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" Duration="0:0:0.1"/>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[2].Y" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
         <Style x:Key="GalaxyExamples" TargetType="{x:Type Border}">
-            <Setter Property="Opacity" Value="1"/>
-            <Setter Property="Visibility" Value="Visible"/>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Grid.ColumnSpan" Value="3"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
                     <Setter Property="Visibility" Value="Hidden"/>
@@ -230,6 +201,10 @@
         </Style>
 
         <Style x:Key="SelectedItemText" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Grid.Row" Value="1"/>
+            <Setter Property="PanningMode" Value="VerticalOnly"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
             <Setter Property="Visibility" Value="Hidden"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
@@ -281,22 +256,9 @@
         </Style>
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.075'}"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='1'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='1'}"/>
-        </Style>
-
-        <Style x:Key="ExampleImageSeparator" TargetType="{x:Type Rectangle}">
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.075'}"/>
-        </Style>
-
-        <Style x:Key="HideWhenOpen" TargetType="{x:Type Border}">
-            <Setter Property="Visibility" Value="Visible"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.1'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}}"/>
         </Style>
 
         <Style x:Key="HideWhenClosed" TargetType="{x:Type Grid}">
@@ -308,16 +270,12 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ExampleTitle" TargetType="{x:Type StackPanel}">
-            <Setter Property="DockPanel.Dock" Value="Top"/>
-            <Setter Property="Orientation" Value="Horizontal"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-        </Style>
-
         <Style x:Key="ExampleScrollViewer" TargetType="{x:Type ScrollViewer}">
             <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
             <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
             <Setter Property="PanningMode" Value="HorizontalOnly"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+            <Setter Property="MinHeight" Value="30"/>
         </Style>
 
         <Style x:Key="ExampleTopSeparator" TargetType="{x:Type Separator}">
@@ -326,13 +284,17 @@
             <Setter Property="Margin" Value="11,0,11,7"/>
         </Style>
 
-        <Style x:Key="TitleSpacer" TargetType="{x:Type Rectangle}">
-            <Setter Property="Height" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.025'}"/>
-            <Setter Property="DockPanel.Dock" Value="Top"/>
+        <Style x:Key="ExampleDockPanel" TargetType="{x:Type DockPanel}">
+            <Setter Property="MinHeight" Value="59"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"/>
         </Style>
 
-        <Style x:Key="ExampleTitleViewbox" TargetType="{x:Type Viewbox}">
-            <Setter Property="Height" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.08'}"/>
+        <Style x:Key="ExampleStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="Margin" Value="11,0,11,4"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
         </Style>
     </UserControl.Resources>
 
@@ -390,14 +352,7 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Viewbox Style="{StaticResource MainHeaderText}" HorizontalAlignment="Left">
-                        <Viewbox.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform Angle="90"/>
-                                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.87'}"/>
-                                <TranslateTransform Y="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.2'}"/>
-                            </TransformGroup>
-                        </Viewbox.RenderTransform>
+                    <Viewbox HorizontalAlignment="Left">
                         <TextBlock x:Name="ExamplesHeader" Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                     </Viewbox>
 
@@ -424,6 +379,12 @@
                         <RowDefinition Height="2*"/>
                     </Grid.RowDefinitions>
 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
                     <Border Style="{StaticResource SmoothExampleBorder}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TouchUp">
@@ -432,11 +393,9 @@
                         </i:Interaction.Triggers>
 
                         <Viewbox>
-                            <DockPanel MinHeight="59"
-                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
-                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                            <DockPanel Style="{StaticResource ExampleDockPanel}">
                                 <Separator Style="{StaticResource ExampleTopSeparator}"/>
-                                <StackPanel DockPanel.Dock="Top" Height="8" Margin="11,0,11,4" Orientation="Horizontal" TouchUp="SmoothStackPanel_TouchUp">
+                                <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="SmoothStackPanel_TouchUp">
                                     <i:Interaction.Triggers>
                                         <Lib:HandlingEventTrigger EventName="TouchUp">
                                             <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
@@ -452,7 +411,7 @@
                                     </fa:ImageAwesome>
                                 </StackPanel>
 
-                                <ScrollViewer x:Name="SmoothScroller" Margin="0,0,0,8" MinHeight="30" DockPanel.Dock="Top" Width="Auto" VerticalAlignment="Stretch" Style="{StaticResource ExampleScrollViewer}">
+                                <ScrollViewer x:Name="SmoothScroller" Style="{StaticResource ExampleScrollViewer}">
                                     <StackPanel Margin="11,0" Orientation="Horizontal">
                                         <Border Style="{StaticResource ExampleImages}" Margin="0,0,2.5,0">
                                             <Border.Background>
@@ -486,11 +445,9 @@
                         </i:Interaction.Triggers>
 
                         <Viewbox>
-                            <DockPanel MinHeight="59"
-                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
-                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                            <DockPanel Style="{StaticResource ExampleDockPanel}">
                                 <Separator Style="{StaticResource ExampleTopSeparator}"/>
-                                <StackPanel DockPanel.Dock="Top" Height="8" Margin="11,0,11,4" Orientation="Horizontal" TouchUp="FeaturesStackPanel_TouchUp">
+                                <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="FeaturesStackPanel_TouchUp">
                                     <i:Interaction.Triggers>
                                         <Lib:HandlingEventTrigger EventName="TouchUp">
                                             <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
@@ -506,7 +463,7 @@
                                     </fa:ImageAwesome>
                                 </StackPanel>
 
-                                <ScrollViewer x:Name="FeaturesScroller" Margin="0,0,0,8" MinHeight="30" DockPanel.Dock="Top" Width="Auto" VerticalAlignment="Stretch" Style="{StaticResource ExampleScrollViewer}">
+                                <ScrollViewer x:Name="FeaturesScroller" Style="{StaticResource ExampleScrollViewer}">
                                     <StackPanel Margin="11,0" Orientation="Horizontal">
                                         <Border Style="{StaticResource ExampleImages}" Margin="0,0,2.5,0">
                                             <Border.Background>
@@ -540,11 +497,9 @@
                         </i:Interaction.Triggers>
 
                         <Viewbox>
-                            <DockPanel MinHeight="59"
-                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
-                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                            <DockPanel Style="{StaticResource ExampleDockPanel}">
                                 <Separator Style="{StaticResource ExampleTopSeparator}"/>
-                                <StackPanel DockPanel.Dock="Top" Height="8" Margin="11,0,11,4" Orientation="Horizontal" TouchUp="NotAGalaxyStackPanel_TouchUp">
+                                <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="NotAGalaxyStackPanel_TouchUp">
                                     <i:Interaction.Triggers>
                                         <Lib:HandlingEventTrigger EventName="TouchUp">
                                             <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
@@ -560,7 +515,7 @@
                                     </fa:ImageAwesome>
                                 </StackPanel>
 
-                                <ScrollViewer x:Name="NotAGalaxyScroller" Margin="0,0,0,8" MinHeight="30" DockPanel.Dock="Top" Width="Auto" VerticalAlignment="Stretch" Style="{StaticResource ExampleScrollViewer}">
+                                <ScrollViewer x:Name="NotAGalaxyScroller" Style="{StaticResource ExampleScrollViewer}">
                                     <StackPanel Margin="11,0" Orientation="Horizontal">
                                         <Border Style="{StaticResource ExampleImages}" Margin="0,0,2.5,0">
                                             <Border.Background>
@@ -583,7 +538,7 @@
                         </Viewbox>
                     </Border>
 
-                    <ScrollViewer x:Name="ItemText" Style="{StaticResource SelectedItemText}" Grid.Row="1" PanningMode="VerticalOnly" VerticalScrollBarVisibility="Hidden">
+                    <ScrollViewer x:Name="ItemText" Style="{StaticResource SelectedItemText}">
                         <StackPanel Style="{StaticResource SelectedTextStackPanel}">
                             <StackPanel.RenderTransform>
                                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
