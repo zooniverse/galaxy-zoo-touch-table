@@ -9,7 +9,7 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              Background="Transparent"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="300">
+             d:DesignHeight="220" d:DesignWidth="130">
 
     <UserControl.Resources>
         <Storyboard x:Key="FadeOutStoryboard">
@@ -29,7 +29,7 @@
         </Storyboard>
 
         <Storyboard x:Key="BeginRotateArrowStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
+            <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
         </Storyboard>
 
         <Storyboard x:Key="ReturnRotateArrowStoryboard">
@@ -76,10 +76,11 @@
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.5'}"/>
             <Setter Property="Icon" Value="CaretRight"/>
             <Setter Property="Foreground" Value="White"/>
-            
+            <Setter Property="Margin" Value="5,0,0,0"/>
+            <Setter Property="Height" Value="5"/>
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
@@ -281,8 +282,8 @@
 
         <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
             <Setter Property="CornerRadius" Value="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.075'}"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
+            <Setter Property="Width" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='1'}"/>
+            <Setter Property="Height" Value="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='1'}"/>
         </Style>
 
         <Style x:Key="ExampleImageSeparator" TargetType="{x:Type Rectangle}">
@@ -322,7 +323,7 @@
         <Style x:Key="ExampleTopSeparator" TargetType="{x:Type Separator}">
             <Setter Property="DockPanel.Dock" Value="Top"/>
             <Setter Property="Background" Value="{StaticResource DarkGrayColor}"/>
-            <Setter Property="Width" Value="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.8'}"/>
+            <Setter Property="Margin" Value="11,0,11,7"/>
         </Style>
 
         <Style x:Key="TitleSpacer" TargetType="{x:Type Rectangle}">
@@ -425,70 +426,53 @@
 
                     <Border Style="{StaticResource SmoothExampleBorder}">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchDown">
+                            <i:EventTrigger EventName="TouchUp">
                                 <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="9*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Text="Hello" Foreground="White"/>
-                        </Grid>
-                        
-                        <!--<DockPanel>
-                            <Separator Style="{StaticResource ExampleTopSeparator}"/>
-
-                            <Grid DockPanel.Dock="Top">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="9*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="1" Style="{StaticResource ExampleTitle}">
+                        <Viewbox>
+                            <DockPanel MinHeight="59"
+                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                                <Separator Style="{StaticResource ExampleTopSeparator}"/>
+                                <StackPanel DockPanel.Dock="Top" Height="8" Margin="11,0,11,4" Orientation="Horizontal" TouchUp="SmoothStackPanel_TouchUp">
                                     <i:Interaction.Triggers>
-                                        <Lib:HandlingEventTrigger EventName="TouchDown">
+                                        <Lib:HandlingEventTrigger EventName="TouchUp">
                                             <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
                                         </Lib:HandlingEventTrigger>
                                     </i:Interaction.Triggers>
 
-                                    <Viewbox Style="{StaticResource ExampleTitleViewbox}">
-                                        <TextBlock Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                    </Viewbox>
+                                    <TextBlock FontSize="7.5" Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
 
-                                    <Viewbox Height="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DockPanel}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.1'}">
-                                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
-                                            <fa:ImageAwesome.RenderTransform>
-                                                <RotateTransform/>
-                                            </fa:ImageAwesome.RenderTransform>
-                                        </fa:ImageAwesome>
-                                    </Viewbox>
+                                    <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                                        <fa:ImageAwesome.RenderTransform>
+                                            <RotateTransform/>
+                                        </fa:ImageAwesome.RenderTransform>
+                                    </fa:ImageAwesome>
                                 </StackPanel>
-                            </Grid>
 
-                            <ScrollViewer Style="{StaticResource ExampleScrollViewer}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
-                                        </Border.Background>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </DockPanel>-->
+                                <ScrollViewer x:Name="SmoothScroller" Margin="0,0,0,8" MinHeight="30" DockPanel.Dock="Top" Width="Auto" VerticalAlignment="Stretch" Style="{StaticResource ExampleScrollViewer}">
+                                    <StackPanel Margin="11,0" Orientation="Horizontal">
+                                        <Border Style="{StaticResource ExampleImages}" Margin="0,0,2.5,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Style="{StaticResource ExampleImages}" Margin="2.5,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Style="{StaticResource ExampleImages}" Margin="2.5,0,0,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
+                                            </Border.Background>
+                                        </Border>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Viewbox>
                     </Border>
 
                     <Border Style="{StaticResource FeaturesExampleBorder}">
@@ -496,56 +480,53 @@
                             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.33'}"/>
                         </Border.RenderTransform>
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchDown">
+                            <i:EventTrigger EventName="TouchUp">
                                 <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Features}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <DockPanel>
-                            <Separator Style="{StaticResource ExampleTopSeparator}"/>
-                            <Rectangle Style="{StaticResource TitleSpacer}"/>
-                            <StackPanel Style="{StaticResource ExampleTitle}">
-                                <i:Interaction.Triggers>
-                                    <Lib:HandlingEventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
-                                    </Lib:HandlingEventTrigger>
-                                </i:Interaction.Triggers>
+                        <Viewbox>
+                            <DockPanel MinHeight="59"
+                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                                <Separator Style="{StaticResource ExampleTopSeparator}"/>
+                                <StackPanel DockPanel.Dock="Top" Height="8" Margin="11,0,11,4" Orientation="Horizontal" TouchUp="FeaturesStackPanel_TouchUp">
+                                    <i:Interaction.Triggers>
+                                        <Lib:HandlingEventTrigger EventName="TouchUp">
+                                            <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
+                                        </Lib:HandlingEventTrigger>
+                                    </i:Interaction.Triggers>
 
-                                <Viewbox Style="{StaticResource ExampleTitleViewbox}">
-                                    <TextBlock Foreground="White" Text="{Binding Features.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                </Viewbox>
+                                    <TextBlock FontSize="7.5" Foreground="White" Text="{Binding Features.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
 
-                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ExamplesHeader}">
                                     <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
                                         <fa:ImageAwesome.RenderTransform>
                                             <RotateTransform/>
                                         </fa:ImageAwesome.RenderTransform>
                                     </fa:ImageAwesome>
-                                </Viewbox>
-                            </StackPanel>
-
-                            <ScrollViewer Style="{StaticResource ExampleScrollViewer}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Rectangle Style="{StaticResource ExampleImageSeparator}"/>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Rectangle Style="{StaticResource ExampleImageSeparator}"/>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Features.ImageThree}"/>
-                                        </Border.Background>
-                                    </Border>
                                 </StackPanel>
-                            </ScrollViewer>
-                        </DockPanel>
+
+                                <ScrollViewer x:Name="FeaturesScroller" Margin="0,0,0,8" MinHeight="30" DockPanel.Dock="Top" Width="Auto" VerticalAlignment="Stretch" Style="{StaticResource ExampleScrollViewer}">
+                                    <StackPanel Margin="11,0" Orientation="Horizontal">
+                                        <Border Style="{StaticResource ExampleImages}" Margin="0,0,2.5,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Style="{StaticResource ExampleImages}" Margin="2.5,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Style="{StaticResource ExampleImages}" Margin="2.5,0,0,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding Features.ImageThree}"/>
+                                            </Border.Background>
+                                        </Border>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Viewbox>
                     </Border>
 
                     <Border Style="{StaticResource StarExampleBorder}">
@@ -553,56 +534,53 @@
                             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.66'}"/>
                         </Border.RenderTransform>
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchDown">
+                            <i:EventTrigger EventName="TouchUp">
                                 <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding NotAGalaxy}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
 
-                        <DockPanel>
-                            <Separator Style="{StaticResource ExampleTopSeparator}"/>
-                            <Rectangle Style="{StaticResource TitleSpacer}"/>
-                            <StackPanel Style="{StaticResource ExampleTitle}">
-                                <i:Interaction.Triggers>
-                                    <Lib:HandlingEventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
-                                    </Lib:HandlingEventTrigger>
-                                </i:Interaction.Triggers>
+                        <Viewbox>
+                            <DockPanel MinHeight="59"
+                                       Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                                       Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                                <Separator Style="{StaticResource ExampleTopSeparator}"/>
+                                <StackPanel DockPanel.Dock="Top" Height="8" Margin="11,0,11,4" Orientation="Horizontal" TouchUp="NotAGalaxyStackPanel_TouchUp">
+                                    <i:Interaction.Triggers>
+                                        <Lib:HandlingEventTrigger EventName="TouchUp">
+                                            <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
+                                        </Lib:HandlingEventTrigger>
+                                    </i:Interaction.Triggers>
 
-                                <Viewbox Style="{StaticResource ExampleTitleViewbox}">
-                                    <TextBlock Foreground="White" Text="{Binding NotAGalaxy.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                </Viewbox>
+                                    <TextBlock FontSize="7.5" Foreground="White" Text="{Binding NotAGalaxy.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
 
-                                <Viewbox Height="{Binding Path=ActualHeight, ElementName=ExamplesHeader}">
                                     <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
                                         <fa:ImageAwesome.RenderTransform>
                                             <RotateTransform/>
                                         </fa:ImageAwesome.RenderTransform>
                                     </fa:ImageAwesome>
-                                </Viewbox>
-                            </StackPanel>
-
-                            <ScrollViewer Style="{StaticResource ExampleScrollViewer}">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Rectangle Style="{StaticResource ExampleImageSeparator}"/>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Rectangle Style="{StaticResource ExampleImageSeparator}"/>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding NotAGalaxy.ImageThree}"/>
-                                        </Border.Background>
-                                    </Border>
                                 </StackPanel>
-                            </ScrollViewer>
-                        </DockPanel>
+
+                                <ScrollViewer x:Name="NotAGalaxyScroller" Margin="0,0,0,8" MinHeight="30" DockPanel.Dock="Top" Width="Auto" VerticalAlignment="Stretch" Style="{StaticResource ExampleScrollViewer}">
+                                    <StackPanel Margin="11,0" Orientation="Horizontal">
+                                        <Border Style="{StaticResource ExampleImages}" Margin="0,0,2.5,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Style="{StaticResource ExampleImages}" Margin="2.5,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Style="{StaticResource ExampleImages}" Margin="2.5,0,0,0">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="{Binding NotAGalaxy.ImageThree}"/>
+                                            </Border.Background>
+                                        </Border>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </DockPanel>
+                        </Viewbox>
                     </Border>
 
                     <ScrollViewer x:Name="ItemText" Style="{StaticResource SelectedItemText}" Grid.Row="1" PanningMode="VerticalOnly" VerticalScrollBarVisibility="Hidden">
