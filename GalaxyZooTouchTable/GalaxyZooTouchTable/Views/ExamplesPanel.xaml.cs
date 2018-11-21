@@ -21,16 +21,19 @@ namespace GalaxyZooTouchTable
         private void SmoothStackPanel_TouchUp(object sender, TouchEventArgs e)
         {
             SmoothScroller.ScrollToLeftEnd();
+            ItemText.ScrollToTop();
         }
 
         private void FeaturesStackPanel_TouchUp(object sender, TouchEventArgs e)
         {
             FeaturesScroller.ScrollToLeftEnd();
+            ItemText.ScrollToTop();
         }
 
         private void NotAGalaxyStackPanel_TouchUp(object sender, TouchEventArgs e)
         {
             NotAGalaxyScroller.ScrollToLeftEnd();
+            ItemText.ScrollToTop();
         }
     }
 }

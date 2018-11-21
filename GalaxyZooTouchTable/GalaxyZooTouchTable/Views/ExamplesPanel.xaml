@@ -295,6 +295,25 @@
             <Setter Property="Height" Value="8"/>
             <Setter Property="Margin" Value="11,0,11,4"/>
             <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style x:Key="TabTitle" TargetType="{x:Type Viewbox}">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Grid.Row" Value="2"/>
+            <Setter Property="Grid.RowSpan" Value="2"/>
+            <Setter Property="Grid.Column" Value="2"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
@@ -313,9 +332,9 @@
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="18*"/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="22*"/>
                 </Grid.ColumnDefinitions>
+
 
                 <Border CornerRadius="0,0,5,0" Background="{StaticResource MedGrayColor}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
                     <i:Interaction.Triggers>
@@ -333,7 +352,7 @@
                     </i:Interaction.Triggers>
                 </Border>
 
-                <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" RenderTransformOrigin="0,1">
+                <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
@@ -341,23 +360,33 @@
                     </i:Interaction.Triggers>
 
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="4*"/>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="80*"/>
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="16*"/>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
 
                     <Viewbox HorizontalAlignment="Left">
                         <TextBlock x:Name="ExamplesHeader" Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                     </Viewbox>
 
-                    <Viewbox Grid.Row="1">
+                    <Viewbox Grid.Row="2">
                         <TextBlock Text="Tap each item to learn more." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontStyle="Italic"/>
+                    </Viewbox>
+
+                    <Viewbox Style="{StaticResource TabTitle}">
+                        <TextBlock Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
                     </Viewbox>
 
                     <fa:ImageAwesome
@@ -498,7 +527,7 @@
 
                         <Viewbox>
                             <DockPanel Style="{StaticResource ExampleDockPanel}">
-                                <Separator Style="{StaticResource ExampleTopSeparator}"/>
+                                <Separator Style="{StaticResource ExampleTopSeparator}" />
                                 <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="NotAGalaxyStackPanel_TouchUp">
                                     <i:Interaction.Triggers>
                                         <Lib:HandlingEventTrigger EventName="TouchUp">
@@ -543,11 +572,13 @@
                             <StackPanel.RenderTransform>
                                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
                             </StackPanel.RenderTransform>
-                            <TextBlock TextWrapping="Wrap" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                                <Run Text="{Binding SelectedExample.Description, Mode=OneWay}"/>
-                                <LineBreak/><LineBreak/>
-                                <Run Text="{Binding SelectedExample.Description2, Mode=OneWay}"/>
-                            </TextBlock>
+                            <Viewbox>
+                                <TextBlock FontSize="9" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" TextWrapping="Wrap" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                                    <Run Text="{Binding SelectedExample.Description, Mode=OneWay}"/>
+                                    <LineBreak/><LineBreak/>
+                                    <Run Text="{Binding SelectedExample.Description2, Mode=OneWay}"/>
+                                </TextBlock>
+                            </Viewbox>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
