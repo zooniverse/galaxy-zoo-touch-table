@@ -63,7 +63,7 @@
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
-                    <Setter Property="Opacity" Value="0"/>
+                    <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -266,6 +266,9 @@
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -360,7 +363,7 @@
                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
             </Border.RenderTransform>
 
-            <Canvas Background="{StaticResource MedGrayColor}">
+            <Canvas Background="Transparent">
                 <i:Interaction.Triggers>
                     <Lib:HandlingEventTrigger EventName="TouchUp">
                         <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
