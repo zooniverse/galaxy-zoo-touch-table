@@ -19,7 +19,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private const int SUBJECT_VIEW = 0;
         private const int SUMMARY_VIEW = 1;
 
-        public ObservableCollection<TableUser> ActiveUsers { get; set; }
+        public ObservableCollection<TableUser> AllUsers { get; set; }
         public int ClassificationsThisSession { get; set; } = 0;
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
@@ -131,7 +131,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> activeUsers)
+        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> allUsers)
         {
             if (workflow != null)
             {
@@ -143,7 +143,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
             LevelerViewModel = new LevelerViewModel(user);
-            ActiveUsers = activeUsers;
+            AllUsers = allUsers;
 
             if (CurrentTask.Answers != null)
             {
@@ -170,7 +170,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnOpenClassifier(object sender)
         {
             ClassifierOpen = true;
-            ActiveUsers.Add(User);
+            User.Active = true;
         }
 
         private void OnCloseClassifier(object sender)
@@ -181,14 +181,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
-            foreach (TableUser ActiveUser in ActiveUsers)
-            {
-                if (User == ActiveUser)
-                {
-                    ActiveUsers.Remove(ActiveUser);
-                    break;
-                }
-            }
+            User.Active = false;
         }
 
         private void PrepareForNewClassification()

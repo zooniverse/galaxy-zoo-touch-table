@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
@@ -13,11 +14,40 @@ namespace GalaxyZooTouchTable.Models
         Heart
     }
 
-    public interface TableUser
+    public class TableUser : INotifyPropertyChanged
     {
         string ThemeColor { get; }
         BitmapImage StartButton { get; }
         BitmapImage Avatar { get; }
+        private bool _helpNotification = false;
+        public bool HelpNotification
+        {
+            get { return _helpNotification; }
+            set
+            {
+                _helpNotification = value;
+                OnPropertyRaised("HelpNotification");
+            }
+        }
+
+        private bool _active = false;
+        public bool Active
+        {
+            get { return _active; }
+            set
+            {
+                _active = value;
+                OnPropertyRaised("Active");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyRaised(string propertyname)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+        }
     }
 
     static class TableUserFactory
