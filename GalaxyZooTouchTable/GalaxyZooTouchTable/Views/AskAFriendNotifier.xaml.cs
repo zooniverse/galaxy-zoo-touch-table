@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace GalaxyZooTouchTable.Views
 {
     /// <summary>
-    /// Interaction logic for AskAFriendPanel.xaml
+    /// Interaction logic for AskAFriendNotifier.xaml
     /// </summary>
-    public partial class AskAFriendPanel : UserControl
+    public partial class AskAFriendNotifier : UserControl
     {
-        public AskAFriendPanel()
+        public AskAFriendNotifier()
         {
             InitializeComponent();
         }

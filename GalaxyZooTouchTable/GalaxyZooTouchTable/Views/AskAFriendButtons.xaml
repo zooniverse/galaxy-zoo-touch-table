@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="31" d:DesignWidth="287">
     <UserControl.Resources>
@@ -12,8 +13,23 @@
             <Setter Property="Foreground" Value="Red"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Active}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Active}" Value="True"/>
+                        <Condition Binding="{Binding Path=HelpNotification}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+            
+        </Style>
+
+        <Style x:Key="UserImage" TargetType="{x:Type Image}">
+            <!--<Setter Property="IsHitTestVisible" Value="False"/>-->
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Active}" Value="True">
+                    <Setter Property="IsHitTestVisible" Value="True"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -52,7 +68,14 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="3,0,-10,0">
-                                <Image Source="{Binding Avatar}" Height="25"/>
+
+                                <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Height="25">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="TouchUp">
+                                            <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Image>
                                 <fa:ImageAwesome
                                     Style="{StaticResource BusyCircle}"
                                     Icon="MinusCircle"
