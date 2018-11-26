@@ -38,6 +38,17 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
 
+        public AskAFriendViewModel _askAFriendViewModel;
+        public AskAFriendViewModel AskAFriendViewModel
+        {
+            get { return _askAFriendViewModel; }
+            set
+            {
+                _askAFriendViewModel = value;
+                OnPropertyRaised("AskAFriendViewModel");
+            }
+        }
+
         private int _totalVotes = 0;
         public int TotalVotes
         {
@@ -144,6 +155,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentTaskIndex = workflow.FirstTask;
             LevelerViewModel = new LevelerViewModel(user);
             AllUsers = allUsers;
+            AskAFriendViewModel = new AskAFriendViewModel(user, allUsers);
 
             if (CurrentTask.Answers != null)
             {
