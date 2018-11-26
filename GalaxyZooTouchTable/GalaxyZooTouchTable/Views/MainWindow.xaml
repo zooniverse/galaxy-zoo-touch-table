@@ -24,34 +24,27 @@
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
             <local:Centerpiece x:Name="Centerpiece" Width="1255" Height="351"/>
-            
+
             <local:UserConsole
-                VerticalAlignment="Bottom"
                 x:Name="PersonUser"
                 DataContext="{Binding PersonUserVM}"
                 Style="{StaticResource PersonUser}"
                 Margin="350,10,1022,0"
-                Width="548"
-                Height="314"/>
+                VerticalAlignment="Bottom"/>
 
             <local:UserConsole
                 x:Name="FaceUser"
-                VerticalAlignment="Bottom"
-                Margin="1033,10,339,0"
                 DataContext="{Binding FaceUserVM}"
                 Style="{StaticResource FaceUser}"
-                Width="548"
-                Height="314"/>
+                Margin="1033,10,339,0"
+                VerticalAlignment="Bottom"/>
 
             <local:UserConsole
                 x:Name="HearUser"
-                RenderTransformOrigin="0.5,0.5"
                 DataContext="{Binding HeartUserVM}"
                 Style="{StaticResource HeartUser}"
                 Margin="283,10,1089,0"
-                VerticalAlignment="Top"
-                Width="548"
-                Height="314">
+                VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -59,13 +52,10 @@
 
             <local:UserConsole
                 x:Name="StarUser"
-                RenderTransformOrigin="0.5,0.5"
                 DataContext="{Binding StarUserVM}"
                 Style="{StaticResource StarUser}"
                 Margin="966,10,406,0"
-                VerticalAlignment="Top"
-                Width="548"
-                Height="314">
+                VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -73,13 +63,10 @@
 
             <local:UserConsole
                 x:Name="EarthUser"
-                RenderTransformOrigin="0.5,0.5"
                 DataContext="{Binding EarthUserVM}"
                 Style="{StaticResource EarthUser}"
                 Margin="10,0,0,0"
-                HorizontalAlignment="Left"
-                Width="548"
-                Height="314">
+                HorizontalAlignment="Left">
                 <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </local:UserConsole.LayoutTransform>
@@ -87,13 +74,10 @@
 
             <local:UserConsole
                 x:Name="LightUser"
-                RenderTransformOrigin="0.5,0.5"
                 DataContext="{Binding LightUserVM}"
                 Style="{StaticResource LightUser}"
                 Margin="0,0,10,0"
-                HorizontalAlignment="Right"
-                Width="548"
-                Height="314">
+                HorizontalAlignment="Right">
                 <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="-90"/>
                 </local:UserConsole.LayoutTransform>
