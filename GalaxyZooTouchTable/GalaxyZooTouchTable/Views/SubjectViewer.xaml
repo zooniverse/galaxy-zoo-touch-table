@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
-             d:DesignHeight="211" d:DesignWidth="287">
-    <Grid Background="{StaticResource DarkGrayColor}" Height="211" Width="287">
+             d:DesignHeight="241" d:DesignWidth="287">
+    <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="287">
         <TextBlock FontSize="19" Text="Help scientists classify galaxies." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
         <TextBlock FontSize="9" Margin="0,23,0,0" Text="Please consider only the object in the center of the image." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
 
@@ -66,6 +67,28 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <Border Height="31" Width="287" CornerRadius="3" Background="Black" VerticalAlignment="Bottom"/>
+        <Border
+            Height="31"
+            Width="287"
+            CornerRadius="3"
+            Background="Black"
+            Margin="0,0,0,30"
+            VerticalAlignment="Bottom"/>
+
+        <Button
+            x:Name="SubmitButton"
+            Foreground="Black"
+            Width="285"
+            Height="23"
+            VerticalAlignment="Bottom"
+            Command="{Binding ContinueClassification}"
+            Style="{StaticResource SuccessBtn}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                    FontWeight="Bold"
+                    Text="Submit Classification"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

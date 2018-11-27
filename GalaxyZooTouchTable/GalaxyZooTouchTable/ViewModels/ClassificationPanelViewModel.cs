@@ -18,8 +18,6 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         private const int SUBJECT_VIEW = 0;
         private const int SUMMARY_VIEW = 1;
-        private const string SUBMIT_TEXT = "Submit classification";
-        private const string CONTINUE_TEXT = "Classify another galaxy";
 
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
         public int ClassificationsThisSession { get; set; } = 0;
@@ -48,17 +46,6 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 _totalVotes = value;
                 OnPropertyRaised("TotalVotes");
-            }
-        }
-
-        private string _successBtnText = SUBMIT_TEXT;
-        public string SuccessBtnText
-        {
-            get { return _successBtnText; }
-            set
-            {
-                _successBtnText = value;
-                OnPropertyRaised("SuccessBtnText");
             }
         }
 
@@ -196,7 +183,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             GetSubject();
             CurrentView = SUBJECT_VIEW;
-            SuccessBtnText = SUBMIT_TEXT;
             TotalVotes = 0;
         }
 
@@ -212,13 +198,12 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                await client.Classifications.Create(CurrentClassification);
+                //await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
-                SuccessBtnText = CONTINUE_TEXT;
             }
             else
             {
