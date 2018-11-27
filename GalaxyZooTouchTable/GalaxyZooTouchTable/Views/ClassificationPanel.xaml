@@ -53,7 +53,7 @@
 
                 <Separator VerticalAlignment="Top" Margin="0,32,0,0" Width="282" Background="{StaticResource MedGrayColor}"/>
 
-                <ContentControl Content="{Binding}" Height="206" Width="286">
+                <ContentControl Content="{Binding}" Height="211" Width="287">
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Setter Property="ContentTemplate" Value="{StaticResource SubjectViewerTemplate}" />
@@ -66,8 +66,8 @@
                     </ContentControl.Style>
                 </ContentControl>
 
-                <Border CornerRadius="2.16" Width="285" Height="23" Background="{StaticResource SuccessColor}" Margin="0,258,0,15">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="SubmitButton" Foreground="Black" Width="285" Height="23" Command="{Binding ContinueClassification}" Style="{StaticResource SuccessBtn}" Margin="0,258,0,15">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                             FontWeight="Bold"
@@ -78,7 +78,7 @@
                             Height="10"
                             Margin="5,0"/>
                     </StackPanel>
-                </Border>
+                </Button>
             </Grid>
         </Border>
 
@@ -86,7 +86,7 @@
             <Grid.Background>
                 <SolidColorBrush Color="#343438" Opacity="0.8"/>
             </Grid.Background>
-            <local:CloseConfirmation Width="243" Height="199"/>
+            <local:CloseConfirmation Width="243" Height="200"/>
         </Grid>
         
         <local:ExamplesPanel Panel.ZIndex="-1" DataContext="{Binding ExamplesViewModel}" Width="128" Height="218" HorizontalAlignment="Right"/>

@@ -5,132 +5,67 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <Grid Background="{StaticResource DarkGrayColor}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="8*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
+             d:DesignHeight="211" d:DesignWidth="287">
+    <Grid Background="{StaticResource DarkGrayColor}" Height="211" Width="287">
+        <TextBlock FontSize="19" Text="Help scientists classify galaxies." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
+        <TextBlock FontSize="9" Margin="0,23,0,0" Text="Please consider only the object in the center of the image." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
+        <Border
+            BorderBrush="White"
+            BorderThickness="2"
+            Width="122"
+            Height="122"
+            Margin="0,45,0,0" 
+            VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            CornerRadius="2.85">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+            <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
+        </Border>
 
-            <Viewbox Grid.ColumnSpan="2">
-                <TextBlock Text="Help classify the galaxy below" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-            </Viewbox>
-
-            <Viewbox Grid.Row="1" Grid.ColumnSpan="1" VerticalAlignment="Top">
-                <TextBlock Text="Please consider only the object in the center of the image" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" />
-            </Viewbox>
-        </Grid>
-
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="12*"/>
-            </Grid.ColumnDefinitions>
-
-            <Border
-                BorderBrush="White"
-                BorderThickness="2"
-                CornerRadius="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.025'}">
-                <Image Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
-            </Border>
-
-            <ListView
+        <ListView
             Background="Transparent"
             BorderBrush="Transparent"
-            Grid.Column="2"
             ItemsSource="{Binding CurrentAnswers}"
             SelectedItem="{Binding SelectedItem}"
-            SelectionMode="Single"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="3"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
+            Width="148"
+            Height="136"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,44,0,0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Margin" Value="0,0,0,9"/>
 
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Margin" Value="3"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Grid Height="34">
+                                    <Border x:Name="Bg" CornerRadius="3" Background="{TemplateBinding Background}">
+                                        <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
+                                            <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
+                                        </Border>
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
+                                        <TextBlock Foreground="White" Text="{Binding Label}" FontWeight="Bold" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="10"/>
+                                        <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#015F7B" TargetName="Bg"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Grid>
-                                        <Grid.Effect>
-                                            <DropShadowEffect BlurRadius="5" ShadowDepth="1"/>
-                                        </Grid.Effect>
-                                        <Border x:Name="Bg" CornerRadius="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.15'}" Background="{TemplateBinding Background}"/>
-                                        <Button BorderBrush="Transparent" HorizontalContentAlignment="Stretch" Style="{StaticResource StandardBtn}" Background="Transparent" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="1*"/>
-                                                    <ColumnDefinition Width="3*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid Background="#FFE5FF4D">
-                                                    <Image
-                                                    Margin="{Binding Path=ActualHeight, RelativeSource={x:Static RelativeSource.Self}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.3'}"
-                                                    Source="{Binding Url}"
-                                                    Stretch="Uniform"
-                                                    StretchDirection="Both"/>
-                                                </Grid>
-                                                <Grid Grid.Column="1" HorizontalAlignment="Stretch">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <ColumnDefinition Width="10*"/>
-                                                        <ColumnDefinition Width="1*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="1*"/>
-                                                        <RowDefinition Height="2*"/>
-                                                        <RowDefinition Height="1*"/>
-                                                        <RowDefinition Height="1*"/>
-                                                    </Grid.RowDefinitions>
-                                                    <Viewbox Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-                                                        <TextBlock Foreground="White" Text="{Binding Label}" FontWeight="Bold" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                                                    </Viewbox>
-                                                    <Viewbox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left">
-                                                        <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontWeight="Bold" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                                                    </Viewbox>
-                                                </Grid>
-                                            </Grid>
-                                        </Button>
-                                        <Grid.OpacityMask>
-                                            <VisualBrush Visual="{Binding ElementName=Bg}" />
-                                        </Grid.OpacityMask>
-                                    </Grid>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="False">
-                                            <Setter Property="Background" Value="#55565A" TargetName="Bg"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#015F7B" TargetName="Bg"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </Grid>
-        <Border Grid.Row="4" CornerRadius="5" Background="Black"/>
+        <Border Height="31" Width="287" CornerRadius="3" Background="Black" VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

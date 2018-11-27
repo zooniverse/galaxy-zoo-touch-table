@@ -38,7 +38,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand CloseClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
         public ICommand OpenClassifier { get; set; }
-        public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
 
         private int _totalVotes = 0;
@@ -125,6 +124,10 @@ namespace GalaxyZooTouchTable.ViewModels
             set
             {
                 _selectedItem = value;
+                if (value != null)
+                {
+                    ChooseAnswer(value);
+                }
                 OnPropertyRaised("SelectedItem");
             }
         }
@@ -159,7 +162,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            SelectAnswer = new CustomCommand(ChooseAnswer, CanSelectAnswer);
             ContinueClassification = new CustomCommand(OnContinueClassification, CanSendClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
@@ -229,16 +231,9 @@ namespace GalaxyZooTouchTable.ViewModels
             return CurrentAnnotation != null;
         }
 
-        private void ChooseAnswer(object sender)
+        private void ChooseAnswer(AnswerButton button)
         {
-            AnswerButton button = sender as AnswerButton;
-            SelectedItem = button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
-        }
-
-        private bool CanSelectAnswer(object sender)
-        {
-            return CurrentAnswers.Count > 0;
         }
 
         public List<AnswerButton> ParseTaskAnswers(List<TaskAnswer> answers)
@@ -314,24 +309,24 @@ namespace GalaxyZooTouchTable.ViewModels
                     subjectId = CurrentSubject.Id
                 }
             };
-            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
-            var reductions = graphQLResponse.Data.workflow.subject_reductions;
+            //var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
+            //var reductions = graphQLResponse.Data.workflow.subject_reductions;
             ResetAnswerCount();
-            if (reductions.Count > 0)
-            {
-                var data = reductions.First.data;
-                foreach (var count in data)
-                {
-                    var index = System.Convert.ToInt32(count.Name);
-                    AnswerButton Answer = CurrentAnswers[index];
+            //if (reductions.Count > 0)
+            //{
+            //    var data = reductions.First.data;
+            //    foreach (var count in data)
+            //    {
+            //        var index = System.Convert.ToInt32(count.Name);
+            //        AnswerButton Answer = CurrentAnswers[index];
 
 
-                    int answerCount = (int)count.Value;
-                    Answer.AnswerCount = answerCount;
+            //        int answerCount = (int)count.Value;
+            //        Answer.AnswerCount = answerCount;
 
-                    TotalVotes += answerCount;
-                }
-            }
+            //        TotalVotes += answerCount;
+            //    }
+            //}
         }
     }
 }
