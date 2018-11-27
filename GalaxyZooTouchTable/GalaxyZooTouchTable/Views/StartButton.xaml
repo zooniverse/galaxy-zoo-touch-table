@@ -2,12 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              x:Name="ButtonContainer"
              mc:Ignorable="d"
-             Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.2'}"
-             Width="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.4'}">
+             Height="245"
+             Width="515">
     <UserControl.Resources>
         <Style x:Key="StartButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardBtn}">
             <Style.Triggers>
@@ -36,10 +36,14 @@
     </UserControl.Resources>
     
     <Button
-            Background="Transparent"
-            BorderThickness="0"
-            Command="{Binding OpenClassifier}"
-            Style="{StaticResource StartButtonStyle}">
+        Background="Transparent"
+        BorderThickness="0"
+        Style="{StaticResource StartButtonStyle}">
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="TouchUp">
+                <i:InvokeCommandAction Command="{Binding OpenClassifier}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Button.RenderTransform>
             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
         </Button.RenderTransform>
