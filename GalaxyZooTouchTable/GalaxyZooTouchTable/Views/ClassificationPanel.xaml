@@ -82,7 +82,7 @@
                     Width="283"
                     Background="{StaticResource MedGrayColor}"/>
 
-                <ContentControl Content="{Binding}" Height="241" Width="287" VerticalAlignment="Bottom" Margin="0,0,0,15">
+                <ContentControl Content="{Binding}" Height="241" Width="314" VerticalAlignment="Bottom" Margin="0,0,0,15">
                     <ContentControl.Style>
                         <Style TargetType="{x:Type ContentControl}">
                             <Setter Property="ContentTemplate" Value="{StaticResource SubjectViewerTemplate}" />

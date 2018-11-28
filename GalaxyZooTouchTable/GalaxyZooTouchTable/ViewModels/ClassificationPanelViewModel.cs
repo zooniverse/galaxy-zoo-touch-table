@@ -90,7 +90,19 @@ namespace GalaxyZooTouchTable.ViewModels
             set
             {
                 _currentAnnotation = value;
+                CanSendClassification = value != null;
                 OnPropertyRaised("CurrentAnnotation");
+            }
+        }
+
+        private bool _canSendClassification = false;
+        public bool CanSendClassification
+        {
+            get { return _canSendClassification; }
+            set
+            {
+                _canSendClassification = value;
+                OnPropertyRaised("CanSendClassification");
             }
         }
 
@@ -150,7 +162,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            ContinueClassification = new CustomCommand(OnContinueClassification, CanSendClassification);
+            ContinueClassification = new CustomCommand(OnContinueClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
@@ -210,11 +222,6 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 PrepareForNewClassification();
             }
-        }
-
-        private bool CanSendClassification(object sender)
-        {
-            return CurrentAnnotation != null;
         }
 
         private void ChooseAnswer(AnswerButton button)

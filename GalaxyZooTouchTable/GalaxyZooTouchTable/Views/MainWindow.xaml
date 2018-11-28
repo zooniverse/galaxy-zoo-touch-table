@@ -43,7 +43,7 @@
                 x:Name="HearUser"
                 DataContext="{Binding HeartUserVM}"
                 Style="{StaticResource HeartUser}"
-                Margin="283,10,1089,0"
+                Margin="350,10,1023,0"
                 VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
@@ -54,7 +54,7 @@
                 x:Name="StarUser"
                 DataContext="{Binding StarUserVM}"
                 Style="{StaticResource StarUser}"
-                Margin="966,10,406,0"
+                Margin="1033,10,339,0"
                 VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>

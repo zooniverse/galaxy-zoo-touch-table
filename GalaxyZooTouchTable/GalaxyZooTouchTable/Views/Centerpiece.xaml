@@ -87,6 +87,7 @@
             <Setter Property="BorderBrush" Value="White"/>
             <Setter Property="BorderThickness" Value="2 0 0 0"/>
             <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
 

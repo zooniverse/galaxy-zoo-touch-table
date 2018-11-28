@@ -22,6 +22,11 @@
 
         <Grid Width="243" Height="199">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TouchUp">
+                        <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"

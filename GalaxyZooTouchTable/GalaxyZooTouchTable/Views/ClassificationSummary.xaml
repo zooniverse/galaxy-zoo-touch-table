@@ -7,7 +7,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="241" d:DesignWidth="287">
+             d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
         <Style x:Key="CommonBoldFont" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
@@ -16,21 +16,21 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="287">
-        <TextBlock Style="{StaticResource CommonBoldFont}" Text="Nice work! You just science'd." FontSize="19"/>
+    <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
+        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" Text="Nice work! You just science'd." FontSize="19"/>
         <TextBlock 
             Foreground="White"
             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
             FontSize="8"
-            Margin="0,25,0,0"
+            Margin="14,25,14,0"
             TextWrapping="Wrap"
             Text="Your classification has been sent to the Zooniverse database. Once 25 people have voted, the data is sent to astronomers."/>
 
-        <Border BorderThickness="1" Margin="0,56,0,0" CornerRadius="2.85" BorderBrush="White" Width="63" Height="63" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Border BorderThickness="1.5" Margin="14,56,0,0" CornerRadius="2.85" BorderBrush="White" Width="63" Height="63" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Image Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
         </Border>
 
-        <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="70,54,0,0">
+        <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="84,54,14,0">
             <Run Text="Here are the results so far ("/>
             <Run Text="{Binding TotalVotes}"/>
             <Run Text="/ 25)"/>
@@ -43,7 +43,7 @@
             HorizontalAlignment="Left"
             IsHitTestVisible="False"
             ItemsSource="{Binding CurrentAnswers}"
-            Margin="71,70,0,0"
+            Margin="85,70,0,0"
             ScrollViewer.VerticalScrollBarVisibility="Disabled"
             SelectedItem="{Binding SelectedItem}"
             VerticalAlignment="Top"
@@ -130,13 +130,13 @@
             Width="287"
             VerticalAlignment="Top"/>
 
-        <Separator Foreground="{StaticResource MedGrayColor}" Margin="0,170,0,0" VerticalAlignment="Top"/>
+        <Separator Foreground="{StaticResource MedGrayColor}" Margin="14,170,14,0" VerticalAlignment="Top"/>
 
         <TextBlock
             Style="{StaticResource CommonBoldFont}"
             FontSize="12.5"
             HorizontalAlignment="Left"
-            Margin="0,183,0,30"
+            Margin="14,183,0,30"
             Text="Keep classifying at home"
             TextWrapping="Wrap"
             Width="101"/>
@@ -146,7 +146,7 @@
             FontSize="8"
             Foreground="White"
             HorizontalAlignment="Right"
-            Margin="0,184,0,0"
+            Margin="0,184,14,0"
             TextWrapping="Wrap"
             Width="181">
             <Run>You can do this same project at home by going to</Run>
@@ -160,6 +160,7 @@
             Style="{StaticResource StandardBtn}"
             Height="23"
             HorizontalAlignment="Left"
+            Margin="14,0,0,0"
             Width="137"
             VerticalAlignment="Bottom">
             <i:Interaction.Triggers>
@@ -181,8 +182,12 @@
             Foreground="Black"
             Height="23"
             HorizontalAlignment="Right"
+            Margin="0,0,14,0"
             Width="137"
             VerticalAlignment="Bottom">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+            </Button.Effect>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"

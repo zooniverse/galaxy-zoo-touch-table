@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="241" d:DesignWidth="287">
+             d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
         <Style x:Key="CommonBoldFont" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
@@ -14,9 +14,9 @@
         </Style>
     </UserControl.Resources>
     
-    <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="287">
-        <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="19" Text="Help scientists classify galaxies."/>
-        <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="0,23,0,0" Text="Please consider only the object in the center of the image."/>
+    <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
+        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help scientists classify galaxies."/>
+        <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="14,23,0,0" Text="Please consider only the object in the center of the image."/>
 
         <Border
             BorderBrush="White"
@@ -24,7 +24,7 @@
             CornerRadius="2.85"
             Height="122"
             HorizontalAlignment="Left"
-            Margin="0,45,0,0" 
+            Margin="14,45,0,0" 
             VerticalAlignment="Top"
             Width="122">
 
@@ -35,13 +35,13 @@
             Background="Transparent"
             BorderBrush="Transparent"
             Height="136"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Left"
             ItemsSource="{Binding CurrentAnswers}"
-            Margin="0,44,0,0"
+            Margin="148,44,0,0"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItem="{Binding SelectedItem}"
             VerticalAlignment="Top"
-            Width="148">
+            Width="155">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
@@ -50,7 +50,10 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListViewItem">
-                                <Grid Height="34">
+                                <Grid Height="34" Width="146">
+                                    <Grid.Effect>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                                    </Grid.Effect>
                                     <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="3">
                                         <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
                                             <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
@@ -88,9 +91,13 @@
             x:Name="SubmitButton"
             Style="{StaticResource SuccessBtn}"
             Foreground="Black"
+            IsEnabled="{Binding CanSendClassification}"
             Height="23"
             VerticalAlignment="Bottom"
             Width="285">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+            </Button.Effect>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="TouchUp">
                     <i:InvokeCommandAction Command="{Binding ContinueClassification}"/>
