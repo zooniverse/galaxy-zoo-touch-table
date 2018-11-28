@@ -29,7 +29,7 @@
                     Text="Cancel"/>
                 <fa:ImageAwesome
                     Foreground="White"
-                    Height="8"
+                    Height="8.5"
                     Icon="Times"/>
             </StackPanel>
 

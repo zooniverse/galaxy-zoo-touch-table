@@ -71,7 +71,7 @@
             </Border>
 
             <fa:ImageAwesome
-                Height="10"
+                Height="8.5"
                 Icon="Times"
                 HorizontalAlignment="Right"
                 Margin="0,10,10,0"

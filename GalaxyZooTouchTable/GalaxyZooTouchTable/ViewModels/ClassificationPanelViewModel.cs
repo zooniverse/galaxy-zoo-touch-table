@@ -294,7 +294,7 @@ namespace GalaxyZooTouchTable.ViewModels
                     subjectId = CurrentSubject.Id
                 }
             };
-            //var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
+            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
             //var reductions = graphQLResponse.Data.workflow.subject_reductions;
             ResetAnswerCount();
             //if (reductions.Count > 0)
