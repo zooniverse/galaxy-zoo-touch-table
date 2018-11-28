@@ -3,6 +3,7 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using GraphQL.Client.Http;
 using GraphQL.Common.Request;
+using GraphQL.Common.Response;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System;
@@ -198,7 +199,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
+                await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -294,24 +295,43 @@ namespace GalaxyZooTouchTable.ViewModels
                     subjectId = CurrentSubject.Id
                 }
             };
-            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
-            //var reductions = graphQLResponse.Data.workflow.subject_reductions;
+
             ResetAnswerCount();
-            //if (reductions.Count > 0)
-            //{
-            //    var data = reductions.First.data;
-            //    foreach (var count in data)
-            //    {
-            //        var index = System.Convert.ToInt32(count.Name);
-            //        AnswerButton Answer = CurrentAnswers[index];
+            GraphQLResponse response = new GraphQLResponse();
+
+            try {
+                response = await GraphQLClient.SendQueryAsync(answersRequest);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Graph QL Error: {0}", e.Message);
+            }
+
+            if (response.Data != null)
+            {
+                GetReductions(response);
+            }
+        }
+
+        private void GetReductions(GraphQLResponse response)
+        {
+            var reductions = response.Data.workflow.subject_reductions;
+
+            if (reductions.Count > 0)
+            {
+                var data = reductions.First.data;
+                foreach (var count in data)
+                {
+                    var index = System.Convert.ToInt32(count.Name);
+                    AnswerButton Answer = CurrentAnswers[index];
 
 
-            //        int answerCount = (int)count.Value;
-            //        Answer.AnswerCount = answerCount;
+                    int answerCount = (int)count.Value;
+                    Answer.AnswerCount = answerCount;
 
-            //        TotalVotes += answerCount;
-            //    }
-            //}
+                    TotalVotes += answerCount;
+                }
+            }
         }
     }
 }

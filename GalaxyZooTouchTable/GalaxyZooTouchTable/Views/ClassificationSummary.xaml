@@ -88,7 +88,7 @@
                                                 </LinearGradientBrush>
                                             </ProgressBar.Foreground>
                                         </ProgressBar>
-                                        <Grid Grid.Column="1">
+                                        <Grid Grid.Column="1" HorizontalAlignment="Left">
                                             <Grid.Width>
                                                 <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
                                                     <Binding ElementName="ProgressBar" Path="ActualWidth"/>

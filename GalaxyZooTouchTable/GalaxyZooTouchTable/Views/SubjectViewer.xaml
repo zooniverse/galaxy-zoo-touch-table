@@ -87,7 +87,6 @@
         <Button
             x:Name="SubmitButton"
             Style="{StaticResource SuccessBtn}"
-            Command="{Binding ContinueClassification}"
             Foreground="Black"
             Height="23"
             VerticalAlignment="Bottom"
