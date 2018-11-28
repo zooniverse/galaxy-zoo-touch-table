@@ -20,57 +20,26 @@
             <DoubleAnimation BeginTime="0:0:0.2" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
         </Storyboard>
 
-        <Storyboard x:Key="MoveUpStoryboard">
-            <DoubleAnimation BeginTime="0:0:0.15" Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" To="0" Duration="0:0:0.2"/>
-        </Storyboard>
-
         <Storyboard x:Key="MoveBackStoryboard">
             <DoubleAnimation Storyboard.TargetProperty="(Border.RenderTransform).(TranslateTransform.Y)" Duration="0:0:0.2"/>
         </Storyboard>
 
         <Storyboard x:Key="BeginRotateArrowStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
+            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
         </Storyboard>
 
         <Storyboard x:Key="ReturnRotateArrowStoryboard">
             <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" Duration="0:0:0.1"/>
         </Storyboard>
 
-        <Style x:Key="MainPanelStyle" TargetType="{x:Type Border}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="RightArrowStyle" TargetType="{x:Type fa:ImageAwesome}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard Storyboard="{StaticResource BeginRotateArrowStoryboard}"/>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard Storyboard="{StaticResource ReturnRotateArrowStoryboard}"/>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
         <Style x:Key="ExampleArrow" TargetType="{x:Type fa:ImageAwesome}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Icon" Value="CaretRight"/>
+            <Setter Property="Margin" Value="4,1,0,0"/>
+            <Setter Property="Height" Value="5"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
@@ -83,42 +52,23 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="HeaderGrid" TargetType="{x:Type Grid}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" To="0" Duration="0:0:0.1"/>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" To="0" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[0].Angle" Duration="0:0:0.1"/>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.Children[1].X" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="GalaxyExamples" TargetType="{x:Type Border}">
+        <Style x:Key="GalaxyExamples" TargetType="{x:Type Grid}">
+            <Setter Property="Width" Value="130"/>
             <Setter Property="Opacity" Value="1"/>
             <Setter Property="Visibility" Value="Visible"/>
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="{StaticResource MedGrayColor}"/>
 
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="SmoothExampleBorder" TargetType="{x:Type Border}" BasedOn="{StaticResource GalaxyExamples}">
+        <Style x:Key="SmoothExample" TargetType="{x:Type Grid}" BasedOn="{StaticResource GalaxyExamples}">
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -146,7 +96,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="FeaturesExampleBorder" TargetType="{x:Type Border}" BasedOn="{StaticResource GalaxyExamples}">
+        <Style x:Key="FeaturesExample" TargetType="{x:Type Grid}" BasedOn="{StaticResource GalaxyExamples}">
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -173,7 +123,11 @@
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="FeaturesGalaxy">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard Storyboard="{StaticResource MoveUpStoryboard}"/>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.Y)" To="-57" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard Storyboard="{StaticResource MoveBackStoryboard}"/>
@@ -183,7 +137,7 @@
         </Style>
 
 
-        <Style x:Key="StarExampleBorder" TargetType="{x:Type Border}" BasedOn="{StaticResource GalaxyExamples}">
+        <Style x:Key="NotAGalaxyExample" TargetType="{x:Type Grid}" BasedOn="{StaticResource GalaxyExamples}">
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -210,20 +164,15 @@
                 </MultiDataTrigger>
                 <DataTrigger Binding="{Binding Path=SelectedExample, Converter={StaticResource ObjectToTypeStringConverter}}" Value="NotAGalaxy">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard Storyboard="{StaticResource MoveUpStoryboard}"/>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Grid.RenderTransform).(TranslateTransform.Y)" To="-115" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard Storyboard="{StaticResource MoveBackStoryboard}"/>
                     </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="SelectedItemText" TargetType="{x:Type ScrollViewer}">
-            <Setter Property="Visibility" Value="Hidden"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -249,20 +198,20 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ActiveExample" TargetType="{x:Type RowDefinition}">
+        <Style x:Key="MainBorderStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <Lib:GridLengthAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="Height" From="1" To="3" Duration="0:0:0.15"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <Lib:GridLengthAnimation Storyboard.TargetProperty="Height" From="3" To="1" Duration="0:0:0.15"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
@@ -270,283 +219,335 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ExampleImages" TargetType="{x:Type Border}">
-            <Setter Property="CornerRadius" Value="5"/>
-            <Setter Property="Width" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
-            <Setter Property="Height" Value="{Binding Path=ActualHeight, ElementName=SelectionPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
+        <Style x:Key="ExampleImage" TargetType="{x:Type Border}">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+            <Setter Property="CornerRadius" Value="2.85"/>
+            <Setter Property="BorderThickness" Value="1"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Border.Width)" To="70" Duration="0:0:0.15"/>
+                                <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Border.Height)" To="70" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Width)" Duration="0:0:0.15"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Border.Height)" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ExampleScrollViewer" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="PanningMode" Value="HorizontalOnly"/>
+            <Setter Property="Margin" Value="0,15,0,0"/>
+        </Style>
+
+        <Style x:Key="SelectedItemText" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="Margin" Value="12,0"/>
+            <Setter Property="Height" Value="77"/>
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="PanningMode" Value="VerticalOnly"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="Visibility" Value="Hidden"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ScrollableStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Margin" Value="12,0,0,0"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Height" Value="Auto"/>
+        </Style>
+
+        <Style x:Key="ExampleStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Margin" Value="12,0"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Height" Value="10"/>
+            <Setter Property="Background" Value="{StaticResource MedGrayColor}"/>
+        </Style>
+
+        <Style x:Key="ExampleTextBlock" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+        </Style>
+
+        <Style x:Key="GridSeparators" TargetType="{x:Type Separator}">
+            <Setter Property="Canvas.Left" Value="12"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="{StaticResource DarkGrayColor}"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HidingGridSeparators" BasedOn="{StaticResource GridSeparators}" TargetType="{x:Type Separator}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ToggleArrowStyle" TargetType="{x:Type fa:ImageAwesome}">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="10"/>
+            <Setter Property="Icon" Value="ChevronRight"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource BeginRotateArrowStoryboard}"/>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource ReturnRotateArrowStoryboard}"/>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ExampleText" TargetType="{x:Type TextBlock}">
+            <Setter Property="Text" Value="Examples"/>
+            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="OpenExampleText" BasedOn="{StaticResource ExampleText}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Panel.ZIndex" Value="1"/>
+            <Setter Property="Canvas.Top" Value="28"/>
+            <Setter Property="Canvas.Left" Value="119"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <Border x:Name="Panel" Style="{StaticResource MainPanelStyle}" Background="#55565A" CornerRadius="0,5,5,0">
+    <Viewbox>
+        <Border x:Name="Panel" CornerRadius="0,2.85,2.85,0" Background="{StaticResource MedGrayColor}" Height="218" Width="130" Style="{StaticResource MainBorderStyle}">
             <Border.RenderTransform>
                 <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
             </Border.RenderTransform>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="4*"/>
-                    <RowDefinition Height="28*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
+            <Canvas Background="Transparent">
+                <i:Interaction.Triggers>
+                    <Lib:HandlingEventTrigger EventName="TouchUp">
+                        <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
+                    </Lib:HandlingEventTrigger>
+                </i:Interaction.Triggers>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="18*"/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-
-                <fa:ImageAwesome
-                        Icon="ChevronRight"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Margin="8"
-                        Foreground="White"
-                        Panel.ZIndex="1"
-                        RenderTransformOrigin="0.5,0.5"
-                        Style="{StaticResource RightArrowStyle}">
-                    <fa:ImageAwesome.RenderTransform>
-                        <RotateTransform/>
-                    </fa:ImageAwesome.RenderTransform>
-
+                <Grid Canvas.Left="12" Canvas.Top="10.2" Width="105">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchDown">
+                        <Lib:HandlingEventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </fa:ImageAwesome>
-
-                <Border Grid.Row="1" Grid.Column="2" Grid.RowSpan="4" Background="{StaticResource MedGrayColor}" CornerRadius="0,5,5,0">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchDown">
-                            <i:InvokeCommandAction Command="{Binding OpenPanel}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Border>
-
-                <Border Grid.RowSpan="2" Grid.ColumnSpan="3" Background="{StaticResource MedGrayColor}" CornerRadius="0,5,0,0">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchDown">
-                            <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </Border>
-
-                <Grid Grid.Row="1" Grid.Column="1" RenderTransformOrigin="0,1" Style="{StaticResource HeaderGrid}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchDown">
-                            <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
-                        </i:EventTrigger>
+                        </Lib:HandlingEventTrigger>
                     </i:Interaction.Triggers>
 
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <RotateTransform x:Name="RotateHeader" Angle="90"/>
-                            <TranslateTransform x:Name="TranslateHeader" X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.66'}"/>
-                        </TransformGroup>
-                    </Grid.RenderTransform>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Examples" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-
-                    <Viewbox Grid.Row="1" Margin="0,0,10,0">
-                        <TextBlock Text="Tap each item to learn more." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontStyle="Italic"/>
-                    </Viewbox>
+                    <TextBlock Style="{StaticResource ExampleText}"/>
+                    <TextBlock Margin="0,14,0,0" Text="Tap each item to learn more" FontSize="7" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontStyle="Italic"/>
+                    <fa:ImageAwesome Style="{StaticResource ToggleArrowStyle}">
+                        <fa:ImageAwesome.RenderTransform>
+                            <RotateTransform/>
+                        </fa:ImageAwesome.RenderTransform>
+                    </fa:ImageAwesome>
                 </Grid>
 
-                <Grid x:Name="ExampleGrid" Grid.Column="1" Grid.Row="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Style="{StaticResource ActiveExample}" Height="1*"/>
-                        <RowDefinition Height="2*"/>
-                    </Grid.RowDefinitions>
+                <TextBlock Style="{StaticResource OpenExampleText}">
+                    <TextBlock.RenderTransform>
+                        <RotateTransform Angle="90"/>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
 
-                    <Border Style="{StaticResource SmoothExampleBorder}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource DarkGrayColor}">
+                <Separator Canvas.Top="36.15" Style="{StaticResource GridSeparators}"/>
+
+                <Grid Canvas.Top="44.2" Style="{StaticResource SmoothExample}">
+                    <i:Interaction.Triggers>
+                        <Lib:HandlingEventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
+                        </Lib:HandlingEventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="SmoothStackPanel_TouchUp">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchDown">
-                                <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
-                            </i:EventTrigger>
+                            <Lib:HandlingEventTrigger EventName="TouchUp">
+                                <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
+                            </Lib:HandlingEventTrigger>
                         </i:Interaction.Triggers>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="7*"/>
-                                <RowDefinition Height="2*"/>
-                            </Grid.RowDefinitions>
+                        <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Smooth"/>
+                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                            <fa:ImageAwesome.RenderTransform>
+                                <RotateTransform/>
+                            </fa:ImageAwesome.RenderTransform>
+                        </fa:ImageAwesome>
+                    </StackPanel>
 
-                            <DockPanel Background="Transparent" Grid.Row="1">
-                                <i:Interaction.Triggers>
-                                    <Lib:HandlingEventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
-                                    </Lib:HandlingEventTrigger>
-                                </i:Interaction.Triggers>
-                                <Viewbox>
-                                    <TextBlock Foreground="White" Text="{Binding Smooth.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                </Viewbox>
-                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2" Icon="CaretRight" Foreground="White">
-                                    <fa:ImageAwesome.RenderTransform>
-                                        <RotateTransform/>
-                                    </fa:ImageAwesome.RenderTransform>
-                                </fa:ImageAwesome>
-                            </DockPanel>
-
-                            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
-                                <StackPanel Orientation="Horizontal" x:Name="SelectionPanel">
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
-                                        </Border.Background>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </Border>
-
-                    <Border Style="{StaticResource FeaturesExampleBorder}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource DarkGrayColor}">
-                        <Border.RenderTransform>
-                            <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.33'}"/>
-                        </Border.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchDown">
-                                <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Features}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="7*"/>
-                                <RowDefinition Height="2*"/>
-                            </Grid.RowDefinitions>
-
-                            <DockPanel Grid.Row="1" Background="Transparent">
-                                <i:Interaction.Triggers>
-                                    <Lib:HandlingEventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
-                                    </Lib:HandlingEventTrigger>
-                                </i:Interaction.Triggers>
-                                <Viewbox>
-                                    <TextBlock Foreground="White" Text="{Binding Features.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                </Viewbox>
-                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2" Icon="CaretRight" Foreground="White">
-                                    <fa:ImageAwesome.RenderTransform>
-                                        <RotateTransform/>
-                                    </fa:ImageAwesome.RenderTransform>
-                                </fa:ImageAwesome>
-                            </DockPanel>
-
-                            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding Features.ImageThree}"/>
-                                        </Border.Background>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </Border>
-
-                    <Border Style="{StaticResource StarExampleBorder}" BorderThickness="0 1 0 0" BorderBrush="{StaticResource DarkGrayColor}">
-                        <Border.RenderTransform>
-                            <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ExampleGrid, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.66'}"/>
-                        </Border.RenderTransform>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchDown">
-                                <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding NotAGalaxy}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="2*"/>
-                                <RowDefinition Height="7*"/>
-                                <RowDefinition Height="2*"/>
-                            </Grid.RowDefinitions>
-
-                            <DockPanel Grid.Row="1" Background="Transparent">
-                                <i:Interaction.Triggers>
-                                    <Lib:HandlingEventTrigger EventName="TouchDown">
-                                        <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
-                                    </Lib:HandlingEventTrigger>
-                                </i:Interaction.Triggers>
-                                <Viewbox>
-                                    <TextBlock Foreground="White" Text="{Binding NotAGalaxy.Title}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                </Viewbox>
-                                <fa:ImageAwesome Style="{StaticResource ExampleArrow}" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,2" Icon="CaretRight" Foreground="White">
-                                    <fa:ImageAwesome.RenderTransform>
-                                        <RotateTransform/>
-                                    </fa:ImageAwesome.RenderTransform>
-                                </fa:ImageAwesome>
-                            </DockPanel>
-
-                            <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Hidden" PanningMode="HorizontalOnly">
-                                <StackPanel Orientation="Horizontal">
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}" Margin="2,0">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <Border Style="{StaticResource ExampleImages}">
-                                        <Border.Background>
-                                            <ImageBrush ImageSource="{Binding NotAGalaxy.ImageThree}"/>
-                                        </Border.Background>
-                                    </Border>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </Border>
-
-                    <ScrollViewer x:Name="ItemText" Style="{StaticResource SelectedItemText}" Grid.Row="1" PanningMode="VerticalOnly" VerticalScrollBarVisibility="Hidden">
-                        <StackPanel Style="{StaticResource SelectedTextStackPanel}">
-                            <StackPanel.RenderTransform>
-                                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
-                            </StackPanel.RenderTransform>
-                            <TextBlock TextWrapping="Wrap" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                                <Run Text="{Binding SelectedExample.Description, Mode=OneWay}"/>
-                                <LineBreak/><LineBreak/>
-                                <Run Text="{Binding SelectedExample.Description2, Mode=OneWay}"/>
-                            </TextBlock>
+                    <ScrollViewer x:Name="SmoothScroller" Style="{StaticResource ExampleScrollViewer}">
+                        <StackPanel Style="{StaticResource ScrollableStackPanel}">
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Smooth.ImageOne}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Smooth.ImageTwo}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
+                                </Border.Background>
+                            </Border>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
-            </Grid>
+
+                <Separator Canvas.Top="96.15" Style="{StaticResource HidingGridSeparators}"/>
+
+                <Grid Canvas.Top="101.2" Style="{StaticResource FeaturesExample}">
+                    <Grid.RenderTransform>
+                        <TranslateTransform/>
+                    </Grid.RenderTransform>
+                    
+                    <i:Interaction.Triggers>
+                        <Lib:HandlingEventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Features}"/>
+                        </Lib:HandlingEventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="FeaturesStackPanel_TouchUp">
+                        <i:Interaction.Triggers>
+                            <Lib:HandlingEventTrigger EventName="TouchUp">
+                                <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
+                            </Lib:HandlingEventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Features"/>
+                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                            <fa:ImageAwesome.RenderTransform>
+                                <RotateTransform/>
+                            </fa:ImageAwesome.RenderTransform>
+                        </fa:ImageAwesome>
+                    </StackPanel>
+
+                    <ScrollViewer x:Name="FeaturesScroller" Style="{StaticResource ExampleScrollViewer}">
+                        <StackPanel Style="{StaticResource ScrollableStackPanel}">
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Features.ImageOne}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Features.ImageTwo}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Features.ImageThree}"/>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <Separator Canvas.Top="153.15" Style="{StaticResource HidingGridSeparators}"/>
+
+                <Grid Canvas.Top="159.2" Style="{StaticResource NotAGalaxyExample}">
+                    <Grid.RenderTransform>
+                        <TranslateTransform/>
+                    </Grid.RenderTransform>
+
+                    <i:Interaction.Triggers>
+                        <Lib:HandlingEventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding NotAGalaxy}"/>
+                        </Lib:HandlingEventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="NotAGalaxyStackPanel_TouchUp">
+                        <i:Interaction.Triggers>
+                            <Lib:HandlingEventTrigger EventName="TouchUp">
+                                <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
+                            </Lib:HandlingEventTrigger>
+                        </i:Interaction.Triggers>
+
+                        <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Not A Galaxy"/>
+                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                            <fa:ImageAwesome.RenderTransform>
+                                <RotateTransform/>
+                            </fa:ImageAwesome.RenderTransform>
+                        </fa:ImageAwesome>
+                    </StackPanel>
+
+                    <ScrollViewer x:Name="NotAGalaxyScroller" Style="{StaticResource ExampleScrollViewer}">
+                        <StackPanel Style="{StaticResource ScrollableStackPanel}">
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding NotAGalaxy.ImageOne}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding NotAGalaxy.ImageTwo}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource ExampleImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding NotAGalaxy.ImageThree}"/>
+                                </Border.Background>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+
+                <ScrollViewer Canvas.Top="140" x:Name="ItemText" Style="{StaticResource SelectedItemText}">
+                    <StackPanel Style="{StaticResource SelectedTextStackPanel}">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
+                        </StackPanel.RenderTransform>
+                        <TextBlock FontSize="9" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type StackPanel}}}" TextWrapping="Wrap" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                                <Run Text="{Binding SelectedExample.Description, Mode=OneWay}"/>
+                                <LineBreak/><LineBreak/>
+                                <Run Text="{Binding SelectedExample.Description2, Mode=OneWay}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </ScrollViewer>
+            </Canvas>
         </Border>
-    </Grid>
+    </Viewbox>
 </UserControl>
