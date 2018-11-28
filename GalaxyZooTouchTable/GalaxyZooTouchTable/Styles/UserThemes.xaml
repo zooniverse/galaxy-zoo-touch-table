@@ -22,8 +22,8 @@
     </Style>
 
     <Style x:Key="BaseUserStyle" TargetType="{x:Type local:UserConsole}">
-        <Setter Property="Width" Value="548"/>
-        <Setter Property="Height" Value="314"/>
+        <Setter Property="Width" Value="547"/>
+        <Setter Property="Height" Value="315"/>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
     </Style>
     

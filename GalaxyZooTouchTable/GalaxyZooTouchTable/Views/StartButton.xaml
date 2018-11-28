@@ -6,8 +6,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              x:Name="ButtonContainer"
              mc:Ignorable="d"
-             Height="245"
-             Width="515">
+             Height="255"
+             Width="491">
     <UserControl.Resources>
         <Style x:Key="StartButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource StandardBtn}">
             <Style.Triggers>

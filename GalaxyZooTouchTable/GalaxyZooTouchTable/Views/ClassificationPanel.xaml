@@ -8,8 +8,9 @@
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             Height="314"
-             Width="548">
+             Height="315"
+             Width="547">
+    
     <UserControl.Resources>
         <DataTemplate x:Key="SubjectViewerTemplate">
             <local:SubjectViewer/>
@@ -18,30 +19,68 @@
             <local:ClassificationSummary/>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Height="314" Width="548">
-        <Views:Leveler Panel.ZIndex="-1" DataContext="{Binding LevelerViewModel}" Margin="0,45.9,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+ 
+    <Grid Height="315" Width="547">
+        <Views:Leveler
+            DataContext="{Binding LevelerViewModel}"
+            HorizontalAlignment="Left"
+            Margin="0,44,0,0"
+            Panel.ZIndex="-1"
+            VerticalAlignment="Top"/>
 
-        <Image Panel.ZIndex="2" Source="{Binding User.Avatar}" VerticalAlignment="Top" Width="42.7" Height="42.7"/>
-        
-        <Border CornerRadius="2.85" Background="{StaticResource DarkGrayColor}" Width="314" Height="296" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+        <Image
+            Source="{Binding User.Avatar}"
+            Height="42.7"
+            Panel.ZIndex="2"
+            VerticalAlignment="Top"
+            Width="42.7"/>
+
+        <Border
+            Background="{StaticResource DarkGrayColor}"
+            CornerRadius="2.85"
+            Height="296"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Width="314">
             <Border.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="0"/>
             </Border.Effect>
 
             <Grid Background="Transparent">
-                <StackPanel Margin="13,7" Orientation="Horizontal" Background="{StaticResource DarkGrayColor}" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <StackPanel
+                    Background="{StaticResource DarkGrayColor}"
+                    HorizontalAlignment="Right"
+                    Margin="13,7"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Top">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <TextBlock Margin="0,0,6,0" FontSize="10" Foreground="White" VerticalAlignment="Center" Text="Close workspace" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                    <fa:ImageAwesome Icon="Times" Foreground="White" Height="10"/>
+                    <TextBlock
+                        Margin="0,0,6,0"
+                        FontSize="10"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        Text="Close workspace"
+                        FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                        FontWeight="Bold"/>
+                    <fa:ImageAwesome Icon="Times" Foreground="White" Height="8.5"/>
                 </StackPanel>
 
-                <Image Height="15" Margin="13,6" VerticalAlignment="Top" HorizontalAlignment="Left" Source="../Images/General/Logo.png"/>
+                <Image
+                    Height="15"
+                    Margin="13,6"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Source="../Images/General/Logo.png"/>
 
-                <Separator VerticalAlignment="Top" Margin="0,32,0,0" Width="282" Background="{StaticResource MedGrayColor}"/>
+                <Separator
+                    VerticalAlignment="Top"
+                    Margin="0,32,0,0"
+                    Width="283"
+                    Background="{StaticResource MedGrayColor}"/>
 
                 <ContentControl Content="{Binding}" Height="241" Width="287" VerticalAlignment="Bottom" Margin="0,0,0,15">
                     <ContentControl.Style>
@@ -58,13 +97,21 @@
             </Grid>
         </Border>
 
-        <Grid Margin="118,20,118,0" Panel.ZIndex="1" Visibility="{Binding CloseConfirmationVisible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
+        <Grid
+            Margin="118,20,118,0"
+            Panel.ZIndex="1"
+            Visibility="{Binding CloseConfirmationVisible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
             <Grid.Background>
-                <SolidColorBrush Color="#343438" Opacity="0.8"/>
+                <SolidColorBrush Color="#343438" Opacity="0.9"/>
             </Grid.Background>
             <local:CloseConfirmation Width="243" Height="200"/>
         </Grid>
         
-        <local:ExamplesPanel Panel.ZIndex="-1" DataContext="{Binding ExamplesViewModel}" Width="128" Height="218" HorizontalAlignment="Right"/>
+        <local:ExamplesPanel
+            Panel.ZIndex="-1"
+            DataContext="{Binding ExamplesViewModel}"
+            Width="128"
+            Height="218"
+            HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

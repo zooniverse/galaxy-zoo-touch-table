@@ -29,14 +29,14 @@
                 x:Name="PersonUser"
                 DataContext="{Binding PersonUserVM}"
                 Style="{StaticResource PersonUser}"
-                Margin="350,10,1022,0"
+                Margin="350,0,1023,10"
                 VerticalAlignment="Bottom"/>
 
             <local:UserConsole
                 x:Name="FaceUser"
                 DataContext="{Binding FaceUserVM}"
                 Style="{StaticResource FaceUser}"
-                Margin="1033,10,339,0"
+                Margin="1033,0,339,10"
                 VerticalAlignment="Bottom"/>
 
             <local:UserConsole
