@@ -39,7 +39,8 @@
             Background="{StaticResource DarkGrayColor}"
             CornerRadius="2.85"
             Height="296"
-            HorizontalAlignment="Center"
+            HorizontalAlignment="Left"
+            Margin="107,0,0,0"
             VerticalAlignment="Bottom"
             Width="314">
             <Border.Effect>
@@ -110,8 +111,8 @@
         <local:ExamplesPanel
             Panel.ZIndex="-1"
             DataContext="{Binding ExamplesViewModel}"
-            Width="128"
-            Height="218"
+            Width="130.9"
+            Height="218.2"
             HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

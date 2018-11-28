@@ -41,7 +41,7 @@
         </i:Interaction.Triggers>
 
         <Border.RenderTransform>
-            <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.8'}"/>
+            <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='0.71'}"/>
         </Border.RenderTransform>
 
         <Grid>

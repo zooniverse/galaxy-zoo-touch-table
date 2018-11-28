@@ -9,7 +9,7 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              Background="Transparent"
              mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="300">
+             d:DesignHeight="218.2" d:DesignWidth="130.9">
 
     <UserControl.Resources>
         <Storyboard x:Key="FadeOutStoryboard">
@@ -273,14 +273,14 @@
         </Style>
 
         <Style x:Key="ScrollableStackPanel" TargetType="{x:Type StackPanel}">
-            <Setter Property="Margin" Value="12,0,0,0"/>
+            <Setter Property="Margin" Value="14,0,0,0"/>
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Height" Value="Auto"/>
         </Style>
 
         <Style x:Key="ExampleStackPanel" TargetType="{x:Type StackPanel}">
             <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Margin" Value="12,0"/>
+            <Setter Property="Margin" Value="14,0"/>
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Height" Value="10"/>
             <Setter Property="Background" Value="{StaticResource MedGrayColor}"/>
@@ -343,7 +343,7 @@
         <Style x:Key="OpenExampleText" BasedOn="{StaticResource ExampleText}" TargetType="{x:Type TextBlock}">
             <Setter Property="Panel.ZIndex" Value="1"/>
             <Setter Property="Canvas.Top" Value="28"/>
-            <Setter Property="Canvas.Left" Value="119"/>
+            <Setter Property="Canvas.Left" Value="121"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
                     <DataTrigger.EnterActions>
@@ -358,9 +358,9 @@
     </UserControl.Resources>
 
     <Viewbox>
-        <Border x:Name="Panel" CornerRadius="0,2.85,2.85,0" Background="{StaticResource MedGrayColor}" Height="218" Width="130" Style="{StaticResource MainBorderStyle}">
+        <Border x:Name="Panel" CornerRadius="0,2.85,2.85,0" Background="{StaticResource MedGrayColor}" Height="218.2" Width="130.9" Style="{StaticResource MainBorderStyle}">
             <Border.RenderTransform>
-                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.8'}"/>
+                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.75'}"/>
             </Border.RenderTransform>
 
             <Canvas Background="Transparent">
@@ -370,7 +370,7 @@
                     </Lib:HandlingEventTrigger>
                 </i:Interaction.Triggers>
 
-                <Grid Canvas.Left="12" Canvas.Top="10.2" Width="105">
+                <Grid Canvas.Left="14" Canvas.Top="10.2" Width="105">
                     <i:Interaction.Triggers>
                         <Lib:HandlingEventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding TogglePanel}"/>
@@ -392,7 +392,7 @@
                     </TextBlock.RenderTransform>
                 </TextBlock>
 
-                <Separator Canvas.Top="36.15" Style="{StaticResource GridSeparators}"/>
+                <Separator Canvas.Top="36.15" Canvas.Left="14" Style="{StaticResource GridSeparators}"/>
 
                 <Grid Canvas.Top="44.2" Style="{StaticResource SmoothExample}">
                     <i:Interaction.Triggers>
