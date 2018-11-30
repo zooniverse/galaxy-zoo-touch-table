@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             Height="351"
+             Height="417"
              Width="1255">
 
     <UserControl.Resources>
@@ -71,7 +71,7 @@
             <Setter Property="Text" Value="Your vote helps astronomers study the universe."/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="FontSize" Value="33.5"/>
-            <Setter Property="Width" Value="419"/>
+            <Setter Property="Width" Value="390"/>
             <Setter Property="TextAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -91,49 +91,61 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Height="351" Width="1255">
-        <Grid Style="{StaticResource JoinMessageStyle}" RenderTransformOrigin="0.5,0.5" Width="1255" Height="351">
+    <Grid Height="417" Width="1255">
+        <Grid Style="{StaticResource JoinMessageStyle}" RenderTransformOrigin="0.5,0.5" Width="1255" Height="417">
             <Grid.RenderTransform>
                 <ScaleTransform/>
             </Grid.RenderTransform>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-                <Image
-                    Height="121"
-                    Source="../Images/General/NSF.png"
-                    Margin="0,0,37,0"/>
-                <Border 
-                    BorderThickness="3 0 0 0"
-                    BorderBrush="White"/>
-                <Image
-                    Height="121"
-                    Margin="37,0,0,0"
-                    Source="../Images/General/Logo.png"/>
-            </StackPanel>
+            <Image
+                Height="125"
+                VerticalAlignment="Top"
+                Source="../Images/General/Logo.png"/>
 
             <TextBlock
                 Style="{StaticResource JoinCommonFont}"
-                FontSize="82"
+                FontSize="81"
                 Foreground="#FFE5FF4D"
-                Margin="0,128,0,0"
+                Margin="0,122,0,0"
                 Text="Join our research exploration!"/>
 
             <TextBlock
                 Style="{StaticResource JoinCommonFont}"
-                FontSize="35"
+                FontSize="34.75"
                 Foreground="White"
-                Margin="0,244,0,0"
+                Margin="0,236,0,0"
                 Text="Astronomers need your help to study how galaxies form."/>
             
             <TextBlock
                 Style="{StaticResource JoinCommonFont}"
                 FontSize="20.75"
                 Foreground="White"
-                Margin="0,302,0,0"
+                Margin="0,288,0,0"
                 Text="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG"/>
+
+            <StackPanel Orientation="Horizontal" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Image
+                    Height="22"
+                    Source="../Images/General/zooniverse-logo.png"
+                    Margin="0,0,24,0"/>
+                <Border 
+                    BorderThickness="1 0 0 0"
+                    BorderBrush="White"/>
+                <Image
+                    Height="50"
+                    Source="../Images/General/NSF.png"
+                    Margin="24,0,0,0"/>
+                <TextBlock
+                    FontFamily="Garamond"
+                    FontSize="15"
+                    Foreground="White"
+                    Margin="6,0,0,0"
+                    Text="National Science Foundation"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
         </Grid>
         
-        <Grid Style="{StaticResource VoteMessageStyle}" RenderTransformOrigin="0.5,0.5" Height="214" Width="919">
+        <Grid Style="{StaticResource VoteMessageStyle}" RenderTransformOrigin="0.5,0.5" Height="214" Width="861">
             <Grid.RenderTransform>
                 <ScaleTransform ScaleX="0" ScaleY="0.5"/>
             </Grid.RenderTransform>

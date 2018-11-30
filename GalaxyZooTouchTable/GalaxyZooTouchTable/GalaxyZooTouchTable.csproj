@@ -228,6 +228,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\General\zooniverse-logo.png" />
     <Resource Include="zooniverse_icon.ico" />
     <Resource Include="Images\General\Uwhite.png" />
     <Resource Include="Images\General\qrcode.png" />

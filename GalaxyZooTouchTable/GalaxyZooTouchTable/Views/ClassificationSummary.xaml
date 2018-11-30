@@ -24,16 +24,14 @@
             FontSize="8"
             Margin="14,25,14,0"
             TextWrapping="Wrap"
-            Text="Your classification has been sent to the Zooniverse database. Once 25 people have voted, the data is sent to astronomers."/>
+            Text="Your classification has been recorded to the Zooniverse database. Once 25 people have voted, the data will be sent to astronomers."/>
 
         <Border BorderThickness="1.5" Margin="14,56,0,0" CornerRadius="2.85" BorderBrush="White" Width="63" Height="63" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Image Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
         </Border>
 
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="84,54,14,0">
-            <Run Text="Here are the results so far ("/>
-            <Run Text="{Binding TotalVotes}"/>
-            <Run Text="/ 25)"/>
+            <Run Text="Here are the results so far ("/><Run Text="{Binding TotalVotes}"/><Run Text="/25)"/>
         </TextBlock>
 
         <ListView
@@ -130,7 +128,10 @@
             Width="287"
             VerticalAlignment="Top"/>
 
-        <Separator Foreground="{StaticResource MedGrayColor}" Margin="14,170,14,0" VerticalAlignment="Top"/>
+        <Separator
+            VerticalAlignment="Top"
+            Margin="14,170,14,0"
+            Background="{StaticResource MedGrayColor}"/>
 
         <TextBlock
             Style="{StaticResource CommonBoldFont}"
@@ -150,9 +151,9 @@
             TextWrapping="Wrap"
             Width="181">
             <Run>You can do this same project at home by going to</Run>
-            <Run Foreground="#E5FF4D">adler.zooniverse.org</Run>
+            <Run Foreground="#E5FF4D" FontWeight="Bold">adler.zooniverse.org</Run>
             <Run>or downloading the</Run>
-            <Run Foreground="#E5FF4D">app.</Run>
+            <Run Foreground="#E5FF4D" FontWeight="Bold">app.</Run>
         </TextBlock>
 
         <Button

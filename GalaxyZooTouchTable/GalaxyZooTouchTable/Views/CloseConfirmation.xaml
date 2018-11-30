@@ -54,6 +54,8 @@
             <TextBlock
                 Style="{StaticResource CommonType}"
                 FontSize="19"
+                LineHeight="19"
+                LineStackingStrategy="BlockLineHeight"
                 Margin="16,43.9,0,0">
                 <Run>Close workspace and</Run>
                 <LineBreak/>
@@ -121,6 +123,7 @@
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
+                    Foreground="Black"
                     HorizontalAlignment="Center"
                     Text="Close &amp; end"
                     VerticalAlignment="Center"/>

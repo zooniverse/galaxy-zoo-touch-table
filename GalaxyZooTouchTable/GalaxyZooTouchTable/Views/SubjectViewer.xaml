@@ -15,7 +15,7 @@
     </UserControl.Resources>
     
     <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
-        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help scientists classify galaxies."/>
+        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help classify the galaxy below."/>
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="14,23,0,0" Text="Please consider only the object in the center of the image."/>
 
         <Border
@@ -37,11 +37,11 @@
             Height="136"
             HorizontalAlignment="Left"
             ItemsSource="{Binding CurrentAnswers}"
-            Margin="148,44,0,0"
+            Margin="144,44,0,0"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             SelectedItem="{Binding SelectedItem}"
             VerticalAlignment="Top"
-            Width="155">
+            Width="165">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
@@ -50,9 +50,9 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListViewItem">
-                                <Grid Height="34" Width="146">
+                                <Grid Height="34" Width="144">
                                     <Grid.Effect>
-                                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                                        <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
                                     </Grid.Effect>
                                     <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="3">
                                         <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
@@ -96,7 +96,7 @@
             VerticalAlignment="Bottom"
             Width="285">
             <Button.Effect>
-                <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
             </Button.Effect>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="TouchUp">

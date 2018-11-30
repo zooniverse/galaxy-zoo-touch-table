@@ -33,6 +33,8 @@
             Height="42.7"
             Panel.ZIndex="2"
             VerticalAlignment="Top"
+            HorizontalAlignment="Left"
+            Margin="242,0,0,0"
             Width="42.7"/>
 
         <Border
@@ -71,7 +73,7 @@
                 </StackPanel>
 
                 <Image
-                    Height="15"
+                    Height="18"
                     Margin="13,6"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Left"
@@ -99,7 +101,7 @@
         </Border>
 
         <Grid
-            Margin="118,20,118,0"
+            Margin="108,20,128,0"
             Panel.ZIndex="1"
             Visibility="{Binding CloseConfirmationVisible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}">
             <Grid.Background>

@@ -23,27 +23,27 @@
 
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
-            <local:Centerpiece x:Name="Centerpiece" Width="1255" Height="351"/>
+            <local:Centerpiece x:Name="Centerpiece" Width="1255" Height="417"/>
 
             <local:UserConsole
                 x:Name="PersonUser"
                 DataContext="{Binding PersonUserVM}"
                 Style="{StaticResource PersonUser}"
-                Margin="350,0,1023,10"
+                Margin="333,0,1039,10"
                 VerticalAlignment="Bottom"/>
 
             <local:UserConsole
                 x:Name="FaceUser"
                 DataContext="{Binding FaceUserVM}"
                 Style="{StaticResource FaceUser}"
-                Margin="1033,0,339,10"
+                Margin="1059,0,313,10"
                 VerticalAlignment="Bottom"/>
 
             <local:UserConsole
-                x:Name="HearUser"
+                x:Name="HeartUser"
                 DataContext="{Binding HeartUserVM}"
                 Style="{StaticResource HeartUser}"
-                Margin="350,10,1023,0"
+                Margin="313,10,1059,0"
                 VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
@@ -54,7 +54,7 @@
                 x:Name="StarUser"
                 DataContext="{Binding StarUserVM}"
                 Style="{StaticResource StarUser}"
-                Margin="1033,10,339,0"
+                Margin="1039,10,333,0"
                 VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
