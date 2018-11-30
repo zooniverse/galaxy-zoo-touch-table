@@ -10,12 +10,12 @@
     <UserControl.Resources>
         <Style x:Key="JoinMessageStyle" TargetType="{x:Type Grid}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value ="False">
+                <DataTrigger Binding="{Binding Path=ShowJoinMessage}" Value="False">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.25"/>
-                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" To="0.5" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" To="0" Duration="0:0:0.25"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" To="0.5" Duration="0:0:0.25"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
@@ -23,8 +23,32 @@
                         <BeginStoryboard>
                             <Storyboard>
                                 <ParallelTimeline BeginTime="0:0:0.25">
-                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleX)" Duration="0:0:0.25"/>
-                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(ScaleTransform.ScaleY)" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Duration="0:0:0.25"/>
+                                    <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Duration="0:0:0.25"/>
+                                </ParallelTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=FlipCenterpiece}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ParallelTimeline>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1"/>
+                                    <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetProperty="(Grid.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)" To="180" Duration="0:0:0.0"/>
+                                    <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
+                                </ParallelTimeline>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ParallelTimeline>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1"/>
+                                    <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetProperty="(Grid.RenderTransform).(TransformGroup.Children)[1].(RotateTransform.Angle)" Duration="0:0:0.0"/>
+                                    <DoubleAnimation BeginTime="0:0:1" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:1"/>
                                 </ParallelTimeline>
                             </Storyboard>
                         </BeginStoryboard>
@@ -94,7 +118,10 @@
     <Grid Height="417" Width="1255">
         <Grid Style="{StaticResource JoinMessageStyle}" RenderTransformOrigin="0.5,0.5" Width="1255" Height="417">
             <Grid.RenderTransform>
-                <ScaleTransform/>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <RotateTransform/>
+                </TransformGroup>
             </Grid.RenderTransform>
 
             <Image
