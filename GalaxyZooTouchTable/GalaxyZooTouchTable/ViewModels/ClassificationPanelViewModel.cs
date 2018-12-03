@@ -35,19 +35,11 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ICommand CloseClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
+        public ICommand NotifyUser { get; set; }
         public ICommand OpenClassifier { get; set; }
+        public ICommand SelectAnswer { get; set; }
+        public ICommand CloseNotifier { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
-
-        public AskAFriendViewModel _askAFriendViewModel;
-        public AskAFriendViewModel AskAFriendViewModel
-        {
-            get { return _askAFriendViewModel; }
-            set
-            {
-                _askAFriendViewModel = value;
-                OnPropertyRaised("AskAFriendViewModel");
-            }
-        }
 
         private int _totalVotes = 0;
         public int TotalVotes
@@ -127,6 +119,17 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private ClassificationPanelViewModel _classifierRequestingHelp;
+        public ClassificationPanelViewModel ClassifierRequestingHelp
+        {
+            get { return _classifierRequestingHelp; }
+            set
+            {
+                _classifierRequestingHelp = value;
+                OnPropertyRaised("ClassifierRequestingHelp");
+            }
+        }
+
         private AnswerButton _selectedItem;
         public AnswerButton SelectedItem
         {
@@ -142,6 +145,17 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private ObservableCollection<TableUser> _helpfulUsers;
+        public ObservableCollection<TableUser> HelpfulUsers
+        {
+            get { return _helpfulUsers; }
+            set
+            {
+                _helpfulUsers = value;
+                OnPropertyRaised("HelpfulUsers");
+            }
+        }
+
         public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> allUsers)
         {
             if (workflow != null)
@@ -153,14 +167,34 @@ namespace GalaxyZooTouchTable.ViewModels
             User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            LevelerViewModel = new LevelerViewModel(user);
+            FilterCurrentUser(allUsers);
             AllUsers = allUsers;
-            AskAFriendViewModel = new AskAFriendViewModel(user, allUsers);
+            LevelerViewModel = new LevelerViewModel(user);
+            Messenger.Default.Register<ClassificationPanelViewModel>(this, OnHelpRequested, user);
 
             if (CurrentTask.Answers != null)
             {
                 CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
             }
+        }
+
+        private void OnHelpRequested(ClassificationPanelViewModel Classifier)
+        {
+            ClassifierRequestingHelp = Classifier;
+        }
+
+        private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
+        {
+            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(allUsers);
+            foreach (TableUser tableUser in allUsersCopy)
+            {
+                if (User == tableUser)
+                {
+                    allUsersCopy.Remove(User);
+                    break;
+                }
+            }
+            HelpfulUsers = allUsersCopy;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -176,7 +210,21 @@ namespace GalaxyZooTouchTable.ViewModels
             ContinueClassification = new CustomCommand(OnContinueClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
+            NotifyUser = new CustomCommand(OnNotifyUser);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
+            CloseNotifier = new CustomCommand(OnCloseNotifier);
+        }
+
+        private void OnCloseNotifier(object sender)
+        {
+            User.HelpNotification = false;
+        }
+
+        private void OnNotifyUser(object sender)
+        {
+            TableUser user = sender as TableUser;
+            user.HelpNotification = true;
+            Messenger.Default.Send<ClassificationPanelViewModel>(this, user);
         }
 
         private void OnOpenClassifier(object sender)

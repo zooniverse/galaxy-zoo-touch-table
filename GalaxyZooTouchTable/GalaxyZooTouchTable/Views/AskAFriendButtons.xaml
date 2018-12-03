@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              mc:Ignorable="d" 
              d:DesignHeight="31" d:DesignWidth="287">
     <UserControl.Resources>
-        <Style x:Key="BusyCircle" TargetType="{x:Type fa:ImageAwesome}">
-            <Setter Property="Foreground" Value="Red"/>
-
+        <Style x:Key="BusyCircle" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush" Value="#FFAF26"/>
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -21,16 +21,31 @@
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
             </Style.Triggers>
-            
         </Style>
 
         <Style x:Key="UserImage" TargetType="{x:Type Image}">
-            <!--<Setter Property="IsHitTestVisible" Value="False"/>-->
-
+            <Setter Property="Opacity" Value="0.25"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Active}" Value="True">
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Active}" Value="True"/>
+                        <Condition Binding="{Binding Path=HelpNotification}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Opacity" Value="1"/>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="UserGrid" TargetType="{x:Type Grid}">
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Active}" Value="True"/>
+                        <Condition Binding="{Binding Path=HelpNotification}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
                     <Setter Property="IsHitTestVisible" Value="True"/>
-                </DataTrigger>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -54,39 +69,57 @@
                     FontWeight="Bold"
                     FontSize="7"/>
 
-                <ListView
-                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                <ItemsControl
                     Grid.Column="1"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    ItemsSource="{Binding AskAFriend.AvailableUsers}">
-                    <ListView.ItemsPanel>
+                    ItemsSource="{Binding HelpfulUsers}">
+                    <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListBox.ItemTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="3,0,-10,0">
-
-                                <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Height="25">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="TouchUp">
-                                            <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Image>
-                                <fa:ImageAwesome
+                            <Grid Margin="5,0,0,0" Width="24" Height="24" Style="{StaticResource UserGrid}">
+                                <i:Interaction.Triggers>
+                                    <Lib:HandlingEventTrigger EventName="TouchUp">
+                                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding}"/>
+                                    </Lib:HandlingEventTrigger>
+                                </i:Interaction.Triggers>
+                                <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Width="24"/>
+                                <Border
                                     Style="{StaticResource BusyCircle}"
-                                    Icon="MinusCircle"
-                                    Height="10"
-                                    Margin="0,0,3,0"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
-                                    HorizontalAlignment="Right"/>
+                                    Height="11"
+                                    Width="11">
+                                    <fa:ImageAwesome
+                                        Foreground="#FFAF26"
+                                        Icon="Minus"
+                                        Width="5.7"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Center"/>
+                                </Border>
+                                <Border
+                                    Style="{StaticResource BusyCircle}"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom"
+                                    Height="11"
+                                    Width="11">
+                                    <fa:ImageAwesome
+                                        Foreground="#FFAF26"
+                                        Icon="Minus"
+                                        Width="5.7"
+                                        Margin="0,0,0,0"
+                                        HorizontalAlignment="Center"/>
+                                </Border>
                             </Grid>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListView>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Grid>
         </Border>
     </Viewbox>

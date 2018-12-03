@@ -10,6 +10,9 @@ namespace GalaxyZooTouchTable.ViewModels
     public class AskAFriendViewModel : INotifyPropertyChanged
     {
         public ICommand NotifyUser { get; set; }
+        public ICommand CloseNotifier { get; set; }
+
+        public ClassificationPanelViewModel Classifier;
 
         private AskAFriend _askAFriend;
         public AskAFriend AskAFriend
@@ -22,21 +25,46 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public AskAFriendViewModel(TableUser user, ObservableCollection<TableUser> allUsers)
+        private TableUser _selectedItem;
+        public TableUser SelectedItem
         {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                OnPropertyRaised("SelectedItem");
+            }
+        }
+
+        public AskAFriendViewModel(TableUser user, ObservableCollection<TableUser> allUsers, ClassificationPanelViewModel classificationPanel)
+        {
+            Classifier = classificationPanel;
             AskAFriend = new AskAFriend(user, allUsers);
+            Messenger.Default.Register<TableUser>(this, OnHelpRequested, user);
             LoadCommands();
+        }
+
+        private void OnHelpRequested(TableUser user)
+        {
+            System.Console.WriteLine(user);
         }
 
         private void LoadCommands()
         {
             NotifyUser = new CustomCommand(OnNotifyUser);
+            CloseNotifier = new CustomCommand(OnCloseNotifier);
+        }
+
+        private void OnCloseNotifier(object sender)
+        {
+            AskAFriend.User.HelpNotification = false;
         }
 
         private void OnNotifyUser(object sender)
         {
             TableUser user = sender as TableUser;
             user.HelpNotification = true;
+            Messenger.Default.Send<TableUser>(AskAFriend.User, user);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

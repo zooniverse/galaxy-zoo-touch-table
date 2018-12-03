@@ -5,12 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              Height="136.8" Width="115.9">
     <UserControl.Resources>
         <Style x:Key="ContentPanelBorder" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=AskAFriend.User.HelpNotification}" Value="True">
+                <DataTrigger Binding="{Binding Path=User.HelpNotification}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -33,7 +34,7 @@
     <Viewbox>
         <Grid Height="136.8" Width="115.9">
             <Border
-                Background="{Binding AskAFriend.User.ThemeColor}"
+                Background="{Binding User.ThemeColor}"
                 HorizontalAlignment="Right"
                 BorderThickness="1.5"
                 BorderBrush="Black"
@@ -45,6 +46,78 @@
                 <Border.RenderTransform>
                     <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ContentPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
                 </Border.RenderTransform>
+
+                <Grid>
+                    <fa:ImageAwesome Icon="Times" Foreground="White" Height="8.5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6.5,10,0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TouchUp">
+                                <i:InvokeCommandAction Command="{Binding CloseNotifier}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </fa:ImageAwesome>
+
+                    <StackPanel Orientation="Horizontal" Margin="10,9.5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                        <fa:ImageAwesome Icon="BellOutline" Foreground="White" Height="8.5"/>
+                        <TextBlock FontWeight="Bold" FontSize="7" Margin="2,0,0,0" Foreground="White" Text="Notification" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    </StackPanel>
+
+                    <!--<Grid Margin="9.5,23,9.5,0">
+                        <TextBlock
+                            FontWeight="Bold"
+                            FontSize="13"
+                            Foreground="White"
+                            Text="Good news!"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    </Grid>-->
+
+                    <Grid Margin="9.5,23,9.5,0">
+                        <TextBlock
+                            FontWeight="Bold"
+                            FontSize="10"
+                            Foreground="White"
+                            Text="Your help is needed!"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        <Image Margin="0,12,0,0" Source="{Binding ClassifierRequestingHelp.User.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock
+                            FontSize="8"
+                            Foreground="White"
+                            Margin="20,18,0,0"
+                            Text="wants to know what"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                        </TextBlock>      
+                        <TextBlock
+                            FontSize="8"
+                            Foreground="White"
+                            Margin="0,28,4,0"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                            <Run>you think about a galaxy</Run><LineBreak/>
+                            <Run>they're working on</Run><LineBreak/>
+                            <Run>Do you want to help?</Run>
+                        </TextBlock>
+                        <Border BorderThickness="1" CornerRadius="3" Margin="0,35,0,0" Height="18" BorderBrush="Black">
+                            <TextBlock
+                                Text="Accept galaxy"
+                                FontSize="8"
+                                Foreground="White"
+                                FontWeight="Black"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        </Border>
+
+                        <Border BorderThickness="1" CornerRadius="3" Margin="0,80,0,0" Height="18" BorderBrush="Black">
+                            <TextBlock
+                                Text="Decline galaxy"
+                                FontSize="8"
+                                Foreground="White"
+                                FontWeight="Black"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        </Border>
+                    </Grid>
+                </Grid>
+
             </Border>
         </Grid>            
     </Viewbox>
