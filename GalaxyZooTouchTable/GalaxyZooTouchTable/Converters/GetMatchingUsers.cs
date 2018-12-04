@@ -16,7 +16,7 @@ namespace GalaxyZooTouchTable.Converters
             if (values == null || values.Length < 2)
                 return false;
             else
-                return (ClassificationPanelViewModel)values[0] == (ClassificationPanelViewModel)values[1];
+                return values[0] as ClassificationPanelViewModel == values[1] as ClassificationPanelViewModel;
         }
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {

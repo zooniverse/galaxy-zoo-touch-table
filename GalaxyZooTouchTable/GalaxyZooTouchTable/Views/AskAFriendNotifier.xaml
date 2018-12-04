@@ -29,6 +29,26 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="HelpRequested" TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="1">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="AnswerReceived" TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="6">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     
     <Viewbox>
@@ -61,16 +81,16 @@
                         <TextBlock FontWeight="Bold" FontSize="7" Margin="2,0,0,0" Foreground="White" Text="Notification" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
                     </StackPanel>
 
-                    <!--<Grid Margin="9.5,23,9.5,0">
+                    <Grid Margin="9.5,23,9.5,0" Style="{StaticResource AnswerReceived}">
                         <TextBlock
                             FontWeight="Bold"
                             FontSize="13"
                             Foreground="White"
                             Text="Good news!"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </Grid>-->
+                    </Grid>
 
-                    <Grid Margin="9.5,23,9.5,0">
+                    <Grid Margin="9.5,23,9.5,0" Style="{StaticResource HelpRequested}">
                         <TextBlock
                             FontWeight="Bold"
                             FontSize="10"
@@ -95,6 +115,11 @@
                             <Run>Do you want to help?</Run>
                         </TextBlock>
                         <Border BorderThickness="1" CornerRadius="3" Margin="0,35,0,0" Height="18" BorderBrush="Black">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TouchUp">
+                                    <i:InvokeCommandAction Command="{Binding AcceptGalaxy}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <TextBlock
                                 Text="Accept galaxy"
                                 FontSize="8"

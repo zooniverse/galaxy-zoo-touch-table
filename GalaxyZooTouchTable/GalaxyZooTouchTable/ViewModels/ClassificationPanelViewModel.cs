@@ -65,6 +65,18 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand DeclineGalaxy { get; set; }
         public ICommand AcceptGalaxy { get; set; }
         public ICommand ResetNotifications { get; set; }
+        public ICommand ToggleButtonNotification { get; set; }
+
+        private Classification _suggestedClassification;
+        public Classification SuggestedClassification
+        {
+            get { return _suggestedClassification; }
+            set
+            {
+                _suggestedClassification = value;
+                OnPropertyRaised("SuggestedClassification");
+            }
+        }
 
         private int _notificationStatus = 0;
         public int NotificationStatus
@@ -74,6 +86,17 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 _notificationStatus = value;
                 OnPropertyRaised("NotificationStatus");
+            }
+        }
+
+        private bool _hideButtonNotification = false;
+        public bool HideButtonNotification
+        {
+            get { return _hideButtonNotification; }
+            set
+            {
+                _hideButtonNotification = value;
+                OnPropertyRaised("HideButtonNotification");
             }
         }
 
@@ -269,10 +292,18 @@ namespace GalaxyZooTouchTable.ViewModels
             DeclineGalaxy = new CustomCommand(OnDeclineGalaxy);
             AcceptGalaxy = new CustomCommand(OnAcceptGalaxy);
             ResetNotifications = new CustomCommand(OnResetNotifications);
+            ToggleButtonNotification = new CustomCommand(OnToggleButtonNotification);
+        }
+
+        private void OnToggleButtonNotification(object sender)
+        {
+            HideButtonNotification = !HideButtonNotification;
         }
 
         private void OnAcceptGalaxy(object sender)
         {
+            OpenNotifier = false;
+
             // Let cooperating user know of acceptance
             CooperatingClassifier.NotificationStatus = (int)HelpStatus.AcceptedHelp;
 
@@ -280,6 +311,17 @@ namespace GalaxyZooTouchTable.ViewModels
             NotificationStatus = (int)HelpStatus.HelpingUser;
 
             // Additional functionality is needed to fetch the right subject and start a new classification
+            string NewSubjectID = CooperatingClassifier.CurrentSubject.Id;
+            GetSubjectById(NewSubjectID);
+        }
+
+        private async void GetSubjectById(string subjectID)
+        {
+            ApiClient client = new ApiClient();
+            CurrentSubject = await client.Subjects.Get(subjectID);
+            StartNewClassification(CurrentSubject);
+            SubjectImageSource = CurrentSubject.GetSubjectLocation();
+            GraphQLRequest();
         }
 
         private void OnDeclineGalaxy(object sender)
@@ -299,6 +341,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnResetNotifications(object sender)
         {
             NotificationStatus = (int)HelpStatus.ClearNotifications;
+            SuggestedClassification = null;
             CooperatingClassifier = null;
         }
 
@@ -359,7 +402,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                await client.Classifications.Create(CurrentClassification);
+                //await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
