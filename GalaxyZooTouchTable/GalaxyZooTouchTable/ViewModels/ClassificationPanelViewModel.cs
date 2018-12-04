@@ -24,13 +24,13 @@ namespace GalaxyZooTouchTable.ViewModels
         /// HelpRequestSent: Shows in center that request was sent
         /// 
         /// User helping:
-        /// HelpRequested: Opens panel with accept or decline buttons
+        /// HelpRequetReceived: Opens panel with accept or decline buttons
         /// HelpingUser: Shows circle around user that is being helped
         /// </summary>
         enum HelpStatus
         {
             ClearNotifications,
-            HelpRequested,
+            HelpRequestReceived,
             DeclinedHelp,
             AcceptedHelp,
             HelpRequestSent,
@@ -38,7 +38,6 @@ namespace GalaxyZooTouchTable.ViewModels
             AnswerGiven
         }
 
-        public int NotificationStatus { get; set; }
         private const int SUBJECT_VIEW = 0;
         private const int SUMMARY_VIEW = 1;
 
@@ -65,6 +64,18 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ShowCloseConfirmation { get; set; }
         public ICommand DeclineGalaxy { get; set; }
         public ICommand AcceptGalaxy { get; set; }
+        public ICommand ResetNotifications { get; set; }
+
+        private int _notificationStatus = 0;
+        public int NotificationStatus
+        {
+            get { return _notificationStatus; }
+            set
+            {
+                _notificationStatus = value;
+                OnPropertyRaised("NotificationStatus");
+            }
+        }
 
         private bool _openNotifier { get; set; } = false;
         public bool OpenNotifier
@@ -219,7 +230,10 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             OpenNotifier = true;
             CooperatingClassifier = Classifier;
-            Classifier.User.CoClassification = true;
+
+            Classifier.NotificationStatus = (int)HelpStatus.HelpRequestSent;
+            NotificationStatus = (int)HelpStatus.HelpRequestReceived;
+            //Classifier.User.CoClassification = true;
         }
 
         private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
@@ -254,6 +268,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseNotifier = new CustomCommand(OnCloseNotifier);
             DeclineGalaxy = new CustomCommand(OnDeclineGalaxy);
             AcceptGalaxy = new CustomCommand(OnAcceptGalaxy);
+            ResetNotifications = new CustomCommand(OnResetNotifications);
         }
 
         private void OnAcceptGalaxy(object sender)
@@ -277,7 +292,14 @@ namespace GalaxyZooTouchTable.ViewModels
 
             // You're single now
             NotificationStatus = (int)HelpStatus.ClearNotifications;
+            CooperatingClassifier = null;
             User.CoClassification = false;
+        }
+
+        private void OnResetNotifications(object sender)
+        {
+            NotificationStatus = (int)HelpStatus.ClearNotifications;
+            CooperatingClassifier = null;
         }
 
         private void OnCloseNotifier(object sender)
@@ -289,7 +311,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             TableUser UserToNotify = sender as TableUser;
 
-            // These users is busy now
+            // These users are busy now
             UserToNotify.CoClassification = true;
             User.CoClassification = true;
 
@@ -297,7 +319,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CooperatingClassifier = UserToNotify.Classifier;
 
             // What is your status?
-            NotificationStatus = (int)HelpStatus.HelpRequested;
+            NotificationStatus = (int)HelpStatus.HelpRequestReceived;
             Messenger.Default.Send<ClassificationPanelViewModel>(this, UserToNotify);
         }
 

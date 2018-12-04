@@ -6,4 +6,5 @@
     <SolidColorBrush Color="#E1E3E6" x:Key="LightGrayColor"/>
     <SolidColorBrush Color="#63AB51" x:Key="SuccessColor" />
     <SolidColorBrush Color="#FFE5FF4D" x:Key="LimeGreenColor" />
+    <SolidColorBrush Color="#E5FF4D" x:Key="AttentionColor" />
 </ResourceDictionary>
