@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.ViewModels;
+using System;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
 
@@ -19,14 +20,26 @@ namespace GalaxyZooTouchTable.Models
         string ThemeColor { get; }
         BitmapImage StartButton { get; }
         BitmapImage Avatar { get; }
-        private bool _helpNotification = false;
-        public bool HelpNotification
+
+        private ClassificationPanelViewModel _classifier;
+        public ClassificationPanelViewModel Classifier
         {
-            get { return _helpNotification; }
+            get { return _classifier; }
             set
             {
-                _helpNotification = value;
-                OnPropertyRaised("HelpNotification");
+                _classifier = value;
+                OnPropertyRaised("Classifier");
+            }
+        }
+
+        private bool _coClassification = false;
+        public bool CoClassification
+        {
+            get { return _coClassification; }
+            set
+            {
+                _coClassification = value;
+                OnPropertyRaised("CoClassification");
             }
         }
 

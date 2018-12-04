@@ -16,9 +16,23 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=HelpNotification}" Value="False"/>
+                        <Condition Binding="{Binding Path=CoClassification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Value="True">
+                            <Condition.Binding>
+                                <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                                    <Binding Path="Classifier" />
+                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
+                                </MultiBinding>
+                            </Condition.Binding>
+                        </Condition>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="1"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="Red"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -29,10 +43,21 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=HelpNotification}" Value="False"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="0"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Opacity" Value="1"/>
                 </MultiDataTrigger>
+                <DataTrigger Value="True">
+                    <DataTrigger.Binding>
+                        <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                            <Binding Path="Classifier"/>
+                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
+                        </MultiBinding>
+                    </DataTrigger.Binding>
+                    <DataTrigger.Setters>
+                        <Setter Property="Opacity" Value="1"/>
+                    </DataTrigger.Setters>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -42,7 +67,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=HelpNotification}" Value="False"/>
+                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="0"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="IsHitTestVisible" Value="True"/>
                 </MultiDataTrigger>

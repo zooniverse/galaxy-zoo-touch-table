@@ -16,6 +16,29 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// User needing help:
+        /// DeclinedHelp: Shows in center that cooperating user has declined to help
+        /// AcceptedHelp: Shows in center that cooperating user has accepted help
+        /// AnswerGiven: Shows in center that cooperating user has answered and answer in left panel
+        /// HelpRequestSent: Shows in center that request was sent
+        /// 
+        /// User helping:
+        /// HelpRequested: Opens panel with accept or decline buttons
+        /// HelpingUser: Shows circle around user that is being helped
+        /// </summary>
+        enum HelpStatus
+        {
+            ClearNotifications,
+            HelpRequested,
+            DeclinedHelp,
+            AcceptedHelp,
+            HelpRequestSent,
+            HelpingUser,
+            AnswerGiven
+        }
+
+        public int NotificationStatus { get; set; }
         private const int SUBJECT_VIEW = 0;
         private const int SUMMARY_VIEW = 1;
 
@@ -40,6 +63,19 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectAnswer { get; set; }
         public ICommand CloseNotifier { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand DeclineGalaxy { get; set; }
+        public ICommand AcceptGalaxy { get; set; }
+
+        private bool _openNotifier { get; set; } = false;
+        public bool OpenNotifier
+        {
+            get { return _openNotifier; }
+            set
+            {
+                _openNotifier = value;
+                OnPropertyRaised("OpenNotifier");
+            }
+        }
 
         private int _totalVotes = 0;
         public int TotalVotes
@@ -119,14 +155,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private ClassificationPanelViewModel _classifierRequestingHelp;
-        public ClassificationPanelViewModel ClassifierRequestingHelp
+        private ClassificationPanelViewModel _cooperatingClassifier;
+        public ClassificationPanelViewModel CooperatingClassifier
         {
-            get { return _classifierRequestingHelp; }
+            get { return _cooperatingClassifier; }
             set
             {
-                _classifierRequestingHelp = value;
-                OnPropertyRaised("ClassifierRequestingHelp");
+                _cooperatingClassifier = value;
+                OnPropertyRaised("CooperatingClassifier");
             }
         }
 
@@ -165,6 +201,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
             Workflow = workflow;
             User = user;
+            user.Classifier = this;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
             FilterCurrentUser(allUsers);
@@ -180,7 +217,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnHelpRequested(ClassificationPanelViewModel Classifier)
         {
-            ClassifierRequestingHelp = Classifier;
+            OpenNotifier = true;
+            CooperatingClassifier = Classifier;
+            Classifier.User.CoClassification = true;
         }
 
         private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
@@ -213,18 +252,53 @@ namespace GalaxyZooTouchTable.ViewModels
             NotifyUser = new CustomCommand(OnNotifyUser);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             CloseNotifier = new CustomCommand(OnCloseNotifier);
+            DeclineGalaxy = new CustomCommand(OnDeclineGalaxy);
+            AcceptGalaxy = new CustomCommand(OnAcceptGalaxy);
+        }
+
+        private void OnAcceptGalaxy(object sender)
+        {
+            // Let cooperating user know of acceptance
+            CooperatingClassifier.NotificationStatus = (int)HelpStatus.AcceptedHelp;
+
+            // You're helping now
+            NotificationStatus = (int)HelpStatus.HelpingUser;
+
+            // Additional functionality is needed to fetch the right subject and start a new classification
+        }
+
+        private void OnDeclineGalaxy(object sender)
+        {
+            OpenNotifier = false;
+
+            // Let cooperating user know of declination
+            CooperatingClassifier.NotificationStatus = (int)HelpStatus.DeclinedHelp;
+            CooperatingClassifier.User.CoClassification = false;
+
+            // You're single now
+            NotificationStatus = (int)HelpStatus.ClearNotifications;
+            User.CoClassification = false;
         }
 
         private void OnCloseNotifier(object sender)
         {
-            User.HelpNotification = false;
+            OpenNotifier = false;
         }
 
         private void OnNotifyUser(object sender)
         {
-            TableUser user = sender as TableUser;
-            user.HelpNotification = true;
-            Messenger.Default.Send<ClassificationPanelViewModel>(this, user);
+            TableUser UserToNotify = sender as TableUser;
+
+            // These users is busy now
+            UserToNotify.CoClassification = true;
+            User.CoClassification = true;
+
+            // Who are you speaking to?
+            CooperatingClassifier = UserToNotify.Classifier;
+
+            // What is your status?
+            NotificationStatus = (int)HelpStatus.HelpRequested;
+            Messenger.Default.Send<ClassificationPanelViewModel>(this, UserToNotify);
         }
 
         private void OnOpenClassifier(object sender)
