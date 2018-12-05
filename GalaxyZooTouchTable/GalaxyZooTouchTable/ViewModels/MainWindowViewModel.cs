@@ -2,7 +2,6 @@
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -117,12 +116,12 @@ namespace GalaxyZooTouchTable.ViewModels
         private void CreateTimer()
         {
             var dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 1, 0);
+            dispatcherTimer.Tick += new System.EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new System.TimeSpan(0, 1, 0);
             dispatcherTimer.Start();
         }
 
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void dispatcherTimer_Tick(object sender, System.EventArgs e)
         {
             FlipCenterpiece = !FlipCenterpiece;
         }

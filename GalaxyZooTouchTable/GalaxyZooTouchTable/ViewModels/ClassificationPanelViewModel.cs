@@ -6,7 +6,6 @@ using GraphQL.Common.Request;
 using GraphQL.Common.Response;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -208,7 +207,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == SUBJECT_VIEW)
             {
-                CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
+                CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
                 await client.Classifications.Create(CurrentClassification);
@@ -245,7 +244,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CurrentClassification = new Classification();
             CurrentClassification.Metadata.WorkflowVersion = Workflow.Version;
-            CurrentClassification.Metadata.StartedAt = DateTime.Now.ToString();
+            CurrentClassification.Metadata.StartedAt = System.DateTime.Now.ToString();
             CurrentClassification.Metadata.UserAgent = "Galaxy Zoo Touch Table";
             CurrentClassification.Metadata.UserLanguage = "en";
 
@@ -309,9 +308,9 @@ namespace GalaxyZooTouchTable.ViewModels
             try {
                 response = await GraphQLClient.SendQueryAsync(answersRequest);
             }
-            catch (Exception e)
+            catch (System.Exception e)
             {
-                Console.WriteLine("Graph QL Error: {0}", e.Message);
+                System.Console.WriteLine("Graph QL Error: {0}", e.Message);
             }
 
             if (response.Data != null)
