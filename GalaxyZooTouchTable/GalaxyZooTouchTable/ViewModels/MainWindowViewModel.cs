@@ -2,8 +2,6 @@
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -120,14 +118,14 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (e.NewItems != null)
             {
-                foreach (Object item in e.NewItems)
+                foreach (object item in e.NewItems)
                 {
                     ((INotifyPropertyChanged)item).PropertyChanged += ItemPropertyChanged;
                 }
             }
             if (e.OldItems != null)
             {
-                foreach (Object item in e.OldItems)
+                foreach (object item in e.OldItems)
                 {
                     ((INotifyPropertyChanged)item).PropertyChanged -= ItemPropertyChanged;
                 }

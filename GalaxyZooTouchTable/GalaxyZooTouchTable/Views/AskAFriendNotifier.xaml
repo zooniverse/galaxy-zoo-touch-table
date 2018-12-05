@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
@@ -34,7 +34,7 @@
             <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="1">
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -44,7 +44,7 @@
             <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="6">
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -55,15 +55,20 @@
             <Setter Property="Opacity" Value="0.5"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="1">
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="IsHitTestVisible" Value="True"/>
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="6">
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
                     <Setter Property="IsHitTestVisible" Value="True"/>
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+
+        <Style x:Key="WhiteFont" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
         </Style>
     </UserControl.Resources>
     
@@ -105,24 +110,20 @@
 
                     <Grid Margin="9.5,23,9.5,0" Style="{StaticResource AnswerReceived}">
                         <TextBlock
+                            Style="{StaticResource WhiteFont}"
                             FontWeight="Bold"
                             FontSize="13"
-                            Foreground="White"
-                            Text="Good news!"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            Text="Good news!"/>
                         <Image Margin="0,12,0,0" Source="{Binding CooperatingClassifier.User.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock
+                            Style="{StaticResource WhiteFont}"
                             FontSize="8"
-                            Foreground="White"
                             Margin="20,18,0,0"
-                            Text="classified the"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                        </TextBlock>
+                            Text="classified the"/>
                         <TextBlock
+                            Style="{StaticResource WhiteFont}"
                             FontSize="8"
-                            Foreground="White"
-                            Margin="0,28,4,0"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                            Margin="0,28,4,0">
                             <Run>galaxy you requested</Run><LineBreak/>
                             <Run>help with. They voted</Run><LineBreak/>
                             <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="11" Text="{Binding SuggestedAnswer}"/><LineBreak/>
@@ -134,24 +135,20 @@
 
                     <Grid Margin="9.5,23,9.5,0" Style="{StaticResource HelpRequested}">
                         <TextBlock
+                            Style="{StaticResource WhiteFont}"
                             FontWeight="Bold"
                             FontSize="10"
-                            Foreground="White"
-                            Text="Your help is needed!"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            Text="Your help is needed!"/>
                         <Image Margin="0,12,0,0" Source="{Binding CooperatingClassifier.User.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock
+                            Style="{StaticResource WhiteFont}"
                             FontSize="8"
-                            Foreground="White"
                             Margin="20,18,0,0"
-                            Text="wants to know what"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                        </TextBlock>      
+                            Text="wants to know what"/>
                         <TextBlock
+                            Style="{StaticResource WhiteFont}"
                             FontSize="8"
-                            Foreground="White"
-                            Margin="0,28,4,0"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                            Margin="0,28,4,0">
                             <Run>you think about a galaxy</Run><LineBreak/>
                             <Run>they're working on</Run><LineBreak/>
                             <Run>Do you want to help?</Run>
@@ -163,13 +160,12 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <TextBlock
+                                Style="{StaticResource WhiteFont}"
                                 Text="Accept galaxy"
                                 FontSize="8"
-                                Foreground="White"
-                                FontWeight="Black"
+                                FontWeight="Bold"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                                VerticalAlignment="Center"/>
                         </Border>
 
                         <Border BorderThickness="1" CornerRadius="3" Margin="0,80,0,0" Height="18" BorderBrush="Black">
@@ -179,17 +175,15 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <TextBlock
+                                Style="{StaticResource WhiteFont}"
                                 Text="Decline galaxy"
                                 FontSize="8"
-                                Foreground="White"
-                                FontWeight="Black"
+                                FontWeight="Bold"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                                VerticalAlignment="Center"/>
                         </Border>
                     </Grid>
                 </Grid>
-
             </Border>
         </Grid>            
     </Viewbox>

@@ -52,18 +52,11 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadCommands()
         {
             NotifyUser = new CustomCommand(OnNotifyUser);
-            CloseNotifier = new CustomCommand(OnCloseNotifier);
-        }
-
-        private void OnCloseNotifier(object sender)
-        {
-            AskAFriend.User.CoClassification = false;
         }
 
         private void OnNotifyUser(object sender)
         {
             TableUser user = sender as TableUser;
-            user.CoClassification = true;
             Messenger.Default.Send<TableUser>(AskAFriend.User, user);
         }
 

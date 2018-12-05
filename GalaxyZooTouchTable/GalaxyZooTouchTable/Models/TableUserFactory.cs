@@ -32,17 +32,6 @@ namespace GalaxyZooTouchTable.Models
             }
         }
 
-        private bool _coClassification = false;
-        public bool CoClassification
-        {
-            get { return _coClassification; }
-            set
-            {
-                _coClassification = value;
-                OnPropertyRaised("CoClassification");
-            }
-        }
-
         private bool _active = false;
         public bool Active
         {

@@ -16,28 +16,6 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        /// <summary>
-        /// User needing help:
-        /// DeclinedHelp: Shows in center that cooperating user has declined to help
-        /// AcceptedHelp: Shows in center that cooperating user has accepted help
-        /// AnswerGiven: Shows in center that cooperating user has answered and answer in left panel
-        /// HelpRequestSent: Shows in center that request was sent
-        /// 
-        /// User helping:
-        /// HelpRequestReceived: Opens panel with accept or decline buttons
-        /// HelpingUser: Shows circle around user that is being helped
-        /// </summary>
-        enum HelpStatus
-        {
-            ClearNotifications,
-            HelpRequestReceived,
-            DeclinedHelp,
-            AcceptedHelp,
-            HelpRequestSent,
-            HelpingUser,
-            AnswerGiven
-        }
-
         private const int SUBJECT_VIEW = 0;
         private const int SUMMARY_VIEW = 1;
 
@@ -78,8 +56,8 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private int _notificationStatus = 0;
-        public int NotificationStatus
+        private NotificationStatus _notificationStatus;
+        public NotificationStatus NotificationStatus
         {
             get { return _notificationStatus; }
             set
@@ -254,9 +232,8 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenNotifier = true;
             CooperatingClassifier = Classifier;
 
-            Classifier.NotificationStatus = (int)HelpStatus.HelpRequestSent;
-            NotificationStatus = (int)HelpStatus.HelpRequestReceived;
-            //Classifier.User.CoClassification = true;
+            Classifier.NotificationStatus = NotificationStatus.HelpRequestSent;
+            NotificationStatus = NotificationStatus.HelpRequestReceived;
         }
 
         private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
@@ -305,10 +282,10 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenNotifier = false;
 
             // Let cooperating user know of acceptance
-            CooperatingClassifier.NotificationStatus = (int)HelpStatus.AcceptedHelp;
+            CooperatingClassifier.NotificationStatus = NotificationStatus.AcceptedHelp;
 
             // You're helping now
-            NotificationStatus = (int)HelpStatus.HelpingUser;
+            NotificationStatus = NotificationStatus.HelpingUser;
 
             // Additional functionality is needed to fetch the right subject and start a new classification
             string NewSubjectID = CooperatingClassifier.CurrentSubject.Id;
@@ -329,18 +306,16 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenNotifier = false;
 
             // Let cooperating user know of declination
-            CooperatingClassifier.NotificationStatus = (int)HelpStatus.DeclinedHelp;
-            CooperatingClassifier.User.CoClassification = false;
+            CooperatingClassifier.NotificationStatus = NotificationStatus.DeclinedHelp;
 
             // You're single now
-            NotificationStatus = (int)HelpStatus.ClearNotifications;
+            NotificationStatus = (int)NotificationStatus.ClearNotifications;
             CooperatingClassifier = null;
-            User.CoClassification = false;
         }
 
         private void OnResetNotifications(object sender)
         {
-            NotificationStatus = (int)HelpStatus.ClearNotifications;
+            NotificationStatus = (int)NotificationStatus.ClearNotifications;
             SuggestedAnswer = null;
             CooperatingClassifier = null;
         }
@@ -354,15 +329,11 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             TableUser UserToNotify = sender as TableUser;
 
-            // These users are busy now
-            UserToNotify.CoClassification = true;
-            User.CoClassification = true;
-
             // Who are you speaking to?
             CooperatingClassifier = UserToNotify.Classifier;
 
             // What is your status?
-            NotificationStatus = (int)HelpStatus.HelpRequestReceived;
+            NotificationStatus = NotificationStatus.HelpRequestReceived;
             Messenger.Default.Send<ClassificationPanelViewModel>(this, UserToNotify);
         }
 
@@ -409,12 +380,13 @@ namespace GalaxyZooTouchTable.ViewModels
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
 
-                if (NotificationStatus == (int)HelpStatus.HelpingUser)
+                if (NotificationStatus == NotificationStatus.HelpingUser)
                 {
                     CooperatingClassifier.SuggestedAnswer = SelectedItem.Label;
-                    CooperatingClassifier.NotificationStatus = (int)HelpStatus.AnswerGiven;
+                    CooperatingClassifier.HideButtonNotification = false;
+                    CooperatingClassifier.NotificationStatus = NotificationStatus.AnswerGiven;
                     CooperatingClassifier.OpenNotifier = true;
-                    NotificationStatus = (int)HelpStatus.ClearNotifications;
+                    NotificationStatus = (int)NotificationStatus.ClearNotifications;
                 }
             }
             else

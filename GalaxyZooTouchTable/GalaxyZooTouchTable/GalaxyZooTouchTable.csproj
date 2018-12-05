@@ -163,6 +163,7 @@
     <Compile Include="Converters\ValueToEqualsParamConverter.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\HandlingEventTrigger.cs" />
+    <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\AskAFriend.cs" />
     <Compile Include="ViewModels\AskAFriendViewModel.cs" />

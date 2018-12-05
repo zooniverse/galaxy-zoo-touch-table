@@ -7,13 +7,28 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="31" d:DesignWidth="287">
     <UserControl.Resources>
-        <Style x:Key="BusyCircle" TargetType="{x:Type Border}">
+        <Style x:Key="BoldWhiteFont" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="IndicatorBorder" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Height" Value="11"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Width" Value="11"/>
+        </Style>
+        
+        <Style x:Key="BusyCircle" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Visible"/>
             <Setter Property="BorderBrush" Value="#FFAF26"/>
+            <Setter Property="BorderThickness" Value="1"/>
 
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -32,15 +47,15 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="0"/>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="0"/>
+                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="QuestionMark" TargetType="{x:Type Border}">
+        <Style x:Key="QuestionMark" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -53,7 +68,7 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="4"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpRequestSent}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
@@ -67,14 +82,14 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="3"/>
+                        <Condition Binding="{Binding Classifier.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ExclamationPoint" TargetType="{x:Type Border}">
+        <Style x:Key="ExclamationPoint" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -87,7 +102,7 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="1"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
@@ -97,7 +112,7 @@
         <Style x:Key="RequestDenied" TargetType="{x:Type Grid}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="2">
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -108,7 +123,7 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=NotificationStatus}" Value="3"/>
+                        <Condition Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AcceptedHelp}"/>
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
@@ -121,7 +136,7 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=NotificationStatus}" Value="6"/>
+                        <Condition Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}"/>
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
@@ -132,19 +147,19 @@
         <Style x:Key="ButtonRow" TargetType="{x:Type Grid}">
             <Setter Property="Visibility" Value="Visible"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="2">
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=NotificationStatus}" Value="3"/>
+                        <Condition Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AcceptedHelp}"/>
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=NotificationStatus}" Value="6"/>
+                        <Condition Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}"/>
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -171,8 +186,8 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="0"/>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="0"/>
+                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Opacity" Value="1"/>
                 </MultiDataTrigger>
@@ -192,7 +207,7 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="5"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="BorderThickness" Value="2"/>
                 </MultiDataTrigger>
@@ -205,7 +220,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="0"/>
+                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="IsHitTestVisible" Value="True"/>
                 </MultiDataTrigger>
@@ -219,24 +234,20 @@
                 <Grid Style="{StaticResource RequestDenied}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock
-                            Foreground="White"
-                            FontWeight="Bold"
+                            Style="{StaticResource BoldWhiteFont}"
                             FontSize="9"
                             Text="Sorry"
-                            VerticalAlignment="Center"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            VerticalAlignment="Center"/>
                         <Image
                             Margin="2,0"
                             HorizontalAlignment="Left"
                             Source="{Binding CooperatingClassifier.User.Avatar}"
                             Height="24"/>
                         <TextBlock
-                            Foreground="White"
-                            FontWeight="Bold"
+                            Style="{StaticResource BoldWhiteFont}"
                             VerticalAlignment="Center"
                             FontSize="9"
-                            Text="declined your invitation. Ask someone else?"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            Text="declined your invitation. Ask someone else?"/>
                     </StackPanel>
                     <fa:ImageAwesome
                         HorizontalAlignment="Right"
@@ -255,24 +266,20 @@
                 <Grid Style="{StaticResource RequestAccepted}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock
-                            Foreground="White"
-                            FontWeight="Bold"
+                            Style="{StaticResource BoldWhiteFont}"
                             FontSize="9"
                             Text="Horray"
-                            VerticalAlignment="Center"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            VerticalAlignment="Center"/>
                         <Image
                             Margin="2,0"
                             HorizontalAlignment="Left"
                             Source="{Binding CooperatingClassifier.User.Avatar}"
                             Height="24"/>
                         <TextBlock
-                            Foreground="White"
-                            FontWeight="Bold"
+                            Style="{StaticResource BoldWhiteFont}"
                             VerticalAlignment="Center"
                             FontSize="9"
-                            Text="accepted your invitation!"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            Text="accepted your invitation!"/>
                     </StackPanel>
                     <fa:ImageAwesome
                         HorizontalAlignment="Right"
@@ -291,24 +298,20 @@
                 <Grid Style="{StaticResource AnswerReceived}">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock
-                            Foreground="White"
-                            FontWeight="Bold"
+                            Style="{StaticResource BoldWhiteFont}"
                             FontSize="9"
                             Text="Check it out,"
-                            VerticalAlignment="Center"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            VerticalAlignment="Center"/>
                         <Image
                             Margin="2,0"
                             HorizontalAlignment="Left"
                             Source="{Binding CooperatingClassifier.User.Avatar}"
                             Height="24"/>
                         <TextBlock
-                            Foreground="White"
-                            FontWeight="Bold"
+                            Style="{StaticResource BoldWhiteFont}"
                             VerticalAlignment="Center"
                             FontSize="9"
-                            Text="made a classification!"
-                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                            Text="made a classification!"/>
                     </StackPanel>
                     <fa:ImageAwesome
                         HorizontalAlignment="Right"
@@ -331,15 +334,13 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
-                    TextWrapping="Wrap"
-                    Foreground="White"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Right"
-                    TextAlignment="Right"
-                    Text="See what a neighbor at the table thinks about this galaxy image."
-                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                    FontWeight="Bold"
-                    FontSize="7"/>
+                        Style="{StaticResource BoldWhiteFont}"
+                        TextWrapping="Wrap"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right"
+                        TextAlignment="Right"
+                        Text="See what a neighbor at the table thinks about this galaxy image."
+                        FontSize="7"/>
 
                     <ItemsControl
                         Grid.Column="1"
@@ -361,50 +362,29 @@
                                         <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Width="24"/>
                                     </Border>
 
-                                    <Border
-                                    Style="{StaticResource BusyCircle}"
-                                    BorderThickness="1"
-                                    CornerRadius="5"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"
-                                    Height="11"
-                                    Width="11">
+                                    <Border Style="{StaticResource BusyCircle}">
                                         <fa:ImageAwesome
-                                        Foreground="#FFAF26"
-                                        Icon="Minus"
-                                        Width="5.7"
-                                        Margin="0,0,0,0"
-                                        HorizontalAlignment="Center"/>
+                                            Foreground="#FFAF26"
+                                            Icon="Minus"
+                                            Width="5.7"
+                                            Margin="0,0,0,0"
+                                            HorizontalAlignment="Center"/>
                                     </Border>
 
-                                    <Border
-                                    Style="{StaticResource QuestionMark}"
-                                    Background="Black"
-                                    Width="11"
-                                    Height="11"
-                                    CornerRadius="5"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom">
+                                    <Border Style="{StaticResource QuestionMark}">
                                         <fa:ImageAwesome
-                                        Foreground="{StaticResource SuccessColor}"
-                                        Icon="QuestionCircle"
-                                        Width="9"
-                                        Margin="0,0,0,0"/>
+                                            Foreground="{StaticResource SuccessColor}"
+                                            Icon="QuestionCircle"
+                                            Width="9"
+                                            Margin="0,0,0,0"/>
                                     </Border>
 
-                                    <Border
-                                    Style="{StaticResource ExclamationPoint}"
-                                    Background="Black"
-                                    Width="11"
-                                    Height="11"
-                                    CornerRadius="5"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom">
+                                    <Border Style="{StaticResource ExclamationPoint}">
                                         <fa:ImageAwesome
-                                        Foreground="{StaticResource AttentionColor}"
-                                        Icon="ExclamationCircle"
-                                        Width="9"
-                                        Margin="0,0,0,0"/>
+                                            Foreground="{StaticResource AttentionColor}"
+                                            Icon="ExclamationCircle"
+                                            Width="9"
+                                            Margin="0,0,0,0"/>
                                     </Border>
                                 </Grid>
                             </DataTemplate>
