@@ -49,16 +49,38 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="BellNotification" TargetType="{x:Type Border}">
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="Opacity" Value="0.5"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="1">
+                    <Setter Property="IsHitTestVisible" Value="True"/>
+                    <Setter Property="Opacity" Value="1"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="6">
+                    <Setter Property="IsHitTestVisible" Value="True"/>
+                    <Setter Property="Opacity" Value="1"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     
     <Viewbox>
         <Grid Height="136.8" Width="115.9">
             <Border
+                Style="{StaticResource BellNotification}"
                 Background="{Binding User.ThemeColor}"
                 HorizontalAlignment="Right"
                 BorderThickness="1.5"
                 BorderBrush="Black"
                 CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="29.5" Height="26">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TouchUp">
+                        <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <fa:ImageAwesome Icon="BellOutline" Height="10"/>    
             </Border>
 
@@ -71,7 +93,7 @@
                     <fa:ImageAwesome Icon="Times" Foreground="White" Height="8.5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6.5,10,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding CloseNotifier}"/>
+                                <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </fa:ImageAwesome>
@@ -88,6 +110,26 @@
                             Foreground="White"
                             Text="Good news!"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                        <Image Margin="0,12,0,0" Source="{Binding CooperatingClassifier.User.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock
+                            FontSize="8"
+                            Foreground="White"
+                            Margin="20,18,0,0"
+                            Text="classified the"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                        </TextBlock>
+                        <TextBlock
+                            FontSize="8"
+                            Foreground="White"
+                            Margin="0,28,4,0"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
+                            <Run>galaxy you requested</Run><LineBreak/>
+                            <Run>help with. They voted</Run><LineBreak/>
+                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="11" Text="{Binding SuggestedAnswer}"/><LineBreak/>
+                            <Run>still not sure?</Run><LineBreak/>
+                            <Run>Ask them why they</Run><LineBreak/>
+                            <Run>made this choice!</Run>
+                        </TextBlock>
                     </Grid>
 
                     <Grid Margin="9.5,23,9.5,0" Style="{StaticResource HelpRequested}">

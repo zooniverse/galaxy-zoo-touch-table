@@ -7,34 +7,36 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="31" d:DesignWidth="287">
     <UserControl.Resources>
         <Style x:Key="BusyCircle" TargetType="{x:Type Border}">
-            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="Visibility" Value="Visible"/>
             <Setter Property="BorderBrush" Value="#FFAF26"/>
+
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Active}" Value="False"/>
-                        <!--<Condition Binding="{Binding Path=CoClassification}" Value="False"/>-->
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-                <!--<MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="False">
+                        <Condition Value="True">
                             <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
                                     <Binding Path="Classifier" />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=Active}" Value="True"/>
+                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="0"/>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="0"/>
                     </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>-->
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -45,7 +47,7 @@
                     <MultiDataTrigger.Conditions>
                         <Condition Value="True">
                             <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
                                     <Binding Path="Classifier" />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
                                 </MultiBinding>
@@ -59,7 +61,7 @@
                     <MultiDataTrigger.Conditions>
                         <Condition Value="True">
                             <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
                                     <Binding Path="Classifier" />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
                                 </MultiBinding>
@@ -79,7 +81,7 @@
                     <MultiDataTrigger.Conditions>
                         <Condition Value="True">
                             <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
                                     <Binding Path="Classifier" />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
                                 </MultiBinding>
@@ -155,22 +157,25 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
+                        <Condition Value="True">
+                            <Condition.Binding>
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                    <Binding Path="Classifier" />
+                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
+                                </MultiBinding>
+                            </Condition.Binding>
+                        </Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Opacity" Value="1"/>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
+                        <Condition Binding="{Binding Path=Classifier.NotificationStatus}" Value="0"/>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotificationStatus}" Value="0"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Opacity" Value="1"/>
                 </MultiDataTrigger>
-                <DataTrigger Value="True">
-                    <DataTrigger.Binding>
-                        <MultiBinding Converter="{StaticResource GetMatchingUsers}">
-                            <Binding Path="Classifier"/>
-                            <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
-                        </MultiBinding>
-                    </DataTrigger.Binding>
-                    <DataTrigger.Setters>
-                        <Setter Property="Opacity" Value="1"/>
-                    </DataTrigger.Setters>
-                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -181,7 +186,7 @@
                     <MultiDataTrigger.Conditions>
                         <Condition Value="True">
                             <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource GetMatchingUsers}">
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
                                     <Binding Path="Classifier" />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingClassifier"/>
                                 </MultiBinding>
