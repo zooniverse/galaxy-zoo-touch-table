@@ -19,7 +19,6 @@
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>
             <Converters:EqualityConverter x:Key="EqualityConverter"/>
-            <Converters:ValueToEqualsParamConverter x:Key="ValueToEqualsParamConverter"/>
             <Converters:FontSizeConverter x:Key="FontSizeConverter"/>
             <Converters:ObjectEqualityStringConverter x:Key="ObjectEqualityStringConverter"/>
             <Converters:ObjectToTypeStringConverter x:Key="ObjectToTypeStringConverter"/>

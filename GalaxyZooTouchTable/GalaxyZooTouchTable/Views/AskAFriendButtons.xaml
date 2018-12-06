@@ -36,7 +36,7 @@
                         <Condition Value="True">
                             <Condition.Binding>
                                 <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="Classifier.User" />
+                                    <Binding Path="." />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
                                 </MultiBinding>
                             </Condition.Binding>
@@ -47,7 +47,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Classifier.Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -63,7 +63,7 @@
                         <Condition Value="True">
                             <Condition.Binding>
                                 <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="Classifier.User" />
+                                    <Binding Path="." />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
                                 </MultiBinding>
                             </Condition.Binding>
@@ -77,13 +77,13 @@
                         <Condition Value="True">
                             <Condition.Binding>
                                 <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="Classifier.User" />
+                                    <Binding Path="." />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding Classifier.Notifications.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
-                        <Condition Binding="{Binding Classifier.Notifications.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
+                        <Condition Binding="{Binding Notifications.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
+                        <Condition Binding="{Binding Notifications.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
@@ -98,7 +98,7 @@
                         <Condition Value="True">
                             <Condition.Binding>
                                 <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="Classifier.User" />
+                                    <Binding Path="." />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
                                 </MultiBinding>
                             </Condition.Binding>
@@ -176,7 +176,7 @@
                         <Condition Value="True">
                             <Condition.Binding>
                                 <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="Classifier.User" />
+                                    <Binding Path="." />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
                                 </MultiBinding>
                             </Condition.Binding>
@@ -187,7 +187,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Classifier.Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Opacity" Value="1"/>
@@ -203,7 +203,7 @@
                         <Condition Value="True">
                             <Condition.Binding>
                                 <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="Classifier.User" />
+                                    <Binding Path="." />
                                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
                                 </MultiBinding>
                             </Condition.Binding>
@@ -221,7 +221,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Classifier.Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="IsHitTestVisible" Value="True"/>
                 </MultiDataTrigger>

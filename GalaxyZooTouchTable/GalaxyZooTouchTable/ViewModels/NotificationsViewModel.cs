@@ -27,6 +27,17 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private ClassificationPanelViewModel _classifier;
+        public ClassificationPanelViewModel Classifier
+        {
+            get { return _classifier; }
+            set
+            {
+                _classifier = value;
+                OnPropertyRaised("Classifier");
+            }
+        }
+
         private TableUser _cooperatingPeer;
         public TableUser CooperatingPeer
         {
@@ -93,8 +104,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public NotificationsViewModel(TableUser user, ObservableCollection<TableUser> allUsers)
+        public NotificationsViewModel(TableUser user, ObservableCollection<TableUser> allUsers, ClassificationPanelViewModel classifier)
         {
+            Classifier = classifier;
+            user.Notifications = this;
             LoadCommands();
             User = user;
             FilterCurrentUser(allUsers);
@@ -127,17 +140,17 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnAcceptGalaxy(object sender)
         {
             OpenNotifier = false;
-            CooperatingPeer.Classifier.Notifications.Status = NotificationStatus.AcceptedHelp;
+            CooperatingPeer.Notifications.Status = NotificationStatus.AcceptedHelp;
             Status = NotificationStatus.HelpingUser;
 
-            string NewSubjectId = CooperatingPeer.Classifier.CurrentSubject.Id;
-            User.Classifier.GetSubjectById(NewSubjectId);
+            string PeerSubjectId = CooperatingPeer.Notifications.Classifier.CurrentSubject.Id;
+            Classifier.GetSubjectById(PeerSubjectId);
         }
 
         private void OnDeclineGalaxy(object sender)
         {
             OpenNotifier = false;
-            CooperatingPeer.Classifier.Notifications.Status = NotificationStatus.DeclinedHelp;
+            CooperatingPeer.Notifications.Status = NotificationStatus.DeclinedHelp;
 
             Status = NotificationStatus.ClearNotifications;
             CooperatingPeer = null;
@@ -148,12 +161,12 @@ namespace GalaxyZooTouchTable.ViewModels
             TableUser UserToNotify = sender as TableUser;
 
             CooperatingPeer = UserToNotify;
-            UserToNotify.Classifier.Notifications.CooperatingPeer = User;
+            UserToNotify.Notifications.CooperatingPeer = User;
 
             Status = NotificationStatus.HelpRequestSent;
-            UserToNotify.Classifier.Notifications.Status = NotificationStatus.HelpRequestReceived;
+            UserToNotify.Notifications.Status = NotificationStatus.HelpRequestReceived;
 
-            UserToNotify.Classifier.Notifications.OpenNotifier = true;
+            UserToNotify.Notifications.OpenNotifier = true;
         }
 
         public void OnResetNotifications(object sender)
@@ -176,10 +189,10 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void SendAnswerToUser(AnswerButton SelectedItem)
         {
-            CooperatingPeer.Classifier.Notifications.SuggestedAnswer = SelectedItem.Label;
-            CooperatingPeer.Classifier.Notifications.HideButtonNotification = false;
-            CooperatingPeer.Classifier.Notifications.Status = NotificationStatus.AnswerGiven;
-            CooperatingPeer.Classifier.Notifications.OpenNotifier = true;
+            CooperatingPeer.Notifications.SuggestedAnswer = SelectedItem.Label;
+            CooperatingPeer.Notifications.HideButtonNotification = false;
+            CooperatingPeer.Notifications.Status = NotificationStatus.AnswerGiven;
+            CooperatingPeer.Notifications.OpenNotifier = true;
             Status = NotificationStatus.ClearNotifications;
         }
 

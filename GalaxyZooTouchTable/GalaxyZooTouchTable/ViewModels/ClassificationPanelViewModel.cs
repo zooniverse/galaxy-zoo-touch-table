@@ -152,10 +152,9 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
             Workflow = workflow;
             User = user;
-            user.Classifier = this;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            Notifications = new NotificationsViewModel(user, allUsers);
+            Notifications = new NotificationsViewModel(user, allUsers, this);
             LevelerViewModel = new LevelerViewModel(user);
 
             if (CurrentTask.Answers != null)
@@ -225,7 +224,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
+                await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;

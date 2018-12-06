@@ -21,14 +21,14 @@ namespace GalaxyZooTouchTable.Models
         BitmapImage StartButton { get; }
         BitmapImage Avatar { get; }
 
-        private ClassificationPanelViewModel _classifier;
-        public ClassificationPanelViewModel Classifier
+        private NotificationsViewModel _notifications;
+        public NotificationsViewModel Notifications
         {
-            get { return _classifier; }
+            get { return _notifications; }
             set
             {
-                _classifier = value;
-                OnPropertyRaised("Classifier");
+                _notifications = value;
+                OnPropertyRaised("Notifications");
             }
         }
 
