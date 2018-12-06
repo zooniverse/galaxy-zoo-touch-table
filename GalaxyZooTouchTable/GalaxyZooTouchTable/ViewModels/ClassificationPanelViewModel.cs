@@ -35,57 +35,18 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public ICommand CloseClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
-        public ICommand NotifyUser { get; set; }
         public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
-        public ICommand ToggleNotifier { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
-        public ICommand DeclineGalaxy { get; set; }
-        public ICommand AcceptGalaxy { get; set; }
-        public ICommand ResetNotifications { get; set; }
-        public ICommand ToggleButtonNotification { get; set; }
 
-        private string _suggestedAnswer;
-        public string SuggestedAnswer
+        private NotificationsViewModel _notifications;
+        public NotificationsViewModel Notifications
         {
-            get { return _suggestedAnswer; }
+            get { return _notifications; }
             set
             {
-                _suggestedAnswer = value;
-                OnPropertyRaised("SuggestedAnswer");
-            }
-        }
-
-        private NotificationStatus _notificationStatus;
-        public NotificationStatus NotificationStatus
-        {
-            get { return _notificationStatus; }
-            set
-            {
-                _notificationStatus = value;
-                OnPropertyRaised("NotificationStatus");
-            }
-        }
-
-        private bool _hideButtonNotification = false;
-        public bool HideButtonNotification
-        {
-            get { return _hideButtonNotification; }
-            set
-            {
-                _hideButtonNotification = value;
-                OnPropertyRaised("HideButtonNotification");
-            }
-        }
-
-        private bool _openNotifier { get; set; } = false;
-        public bool OpenNotifier
-        {
-            get { return _openNotifier; }
-            set
-            {
-                _openNotifier = value;
-                OnPropertyRaised("OpenNotifier");
+                _notifications = value;
+                OnPropertyRaised("Notifications");
             }
         }
 
@@ -167,17 +128,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private ClassificationPanelViewModel _cooperatingClassifier;
-        public ClassificationPanelViewModel CooperatingClassifier
-        {
-            get { return _cooperatingClassifier; }
-            set
-            {
-                _cooperatingClassifier = value;
-                OnPropertyRaised("CooperatingClassifier");
-            }
-        }
-
         private AnswerButton _selectedItem;
         public AnswerButton SelectedItem
         {
@@ -193,17 +143,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private ObservableCollection<TableUser> _helpfulUsers;
-        public ObservableCollection<TableUser> HelpfulUsers
-        {
-            get { return _helpfulUsers; }
-            set
-            {
-                _helpfulUsers = value;
-                OnPropertyRaised("HelpfulUsers");
-            }
-        }
-
         public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> allUsers)
         {
             if (workflow != null)
@@ -216,38 +155,13 @@ namespace GalaxyZooTouchTable.ViewModels
             user.Classifier = this;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
-            FilterCurrentUser(allUsers);
-            AllUsers = allUsers;
+            Notifications = new NotificationsViewModel(user, allUsers);
             LevelerViewModel = new LevelerViewModel(user);
-            Messenger.Default.Register<ClassificationPanelViewModel>(this, OnHelpRequested, user);
 
             if (CurrentTask.Answers != null)
             {
                 CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
             }
-        }
-
-        private void OnHelpRequested(ClassificationPanelViewModel Classifier)
-        {
-            OpenNotifier = true;
-            CooperatingClassifier = Classifier;
-
-            Classifier.NotificationStatus = NotificationStatus.HelpRequestSent;
-            NotificationStatus = NotificationStatus.HelpRequestReceived;
-        }
-
-        private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
-        {
-            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(allUsers);
-            foreach (TableUser tableUser in allUsersCopy)
-            {
-                if (User == tableUser)
-                {
-                    allUsersCopy.Remove(User);
-                    break;
-                }
-            }
-            HelpfulUsers = allUsersCopy;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -263,78 +177,16 @@ namespace GalaxyZooTouchTable.ViewModels
             ContinueClassification = new CustomCommand(OnContinueClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
-            NotifyUser = new CustomCommand(OnNotifyUser);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
-            ToggleNotifier = new CustomCommand(OnToggleNotifier);
-            DeclineGalaxy = new CustomCommand(OnDeclineGalaxy);
-            AcceptGalaxy = new CustomCommand(OnAcceptGalaxy);
-            ResetNotifications = new CustomCommand(OnResetNotifications);
-            ToggleButtonNotification = new CustomCommand(OnToggleButtonNotification);
         }
 
-        private void OnToggleButtonNotification(object sender)
-        {
-            HideButtonNotification = !HideButtonNotification;
-        }
-
-        private void OnAcceptGalaxy(object sender)
-        {
-            OpenNotifier = false;
-
-            // Let cooperating user know of acceptance
-            CooperatingClassifier.NotificationStatus = NotificationStatus.AcceptedHelp;
-
-            // You're helping now
-            NotificationStatus = NotificationStatus.HelpingUser;
-
-            // Additional functionality is needed to fetch the right subject and start a new classification
-            string NewSubjectID = CooperatingClassifier.CurrentSubject.Id;
-            GetSubjectById(NewSubjectID);
-        }
-
-        private async void GetSubjectById(string subjectID)
+        public async void GetSubjectById(string subjectID)
         {
             ApiClient client = new ApiClient();
             CurrentSubject = await client.Subjects.Get(subjectID);
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             GraphQLRequest();
-        }
-
-        private void OnDeclineGalaxy(object sender)
-        {
-            OpenNotifier = false;
-
-            // Let cooperating user know of declination
-            CooperatingClassifier.NotificationStatus = NotificationStatus.DeclinedHelp;
-
-            // You're single now
-            NotificationStatus = (int)NotificationStatus.ClearNotifications;
-            CooperatingClassifier = null;
-        }
-
-        private void OnResetNotifications(object sender)
-        {
-            NotificationStatus = (int)NotificationStatus.ClearNotifications;
-            SuggestedAnswer = null;
-            CooperatingClassifier = null;
-        }
-
-        private void OnToggleNotifier(object sender)
-        {
-            OpenNotifier = !OpenNotifier;
-        }
-
-        private void OnNotifyUser(object sender)
-        {
-            TableUser UserToNotify = sender as TableUser;
-
-            // Who are you speaking to?
-            CooperatingClassifier = UserToNotify.Classifier;
-
-            // What is your status?
-            NotificationStatus = NotificationStatus.HelpRequestReceived;
-            Messenger.Default.Send<ClassificationPanelViewModel>(this, UserToNotify);
         }
 
         private void OnOpenClassifier(object sender)
@@ -380,14 +232,11 @@ namespace GalaxyZooTouchTable.ViewModels
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
 
-                if (NotificationStatus == NotificationStatus.HelpingUser)
+                if (Notifications.Status == NotificationStatus.HelpingUser)
                 {
-                    CooperatingClassifier.SuggestedAnswer = SelectedItem.Label;
-                    CooperatingClassifier.HideButtonNotification = false;
-                    CooperatingClassifier.NotificationStatus = NotificationStatus.AnswerGiven;
-                    CooperatingClassifier.OpenNotifier = true;
-                    NotificationStatus = (int)NotificationStatus.ClearNotifications;
+                    Notifications.SendAnswerToUser(SelectedItem);
                 }
+                Notifications.OnResetNotifications(null);
             }
             else
             {

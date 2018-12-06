@@ -34,7 +34,7 @@
             <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
+                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -44,7 +44,7 @@
             <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
+                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -55,11 +55,11 @@
             <Setter Property="Opacity" Value="0.5"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
+                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="IsHitTestVisible" Value="True"/>
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=NotificationStatus}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
+                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
                     <Setter Property="IsHitTestVisible" Value="True"/>
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
@@ -114,7 +114,7 @@
                             FontWeight="Bold"
                             FontSize="13"
                             Text="Good news!"/>
-                        <Image Margin="0,12,0,0" Source="{Binding CooperatingClassifier.User.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             FontSize="8"
@@ -139,7 +139,7 @@
                             FontWeight="Bold"
                             FontSize="10"
                             Text="Your help is needed!"/>
-                        <Image Margin="0,12,0,0" Source="{Binding CooperatingClassifier.User.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             FontSize="8"
