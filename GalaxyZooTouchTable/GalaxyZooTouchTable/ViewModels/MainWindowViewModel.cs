@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -93,11 +94,36 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private bool _flipCenterpiece;
+        public bool FlipCenterpiece
+        {
+            get { return _flipCenterpiece; }
+            set
+            {
+                _flipCenterpiece = value;
+                OnPropertyRaised("FlipCenterpiece");
+            }
+        }
+
         public MainWindowViewModel()
         {
+            CreateTimer();
             LoadCommands();
 
             ActiveUsers.CollectionChanged += ActiveUsersChanged;
+        }
+
+        private void CreateTimer()
+        {
+            var dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Tick += new System.EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new System.TimeSpan(0, 1, 0);
+            dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, System.EventArgs e)
+        {
+            FlipCenterpiece = !FlipCenterpiece;
         }
 
         private void LoadCommands()

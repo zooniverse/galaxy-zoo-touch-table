@@ -7,6 +7,8 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
         mc:Ignorable="d"
+        WindowStyle="None"
+        WindowState="Maximized"
         x:Name="Root"
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
@@ -19,65 +21,67 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <local:DragCanvas x:Name="RootCanvas" Background="Black">
+    <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
+            <local:Centerpiece x:Name="Centerpiece" Width="1255" Height="417"/>
 
-        <local:Centerpiece x:Name="Centerpiece"/>
+            <local:UserConsole
+                x:Name="PersonUser"
+                DataContext="{Binding PersonUserVM}"
+                Style="{StaticResource PersonUser}"
+                Margin="333,0,1039,10"
+                VerticalAlignment="Bottom"/>
 
-        <Grid VerticalAlignment="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="175*"/>
-                <ColumnDefinition Width="290*"/>
-                <ColumnDefinition Width="70*"/>
-                <ColumnDefinition Width="290*"/>
-                <ColumnDefinition Width="175*"/>
-            </Grid.ColumnDefinitions>
+            <local:UserConsole
+                x:Name="FaceUser"
+                DataContext="{Binding FaceUserVM}"
+                Style="{StaticResource FaceUser}"
+                Margin="1059,0,313,10"
+                VerticalAlignment="Bottom"/>
 
-            <local:UserConsole Grid.Column="1" x:Name="PersonUser" DataContext="{Binding PersonUserVM}" Style="{StaticResource PersonUser}"/>
-
-            <local:UserConsole Grid.Column="3" x:Name="FaceUser" DataContext="{Binding FaceUserVM}" Style="{StaticResource FaceUser}"/>
-        </Grid>
-
-        <Grid VerticalAlignment="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="175*"/>
-                <ColumnDefinition Width="290*"/>
-                <ColumnDefinition Width="70*"/>
-                <ColumnDefinition Width="290*"/>
-                <ColumnDefinition Width="175*"/>
-            </Grid.ColumnDefinitions>
-
-            <local:UserConsole Grid.Column="1" x:Name="HeartUser" DataContext="{Binding HeartUserVM}" Style="{StaticResource HeartUser}">
-                <UserControl.LayoutTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="180"/>
-                    </TransformGroup>
-                </UserControl.LayoutTransform>
+            <local:UserConsole
+                x:Name="HeartUser"
+                DataContext="{Binding HeartUserVM}"
+                Style="{StaticResource HeartUser}"
+                Margin="313,10,1059,0"
+                VerticalAlignment="Top">
+                <local:UserConsole.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </local:UserConsole.RenderTransform>
             </local:UserConsole>
 
-            <local:UserConsole Grid.Column="3" x:Name="StarUser" DataContext="{Binding StarUserVM}" Style="{StaticResource StarUser}">
-                <UserControl.LayoutTransform>
-                    <TransformGroup>
-                        <RotateTransform Angle="180"/>
-                    </TransformGroup>
-                </UserControl.LayoutTransform>
+            <local:UserConsole
+                x:Name="StarUser"
+                DataContext="{Binding StarUserVM}"
+                Style="{StaticResource StarUser}"
+                Margin="1039,10,333,0"
+                VerticalAlignment="Top">
+                <local:UserConsole.RenderTransform>
+                    <RotateTransform Angle="180"/>
+                </local:UserConsole.RenderTransform>
             </local:UserConsole>
-        </Grid>
 
-        <local:UserConsole HorizontalAlignment="Left" x:Name="EarthUser" DataContext="{Binding EarthUserVM}" Style="{StaticResource EarthUser}">
-            <UserControl.LayoutTransform>
-                <TransformGroup>
+            <local:UserConsole
+                x:Name="EarthUser"
+                DataContext="{Binding EarthUserVM}"
+                Style="{StaticResource EarthUser}"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left">
+                <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="90"/>
-                </TransformGroup>
-            </UserControl.LayoutTransform>
-        </local:UserConsole>
+                </local:UserConsole.LayoutTransform>
+            </local:UserConsole>
 
-        <local:UserConsole HorizontalAlignment="Right" x:Name="LightUser" DataContext="{Binding LightUserVM}" Style="{StaticResource LightUser}">
-            <UserControl.LayoutTransform>
-                <TransformGroup>
+            <local:UserConsole
+                x:Name="LightUser"
+                DataContext="{Binding LightUserVM}"
+                Style="{StaticResource LightUser}"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right">
+                <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="-90"/>
-                </TransformGroup>
-            </UserControl.LayoutTransform>
-        </local:UserConsole>
-
-    </local:DragCanvas>
+                </local:UserConsole.LayoutTransform>
+            </local:UserConsole>
+        </local:DragCanvas>
+    </Viewbox>
 </Window>

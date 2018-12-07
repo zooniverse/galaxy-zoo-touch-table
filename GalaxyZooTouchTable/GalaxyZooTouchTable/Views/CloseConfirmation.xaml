@@ -3,90 +3,131 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="300">
+             d:DesignHeight="199" d:DesignWidth="243">
+    <UserControl.Resources>
+        <Style x:Key="CommonType" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </UserControl.Resources>
+    
     <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="6*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="12*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
+        <Grid Width="243" Height="199">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TouchUp">
+                        <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <TextBlock
+                    Style="{StaticResource CommonType}"
+                    FontSize="10"
+                    Margin="5,0"
+                    Text="Cancel"/>
+                <fa:ImageAwesome
+                    Foreground="White"
+                    Height="8.5"
+                    Icon="Times"/>
+            </StackPanel>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="18*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+            <Image
+                Source="../Images/General/Logo.png"
+                Height="14"
+                HorizontalAlignment="Left"
+                Margin="15,8,0,0"
+                VerticalAlignment="Top"/>
 
-            <Image Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Source="../Images/General/Logo.png"/>
+            <Separator
+                Background="{StaticResource DarkGrayColor}"
+                Margin="0,29,0,0"
+                VerticalAlignment="Top"
+                Width="212"/>
 
-            <Separator Grid.Row="2" Grid.Column="1" Background="{StaticResource DarkGrayColor}"/>
+            <TextBlock
+                Style="{StaticResource CommonType}"
+                FontSize="19"
+                LineHeight="19"
+                LineStackingStrategy="BlockLineHeight"
+                Margin="16,43.9,0,0">
+                <Run>Close workspace and</Run>
+                <LineBreak/>
+                <Run>end your session?</Run>
+            </TextBlock>
 
-            <Viewbox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left">
-                <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
-                    <Run>Close workspace and</Run>
-                    <LineBreak/>
-                    <Run>end your session?</Run>
-                </TextBlock>
-            </Viewbox>
+            <TextBlock
+                Style="{StaticResource CommonType}"
+                FontSize="9"
+                Margin="16,93,0,0">
+                <Run>Do real science at home!</Run>
+                <LineBreak/>
+                <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">adler.zooniverse.org</Run> <Run>or</Run>
+                <LineBreak/>
+                <Run>download the Zooniverse app for</Run>
+                <LineBreak/>
+                <Run>iOS and Android.</Run>
+            </TextBlock>
 
-            <Grid Grid.Row="5" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="6*"/>
-                </Grid.ColumnDefinitions>
+            <Image
+                Source="../Images/General/qrcode.png"
+                HorizontalAlignment="Right"
+                Margin="0,0,15,49"
+                VerticalAlignment="Bottom"
+                Width="57"/>
 
-                <Viewbox Grid.Column="0" VerticalAlignment="Top">
-                    <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
-                        <Run>Do real science at home!</Run>
-                        <LineBreak/>
-                        <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">adler.zooniverse.org</Run> <Run>or</Run>
-                        <LineBreak/>
-                        <Run>download the Zooniverse app for</Run>
-                        <LineBreak/>
-                        <Run>iOS and Android.</Run>
-                    </TextBlock>
-                </Viewbox>
+            <Button
+                Style="{StaticResource OutlineBtn}"
+                FontWeight="Bold"
+                Height="20"
+                HorizontalAlignment="Left"
+                Margin="15,0,0,14"
+                VerticalAlignment="Bottom"
+                Width="104">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TouchUp">
+                        <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <TextBlock
+                    Style="{StaticResource CommonType}"
+                    FontSize="10"
+                    HorizontalAlignment="Center"
+                    Text="Keep classifying"
+                    VerticalAlignment="Center"/>
+            </Button>
 
-                <Image Grid.Column="2" VerticalAlignment="Top" Source="../Images/General/qrcode.png"/>
-            </Grid>
-            
-            <Grid Grid.Row="6" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="10*"/>
-                </Grid.ColumnDefinitions>
-                <Button
-                    Style="{StaticResource OutlineBtn}"
-                    Grid.Column="0"
-                    FontWeight="Bold"
-                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationPanel}}, Path=DataContext.ShowCloseConfirmation}">
-                    <Viewbox Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.45'}">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Text="Keep classifying"/>
-                    </Viewbox>
-                </Button>
-                <Button Style="{StaticResource SuccessBtn}" Foreground="Black" Grid.Column="2" FontWeight="Bold" Command="{Binding CloseClassifier}">
-                    <Viewbox Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.45'}">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Close &amp; end"/>
-                    </Viewbox>
-                </Button>
-            </Grid>
+            <Button
+                Style="{StaticResource SuccessBtn}"
+                FontWeight="Bold"
+                Foreground="Black"
+                Height="20"
+                HorizontalAlignment="Right"
+                Margin="0,0,15.3,14.59"
+                VerticalAlignment="Bottom"
+                Width="104">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TouchUp">
+                        <i:InvokeCommandAction Command="{Binding CloseClassifier}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Button.Effect>
+                    <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                </Button.Effect>
+                <TextBlock
+                    Style="{StaticResource CommonType}"
+                    FontSize="10"
+                    Foreground="Black"
+                    HorizontalAlignment="Center"
+                    Text="Close &amp; end"
+                    VerticalAlignment="Center"/>
+            </Button>
         </Grid>
     </Border>
 </UserControl>

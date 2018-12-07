@@ -3,9 +3,9 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using GraphQL.Client.Http;
 using GraphQL.Common.Request;
+using GraphQL.Common.Response;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -18,8 +18,6 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         private const int SUBJECT_VIEW = 0;
         private const int SUMMARY_VIEW = 1;
-        private const string SUBMIT_TEXT = "Submit classification";
-        private const string CONTINUE_TEXT = "Classify another galaxy";
 
         public ObservableCollection<TableUser> ActiveUsers { get; set; }
         public int ClassificationsThisSession { get; set; } = 0;
@@ -38,7 +36,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand CloseClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
         public ICommand OpenClassifier { get; set; }
-        public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
 
         private int _totalVotes = 0;
@@ -49,17 +46,6 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 _totalVotes = value;
                 OnPropertyRaised("TotalVotes");
-            }
-        }
-
-        private string _successBtnText = SUBMIT_TEXT;
-        public string SuccessBtnText
-        {
-            get { return _successBtnText; }
-            set
-            {
-                _successBtnText = value;
-                OnPropertyRaised("SuccessBtnText");
             }
         }
 
@@ -103,7 +89,19 @@ namespace GalaxyZooTouchTable.ViewModels
             set
             {
                 _currentAnnotation = value;
+                CanSendClassification = value != null;
                 OnPropertyRaised("CurrentAnnotation");
+            }
+        }
+
+        private bool _canSendClassification = false;
+        public bool CanSendClassification
+        {
+            get { return _canSendClassification; }
+            set
+            {
+                _canSendClassification = value;
+                OnPropertyRaised("CanSendClassification");
             }
         }
 
@@ -125,6 +123,10 @@ namespace GalaxyZooTouchTable.ViewModels
             set
             {
                 _selectedItem = value;
+                if (value != null)
+                {
+                    ChooseAnswer(value);
+                }
                 OnPropertyRaised("SelectedItem");
             }
         }
@@ -159,8 +161,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            SelectAnswer = new CustomCommand(ChooseAnswer, CanSelectAnswer);
-            ContinueClassification = new CustomCommand(OnContinueClassification, CanSendClassification);
+            ContinueClassification = new CustomCommand(OnContinueClassification);
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
@@ -194,7 +195,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             GetSubject();
             CurrentView = SUBJECT_VIEW;
-            SuccessBtnText = SUBMIT_TEXT;
             TotalVotes = 0;
         }
 
@@ -207,7 +207,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == SUBJECT_VIEW)
             {
-                CurrentClassification.Metadata.FinishedAt = DateTime.Now.ToString();
+                CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
                 await client.Classifications.Create(CurrentClassification);
@@ -216,7 +216,6 @@ namespace GalaxyZooTouchTable.ViewModels
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, User);
                 CurrentView = SUMMARY_VIEW;
-                SuccessBtnText = CONTINUE_TEXT;
             }
             else
             {
@@ -224,21 +223,9 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private bool CanSendClassification(object sender)
+        private void ChooseAnswer(AnswerButton button)
         {
-            return CurrentAnnotation != null;
-        }
-
-        private void ChooseAnswer(object sender)
-        {
-            AnswerButton button = sender as AnswerButton;
-            SelectedItem = button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
-        }
-
-        private bool CanSelectAnswer(object sender)
-        {
-            return CurrentAnswers.Count > 0;
         }
 
         public List<AnswerButton> ParseTaskAnswers(List<TaskAnswer> answers)
@@ -257,7 +244,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CurrentClassification = new Classification();
             CurrentClassification.Metadata.WorkflowVersion = Workflow.Version;
-            CurrentClassification.Metadata.StartedAt = DateTime.Now.ToString();
+            CurrentClassification.Metadata.StartedAt = System.DateTime.Now.ToString();
             CurrentClassification.Metadata.UserAgent = "Galaxy Zoo Touch Table";
             CurrentClassification.Metadata.UserLanguage = "en";
 
@@ -314,9 +301,28 @@ namespace GalaxyZooTouchTable.ViewModels
                     subjectId = CurrentSubject.Id
                 }
             };
-            var graphQLResponse = await GraphQLClient.SendQueryAsync(answersRequest);
-            var reductions = graphQLResponse.Data.workflow.subject_reductions;
+
             ResetAnswerCount();
+            GraphQLResponse response = new GraphQLResponse();
+
+            try {
+                response = await GraphQLClient.SendQueryAsync(answersRequest);
+            }
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("Graph QL Error: {0}", e.Message);
+            }
+
+            if (response.Data != null)
+            {
+                GetReductions(response);
+            }
+        }
+
+        private void GetReductions(GraphQLResponse response)
+        {
+            var reductions = response.Data.workflow.subject_reductions;
+
             if (reductions.Count > 0)
             {
                 var data = reductions.First.data;

@@ -43,7 +43,7 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageTwo => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/smooth2.jpg"));
             public BitmapImage ImageThree => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/smooth3.jpg"));
             public string Title => "Smooth";
-            public string Description => "Smooth galaxies fade gradually in all directions from the center";
+            public string Description => "Smooth galaxies fade gradually in all directions from the center.";
             public string Description2 => "There may be a small bright symmetric core.";
         }
 
@@ -54,7 +54,7 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageThree => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/features3.jpg"));
             public string Title => "Features";
             public string Description => "Galaxies might have spiral arms, a bulge or bar, or any other interesting feature.";
-            public string Description2 => "Choose this option if you see anything unique about the galaxy";
+            public string Description2 => "Choose this option if you see anything unique about the galaxy.";
         }
 
         private class NotAGalaxy : GalaxyExample

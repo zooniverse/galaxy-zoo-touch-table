@@ -4,119 +4,89 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <Grid Background="{StaticResource DarkGrayColor}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="18*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="55*"/>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="25*"/>
-            <RowDefinition Height="10*"/>
-        </Grid.RowDefinitions>
+             d:DesignHeight="241" d:DesignWidth="314">
+    <UserControl.Resources>
+        <Style x:Key="CommonBoldFont" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
+        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" Text="Nice work! You just science'd." FontSize="19"/>
+        <TextBlock 
+            Foreground="White"
+            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+            FontSize="8"
+            Margin="14,25,14,0"
+            TextWrapping="Wrap"
+            Text="Your classification has been recorded to the Zooniverse database. Once 25 people have voted, the data will be sent to astronomers."/>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="14*"/>
-        </Grid.ColumnDefinitions>
+        <Border BorderThickness="1.5" Margin="14,56,0,0" CornerRadius="2.85" BorderBrush="White" Width="63" Height="63" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
+        </Border>
 
-        <Viewbox Grid.ColumnSpan="3" HorizontalAlignment="Left">
-            <TextBlock Text="Nice work! You just science'd." Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-        </Viewbox>
+        <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="84,54,14,0">
+            <Run Text="Here are the results so far ("/><Run Text="{Binding TotalVotes}"/><Run Text="/25)"/>
+        </TextBlock>
 
-        <Viewbox Grid.Row="1" Grid.ColumnSpan="3">
-            <TextBlock  Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                <Run Text="Your classification has been sent to the Zooniverse database. Once 25 people"/><LineBreak/>
-                <Run Text="have voted, the data will be sent to astronomers to study."/>
-            </TextBlock>
-        </Viewbox>
-
-        <Grid Grid.Row="2" Grid.ColumnSpan="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="3*"/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="15*"/>
-                <ColumnDefinition Width="16*"/>
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.RowSpan="6" BorderThickness="2" CornerRadius="2" BorderBrush="White">
-                <Image Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
-            </Border>
-
-            <Viewbox Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Top">
-                <TextBlock FontWeight="Bold" Foreground="White">
-                    <Run Text="Here are the results so far ("/>
-                    <Run Text="{Binding TotalVotes}"/>
-                    <Run Text="/ 25)"/>
-                </TextBlock>
-            </Viewbox>
-
-            <ListView
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Grid.Column="2"
-                Grid.ColumnSpan="3"
-                Grid.Row="1"
-                Grid.RowSpan="5"
-                ItemsSource="{Binding CurrentAnswers}"
-                SelectedItem="{Binding SelectedItem}"
-                IsHitTestVisible="False"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="3"/>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListViewItem">
-                                    <Grid>
+        <ListView
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Height="53"
+            HorizontalAlignment="Left"
+            IsHitTestVisible="False"
+            ItemsSource="{Binding CurrentAnswers}"
+            Margin="85,70,0,0"
+            ScrollViewer.VerticalScrollBarVisibility="Disabled"
+            SelectedItem="{Binding SelectedItem}"
+            VerticalAlignment="Top"
+            Width="217">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border x:Name="AnswerBorder" Height="16" CornerRadius="4">
+                                    <Grid Height="8" Width="198" Margin="5,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="10*"/>
-                                            <ColumnDefinition Width="1*"/>
                                             <ColumnDefinition Width="30*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Right"
-                                            Name="AnswerText"
-                                            Text="{Binding Label}"
+                                        <TextBlock Text="{Binding Label}" FontSize="7"
+                                            x:Name="AnswerText"
                                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                                            FontSize="{Binding Path=ActualHeight, ElementName=ProgressBar, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.8'}"
                                             FontWeight="Bold"
                                             Foreground="White"
+                                            Margin="0,0,5,0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right"
                                             Typography.Capitals="AllSmallCaps"/>
 
                                         <ProgressBar
                                             x:Name="ProgressBar"
+                                            VerticalAlignment="Center"
                                             Style="{StaticResource RoundedProgressBar}"
-                                            Grid.Column="2"
+                                            Grid.Column="1"
                                             Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.6'}"
                                             Minimum="0"
                                             Maximum="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ClassificationSummary}}, Path=DataContext.TotalVotes}"
                                             Value="{Binding AnswerCount}"
-                                            Background="{StaticResource MedGrayColor}"
                                             BorderBrush="Transparent"
-                                            Foreground="{StaticResource LightGrayColor}"/>
-                                        <Grid Grid.Column="2" HorizontalAlignment="Left">
+                                            Background="{StaticResource MedGrayColor}">
+                                            <ProgressBar.Foreground>
+                                                <LinearGradientBrush EndPoint="0, 0.5" StartPoint="1, 0.5">
+                                                    <GradientStop Color="#80E1E3E6" Offset="0"/>
+                                                    <GradientStop Color="#00E1E3E6" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </ProgressBar.Foreground>
+                                        </ProgressBar>
+                                        <Grid Grid.Column="1" HorizontalAlignment="Left">
                                             <Grid.Width>
                                                 <MultiBinding Converter="{StaticResource ProgressWidthConverter}">
                                                     <Binding ElementName="ProgressBar" Path="ActualWidth"/>
@@ -124,42 +94,109 @@
                                                     <Binding ElementName="ProgressBar" Path="Maximum"/>
                                                 </MultiBinding>
                                             </Grid.Width>
-                                            <Viewbox Height="{Binding Path=ActualHeight, ElementName=ProgressBar}" Margin="5,0" HorizontalAlignment="Right">
-                                                <TextBlock Text="{Binding AnswerCount}" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
-                                            </Viewbox>
+                                            <TextBlock Text="{Binding AnswerCount}" FontSize="5.75" VerticalAlignment="Center" Margin="3,0" HorizontalAlignment="Right" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold"/>
                                         </Grid>
                                     </Grid>
+                                </Border>
 
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter TargetName="AnswerText" Property="Foreground" Value="#FFE5FF4D"/>
-                                            <Setter TargetName="ProgressBar" Property="Foreground" Value="#FFE5FF4D"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
-        </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="AnswerText" Property="Foreground" Value="#FFE5FF4D"/>
+                                        <Setter TargetName="ProgressBar" Property="Foreground">
+                                            <Setter.Value>
+                                                <LinearGradientBrush EndPoint="0, 0.5" StartPoint="1, 0.5">
+                                                    <GradientStop Color="#FFE5FF4D" Offset="0"/>
+                                                    <GradientStop Color="#40E5FF4D" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter TargetName="AnswerBorder" Property="Background" Value="#191A21"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
-        <Border Grid.Row="4" Grid.ColumnSpan="3" CornerRadius="5" Background="Black"/>
+        <Border
+            Background="Black"
+            CornerRadius="3"
+            Height="31"
+            Margin="0,130,0,0"
+            Width="287"
+            VerticalAlignment="Top"/>
 
-        <Separator Grid.Row="5" Grid.ColumnSpan="3" Foreground="Gray"/>
+        <Separator
+            VerticalAlignment="Top"
+            Margin="14,170,14,0"
+            Background="{StaticResource MedGrayColor}"/>
 
-        <Viewbox Grid.Row="6" HorizontalAlignment="Left">
-            <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontWeight="Bold">
-                <Run Text="Keep classifying"/><LineBreak/>
-                <Run Text="at home."/>
-            </TextBlock>
-        </Viewbox>
+        <TextBlock
+            Style="{StaticResource CommonBoldFont}"
+            FontSize="12.5"
+            HorizontalAlignment="Left"
+            Margin="14,183,0,30"
+            Text="Keep classifying at home"
+            TextWrapping="Wrap"
+            Width="101"/>
 
-        <Viewbox Grid.Row="6" Grid.Column="2">
-            <TextBlock Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla">
-                <Run Text="You can do this same project at home by going"/><LineBreak/>
-                <Run Text="to adler.zooniverse.org or downloading the app."/>
-            </TextBlock>
-        </Viewbox>
+        <TextBlock
+            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+            FontSize="8"
+            Foreground="White"
+            HorizontalAlignment="Right"
+            Margin="0,184,14,0"
+            TextWrapping="Wrap"
+            Width="181">
+            <Run>You can do this same project at home by going to</Run>
+            <Run Foreground="#E5FF4D" FontWeight="Bold">adler.zooniverse.org</Run>
+            <Run>or downloading the</Run>
+            <Run Foreground="#E5FF4D" FontWeight="Bold">app.</Run>
+        </TextBlock>
+
+        <Button
+            Background="Transparent"
+            Style="{StaticResource StandardBtn}"
+            Height="23"
+            HorizontalAlignment="Left"
+            Margin="14,0,0,0"
+            Width="137"
+            VerticalAlignment="Bottom">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TouchUp">
+                    <i:InvokeCommandAction Command="{Binding ContinueClassification}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    Style="{StaticResource CommonBoldFont}"
+                    FontSize="10"
+                    Text="Random galaxy"/>
+                <fa:ImageAwesome Icon="ChevronRight" Foreground="White" Height="8" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Button>
+
+        <Button
+            Style="{StaticResource SuccessBtn}"
+            Foreground="Black"
+            Height="23"
+            HorizontalAlignment="Right"
+            Margin="0,0,14,0"
+            Width="137"
+            VerticalAlignment="Bottom">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+            </Button.Effect>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                    FontWeight="Bold"
+                    FontSize="10"
+                    Text="Choose another galaxy"/>
+                <fa:ImageAwesome Icon="ChevronRight" Height="8" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

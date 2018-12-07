@@ -21,7 +21,13 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="PersonUser" TargetType="{x:Type local:UserConsole}">
+    <Style x:Key="BaseUserStyle" TargetType="{x:Type local:UserConsole}">
+        <Setter Property="Width" Value="547"/>
+        <Setter Property="Height" Value="315"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+    </Style>
+    
+    <Style x:Key="PersonUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>
@@ -46,7 +52,7 @@
         </Style.Resources>
     </Style>
 
-    <Style x:Key="StarUser" TargetType="{x:Type local:UserConsole}">
+    <Style x:Key="StarUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>
@@ -72,7 +78,7 @@
     </Style>
 
 
-    <Style x:Key="EarthUser" TargetType="{x:Type local:UserConsole}">
+    <Style x:Key="EarthUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>
@@ -98,7 +104,7 @@
     </Style>
 
 
-    <Style x:Key="LightUser" TargetType="{x:Type local:UserConsole}">
+    <Style x:Key="LightUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>
@@ -124,7 +130,7 @@
     </Style>
 
 
-    <Style x:Key="FaceUser" TargetType="{x:Type local:UserConsole}">
+    <Style x:Key="FaceUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>
@@ -149,7 +155,7 @@
         </Style.Resources>
     </Style>
 
-    <Style x:Key="HeartUser" TargetType="{x:Type local:UserConsole}">
+    <Style x:Key="HeartUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>

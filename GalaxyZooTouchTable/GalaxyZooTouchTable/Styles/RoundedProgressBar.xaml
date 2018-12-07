@@ -25,9 +25,9 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border x:Name="PART_Track" Background="{TemplateBinding Background}" CornerRadius="4" BorderThickness="0"/>
+                        <Border x:Name="PART_Track" Background="{TemplateBinding Background}" CornerRadius="6" BorderThickness="0"/>
 
-                        <Border CornerRadius="4" BorderThickness="1" x:Name="PART_Indicator"
+                        <Border CornerRadius="6" BorderThickness="1" x:Name="PART_Indicator"
                                     HorizontalAlignment="Left"
                                     Background="{TemplateBinding Foreground}"
                                     BorderBrush="{TemplateBinding Foreground}"
