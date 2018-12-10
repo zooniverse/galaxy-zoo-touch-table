@@ -7,7 +7,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             Height="136.8" Width="115.9">
+             Height="136.6" Width="115.15">
     <UserControl.Resources>
         <Style x:Key="ContentPanelBorder" TargetType="{x:Type Border}">
             <Style.Triggers>
@@ -72,119 +72,117 @@
         </Style>
     </UserControl.Resources>
     
-    <Viewbox>
-        <Grid Height="136.8" Width="115.9">
-            <Border
-                Style="{StaticResource BellNotification}"
-                Background="{Binding User.ThemeColor}"
-                HorizontalAlignment="Right"
-                BorderThickness="1.5"
-                BorderBrush="Black"
-                CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="29.5" Height="26">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TouchUp">
-                        <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <fa:ImageAwesome Icon="BellOutline" Height="10"/>    
-            </Border>
+    <Grid Height="136.6" Width="115.15">
+        <Border
+            Style="{StaticResource BellNotification}"
+            Background="{Binding User.ThemeColor}"
+            HorizontalAlignment="Right"
+            BorderThickness="1.5"
+            BorderBrush="Black"
+            CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="34.5" Height="26">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TouchUp">
+                    <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <fa:ImageAwesome Icon="BellOutline" HorizontalAlignment="Left" Margin="8,0,0,0" Height="10"/>    
+        </Border>
 
-            <Border x:Name="ContentPanel" CornerRadius="2.85" Style="{StaticResource ContentPanelBorder}" Background="{StaticResource MedGrayColor}" Height="136.8" Width="115.9">
-                <Border.RenderTransform>
-                    <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ContentPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
-                </Border.RenderTransform>
+        <Border x:Name="ContentPanel" CornerRadius="2.85" Style="{StaticResource ContentPanelBorder}" Background="{StaticResource MedGrayColor}" Height="136.6" Width="115.15">
+            <Border.RenderTransform>
+                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ContentPanel, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
+            </Border.RenderTransform>
 
-                <Grid>
-                    <fa:ImageAwesome Icon="Times" Foreground="White" Height="8.5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6.5,10,0">
+            <Grid>
+                <fa:ImageAwesome Icon="Times" Foreground="White" Height="8.5" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,6.5,19.5,0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </fa:ImageAwesome>
+
+                <StackPanel Orientation="Horizontal" Margin="9.5,6.3,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <fa:ImageAwesome Icon="BellOutline" Foreground="White" Height="8.5"/>
+                    <TextBlock FontWeight="Bold" FontSize="7" Margin="2,0,0,0" Foreground="White" Text="Notification" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                </StackPanel>
+
+                <Grid Margin="10.38,23,19.5,0" Style="{StaticResource AnswerReceived}">
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontWeight="Bold"
+                        FontSize="13"
+                        Text="Good news!"/>
+                    <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontSize="7.5"
+                        Margin="20,18,0,0"
+                        Text="classified the"/>
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontSize="7.5"
+                        Margin="0,28,4,0">
+                        <Run>galaxy you requested</Run><LineBreak/>
+                        <Run>help with. They voted</Run><LineBreak/>
+                        <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding SuggestedAnswer}"/><LineBreak/>
+                        <Run>still not sure?</Run><LineBreak/>
+                        <Run>Ask them why they</Run><LineBreak/>
+                        <Run>made this choice!</Run>
+                    </TextBlock>
+                </Grid>
+
+                <Grid Margin="10.38,23,19.5,0" Style="{StaticResource HelpRequested}">
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontWeight="Bold"
+                        FontSize="9"
+                        Text="Your help is needed!"/>
+                    <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontSize="7.5"
+                        Margin="20,18,0,0"
+                        Text="wants to know what"/>
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontSize="7.5"
+                        Margin="0,28,4,0">
+                        <Run>you think about a galaxy</Run><LineBreak/>
+                        <Run>they're working on</Run><LineBreak/>
+                        <Run>Do you want to help?</Run>
+                    </TextBlock>
+                    <Border BorderThickness="1" CornerRadius="3" Margin="0,35,0,0" Height="18" BorderBrush="Black">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
+                                <i:InvokeCommandAction Command="{Binding AcceptGalaxy}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                    </fa:ImageAwesome>
-
-                    <StackPanel Orientation="Horizontal" Margin="10,9.5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-                        <fa:ImageAwesome Icon="BellOutline" Foreground="White" Height="8.5"/>
-                        <TextBlock FontWeight="Bold" FontSize="7" Margin="2,0,0,0" Foreground="White" Text="Notification" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </StackPanel>
-
-                    <Grid Margin="9.5,23,9.5,0" Style="{StaticResource AnswerReceived}">
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
+                            Text="Accept galaxy"
+                            FontSize="8"
                             FontWeight="Bold"
-                            FontSize="13"
-                            Text="Good news!"/>
-                        <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBlock
-                            Style="{StaticResource WhiteFont}"
-                            FontSize="8"
-                            Margin="20,18,0,0"
-                            Text="classified the"/>
-                        <TextBlock
-                            Style="{StaticResource WhiteFont}"
-                            FontSize="8"
-                            Margin="0,28,4,0">
-                            <Run>galaxy you requested</Run><LineBreak/>
-                            <Run>help with. They voted</Run><LineBreak/>
-                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="11" Text="{Binding SuggestedAnswer}"/><LineBreak/>
-                            <Run>still not sure?</Run><LineBreak/>
-                            <Run>Ask them why they</Run><LineBreak/>
-                            <Run>made this choice!</Run>
-                        </TextBlock>
-                    </Grid>
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Border>
 
-                    <Grid Margin="9.5,23,9.5,0" Style="{StaticResource HelpRequested}">
+                    <Border BorderThickness="1" CornerRadius="3" Margin="0,80,0,0" Height="18" BorderBrush="Black">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="TouchUp">
+                                <i:InvokeCommandAction Command="{Binding DeclineGalaxy}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
+                            Text="Decline galaxy"
+                            FontSize="8"
                             FontWeight="Bold"
-                            FontSize="10"
-                            Text="Your help is needed!"/>
-                        <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBlock
-                            Style="{StaticResource WhiteFont}"
-                            FontSize="8"
-                            Margin="20,18,0,0"
-                            Text="wants to know what"/>
-                        <TextBlock
-                            Style="{StaticResource WhiteFont}"
-                            FontSize="8"
-                            Margin="0,28,4,0">
-                            <Run>you think about a galaxy</Run><LineBreak/>
-                            <Run>they're working on</Run><LineBreak/>
-                            <Run>Do you want to help?</Run>
-                        </TextBlock>
-                        <Border BorderThickness="1" CornerRadius="3" Margin="0,35,0,0" Height="18" BorderBrush="Black">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TouchUp">
-                                    <i:InvokeCommandAction Command="{Binding AcceptGalaxy}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <TextBlock
-                                Style="{StaticResource WhiteFont}"
-                                Text="Accept galaxy"
-                                FontSize="8"
-                                FontWeight="Bold"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-                        </Border>
-
-                        <Border BorderThickness="1" CornerRadius="3" Margin="0,80,0,0" Height="18" BorderBrush="Black">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="TouchUp">
-                                    <i:InvokeCommandAction Command="{Binding DeclineGalaxy}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <TextBlock
-                                Style="{StaticResource WhiteFont}"
-                                Text="Decline galaxy"
-                                FontSize="8"
-                                FontWeight="Bold"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"/>
-                        </Border>
-                    </Grid>
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Border>
                 </Grid>
-            </Border>
-        </Grid>            
-    </Viewbox>
+            </Grid>
+        </Border>
+    </Grid>            
 </UserControl>

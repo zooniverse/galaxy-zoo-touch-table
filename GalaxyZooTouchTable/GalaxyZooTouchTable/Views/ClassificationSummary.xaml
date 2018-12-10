@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -120,13 +121,12 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <Border
-            Background="Black"
-            CornerRadius="3"
+        <Views:AskAFriendButtons
+            DataContext="{Binding Notifications}"
             Height="31"
-            Margin="0,130,0,0"
-            Width="287"
-            VerticalAlignment="Top"/>
+            Margin="0,0,0,80"
+            VerticalAlignment="Bottom"
+            Width="287"/>
 
         <Separator
             VerticalAlignment="Top"
