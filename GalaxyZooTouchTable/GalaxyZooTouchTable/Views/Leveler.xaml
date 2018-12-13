@@ -72,7 +72,7 @@
 
             <fa:ImageAwesome
                 Height="8.5"
-                Icon="Times"
+                Icon="ChevronRight"
                 HorizontalAlignment="Right"
                 Margin="0,10,18,0"
                 VerticalAlignment="Top"

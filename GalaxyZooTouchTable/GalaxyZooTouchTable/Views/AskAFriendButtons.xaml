@@ -18,6 +18,8 @@
 
         <Style x:Key="IndicatorBorder" TargetType="{x:Type Border}">
             <Setter Property="Background" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Height" Value="11"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -27,8 +29,7 @@
         
         <Style x:Key="BusyCircle" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Visible"/>
-            <Setter Property="BorderBrush" Value="#FFAF26"/>
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#FFAF26"/>
 
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -47,11 +48,34 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Hourglass" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Background" Value="#FFAF26"/>
+            
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Value="True">
+                            <Condition.Binding>
+                                <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                    <Binding Path="." />
+                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
+                                </MultiBinding>
+                            </Condition.Binding>
+                        </Condition>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </MultiDataTrigger>
+                <DataTrigger Binding="{Binding Path=Notifications.CooperatingPeer}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -110,7 +134,13 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="RequestDenied" TargetType="{x:Type Grid}">
+        <Style x:Key="Overlay" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="#F2000000"/>
+            <Setter Property="Panel.ZIndex" Value="1"/>
+            <Setter Property="CornerRadius" Value="3"/>
+        </Style>
+
+        <Style x:Key="RequestDenied" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
@@ -119,7 +149,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="RequestAccepted" TargetType="{x:Type Grid}">
+        <Style x:Key="RequestAccepted" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -132,7 +162,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="AnswerReceived" TargetType="{x:Type Grid}">
+        <Style x:Key="AnswerReceived" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
                 <MultiDataTrigger>
@@ -141,29 +171,6 @@
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="ButtonRow" TargetType="{x:Type Grid}">
-            <Setter Property="Visibility" Value="Visible"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AcceptedHelp}"/>
-                        <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </MultiDataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}"/>
-                        <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -220,6 +227,7 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
                         <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
                     </MultiDataTrigger.Conditions>
@@ -232,103 +240,109 @@
     <Viewbox>
         <Border Width="287" CornerRadius="3" Height="31" Background="#191A21">
             <Grid>
-                <Grid Style="{StaticResource RequestDenied}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock
-                            Style="{StaticResource BoldWhiteFont}"
-                            FontSize="9"
-                            Text="Sorry"
-                            VerticalAlignment="Center"/>
-                        <Image
-                            Margin="2,0"
-                            HorizontalAlignment="Left"
-                            Source="{Binding CooperatingPeer.Avatar}"
-                            Height="24"/>
-                        <TextBlock
-                            Style="{StaticResource BoldWhiteFont}"
-                            VerticalAlignment="Center"
-                            FontSize="9"
-                            Text="declined your invitation. Ask someone else?"/>
-                    </StackPanel>
-                    <fa:ImageAwesome
-                        HorizontalAlignment="Right"
-                        Foreground="White"
-                        Icon="Times"
-                        Margin="0,0,10,0"
-                        Width="8.5">
-                        <i:Interaction.Triggers>
-                            <Lib:HandlingEventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding ResetNotifications}"/>
-                            </Lib:HandlingEventTrigger>
-                        </i:Interaction.Triggers>
-                    </fa:ImageAwesome>
-                </Grid>
+                <Border Style="{StaticResource RequestDenied}">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                FontSize="9"
+                                Text="Sorry"
+                                VerticalAlignment="Center"/>
+                            <Image
+                                Margin="2,0"
+                                HorizontalAlignment="Left"
+                                Source="{Binding CooperatingPeer.Avatar}"
+                                Height="24"/>
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                VerticalAlignment="Center"
+                                FontSize="9"
+                                Text="declined your invitation. Ask someone else?"/>
+                        </StackPanel>
+                        <fa:ImageAwesome
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Icon="Times"
+                            Margin="0,0,10,0"
+                            Width="8.5">
+                            <i:Interaction.Triggers>
+                                <Lib:HandlingEventTrigger EventName="TouchUp">
+                                    <i:InvokeCommandAction Command="{Binding ResetNotifications}"/>
+                                </Lib:HandlingEventTrigger>
+                            </i:Interaction.Triggers>
+                        </fa:ImageAwesome>
+                    </Grid>
+                </Border>
 
-                <Grid Style="{StaticResource RequestAccepted}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock
-                            Style="{StaticResource BoldWhiteFont}"
-                            FontSize="9"
-                            Text="Horray"
-                            VerticalAlignment="Center"/>
-                        <Image
-                            Margin="2,0"
-                            HorizontalAlignment="Left"
-                            Source="{Binding CooperatingPeer.Avatar}"
-                            Height="24"/>
-                        <TextBlock
-                            Style="{StaticResource BoldWhiteFont}"
-                            VerticalAlignment="Center"
-                            FontSize="9"
-                            Text="accepted your invitation!"/>
-                    </StackPanel>
-                    <fa:ImageAwesome
-                        HorizontalAlignment="Right"
-                        Foreground="White"
-                        Icon="Times"
-                        Margin="0,0,10,0"
-                        Width="8.5">
-                        <i:Interaction.Triggers>
-                            <Lib:HandlingEventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
-                            </Lib:HandlingEventTrigger>
-                        </i:Interaction.Triggers>
-                    </fa:ImageAwesome>
-                </Grid>
+                <Border Style="{StaticResource RequestAccepted}">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                FontSize="9"
+                                Text="Horray"
+                                VerticalAlignment="Center"/>
+                            <Image
+                                Margin="2,0"
+                                HorizontalAlignment="Left"
+                                Source="{Binding CooperatingPeer.Avatar}"
+                                Height="24"/>
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                VerticalAlignment="Center"
+                                FontSize="9"
+                                Text="accepted your invitation!"/>
+                        </StackPanel>
+                        <fa:ImageAwesome
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Icon="Times"
+                            Margin="0,0,10,0"
+                            Width="8.5">
+                            <i:Interaction.Triggers>
+                                <Lib:HandlingEventTrigger EventName="TouchUp">
+                                    <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
+                                </Lib:HandlingEventTrigger>
+                            </i:Interaction.Triggers>
+                        </fa:ImageAwesome>
+                    </Grid>
+                </Border>
 
-                <Grid Style="{StaticResource AnswerReceived}">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock
-                            Style="{StaticResource BoldWhiteFont}"
-                            FontSize="9"
-                            Text="Check it out,"
-                            VerticalAlignment="Center"/>
-                        <Image
-                            Margin="2,0"
-                            HorizontalAlignment="Left"
-                            Source="{Binding CooperatingPeer.Avatar}"
-                            Height="24"/>
-                        <TextBlock
-                            Style="{StaticResource BoldWhiteFont}"
-                            VerticalAlignment="Center"
-                            FontSize="9"
-                            Text="made a classification!"/>
-                    </StackPanel>
-                    <fa:ImageAwesome
-                        HorizontalAlignment="Right"
-                        Foreground="White"
-                        Icon="Times"
-                        Margin="0,0,10,0"
-                        Width="8.5">
-                        <i:Interaction.Triggers>
-                            <Lib:HandlingEventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
-                            </Lib:HandlingEventTrigger>
-                        </i:Interaction.Triggers>
-                    </fa:ImageAwesome>
-                </Grid>
+                <Border Style="{StaticResource AnswerReceived}">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                FontSize="9"
+                                Text="Check it out,"
+                                VerticalAlignment="Center"/>
+                            <Image
+                                Margin="2,0"
+                                HorizontalAlignment="Left"
+                                Source="{Binding CooperatingPeer.Avatar}"
+                                Height="24"/>
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                VerticalAlignment="Center"
+                                FontSize="9"
+                                Text="made a classification!"/>
+                        </StackPanel>
+                        <fa:ImageAwesome
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Icon="Times"
+                            Margin="0,0,10,0"
+                            Width="8.5">
+                            <i:Interaction.Triggers>
+                                <Lib:HandlingEventTrigger EventName="TouchUp">
+                                    <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
+                                </Lib:HandlingEventTrigger>
+                            </i:Interaction.Triggers>
+                        </fa:ImageAwesome>
+                    </Grid>
+                </Border>
                 
-                <Grid Style="{StaticResource ButtonRow}">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="117*"/>
                         <ColumnDefinition Width="170*"/>
@@ -359,32 +373,35 @@
                                             <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding}"/>
                                         </Lib:HandlingEventTrigger>
                                     </i:Interaction.Triggers>
-                                    <Border Style="{StaticResource AttentionBorder}" BorderBrush="{StaticResource AttentionColor}" CornerRadius="15">
-                                        <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Width="24"/>
-                                    </Border>
+                                    <Border Style="{StaticResource AttentionBorder}" BorderBrush="{StaticResource AttentionColor}" CornerRadius="15"/>
+                                    <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Width="24"/>
 
                                     <Border Style="{StaticResource BusyCircle}">
                                         <fa:ImageAwesome
-                                            Foreground="#FFAF26"
-                                            Icon="Minus"
-                                            Width="5.7"
-                                            Margin="0,0,0,0"
-                                            HorizontalAlignment="Center"/>
+                                            Foreground="Black"
+                                            Icon="MinusCircle"
+                                            Width="6"/>
                                     </Border>
 
                                     <Border Style="{StaticResource QuestionMark}">
                                         <fa:ImageAwesome
                                             Foreground="{StaticResource SuccessColor}"
                                             Icon="QuestionCircle"
-                                            Width="9"
-                                            Margin="0,0,0,0"/>
+                                            Width="8"/>
+                                    </Border>
+
+                                    <Border Style="{StaticResource Hourglass}">
+                                        <fa:ImageAwesome
+                                            Foreground="Black"
+                                            Icon="HourglassStart"
+                                            Width="4.5"/>
                                     </Border>
 
                                     <Border Style="{StaticResource ExclamationPoint}">
                                         <fa:ImageAwesome
                                             Foreground="{StaticResource AttentionColor}"
                                             Icon="ExclamationCircle"
-                                            Width="9"
+                                            Width="8"
                                             Margin="0,0,0,0"/>
                                     </Border>
                                 </Grid>

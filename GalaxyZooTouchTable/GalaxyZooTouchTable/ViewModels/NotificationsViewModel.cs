@@ -180,6 +180,8 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnToggleButtonNotification(object sender)
         {
             HideButtonNotification = !HideButtonNotification;
+            if (Status == NotificationStatus.AnswerGiven)
+                Status = NotificationStatus.ClearNotifications;
         }
 
         private void OnToggleNotifier(object sender)
