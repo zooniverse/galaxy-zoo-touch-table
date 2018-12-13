@@ -235,7 +235,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     Notifications.SendAnswerToUser(SelectedItem);
                 }
-                Notifications.OnResetNotifications(null);
+                Notifications.OnResetNotifications();
             }
             else
             {

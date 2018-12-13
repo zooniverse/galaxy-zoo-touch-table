@@ -79,13 +79,15 @@
             HorizontalAlignment="Right"
             BorderThickness="3.5"
             BorderBrush="{StaticResource MedGrayColor}"
-            CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="34.5" Height="26">
+            CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="33.6" Height="30">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="TouchUp">
                     <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <fa:ImageAwesome Icon="BellOutline" HorizontalAlignment="Left" Margin="5,0,0,0" Height="10"/>    
+            <Border BorderThickness="1" BorderBrush="Black">
+                <fa:ImageAwesome Icon="BellOutline" HorizontalAlignment="Left" Margin="5,0,0,0" Height="10"/>    
+            </Border>
         </Border>
 
         <Border x:Name="ContentPanel" CornerRadius="2.85" Style="{StaticResource ContentPanelBorder}" Background="{StaticResource MedGrayColor}" Height="136.6" Width="115.15">
@@ -108,29 +110,33 @@
                     <TextBlock FontWeight="Bold" FontSize="7" Margin="5,0,0,0" Foreground="White" Text="Help Center" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
                 </StackPanel>
 
-                <Grid Margin="10.38,23,19.5,0" Style="{StaticResource AnswerReceived}">
+                <Grid Style="{StaticResource AnswerReceived}">
                     <TextBlock
                         Style="{StaticResource WhiteFont}"
                         FontWeight="Bold"
                         FontSize="13"
+                        Margin="9.5,22.9,0,0"
                         Text="Good news!"/>
-                    <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBlock
-                        Style="{StaticResource WhiteFont}"
-                        FontSize="7.5"
-                        Margin="20,18,0,0"
-                        Text="classified the"/>
-                    <TextBlock
-                        Style="{StaticResource WhiteFont}"
-                        FontSize="7.5"
-                        Margin="0,28,4,0">
-                        <Run>galaxy you requested</Run><LineBreak/>
-                        <Run>help with. They voted</Run><LineBreak/>
-                        <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding SuggestedAnswer}"/><LineBreak/>
-                        <Run>Still not sure?</Run><LineBreak/>
-                        <Run>Ask them why they</Run><LineBreak/>
-                        <Run>made this choice!</Run>
-                    </TextBlock>
+                    <Grid Margin="10.3,39,0,0" HorizontalAlignment="Left">
+                        <Image Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock
+                            Style="{StaticResource WhiteFont}"
+                            FontSize="8"
+                            Margin="18,6,0,0"
+                            Text="classified the"/>
+                        <TextBlock
+                            Style="{StaticResource WhiteFont}"
+                            FontSize="8"
+                            LineHeight="10"
+                            Margin="2,17,0,0">
+                            <Run>galaxy you requested</Run><LineBreak/>
+                            <Run>help with. They voted</Run><LineBreak/>
+                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding SuggestedAnswer}"/><LineBreak/>
+                            <Run>Still not sure?</Run><LineBreak/>
+                            <Run>Ask them why they</Run><LineBreak/>
+                            <Run>made this choice!</Run>
+                        </TextBlock>
+                    </Grid>
                 </Grid>
 
                 <Grid Margin="7.6,20,19.5,0" Style="{StaticResource HelpRequested}">

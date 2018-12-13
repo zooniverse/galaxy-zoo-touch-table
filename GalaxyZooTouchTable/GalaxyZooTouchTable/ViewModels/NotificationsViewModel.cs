@@ -158,6 +158,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnNotifyUser(object sender)
         {
+            OpenNotifier = false;
             TableUser UserToNotify = sender as TableUser;
 
             CooperatingPeer = UserToNotify;
@@ -169,7 +170,7 @@ namespace GalaxyZooTouchTable.ViewModels
             UserToNotify.Notifications.OpenNotifier = true;
         }
 
-        public void OnResetNotifications(object sender)
+        public void OnResetNotifications(object sender = null)
         {
             CooperatingPeer = null;
             OpenNotifier = false;
@@ -181,7 +182,10 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             HideButtonNotification = !HideButtonNotification;
             if (Status == NotificationStatus.AnswerGiven)
+            {
                 Status = NotificationStatus.ClearNotifications;
+                HideButtonNotification = false;
+            }
         }
 
         private void OnToggleNotifier(object sender)

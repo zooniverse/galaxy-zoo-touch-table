@@ -113,26 +113,26 @@ namespace GalaxyZooTouchTable.ViewModels
             AllUsers.CollectionChanged += AllUsersCollectionChanged;
         }
 
-        private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
         {
 
-            if (e.NewItems != null)
+            if (changedEventArgs.NewItems != null)
             {
-                foreach (object item in e.NewItems)
+                foreach (object item in changedEventArgs.NewItems)
                 {
                     ((INotifyPropertyChanged)item).PropertyChanged += ItemPropertyChanged;
                 }
             }
-            if (e.OldItems != null)
+            if (changedEventArgs.OldItems != null)
             {
-                foreach (object item in e.OldItems)
+                foreach (object item in changedEventArgs.OldItems)
                 {
                     ((INotifyPropertyChanged)item).PropertyChanged -= ItemPropertyChanged;
                 }
             }
         }
 
-        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
         {
             foreach (TableUser user in AllUsers)
             {
