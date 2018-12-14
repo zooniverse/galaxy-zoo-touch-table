@@ -175,6 +175,15 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="PeerLeft" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.PeerHasLeft}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="UserImage" TargetType="{x:Type Image}">
             <Setter Property="Opacity" Value="0.25"/>
             <Style.Triggers>
@@ -341,7 +350,41 @@
                         </fa:ImageAwesome>
                     </Grid>
                 </Border>
-                
+
+                <Border Style="{StaticResource PeerLeft}">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                FontSize="9"
+                                Text="Sorry,"
+                                VerticalAlignment="Center"/>
+                            <Image
+                                Margin="2,0"
+                                HorizontalAlignment="Left"
+                                Source="{Binding CooperatingPeer.Avatar}"
+                                Height="24"/>
+                            <TextBlock
+                                Style="{StaticResource BoldWhiteFont}"
+                                VerticalAlignment="Center"
+                                FontSize="9"
+                                Text="has left the table."/>
+                        </StackPanel>
+                        <fa:ImageAwesome
+                            HorizontalAlignment="Right"
+                            Foreground="White"
+                            Icon="Times"
+                            Margin="0,0,10,0"
+                            Width="8.5">
+                            <i:Interaction.Triggers>
+                                <Lib:HandlingEventTrigger EventName="TouchUp">
+                                    <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
+                                </Lib:HandlingEventTrigger>
+                            </i:Interaction.Triggers>
+                        </fa:ImageAwesome>
+                    </Grid>
+                </Border>
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="117*"/>

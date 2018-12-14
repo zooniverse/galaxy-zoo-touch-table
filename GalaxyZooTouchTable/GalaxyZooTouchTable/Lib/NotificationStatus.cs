@@ -6,6 +6,7 @@
     /// AcceptedHelp: Shows in center that cooperating user has accepted help
     /// AnswerGiven: Shows in center that cooperating user has answered and answer in left panel
     /// HelpRequestSent: Shows in center that request was sent
+    /// PeerHasLeft: Shows in center that peer has left the table
     /// 
     /// User helping:
     /// HelpRequestReceived: Opens panel with accept or decline buttons
@@ -19,6 +20,7 @@
         AcceptedHelp,
         HelpRequestSent,
         HelpingUser,
-        AnswerGiven
+        AnswerGiven,
+        PeerHasLeft
     }
 }

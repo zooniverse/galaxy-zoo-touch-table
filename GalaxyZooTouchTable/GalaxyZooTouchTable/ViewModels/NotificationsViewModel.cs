@@ -178,8 +178,18 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Status = NotificationStatus.HelpRequestSent;
         }
 
-        public void OnResetNotifications(object sender = null)
+        private void OnResetNotifications(object sender = null)
         {
+            ClearNotifications(false);
+        }
+
+        public void ClearNotifications(bool UserLeaving = false)
+        {
+            if (UserLeaving && CooperatingPeer != null && User.Status != NotificationStatus.PeerHasLeft)
+            {
+                CooperatingPeer.Status = NotificationStatus.PeerHasLeft;
+            }
+
             CooperatingPeer = null;
             OpenNotifier = false;
             SuggestedAnswer = null;
@@ -193,6 +203,10 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 User.Status = NotificationStatus.Idle;
                 HideButtonNotification = false;
+            }
+            if (User.Status == NotificationStatus.PeerHasLeft)
+            {
+                ClearNotifications();
             }
         }
 

@@ -197,6 +197,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
+            Notifications.ClearNotifications(true);
             LevelerViewModel.IsOpen = false;
             ExamplesViewModel.IsOpen = true;
             ExamplesViewModel.SelectedExample = null;
@@ -225,7 +226,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
+                await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -236,7 +237,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     Notifications.SendAnswerToUser(SelectedItem);
                 }
-                Notifications.OnResetNotifications();
+                Notifications.ClearNotifications();
             }
             else
             {
