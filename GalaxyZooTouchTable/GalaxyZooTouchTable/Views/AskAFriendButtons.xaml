@@ -380,7 +380,6 @@
                                         <fa:ImageAwesome
                                             Foreground="Black"
                                             Icon="MinusCircle"
-                                            Margin="0,1,0,0"
                                             Width="6"/>
                                     </Border>
 

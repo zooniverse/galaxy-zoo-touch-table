@@ -41,11 +41,14 @@
         </Style>
 
         <Style x:Key="AnswerReceived" TargetType="{x:Type Grid}">
-            <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.Idle}">
+                    <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
