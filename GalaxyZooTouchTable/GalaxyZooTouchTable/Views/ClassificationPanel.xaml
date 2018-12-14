@@ -31,7 +31,7 @@
         <Views:AskAFriendNotifier
             DataContext="{Binding Notifications}"
             HorizontalAlignment="Left"
-            Margin="0,124,0,0"/>
+            Margin="0,116,0,0"/>
 
         <Image
             Source="{Binding User.Avatar}"

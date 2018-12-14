@@ -48,7 +48,7 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.User.Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
@@ -73,7 +73,7 @@
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
-                <DataTrigger Binding="{Binding Path=Notifications.CooperatingPeer}" Value="{x:Null}">
+                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.Idle}">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -92,7 +92,7 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestSent}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestSent}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
@@ -106,8 +106,8 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding Notifications.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
-                        <Condition Binding="{Binding Notifications.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
+                        <Condition Binding="{Binding Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
+                        <Condition Binding="{Binding Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
@@ -127,7 +127,7 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
                 </MultiDataTrigger>
@@ -143,7 +143,7 @@
         <Style x:Key="RequestDenied" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -154,7 +154,7 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AcceptedHelp}"/>
+                        <Condition Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AcceptedHelp}"/>
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
@@ -167,7 +167,7 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}"/>
+                        <Condition Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}"/>
                         <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Visible"/>
@@ -194,8 +194,8 @@
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.User.Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Opacity" Value="1"/>
                 </MultiDataTrigger>
@@ -215,7 +215,7 @@
                                 </MultiBinding>
                             </Condition.Binding>
                         </Condition>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.User.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="BorderThickness" Value="2"/>
                 </MultiDataTrigger>
@@ -227,9 +227,9 @@
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.User.Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
                         <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Notifications.Status}" Value="{x:Static Lib:NotificationStatus.ClearNotifications}"/>
+                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
                     </MultiDataTrigger.Conditions>
                     <Setter Property="IsHitTestVisible" Value="True"/>
                 </MultiDataTrigger>
@@ -380,6 +380,7 @@
                                         <fa:ImageAwesome
                                             Foreground="Black"
                                             Icon="MinusCircle"
+                                            Margin="0,1,0,0"
                                             Width="6"/>
                                     </Border>
 

@@ -224,14 +224,14 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
+                await client.Classifications.Create(CurrentClassification);
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
-                Messenger.Default.Send<int>(ClassificationsThisSession, User);
+                Messenger.Default.Send<int>(ClassificationsThisSession, $"{User.Name}_IncrementCount");
                 CurrentView = SUMMARY_VIEW;
 
-                if (Notifications.Status == NotificationStatus.HelpingUser)
+                if (User.Status == NotificationStatus.HelpingUser)
                 {
                     Notifications.SendAnswerToUser(SelectedItem);
                 }

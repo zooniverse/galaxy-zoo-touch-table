@@ -13,7 +13,7 @@
     /// </summary>
     public enum NotificationStatus
     {
-        ClearNotifications,
+        Idle,
         HelpRequestReceived,
         DeclinedHelp,
         AcceptedHelp,

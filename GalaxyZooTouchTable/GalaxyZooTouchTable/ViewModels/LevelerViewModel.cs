@@ -69,7 +69,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (user != null)
             {
-                Messenger.Default.Register<int>(this, OnClassificationReceived, user);
+                Messenger.Default.Register<int>(this, OnClassificationReceived, $"{user.Name}_IncrementCount");
             }
         }
 

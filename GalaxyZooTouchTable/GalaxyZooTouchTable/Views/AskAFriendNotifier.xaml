@@ -34,7 +34,7 @@
             <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -44,7 +44,7 @@
             <Setter Property="Visibility" Value="Visible"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -55,11 +55,11 @@
             <Setter Property="Opacity" Value="0.5"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
                     <Setter Property="IsHitTestVisible" Value="True"/>
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
                     <Setter Property="IsHitTestVisible" Value="True"/>
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
