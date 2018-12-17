@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
+        xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
         mc:Ignorable="d"
@@ -18,7 +19,8 @@
 
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
-            <local:Centerpiece x:Name="Centerpiece" Width="1255" Height="417"/>
+            <!--<local:Centerpiece x:Name="Centerpiece" Width="1255" Height="417"/>-->
+            <Views:SpaceView />
 
             <local:UserConsole
                 x:Name="PersonUser"
