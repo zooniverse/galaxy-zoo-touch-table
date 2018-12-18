@@ -10,9 +10,19 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : INotifyPropertyChanged
     {
-        public List<TableSubject> CurrentGalaxies { get; set; } = new List<TableSubject>();
         public double RA { get; set; } = 250.2;
         public double DEC { get; set; } = 35.1;
+
+        public List<TableSubject> _currentGalaxies = new List<TableSubject>();
+        public List<TableSubject> CurrentGalaxies
+        {
+            get { return _currentGalaxies; }
+            set
+            {
+                _currentGalaxies = value;
+                OnPropertyRaised("CurrentGalaxies");
+            }
+        }
 
         private string _spaceCutoutUrl;
         public string SpaceCutoutUrl
@@ -21,6 +31,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set
             {
                 _spaceCutoutUrl = value;
+                OnPropertyRaised("SpaceCutoutUrl");
             }
         }
 
@@ -48,7 +59,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 TableSubject Galaxy = new TableSubject(subject, RA, DEC);
                 CurrentGalaxies.Add(Galaxy);
             }
-         }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

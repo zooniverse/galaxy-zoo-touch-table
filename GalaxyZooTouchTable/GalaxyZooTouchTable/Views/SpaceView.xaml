@@ -12,5 +12,26 @@
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=SpaceViewModel}">
     <Canvas>
         <Image Source="{Binding SpaceCutoutUrl}" Width="1248" Height="432"/>
+
+        <ItemsControl ItemsSource="{Binding CurrentGalaxies}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas Width="1248" Height="432"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Green" BorderThickness="1" CornerRadius="15" Width="30" Height="30"> 
+                        <Image Width="20" Height="20" Source="{Binding SubjectLocation}"/>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
     </Canvas>
 </UserControl>
