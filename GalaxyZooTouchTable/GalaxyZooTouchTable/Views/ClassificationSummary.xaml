@@ -128,16 +128,11 @@
             VerticalAlignment="Bottom"
             Width="287"/>
 
-        <Separator
-            VerticalAlignment="Top"
-            Margin="14,170,14,0"
-            Background="{StaticResource MedGrayColor}"/>
-
         <TextBlock
             Style="{StaticResource CommonBoldFont}"
             FontSize="12.5"
             HorizontalAlignment="Left"
-            Margin="14,183,0,30"
+            Margin="14,170,0,30"
             Text="Keep classifying at home"
             TextWrapping="Wrap"
             Width="101"/>
@@ -147,7 +142,7 @@
             FontSize="8"
             Foreground="White"
             HorizontalAlignment="Right"
-            Margin="0,184,14,0"
+            Margin="0,171,14,0"
             TextWrapping="Wrap"
             Width="181">
             <Run>You can do this same project at home by going to</Run>
@@ -156,12 +151,34 @@
             <Run Foreground="#E5FF4D" FontWeight="Bold">app.</Run>
         </TextBlock>
 
+        <Separator
+            VerticalAlignment="Top"
+            Margin="14,208,14,0"
+            Background="{StaticResource MedGrayColor}"/>
+
         <Button
-            Background="Transparent"
             Style="{StaticResource StandardBtn}"
+            Background="Transparent"
             Height="23"
             HorizontalAlignment="Left"
             Margin="14,0,0,0"
+            Width="137"
+            VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock
+                    Style="{StaticResource CommonBoldFont}"
+                    FontSize="10"
+                    Text="Choose another galaxy"/>
+                <fa:ImageAwesome Icon="ChevronRight" Foreground="White" Height="8" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Button>
+
+        <Button
+            Style="{StaticResource SuccessBtn}"
+            Height="23"
+            Foreground="Black"
+            HorizontalAlignment="Right"
+            Margin="0,0,14,0"
             Width="137"
             VerticalAlignment="Bottom">
             <i:Interaction.Triggers>
@@ -169,23 +186,6 @@
                     <i:InvokeCommandAction Command="{Binding ContinueClassification}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock
-                    Style="{StaticResource CommonBoldFont}"
-                    FontSize="10"
-                    Text="Random galaxy"/>
-                <fa:ImageAwesome Icon="ChevronRight" Foreground="White" Height="8" Margin="5,0,0,0"/>
-            </StackPanel>
-        </Button>
-
-        <Button
-            Style="{StaticResource SuccessBtn}"
-            Foreground="Black"
-            Height="23"
-            HorizontalAlignment="Right"
-            Margin="0,0,14,0"
-            Width="137"
-            VerticalAlignment="Bottom">
             <Button.Effect>
                 <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
             </Button.Effect>
@@ -194,7 +194,7 @@
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                     FontWeight="Bold"
                     FontSize="10"
-                    Text="Choose another galaxy"/>
+                    Text="Random galaxy"/>
                 <fa:ImageAwesome Icon="ChevronRight" Height="8" Margin="5,0,0,0"/>
             </StackPanel>
         </Button>

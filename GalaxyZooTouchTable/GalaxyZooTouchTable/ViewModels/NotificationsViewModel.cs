@@ -108,6 +108,13 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             Messenger.Default.Register<AnswerButton>(this, OnAnswerReceived, $"{user.Name}_ReceivedAnswer");
             Messenger.Default.Register<NotificationRequest>(this, OnNotificationReceived, $"{user.Name}_ReceivedNotification");
+            Messenger.Default.Register<TableUser>(this, OnPeerLeaving, $"{user.Name}_PeerLeaving");
+        }
+
+        private void OnPeerLeaving(TableUser user)
+        {
+            User.Status = NotificationStatus.PeerHasLeft;
+            OpenNotifier = false;
         }
 
         private void OnNotificationReceived(NotificationRequest Request)
@@ -152,6 +159,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAcceptGalaxy(object sender)
         {
+            Classifier.CurrentView = ClassifierViewEnum.SubjectView;
             Classifier.GetSubjectById(SubjectIdToExamine);
             CooperatingPeer.Status = NotificationStatus.AcceptedHelp;
             OpenNotifier = false;
@@ -187,7 +195,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (UserLeaving && CooperatingPeer != null && User.Status != NotificationStatus.PeerHasLeft)
             {
-                CooperatingPeer.Status = NotificationStatus.PeerHasLeft;
+                Messenger.Default.Send<TableUser>(User, $"{CooperatingPeer.Name}_PeerLeaving");
             }
 
             CooperatingPeer = null;

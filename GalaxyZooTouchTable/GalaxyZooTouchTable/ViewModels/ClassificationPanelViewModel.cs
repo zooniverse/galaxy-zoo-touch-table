@@ -16,9 +16,6 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        private const int SUBJECT_VIEW = 0;
-        private const int SUMMARY_VIEW = 1;
-
         public ObservableCollection<TableUser> AllUsers { get; set; }
         public int ClassificationsThisSession { get; set; } = 0;
         public List<AnswerButton> CurrentAnswers { get; set; }
@@ -61,8 +58,8 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private int _currentView = SUBJECT_VIEW;
-        public int CurrentView
+        private ClassifierViewEnum _currentView = ClassifierViewEnum.SubjectView;
+        public ClassifierViewEnum CurrentView
         {
             get { return _currentView; }
             set
@@ -210,7 +207,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void PrepareForNewClassification()
         {
             GetSubject();
-            CurrentView = SUBJECT_VIEW;
+            CurrentView = ClassifierViewEnum.SubjectView;
             TotalVotes = 0;
         }
 
@@ -221,7 +218,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void OnContinueClassification(object sender)
         {
-            if (CurrentView == SUBJECT_VIEW)
+            if (CurrentView == ClassifierViewEnum.SubjectView)
             {
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
@@ -231,17 +228,27 @@ namespace GalaxyZooTouchTable.ViewModels
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, $"{User.Name}_IncrementCount");
-                CurrentView = SUMMARY_VIEW;
-
-                if (User.Status == NotificationStatus.HelpingUser)
-                {
-                    Notifications.SendAnswerToUser(SelectedItem);
-                }
-                Notifications.ClearNotifications();
+                CurrentView = ClassifierViewEnum.SummaryView;
+                HandleNotificationsOnSubmit();
             }
             else
             {
                 PrepareForNewClassification();
+            }
+        }
+
+        private void HandleNotificationsOnSubmit()
+        {
+            if (User.Status == NotificationStatus.HelpingUser)
+            {
+                Notifications.SendAnswerToUser(SelectedItem);
+            }
+
+            if (User.Status != NotificationStatus.HelpRequestReceived &&
+                User.Status != NotificationStatus.HelpRequestSent &&
+                User.Status != NotificationStatus.AcceptedHelp)
+            {
+                Notifications.ClearNotifications();
             }
         }
 

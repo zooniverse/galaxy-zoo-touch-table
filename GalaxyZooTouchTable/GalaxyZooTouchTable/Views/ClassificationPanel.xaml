@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -95,7 +96,7 @@
                         <Style TargetType="{x:Type ContentControl}">
                             <Setter Property="ContentTemplate" Value="{StaticResource SubjectViewerTemplate}" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding CurrentView}" Value="1">
+                                <DataTrigger Binding="{Binding CurrentView}" Value="{x:Static Lib:ClassifierViewEnum.SummaryView}">
                                     <Setter Property="ContentTemplate" Value="{StaticResource ClassificationSummaryTemplate}" />
                                 </DataTrigger>
                             </Style.Triggers>
