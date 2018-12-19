@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -22,6 +23,16 @@
                             <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
                         </Setter.Value>
                     </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PeerAvatar" TargetType="{x:Type Image}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}">
+                    <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -43,6 +54,15 @@
 
             <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
         </Border>
+
+        <Image
+            Style="{StaticResource PeerAvatar}"
+            Height="18"
+            Width="18"
+            Margin="123,155,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Source="{Binding Notifications.CooperatingPeer.Avatar}"/>
 
         <ListView
             Background="Transparent"
