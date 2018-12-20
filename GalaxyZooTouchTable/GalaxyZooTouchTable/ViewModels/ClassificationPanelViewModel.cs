@@ -231,7 +231,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
-                //await client.Classifications.Create(CurrentClassification);
+                await client.Classifications.Create(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
