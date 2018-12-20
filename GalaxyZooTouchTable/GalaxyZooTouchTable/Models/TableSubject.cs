@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
         public double RA { get; set; }
         public double DEC { get; set; }
         public string SubjectLocation { get; set; }
-        private double PlateScale { get; set; } = 0.4;
+        private double PlateScale { get; set; } = 1.5;
         public Subject Subject { get; set; }
 
         public TableSubject(Subject subject, double TableRA, double TableDEC)
@@ -20,51 +20,62 @@ namespace GalaxyZooTouchTable.Models
             var test = (RA - TableRA) * (PlateScale / Math.Cos(DEC));
             Subject = subject;
             SubjectLocation = subject.GetSubjectLocation();
-            EQConvert(TableRA, TableDEC);
+            XYConvert(TableRA, TableDEC);
         }
 
-        private void EQConvert(double TableRA, double TableDEC)
+        private void XYConvert(double TableRA, double TableDEC)
         {
-            double PI = 3.1415926535897932384626433832795;
-            double TwoPI = 6.283185307179586476925286766559;
-            double PI2 = 1.5707963267948966192313216916398;
-            double Rads = 0.01745329251994329576923690768489;
+            //double PI = 3.1415926535897932384626433832795;
+            //double TwoPI = 6.283185307179586476925286766559;
+            //double PI2 = 1.5707963267948966192313216916398;
+            //double Rads = 0.01745329251994329576923690768489;
 
-            double Az, Alt, tmpval, nz, az2, tx, ty, xyscale;
+            //double Az, Alt, tmpval, nz, az2, tx, ty, xyscale;
 
-            double DisplayFOV = 1.4;
-            double DisplayROT = 0.0;
+            //double DisplayFOV = 0.4;
+            //double DisplayROT = 0.0;
 
             int ScreenWidth = 1248;
             int ScreenHeight = 432;
+            int DegreeInSeconds = 3600;
 
-            double RadRA = RA * Rads;
-            double RadDEC = DEC * Rads;
-            double FieldRA = TableRA * Rads;
-            double FieldDEC = TableDEC * Rads;
-            double FieldFOV = DisplayFOV * Rads;
-            double FieldROT = DisplayROT * Rads;
+            //double RadRA = RA * Rads;
+            //double RadDEC = DEC * Rads;
+            //double FieldRA = TableRA * Rads;
+            //double FieldDEC = TableDEC * Rads;
+            //double FieldFOV = DisplayFOV * Rads;
+            //double FieldROT = DisplayROT * Rads;
 
-            Az = Math.Atan2(Math.Sin(FieldRA - RadRA), Math.Cos(FieldRA - RadRA) * Math.Sin(FieldDEC) - Math.Tan(RadDEC) * Math.Cos(FieldDEC));
-            tmpval = Math.Sin(FieldDEC) * Math.Sin(RadDEC) + Math.Cos(FieldDEC) * Math.Cos(RadDEC) * Math.Cos(FieldRA - RadRA);
+            //Az = Math.Atan2(Math.Sin(FieldRA - RadRA), Math.Cos(FieldRA - RadRA) * Math.Sin(FieldDEC) - Math.Tan(RadDEC) * Math.Cos(FieldDEC));
+            //tmpval = Math.Sin(FieldDEC) * Math.Sin(RadDEC) + Math.Cos(FieldDEC) * Math.Cos(RadDEC) * Math.Cos(FieldRA - RadRA);
 
-            if (tmpval >= 1.0)
-            {
-                Alt = PI2;
-            } else
-            {
-                Alt = Math.Asin(tmpval);
-            }
+            //if (tmpval >= 1.0)
+            //{
+            //    Alt = PI2;
+            //}
+            //else
+            //{
+            //    Alt = Math.Asin(tmpval);
+            //}
 
-            nz = 1.0 - 2.0 * Alt / PI;
-            az2 = Az - PI2 + FieldROT;
-            tx = (nz * Math.Cos(az2)) * PI / FieldFOV;
-            ty = -(nz * Math.Sin(az2)) * PI / FieldFOV;
+            //nz = 1.0 - 2.0 * Alt / PI;
+            //az2 = Az - PI2 + FieldROT;
+            //tx = (nz * Math.Cos(az2)) * PI / FieldFOV;
+            //ty = -(nz * Math.Sin(az2)) * PI / FieldFOV;
 
-            xyscale = ((double)ScreenWidth / FieldFOV) / (120.0 / DisplayFOV);
+            //xyscale = ((double)ScreenWidth / FieldFOV) / (120.0 / DisplayFOV);
 
-            X = (int)(((double)ScreenWidth / 2.0) + (tx * xyscale));
-            Y = (int)(((double)ScreenHeight / 2.0) + (ty * xyscale));
+            //X = (int)(((double)ScreenWidth / 2.0) + (tx * xyscale));
+            //Y = (int)(((double)ScreenHeight / 2.0) + (ty * xyscale));
+            double DecRange = (ScreenHeight * PlateScale) / DegreeInSeconds;
+            //double DecRange = Math.Abs(HalfDec) * 2;
+            double RaRange = ((ScreenWidth * PlateScale) / DegreeInSeconds) / Math.Cos(TableDEC);
+            //double RaRange = Math.Abs(HalfRa) * 2;
+
+            double StartY = ((DEC - TableDEC) / DecRange) + ScreenHeight / 2;
+            double StartX = (RA - TableRA) * (PlateScale / ToRadians(Math.Cos(DEC)));
+            Y = Convert.ToInt32(StartY);
+            X = Convert.ToInt32(StartX);
         }
 
         private double ToRadians(double Degrees)

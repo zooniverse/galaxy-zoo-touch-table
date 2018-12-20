@@ -10,8 +10,8 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : INotifyPropertyChanged
     {
-        public double RA { get; set; } = 250.2;
-        public double DEC { get; set; } = 35.1;
+        public double RA { get; set; } = 250.3035;
+        public double DEC { get; set; } = 35.09;
 
         public List<TableSubject> _currentGalaxies = new List<TableSubject>();
         public List<TableSubject> CurrentGalaxies
