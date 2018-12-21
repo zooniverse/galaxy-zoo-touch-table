@@ -11,12 +11,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
         public ObservableCollection<TableUser> AllUsers { get; set; }
+        public DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
         public int ClassificationsThisSession { get; set; } = 0;
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
@@ -25,8 +27,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public string CurrentTaskIndex { get; set; }
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
         public LevelerViewModel LevelerViewModel { get; set; } = new LevelerViewModel();
-        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public List<Subject> Subjects { get; set; } = new List<Subject>();
+        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
 
@@ -153,19 +155,13 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentTaskIndex = workflow.FirstTask;
             Notifications = new NotificationsViewModel(user, allUsers, this);
             LevelerViewModel = new LevelerViewModel(user);
+            ExamplesViewModel.PropertyChanged += ResetTimer;
+            LevelerViewModel.PropertyChanged += ResetTimer;
 
             if (CurrentTask.Answers != null)
             {
                 CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
 
         private void LoadCommands()
@@ -196,6 +192,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnOpenClassifier(object sender)
         {
+            StartTimer();
             ClassifierOpen = true;
             User.Active = true;
         }
@@ -203,6 +200,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             Notifications.ClearNotifications(true);
+            StopTimer();
             LevelerViewModel.IsOpen = false;
             ExamplesViewModel.IsOpen = true;
             ExamplesViewModel.SelectedExample = null;
@@ -260,9 +258,36 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private void StartTimer()
+        {
+            StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
+            ResetTimer();
+        }
+
+        private void StopTimer()
+        {
+            StillThereTimer.Stop();
+        }
+
+        private void ShowStillThereModal(object sender, System.EventArgs e)
+        {
+            System.Console.WriteLine("Show Modal Now");
+        }
+
         private void ChooseAnswer(AnswerButton button)
         {
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
+        }
+
+        private void ResetTimer()
+        {
+            StillThereTimer.Interval = new System.TimeSpan(0, 0, 5);
+            StillThereTimer.Start();
+        }
+
+        private void ResetTimer(object sender, PropertyChangedEventArgs e)
+        {
+            ResetTimer();
         }
 
         public List<AnswerButton> ParseTaskAnswers(List<TaskAnswer> answers)
@@ -375,6 +400,18 @@ namespace GalaxyZooTouchTable.ViewModels
                     TotalVotes += answerCount;
                 }
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyRaised(string propertyname)
+        {
+            if (StillThereTimer != null && StillThereTimer.IsEnabled)
+            {
+                ResetTimer();
+            }
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }
