@@ -43,6 +43,8 @@
             Margin="242,0,0,0"
             Width="42.7"/>
 
+        <Views:StillThereModal Panel.ZIndex="2"/>
+
         <Border
             Background="{StaticResource DarkGrayColor}"
             CornerRadius="2.85"

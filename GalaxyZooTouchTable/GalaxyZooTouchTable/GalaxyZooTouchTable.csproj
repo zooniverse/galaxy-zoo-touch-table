@@ -198,6 +198,9 @@
     <Compile Include="Views\StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StillThereModal.xaml.cs">
+      <DependentUpon>StillThereModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SubjectViewer.xaml.cs">
       <DependentUpon>SubjectViewer.xaml</DependentUpon>
     </Compile>
@@ -333,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\RoundedProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StillThereModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
