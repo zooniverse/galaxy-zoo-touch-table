@@ -19,61 +19,61 @@ namespace GalaxyZooTouchTable.Views
         public StillThereModal()
         {
             InitializeComponent();
-            StartTimer();
-            RenderArc();
+            //StartTimer();
+            //RenderArc();
         }
 
-        private void StartTimer()
-        {
-            ThirtySecondTimer.Tick += new System.EventHandler(OneSecondElapsed);
-            ThirtySecondTimer.Interval = new System.TimeSpan(0, 0, 1);
-            ThirtySecondTimer.Start();
-        }
+        //private void StartTimer()
+        //{
+        //    ThirtySecondTimer.Tick += new System.EventHandler(OneSecondElapsed);
+        //    ThirtySecondTimer.Interval = new System.TimeSpan(0, 0, 1);
+        //    ThirtySecondTimer.Start();
+        //}
 
-        private void OneSecondElapsed(object sender, System.EventArgs e)
-        {
-            decimal StartingSeconds = 30;
-            decimal test = CurrentSeconds / StartingSeconds;
-            decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
-            Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
-            RenderArc();
-            CurrentSeconds--;
-        }
+        //private void OneSecondElapsed(object sender, System.EventArgs e)
+        //{
+        //    decimal StartingSeconds = 30;
+        //    decimal test = CurrentSeconds / StartingSeconds;
+        //    decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
+        //    Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
+        //    RenderArc();
+        //    CurrentSeconds--;
+        //}
 
-        private Point ComputeCartesianCoordinate(double angle, double radius)
-        {
-            double angleRad = (Math.PI / 180.0) * (angle - 90);
+        //private Point ComputeCartesianCoordinate(double angle, double radius)
+        //{
+        //    double angleRad = (Math.PI / 180.0) * (angle - 90);
 
-            double x = radius * Math.Cos(angleRad);
-            double y = radius * Math.Sin(angleRad);
+        //    double x = radius * Math.Cos(angleRad);
+        //    double y = radius * Math.Sin(angleRad);
 
-            return new Point(x, y);
-        }
+        //    return new Point(x, y);
+        //}
 
-        public void RenderArc()
-        {
-            int Angle = -(Percentage * 360) / 100;
-            Point startPoint = new Point(Radius, 0);
-            Point endPoint = ComputeCartesianCoordinate(Angle, Radius);
-            endPoint.X += Radius;
-            endPoint.Y += Radius;
+        //public void RenderArc()
+        //{
+        //    int Angle = -(Percentage * 360) / 100;
+        //    Point startPoint = new Point(Radius, 0);
+        //    Point endPoint = ComputeCartesianCoordinate(Angle, Radius);
+        //    endPoint.X += Radius;
+        //    endPoint.Y += Radius;
 
-            pathRoot.Width = Radius * 2 + StrokeThickness + 10;
-            pathRoot.Height = Radius * 2 + StrokeThickness + 10;
-            pathRoot.Margin = new Thickness(StrokeThickness, StrokeThickness, 0, 0);
+        //    pathRoot.Width = Radius * 2 + StrokeThickness + 10;
+        //    pathRoot.Height = Radius * 2 + StrokeThickness + 10;
+        //    pathRoot.Margin = new Thickness(StrokeThickness, StrokeThickness, 0, 0);
 
-            bool largeArc = -Angle > 180.0;
+        //    bool largeArc = -Angle > 180.0;
 
-            Size outerArcSize = new Size(Radius, Radius);
+        //    Size outerArcSize = new Size(Radius, Radius);
 
-            pathFigure.StartPoint = startPoint;
+        //    pathFigure.StartPoint = startPoint;
 
-            if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
-                endPoint.X += 0.01;
+        //    if (startPoint.X == Math.Round(endPoint.X) && startPoint.Y == Math.Round(endPoint.Y))
+        //        endPoint.X += 0.01;
 
-            arcSegment.Point = endPoint;
-            arcSegment.Size = outerArcSize;
-            arcSegment.IsLargeArc = largeArc;
-        }
+        //    arcSegment.Point = endPoint;
+        //    arcSegment.Size = outerArcSize;
+        //    arcSegment.IsLargeArc = largeArc;
+        //}
     }
 }
