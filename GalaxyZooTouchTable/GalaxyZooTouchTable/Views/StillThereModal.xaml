@@ -46,11 +46,9 @@
                     Background="{StaticResource DarkGrayColor}"/>
 
                 <TextBlock
+                    Style="{StaticResource CommonType}"
                     Text="Still there?"
-                    Foreground="White"
                     Margin="16,43.9,0,0"
-                    FontWeight="Bold"
-                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                     FontSize="19"/>
 
                 <TextBlock

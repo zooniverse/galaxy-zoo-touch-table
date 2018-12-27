@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class ClassificationPanelViewModel : INotifyPropertyChanged
+    public class ClassificationPanelViewModel : ViewModelBase
     {
         public ObservableCollection<TableUser> AllUsers { get; set; }
         public DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
@@ -41,115 +41,81 @@ namespace GalaxyZooTouchTable.ViewModels
         private NotificationsViewModel _notifications;
         public NotificationsViewModel Notifications
         {
-            get { return _notifications; }
-            set
-            {
-                _notifications = value;
-                OnPropertyRaised("Notifications");
-            }
+            get => _notifications;
+            set => SetProperty(ref _notifications, value);
         }
 
         private StillThereViewModel _stillThere;
         public StillThereViewModel StillThere
         {
-            get { return _stillThere; }
-            set
-            {
-                _stillThere = value;
-                OnPropertyRaised("StillThere");
-            }
+            get => _stillThere;
+            set => SetProperty(ref _stillThere, value);
         }
 
         private int _totalVotes = 0;
         public int TotalVotes
         {
-            get { return _totalVotes; }
-            set
-            {
-                _totalVotes = value;
-                OnPropertyRaised("TotalVotes");
-            }
+            get => _totalVotes;
+            set => SetProperty(ref _totalVotes, value);
         }
 
         private ClassifierViewEnum _currentView = ClassifierViewEnum.SubjectView;
         public ClassifierViewEnum CurrentView
         {
-            get { return _currentView; }
-            set
-            {
-                _currentView = value;
-                OnPropertyRaised("CurrentView");
-            }
+            get => _currentView;
+            set => SetProperty(ref _currentView, value);
         } 
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
         {
-            get { return _closeConfirmationVisible; }
-            set
-            {
-                _closeConfirmationVisible = value;
-                OnPropertyRaised("CloseConfirmationVisible");
-            }
+            get => _closeConfirmationVisible;
+            set => SetProperty(ref _closeConfirmationVisible, value);
         }
 
         private bool _classifierOpen = false;
         public bool ClassifierOpen
         {
-            get { return _classifierOpen; }
-            set
-            {
-                _classifierOpen = value;
-                OnPropertyRaised("ClassifierOpen");
-            }
+            get => _classifierOpen;
+            set => SetProperty(ref _classifierOpen, value);
         }
 
         private Annotation _currentAnnotation;
         public Annotation CurrentAnnotation
         {
-            get { return _currentAnnotation; }
+            get => _currentAnnotation;
             set
             {
-                _currentAnnotation = value;
                 CanSendClassification = value != null;
-                OnPropertyRaised("CurrentAnnotation");
+                SetProperty(ref _currentAnnotation, value);
             }
         }
 
         private bool _canSendClassification = false;
         public bool CanSendClassification
         {
-            get { return _canSendClassification; }
-            set
-            {
-                _canSendClassification = value;
-                OnPropertyRaised("CanSendClassification");
-            }
+            get => _canSendClassification;
+            set => SetProperty(ref _canSendClassification, value);
         }
 
         private string _subjectImageSource;
         public string SubjectImageSource
         {
-            get { return _subjectImageSource; }
-            set
-            {
-                _subjectImageSource = value;
-                OnPropertyRaised("SubjectImageSource");
-            }
+            get => _subjectImageSource;
+            set => SetProperty(ref _subjectImageSource, value);
         }
 
         private AnswerButton _selectedAnswer;
         public AnswerButton SelectedAnswer
         {
-            get { return _selectedAnswer; }
+            get => _selectedAnswer;
             set
             {
-                _selectedAnswer = value;
                 if (value != null)
                 {
                     ChooseAnswer(value);
                 }
-                OnPropertyRaised("SelectedAnswer");
+                SetProperty(ref _selectedAnswer, value);
             }
         }
 
@@ -413,18 +379,6 @@ namespace GalaxyZooTouchTable.ViewModels
                     TotalVotes += answerCount;
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (StillThereTimer != null && StillThereTimer.IsEnabled)
-            {
-                ResetTimer();
-            }
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }
