@@ -274,8 +274,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             StillThereTimer = new DispatcherTimer();
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            StillThereTimer.Interval = new System.TimeSpan(0, 0, 5);
-            StillThereTimer.Start();
+            ResetTimer();
         }
 
         private void ShowStillThereModal(object sender, System.EventArgs e)
@@ -293,7 +292,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (StillThereTimer != null)
             {
-                StillThereTimer.Interval = new System.TimeSpan(0, 0, 5);
+                StillThereTimer.Interval = new System.TimeSpan(0, 4, 30);
                 StillThereTimer.Start();
             }
             if (StillThere.Visible) { StillThere.Visible = false; }

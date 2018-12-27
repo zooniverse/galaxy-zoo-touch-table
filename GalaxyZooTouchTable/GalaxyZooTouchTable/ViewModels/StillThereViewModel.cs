@@ -1,6 +1,5 @@
 ﻿using GalaxyZooTouchTable.Utility;
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -23,22 +22,14 @@ namespace GalaxyZooTouchTable.ViewModels
         public decimal CurrentSeconds
         {
             get => _currentSeconds;
-            set
-            {
-                _currentSeconds = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _currentSeconds, value);
         }
 
         private bool _isLargeArc;
         public bool IsLargeArc
         {
             get => _isLargeArc;
-            set
-            {
-                _isLargeArc = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _isLargeArc, value);
         }
 
         private bool _visible = false;
@@ -47,7 +38,6 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _visible;
             set
             {
-                _visible = value;
                 if (value == true)
                 {
                     StartTimers();
@@ -55,7 +45,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     StopTimers();
                 }
-                OnPropertyChanged();
+                SetProperty(ref _visible, value);
             }
         }
 
@@ -63,66 +53,42 @@ namespace GalaxyZooTouchTable.ViewModels
         public Size ArcSize
         {
             get => _arcSize;
-            set
-            {
-                _arcSize = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _arcSize, value);
         }
 
         private Point _startPoint = new Point();
         public Point StartPoint
         {
-            get => _startPoint; 
-            set
-            {
-                _startPoint = value;
-                OnPropertyChanged();
-            }
+            get => _startPoint;
+            set => SetProperty(ref _startPoint, value);
         }
 
         private Point _arcPoint;
         public Point ArcPoint
         {
             get => _arcPoint;
-            set
-            {
-                _arcPoint = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _arcPoint, value);
         }
 
         private Thickness _margin;
         public Thickness Margin
         {
             get => _margin;
-            set
-            {
-                _margin = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _margin, value);
         }
 
         private double _width;
         public double Width
         {
             get => _width;
-            set
-            {
-                _width = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _width, value);
         }
 
         private double _height;
         public double Height
         {
             get => _height;
-            set
-            {
-                _height = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _height, value);
         }
 
         public StillThereViewModel(ClassificationPanelViewModel classifier)
@@ -181,7 +147,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CurrentSeconds--;
             decimal StartingSeconds = 30;
-            decimal test = CurrentSeconds / StartingSeconds;
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
             Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
             RenderArc();
