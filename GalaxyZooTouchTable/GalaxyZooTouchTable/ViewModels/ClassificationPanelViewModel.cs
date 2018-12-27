@@ -289,7 +289,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
-        private void ResetTimer()
+        public void ResetTimer()
         {
             if (StillThereTimer != null)
             {

@@ -3,13 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             Height="291"
-             Width="312"
-             Background="#343438"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -19,129 +15,132 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
     </UserControl.Resources>
-    
-    <Border Height="199" Width="243" Background="#55565A" CornerRadius="3">
-        <Grid>
-            <Image Source="../Images/General/Logo.png" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0"/>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
-                <!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TouchUp">
-                        <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
+    <Border CornerRadius="3" Height="291" Width="312" Background="#F2343438">
+        <Border Height="199" Width="243" Background="#55565A" CornerRadius="3">
+            <Grid>
+                <Image Source="../Images/General/Logo.png" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0"/>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding CloseModal}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock
+                        FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                        FontSize="10"
+                        Foreground="White"
+                        Margin="5,0"
+                        Text="Cancel"/>
+                    <fa:ImageAwesome
+                        Foreground="White"
+                        Height="8.5"
+                        Icon="Times"/>
+                </StackPanel>
+
+                <Separator
+                    VerticalAlignment="Top"
+                    Width="212"
+                    Margin="0,29,0,0"
+                    Background="{StaticResource DarkGrayColor}"/>
+
                 <TextBlock
+                    Text="Still there?"
+                    Foreground="White"
+                    Margin="16,43.9,0,0"
+                    FontWeight="Bold"
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                    FontSize="10"
-                    Foreground="White"
-                    Margin="5,0"
-                    Text="Cancel"/>
-                <fa:ImageAwesome
-                    Foreground="White"
-                    Height="8.5"
-                    Icon="Times"/>
-            </StackPanel>
+                    FontSize="19"/>
 
-            <Separator
-                VerticalAlignment="Top"
-                Width="212"
-                Margin="0,29,0,0"
-                Background="{StaticResource DarkGrayColor}"/>
-
-            <TextBlock
-                Text="Still there?"
-                Foreground="White"
-                Margin="16,43.9,0,0"
-                FontWeight="Bold"
-                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                FontSize="19"/>
-
-            <TextBlock
-                Text="Tap &quot;Still working&quot; before the countdown runs out or this workspace will be closed"
-                Foreground="White"
-                Margin="16,69.4,0,0"
-                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                Width="94"
-                Height="86"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                TextWrapping="Wrap"
-                FontSize="9"/>
-
-            <!--<Ellipse
-                Width="82"
-                Height="82"
-                Margin="134,72,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Stroke="#E5FF4D"
-                StrokeThickness="4"/>-->
-
-            <Grid Margin="134,50,0,0" Height="100" Width="100" VerticalAlignment="Top">
-                <Path Width="{Binding Width}" Height="{Binding Height}" Margin="{Binding Margin}" Stroke="#E5FF4D" StrokeThickness="8">
-                    <Path.Data>
-                        <PathGeometry>
-                            <PathGeometry.Figures>
-                                <PathFigureCollection>
-                                    <PathFigure StartPoint="{Binding StartPoint}">
-                                        <PathFigure.Segments>
-                                            <PathSegmentCollection>
-                                                <ArcSegment
-                                                    Point="{Binding ArcPoint}"
-                                                    Size="{Binding ArcSize}"
-                                                    IsLargeArc="{Binding IsLargeArc}"
-                                                    SweepDirection="CounterClockwise" />
-                                            </PathSegmentCollection>
-                                        </PathFigure.Segments>
-                                    </PathFigure>
-                                </PathFigureCollection>
-                            </PathGeometry.Figures>
-                        </PathGeometry>
-                    </Path.Data>
-                </Path>
-            </Grid>
-
-            <TextBlock Margin="160,74,0,0" FontSize="26" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins" Foreground="White" FontWeight="Bold">
-                <Run>:</Run>
-                <Run Text="{Binding CurrentSeconds}"/>
-            </TextBlock>
-
-            <Button
-                Style="{StaticResource OutlineBtn}"
-                FontWeight="Bold"
-                Height="20"
-                HorizontalAlignment="Left"
-                Margin="15,0,0,14"
-                VerticalAlignment="Bottom"
-                Width="104">
                 <TextBlock
-                    Style="{StaticResource CommonType}"
-                    FontSize="10"
-                    HorizontalAlignment="Center"
-                    Text="Close now"
-                    VerticalAlignment="Center"/>
-            </Button>
+                    Text="Tap &quot;Still working&quot; before the countdown runs out or this workspace will be closed"
+                    Foreground="White"
+                    Margin="16,69.4,0,0"
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                    Width="94"
+                    Height="86"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    FontSize="9"/>
 
-            <Button
-                Style="{StaticResource SuccessBtn}"
-                FontWeight="Bold"
-                Foreground="Black"
-                Height="20"
-                HorizontalAlignment="Right"
-                Margin="0,0,15.3,14.59"
-                VerticalAlignment="Bottom"
-                Width="104">
-                <Button.Effect>
-                    <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
-                </Button.Effect>
-                <TextBlock
-                    Style="{StaticResource CommonType}"
-                    FontSize="10"
+                <Grid Margin="134,50,0,0" Height="100" Width="100" VerticalAlignment="Top">
+                    <Path Width="{Binding Width}" Height="{Binding Height}" Margin="{Binding Margin}" Stroke="#E5FF4D" StrokeThickness="8">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigureCollection>
+                                        <PathFigure StartPoint="{Binding StartPoint}">
+                                            <PathFigure.Segments>
+                                                <PathSegmentCollection>
+                                                    <ArcSegment
+                                                        Point="{Binding ArcPoint}"
+                                                        Size="{Binding ArcSize}"
+                                                        IsLargeArc="{Binding IsLargeArc}"
+                                                        SweepDirection="CounterClockwise" />
+                                                </PathSegmentCollection>
+                                            </PathFigure.Segments>
+                                        </PathFigure>
+                                    </PathFigureCollection>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
+                </Grid>
+
+                <TextBlock Margin="160,74,0,0" FontSize="26" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Poppins" Foreground="White" FontWeight="Bold">
+                    <Run>:</Run>
+                    <Run Text="{Binding CurrentSeconds, Mode=OneWay}"/>
+                </TextBlock>
+
+                <Button
+                    Style="{StaticResource OutlineBtn}"
+                    FontWeight="Bold"
+                    Height="20"
+                    HorizontalAlignment="Left"
+                    Margin="15,0,0,14"
+                    VerticalAlignment="Bottom"
+                    Width="104">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding CloseClassifier}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock
+                        Style="{StaticResource CommonType}"
+                        FontSize="10"
+                        HorizontalAlignment="Center"
+                        Text="Close now"
+                        VerticalAlignment="Center"/>
+                </Button>
+
+                <Button
+                    Style="{StaticResource SuccessBtn}"
+                    FontWeight="Bold"
                     Foreground="Black"
-                    HorizontalAlignment="Center"
-                    Text="Still working"
-                    VerticalAlignment="Center"/>
-            </Button>
-        </Grid>
+                    Height="20"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,15.3,14.59"
+                    VerticalAlignment="Bottom"
+                    Width="104">
+                    <Button.Effect>
+                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                    </Button.Effect>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TouchUp">
+                            <i:InvokeCommandAction Command="{Binding CloseModal}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBlock
+                        Style="{StaticResource CommonType}"
+                        FontSize="10"
+                        Foreground="Black"
+                        HorizontalAlignment="Center"
+                        Text="Still working"
+                        VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+        </Border>
     </Border>
 </UserControl>

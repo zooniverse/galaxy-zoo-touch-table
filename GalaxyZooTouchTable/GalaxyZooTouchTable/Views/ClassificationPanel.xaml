@@ -49,7 +49,7 @@
             Visibility="{Binding Visible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
-            Panel.ZIndex="2"/>
+            Panel.ZIndex="1"/>
 
         <Border
             Background="{StaticResource DarkGrayColor}"

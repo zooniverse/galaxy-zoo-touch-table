@@ -1,11 +1,13 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Utility;
+using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class StillThereViewModel : INotifyPropertyChanged
+    public class StillThereViewModel : ViewModelBase
     {
         public ClassificationPanelViewModel Classifier { get; set; }
         public DispatcherTimer SecondTimer { get; set; }
@@ -14,32 +16,35 @@ namespace GalaxyZooTouchTable.ViewModels
         public int Percentage { get; set; } = 100;
         public int StrokeThickness { get; set; } = 4;
 
+        public ICommand CloseClassifier { get; set; }
+        public ICommand CloseModal { get; set; }
+
         private decimal _currentSeconds = 30;
         public decimal CurrentSeconds
         {
-            get { return _currentSeconds; }
+            get => _currentSeconds;
             set
             {
                 _currentSeconds = value;
-                OnPropertyRaised("CurrentSeconds");
+                OnPropertyChanged();
             }
         }
 
         private bool _isLargeArc;
         public bool IsLargeArc
         {
-            get { return _isLargeArc; }
+            get => _isLargeArc;
             set
             {
                 _isLargeArc = value;
-                OnPropertyRaised("IsLargeArc");
+                OnPropertyChanged();
             }
         }
 
         private bool _visible = false;
         public bool Visible
         {
-            get { return _visible; }
+            get => _visible;
             set
             {
                 _visible = value;
@@ -50,80 +55,98 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     StopTimers();
                 }
-                OnPropertyRaised("Visible");
+                OnPropertyChanged();
             }
         }
 
         private Size _arcSize;
         public Size ArcSize
         {
-            get { return _arcSize; }
+            get => _arcSize;
             set
             {
                 _arcSize = value;
-                OnPropertyRaised("ArcSize");
+                OnPropertyChanged();
             }
         }
 
         private Point _startPoint = new Point();
         public Point StartPoint
         {
-            get { return _startPoint; }
+            get => _startPoint; 
             set
             {
                 _startPoint = value;
-                OnPropertyRaised("StartPoint");
+                OnPropertyChanged();
             }
         }
 
         private Point _arcPoint;
         public Point ArcPoint
         {
-            get { return _arcPoint; }
+            get => _arcPoint;
             set
             {
                 _arcPoint = value;
-                OnPropertyRaised("ArcPoint");
+                OnPropertyChanged();
             }
         }
 
         private Thickness _margin;
         public Thickness Margin
         {
-            get { return _margin; }
+            get => _margin;
             set
             {
                 _margin = value;
-                OnPropertyRaised("Margin");
+                OnPropertyChanged();
             }
         }
 
         private double _width;
         public double Width
         {
-            get { return _width; }
+            get => _width;
             set
             {
                 _width = value;
-                OnPropertyRaised("Width");
+                OnPropertyChanged();
             }
         }
 
         private double _height;
         public double Height
         {
-            get { return _height; }
+            get => _height;
             set
             {
                 _height = value;
-                OnPropertyRaised("Height");
+                OnPropertyChanged();
             }
         }
 
         public StillThereViewModel(ClassificationPanelViewModel classifier)
         {
             Classifier = classifier;
+            LoadCommands();
             RenderArc();
+        }
+
+        private void LoadCommands()
+        {
+            CloseClassifier = new CustomCommand(OnCloseClassifier);
+            CloseModal = new CustomCommand(OnCloseModal);
+        }
+
+        private void OnCloseClassifier(object sender)
+        {
+            Classifier.OnCloseClassifier();
+        }
+
+        private void OnCloseModal(object sender)
+        {
+            Visible = false;
+            Classifier.ResetTimer();
         }
 
         private void StartTimers()
@@ -194,14 +217,6 @@ namespace GalaxyZooTouchTable.ViewModels
             ArcPoint = endPoint;
             ArcSize = outerArcSize;
             IsLargeArc = largeArc;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }

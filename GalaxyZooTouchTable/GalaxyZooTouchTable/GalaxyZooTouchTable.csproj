@@ -175,6 +175,7 @@
       <DependentUpon>AskAFriendNotifier.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\StillThereViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
