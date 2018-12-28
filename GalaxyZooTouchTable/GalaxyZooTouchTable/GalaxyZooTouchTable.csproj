@@ -167,6 +167,7 @@
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="Models\CircularProgress.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
     <Compile Include="Views\AskAFriendButtons.xaml.cs">
       <DependentUpon>AskAFriendButtons.xaml</DependentUpon>

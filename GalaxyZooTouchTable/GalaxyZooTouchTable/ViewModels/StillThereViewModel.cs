@@ -1,6 +1,7 @@
-﻿using GalaxyZooTouchTable.Utility;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Utility;
 using System;
-using System.Windows;
+using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -11,25 +12,23 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel Classifier { get; set; }
         public DispatcherTimer SecondTimer { get; set; }
         public DispatcherTimer ThirtySecondTimer { get; set; }
-        public int Radius { get; set; } = 41;
-        public int Percentage { get; set; } = 100;
-        public int StrokeThickness { get; set; } = 4;
+        private int Percentage { get; set; } = 100;
 
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseModal { get; set; }
+
+        private CircularProgress _circle;
+        public CircularProgress Circle
+        {
+            get => _circle;
+            set => SetProperty(ref _circle, value);
+        }
 
         private decimal _currentSeconds = 30;
         public decimal CurrentSeconds
         {
             get => _currentSeconds;
             set => SetProperty(ref _currentSeconds, value);
-        }
-
-        private bool _isLargeArc;
-        public bool IsLargeArc
-        {
-            get => _isLargeArc;
-            set => SetProperty(ref _isLargeArc, value);
         }
 
         private bool _visible = false;
@@ -49,53 +48,18 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private Size _arcSize;
-        public Size ArcSize
-        {
-            get => _arcSize;
-            set => SetProperty(ref _arcSize, value);
-        }
-
-        private Point _startPoint = new Point();
-        public Point StartPoint
-        {
-            get => _startPoint;
-            set => SetProperty(ref _startPoint, value);
-        }
-
-        private Point _arcPoint;
-        public Point ArcPoint
-        {
-            get => _arcPoint;
-            set => SetProperty(ref _arcPoint, value);
-        }
-
-        private Thickness _margin;
-        public Thickness Margin
-        {
-            get => _margin;
-            set => SetProperty(ref _margin, value);
-        }
-
-        private double _width;
-        public double Width
-        {
-            get => _width;
-            set => SetProperty(ref _width, value);
-        }
-
-        private double _height;
-        public double Height
-        {
-            get => _height;
-            set => SetProperty(ref _height, value);
-        }
-
         public StillThereViewModel(ClassificationPanelViewModel classifier)
         {
             Classifier = classifier;
+            Circle = new CircularProgress(41);
             LoadCommands();
-            RenderArc();
+            Circle.RenderArc(Percentage);
+            Circle.PropertyChanged += CircleChanged;
+        }
+
+        private void CircleChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("Circle");
         }
 
         private void LoadCommands()
@@ -128,7 +92,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ThirtySecondTimer.Tick += new System.EventHandler(ThirtySecondsElapsed);
             ThirtySecondTimer.Interval = new System.TimeSpan(0, 0, 31);
             ThirtySecondTimer.Start();
-            RenderArc();
+            Circle.RenderArc(Percentage);
         }
 
         private void StopTimers()
@@ -149,39 +113,7 @@ namespace GalaxyZooTouchTable.ViewModels
             decimal StartingSeconds = 30;
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
             Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
-            RenderArc();
-        }
-
-        private Point ComputeCartesianCoordinate(double angle, double radius)
-        {
-            double angleRad = (Math.PI / 180.0) * (angle - 90);
-            double x = radius * Math.Cos(angleRad);
-            double y = radius * Math.Sin(angleRad);
-            return new Point(x, y);
-        }
-
-        public void RenderArc()
-        {
-            int Angle = -(Percentage * 360) / 100;
-            StartPoint = new Point(Radius, 0);
-            Point endPoint = ComputeCartesianCoordinate(Angle, Radius);
-            endPoint.X += Radius;
-            endPoint.Y += Radius;
-
-            Width = Radius * 2 + StrokeThickness + 10;
-            Height = Radius * 2 + StrokeThickness + 10;
-            Margin = new Thickness(StrokeThickness, StrokeThickness, 0, 0);
-
-            bool largeArc = -Angle > 180.0;
-
-            Size outerArcSize = new Size(Radius, Radius);
-
-            if (StartPoint.X == Math.Round(endPoint.X) && StartPoint.Y == Math.Round(endPoint.Y))
-                endPoint.X += 0.01;
-
-            ArcPoint = endPoint;
-            ArcSize = outerArcSize;
-            IsLargeArc = largeArc;
+            Circle.RenderArc(Percentage);
         }
     }
 }

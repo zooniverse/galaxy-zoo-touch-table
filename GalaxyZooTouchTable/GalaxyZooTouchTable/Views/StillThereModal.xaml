@@ -64,18 +64,18 @@
                     FontSize="9"/>
 
                 <Grid Margin="134,50,0,0" Height="100" Width="100" VerticalAlignment="Top">
-                    <Path Width="{Binding Width}" Height="{Binding Height}" Margin="{Binding Margin}" Stroke="#E5FF4D" StrokeThickness="8">
+                    <Path Width="90" Height="90" Stroke="#E5FF4D" StrokeThickness="8">
                         <Path.Data>
                             <PathGeometry>
                                 <PathGeometry.Figures>
                                     <PathFigureCollection>
-                                        <PathFigure StartPoint="{Binding StartPoint}">
+                                        <PathFigure StartPoint="{Binding Circle.StartPoint}">
                                             <PathFigure.Segments>
                                                 <PathSegmentCollection>
                                                     <ArcSegment
-                                                        Point="{Binding ArcPoint}"
-                                                        Size="{Binding ArcSize}"
-                                                        IsLargeArc="{Binding IsLargeArc}"
+                                                        Point="{Binding Circle.ArcPoint}"
+                                                        Size="{Binding Circle.ArcSize}"
+                                                        IsLargeArc="{Binding Circle.IsLargeArc}"
                                                         SweepDirection="CounterClockwise" />
                                                 </PathSegmentCollection>
                                             </PathFigure.Segments>
