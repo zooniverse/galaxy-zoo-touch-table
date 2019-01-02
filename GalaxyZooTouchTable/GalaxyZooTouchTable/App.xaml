@@ -18,6 +18,7 @@
             <local:NullImageConverter x:Key="NullImageConverter"/>
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
             <Converters:LevelOpacityConverter x:Key="LevelOpacityConverter"/>
+            <Converters:EqualityConverter x:Key="EqualityConverter"/>
             <Converters:FontSizeConverter x:Key="FontSizeConverter"/>
             <Converters:ObjectEqualityStringConverter x:Key="ObjectEqualityStringConverter"/>
             <Converters:ObjectToTypeStringConverter x:Key="ObjectToTypeStringConverter"/>

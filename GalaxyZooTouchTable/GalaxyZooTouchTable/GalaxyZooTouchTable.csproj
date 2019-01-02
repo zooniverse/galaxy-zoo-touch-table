@@ -27,8 +27,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>47</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -154,15 +154,26 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\FontSizeConverter.cs" />
+    <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\HidePanelConverter.cs" />
     <Compile Include="Converters\LevelOpacityConverter.cs" />
     <Compile Include="Converters\ObjectEqualityStringConverter.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
     <Compile Include="Converters\ProgressWidthConverter.cs" />
+    <Compile Include="Lib\ClassifierViewEnum.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\HandlingEventTrigger.cs" />
+    <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
+    <Compile Include="Models\NotificationRequest.cs" />
+    <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
+    <Compile Include="Views\AskAFriendButtons.xaml.cs">
+      <DependentUpon>AskAFriendButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AskAFriendNotifier.xaml.cs">
+      <DependentUpon>AskAFriendNotifier.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
@@ -269,6 +280,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AskAFriendButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AskAFriendNotifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Centerpiece.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

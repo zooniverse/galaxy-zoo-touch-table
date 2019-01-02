@@ -16,10 +16,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : INotifyPropertyChanged
     {
-        private const int SUBJECT_VIEW = 0;
-        private const int SUMMARY_VIEW = 1;
-
-        public ObservableCollection<TableUser> ActiveUsers { get; set; }
+        public ObservableCollection<TableUser> AllUsers { get; set; }
         public int ClassificationsThisSession { get; set; } = 0;
         public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
@@ -36,7 +33,19 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand CloseClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
         public ICommand OpenClassifier { get; set; }
+        public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
+
+        private NotificationsViewModel _notifications;
+        public NotificationsViewModel Notifications
+        {
+            get { return _notifications; }
+            set
+            {
+                _notifications = value;
+                OnPropertyRaised("Notifications");
+            }
+        }
 
         private int _totalVotes = 0;
         public int TotalVotes
@@ -49,8 +58,8 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private int _currentView = SUBJECT_VIEW;
-        public int CurrentView
+        private ClassifierViewEnum _currentView = ClassifierViewEnum.SubjectView;
+        public ClassifierViewEnum CurrentView
         {
             get { return _currentView; }
             set
@@ -131,7 +140,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> activeUsers)
+        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> allUsers)
         {
             if (workflow != null)
             {
@@ -142,8 +151,8 @@ namespace GalaxyZooTouchTable.ViewModels
             User = user;
             CurrentTask = workflow.Tasks[workflow.FirstTask];
             CurrentTaskIndex = workflow.FirstTask;
+            Notifications = new NotificationsViewModel(user, allUsers, this);
             LevelerViewModel = new LevelerViewModel(user);
-            ActiveUsers = activeUsers;
 
             if (CurrentTask.Answers != null)
             {
@@ -167,34 +176,38 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenClassifier = new CustomCommand(OnOpenClassifier);
         }
 
+        public async void GetSubjectById(string subjectID)
+        {
+            TotalVotes = 0;
+            ApiClient client = new ApiClient();
+            CurrentSubject = await client.Subjects.Get(subjectID);
+            StartNewClassification(CurrentSubject);
+            SubjectImageSource = CurrentSubject.GetSubjectLocation();
+            GraphQLRequest();
+        }
+
         private void OnOpenClassifier(object sender)
         {
             ClassifierOpen = true;
-            ActiveUsers.Add(User);
+            User.Active = true;
         }
 
         private void OnCloseClassifier(object sender)
         {
+            Notifications.ClearNotifications(true);
             LevelerViewModel.IsOpen = false;
             ExamplesViewModel.IsOpen = true;
             ExamplesViewModel.SelectedExample = null;
             PrepareForNewClassification();
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
-            foreach (TableUser ActiveUser in ActiveUsers)
-            {
-                if (User == ActiveUser)
-                {
-                    ActiveUsers.Remove(ActiveUser);
-                    break;
-                }
-            }
+            User.Active = false;
         }
 
         private void PrepareForNewClassification()
         {
             GetSubject();
-            CurrentView = SUBJECT_VIEW;
+            CurrentView = ClassifierViewEnum.SubjectView;
             TotalVotes = 0;
         }
 
@@ -205,7 +218,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void OnContinueClassification(object sender)
         {
-            if (CurrentView == SUBJECT_VIEW)
+            if (CurrentView == ClassifierViewEnum.SubjectView)
             {
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
@@ -214,12 +227,28 @@ namespace GalaxyZooTouchTable.ViewModels
                 SelectedItem.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
-                Messenger.Default.Send<int>(ClassificationsThisSession, User);
-                CurrentView = SUMMARY_VIEW;
+                Messenger.Default.Send<int>(ClassificationsThisSession, $"{User.Name}_IncrementCount");
+                CurrentView = ClassifierViewEnum.SummaryView;
+                HandleNotificationsOnSubmit();
             }
             else
             {
                 PrepareForNewClassification();
+            }
+        }
+
+        private void HandleNotificationsOnSubmit()
+        {
+            if (User.Status == NotificationStatus.HelpingUser)
+            {
+                Notifications.SendAnswerToUser(SelectedItem);
+            }
+
+            if (User.Status != NotificationStatus.HelpRequestReceived &&
+                User.Status != NotificationStatus.HelpRequestSent &&
+                User.Status != NotificationStatus.AcceptedHelp)
+            {
+                Notifications.ClearNotifications();
             }
         }
 

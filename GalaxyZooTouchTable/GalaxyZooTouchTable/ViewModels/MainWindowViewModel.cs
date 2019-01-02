@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<TableUser> ActiveUsers { get; set; } = new ObservableCollection<TableUser>();
+        public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
         public Workflow Workflow { get; set; }
         public Project Project { get; set; }
         public ICommand WindowLoaded { get; set; }
@@ -110,7 +110,39 @@ namespace GalaxyZooTouchTable.ViewModels
             CreateTimer();
             LoadCommands();
 
-            ActiveUsers.CollectionChanged += ActiveUsersChanged;
+            AllUsers.CollectionChanged += AllUsersCollectionChanged;
+        }
+
+        private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
+        {
+
+            if (changedEventArgs.NewItems != null)
+            {
+                foreach (object item in changedEventArgs.NewItems)
+                {
+                    ((INotifyPropertyChanged)item).PropertyChanged += ItemPropertyChanged;
+                }
+            }
+            if (changedEventArgs.OldItems != null)
+            {
+                foreach (object item in changedEventArgs.OldItems)
+                {
+                    ((INotifyPropertyChanged)item).PropertyChanged -= ItemPropertyChanged;
+                }
+            }
+        }
+
+        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
+        {
+            foreach (TableUser user in AllUsers)
+            {
+                if (user.Active)
+                {
+                    ShowJoinMessage = false;
+                    return;
+                }
+            }
+            ShowJoinMessage = true;
         }
 
         private void CreateTimer()
@@ -139,11 +171,6 @@ namespace GalaxyZooTouchTable.ViewModels
             SetChildDataContext();
         }
 
-        private void ActiveUsersChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ShowJoinMessage = ActiveUsers.Count <= 0;
-        }
-
         private void SetChildDataContext()
         {
             TableUser personUser = TableUserFactory.Create(UserType.Person);
@@ -152,15 +179,21 @@ namespace GalaxyZooTouchTable.ViewModels
             TableUser heartUser = TableUserFactory.Create(UserType.Heart);
             TableUser faceUser = TableUserFactory.Create(UserType.Face);
             TableUser earthUser = TableUserFactory.Create(UserType.Earth);
+            AllUsers.Add(personUser);
+            AllUsers.Add(lightUser);
+            AllUsers.Add(starUser);
+            AllUsers.Add(heartUser);
+            AllUsers.Add(faceUser);
+            AllUsers.Add(earthUser);
 
             if (Workflow != null)
             {
-                PersonUserVM = new ClassificationPanelViewModel(Workflow, personUser, ActiveUsers);
-                LightUserVM = new ClassificationPanelViewModel(Workflow, lightUser, ActiveUsers);
-                StarUserVM = new ClassificationPanelViewModel(Workflow, starUser, ActiveUsers);
-                HeartUserVM = new ClassificationPanelViewModel(Workflow, heartUser, ActiveUsers);
-                FaceUserVM = new ClassificationPanelViewModel(Workflow, faceUser, ActiveUsers);
-                EarthUserVM = new ClassificationPanelViewModel(Workflow, earthUser, ActiveUsers);
+                PersonUserVM = new ClassificationPanelViewModel(Workflow, personUser, AllUsers);
+                LightUserVM = new ClassificationPanelViewModel(Workflow, lightUser, AllUsers);
+                StarUserVM = new ClassificationPanelViewModel(Workflow, starUser, AllUsers);
+                HeartUserVM = new ClassificationPanelViewModel(Workflow, heartUser, AllUsers);
+                FaceUserVM = new ClassificationPanelViewModel(Workflow, faceUser, AllUsers);
+                EarthUserVM = new ClassificationPanelViewModel(Workflow, earthUser, AllUsers);
             }
         }
 
