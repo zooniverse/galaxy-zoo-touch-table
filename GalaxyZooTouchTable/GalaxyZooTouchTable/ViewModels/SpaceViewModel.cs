@@ -12,6 +12,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public double RA { get; set; } = 250.3035;
         public double DEC { get; set; } = 35.09;
+        public double SCALE { get; set; } = 1.5;
 
         public List<TableSubject> _currentGalaxies = new List<TableSubject>();
         public List<TableSubject> CurrentGalaxies
@@ -43,7 +44,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void GetSpaceCutout()
         {
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432";
+            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={SCALE}";
         }
 
         private async Task GetSubjectsAsync()
