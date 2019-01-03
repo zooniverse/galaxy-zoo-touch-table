@@ -1,6 +1,6 @@
 ﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
-using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -16,6 +16,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public Workflow Workflow { get; set; }
         public Project Project { get; set; }
         public ICommand WindowLoaded { get; set; }
+        private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
 
         private bool _showJoinMessage = true;
         public bool ShowJoinMessage
@@ -165,9 +166,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void GetWorkflow(object sender)
         {
-            ApiClient client = new ApiClient();
-            Workflow = await client.Workflows.Get(Config.WorkflowId);
-
+            Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
             SetChildDataContext();
         }
 

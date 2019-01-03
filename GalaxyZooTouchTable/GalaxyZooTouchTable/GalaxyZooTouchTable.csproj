@@ -166,6 +166,8 @@
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
+    <Compile Include="Services\IPanoptesRepository.cs" />
+    <Compile Include="Services\PanoptesRepository.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="Models\CircularProgress.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />

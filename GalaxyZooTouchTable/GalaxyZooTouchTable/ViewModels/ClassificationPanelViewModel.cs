@@ -1,10 +1,10 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using GraphQL.Common.Response;
-using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,6 +31,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public TableUser User { get; set; }
         public Workflow Workflow { get; }
+        private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
 
         public ICommand CloseClassifier { get; set; }
         public ICommand ContinueClassification { get; set; }
@@ -161,8 +162,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public async void GetSubjectById(string subjectID)
         {
             TotalVotes = 0;
-            ApiClient client = new ApiClient();
-            CurrentSubject = await client.Subjects.Get(subjectID);
+            CurrentSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             GraphQLRequest();
@@ -206,8 +206,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                ApiClient client = new ApiClient();
-                await client.Classifications.Create(CurrentClassification);
+                await _panoptesRepository.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -301,12 +300,11 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (Subjects.Count <= 0)
             {
-                ApiClient client = new ApiClient();
                 NameValueCollection query = new NameValueCollection
                 {
                     { "workflow_id", Config.WorkflowId }
                 };
-                Subjects = await client.Subjects.GetList("queued", query);
+                Subjects = await _panoptesRepository.GetSubjectsAsync("queued", query);
             }
             CurrentSubject = Subjects[0];
             StartNewClassification(CurrentSubject);
