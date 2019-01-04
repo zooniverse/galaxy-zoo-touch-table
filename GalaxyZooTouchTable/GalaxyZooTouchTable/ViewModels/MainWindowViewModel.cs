@@ -14,7 +14,6 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
         public Workflow Workflow { get; set; }
-        public ICommand WindowLoaded { get; private set; }
         private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
 
         private bool _showJoinMessage = true;
@@ -108,8 +107,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public MainWindowViewModel()
         {
             CreateTimer();
-            LoadCommands();
-
+            SetChildDataContext();
             AllUsers.CollectionChanged += AllUsersCollectionChanged;
         }
 
@@ -158,17 +156,6 @@ namespace GalaxyZooTouchTable.ViewModels
             FlipCenterpiece = !FlipCenterpiece;
         }
 
-        private void LoadCommands()
-        {
-            WindowLoaded = new CustomCommand(GetWorkflow);
-        }
-
-        private async void GetWorkflow(object sender)
-        {
-            Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
-            SetChildDataContext();
-        }
-
         private void SetChildDataContext()
         {
             TableUser personUser = TableUserFactory.Create(UserType.Person);
@@ -184,15 +171,12 @@ namespace GalaxyZooTouchTable.ViewModels
             AllUsers.Add(faceUser);
             AllUsers.Add(earthUser);
 
-            if (Workflow != null)
-            {
-                PersonUserVM = new ClassificationPanelViewModel(Workflow, personUser, AllUsers);
-                LightUserVM = new ClassificationPanelViewModel(Workflow, lightUser, AllUsers);
-                StarUserVM = new ClassificationPanelViewModel(Workflow, starUser, AllUsers);
-                HeartUserVM = new ClassificationPanelViewModel(Workflow, heartUser, AllUsers);
-                FaceUserVM = new ClassificationPanelViewModel(Workflow, faceUser, AllUsers);
-                EarthUserVM = new ClassificationPanelViewModel(Workflow, earthUser, AllUsers);
-            }
+            PersonUserVM = new ClassificationPanelViewModel(_panoptesRepository, personUser, AllUsers);
+            LightUserVM = new ClassificationPanelViewModel(_panoptesRepository, lightUser, AllUsers);
+            StarUserVM = new ClassificationPanelViewModel(_panoptesRepository, starUser, AllUsers);
+            HeartUserVM = new ClassificationPanelViewModel(_panoptesRepository, heartUser, AllUsers);
+            FaceUserVM = new ClassificationPanelViewModel(_panoptesRepository, faceUser, AllUsers);
+            EarthUserVM = new ClassificationPanelViewModel(_panoptesRepository, earthUser, AllUsers);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

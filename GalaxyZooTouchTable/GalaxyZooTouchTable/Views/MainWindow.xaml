@@ -15,11 +15,6 @@
     <Window.DataContext>
         <ViewModels:MainWindowViewModel/>
     </Window.DataContext>
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
 
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">

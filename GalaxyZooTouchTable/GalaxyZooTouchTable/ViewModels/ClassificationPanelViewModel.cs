@@ -20,7 +20,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ObservableCollection<TableUser> AllUsers { get; set; }
         public DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
         public int ClassificationsThisSession { get; set; } = 0;
-        public List<AnswerButton> CurrentAnswers { get; set; }
         public Classification CurrentClassification { get; set; }
         public Subject CurrentSubject { get; set; }
         public WorkflowTask CurrentTask { get; set; }
@@ -30,14 +29,25 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public TableUser User { get; set; }
-        public Workflow Workflow { get; }
-        private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
+        public Workflow Workflow { get; set; }
+        private IPanoptesRepository _panoptesRepository;
 
         public ICommand CloseClassifier { get; private set; }
         public ICommand ContinueClassification { get; private set; }
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
+
+        private List<AnswerButton> _currentAnswers;
+        public List<AnswerButton> CurrentAnswers
+        {
+            get { return _currentAnswers; }
+            set
+            {
+                _currentAnswers = value;
+                OnPropertyRaised("CurrentAnswers");
+            }
+        }
 
         private NotificationsViewModel _notifications;
         public NotificationsViewModel Notifications
@@ -120,27 +130,26 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(Workflow workflow, TableUser user, ObservableCollection<TableUser> allUsers)
+        public ClassificationPanelViewModel(IPanoptesRepository repo, TableUser user, ObservableCollection<TableUser> allUsers)
         {
-            if (workflow != null)
-            {
-                PrepareForNewClassification();
-            }
+            _panoptesRepository = repo;
+            GetWorkflow();
             LoadCommands();
-            Workflow = workflow;
             User = user;
-            CurrentTask = workflow.Tasks[workflow.FirstTask];
-            CurrentTaskIndex = workflow.FirstTask;
             Notifications = new NotificationsViewModel(user, allUsers, this);
             LevelerViewModel = new LevelerViewModel(user);
             StillThere = new StillThereViewModel(this);
             ExamplesViewModel.PropertyChanged += ResetTimer;
             LevelerViewModel.PropertyChanged += ResetTimer;
+        }
 
-            if (CurrentTask.Answers != null)
-            {
-                CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
-            }
+        private async void GetWorkflow()
+        {
+            Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
+            PrepareForNewClassification();
+            CurrentTask = Workflow.Tasks[Workflow.FirstTask];
+            CurrentTaskIndex = Workflow.FirstTask;
+            CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
         }
 
         private void LoadCommands()
