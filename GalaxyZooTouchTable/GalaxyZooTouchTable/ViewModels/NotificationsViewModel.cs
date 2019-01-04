@@ -9,13 +9,13 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class NotificationsViewModel : INotifyPropertyChanged
     {
-        public ICommand AcceptGalaxy { get; set; }
-        public ICommand DeclineGalaxy { get; set; }
-        public ICommand NotifyUser { get; set; }
-        public ICommand ResetNotifications { get; set; }
-        public ICommand ToggleButtonNotification { get; set; }
-        public ICommand ToggleNotifier { get; set; }
-        public string SubjectIdToExamine { get; set; }
+        public ICommand AcceptGalaxy { get; private set; }
+        public ICommand DeclineGalaxy { get; private set; }
+        public ICommand NotifyUser { get; private set; }
+        public ICommand ResetNotifications { get; private set; }
+        public ICommand ToggleButtonNotification { get; private set; }
+        public ICommand ToggleNotifier { get; private set; }
+        string SubjectIdToExamine { get; set; }
 
         private ObservableCollection<TableUser> _availableUsers;
         public ObservableCollection<TableUser> AvailableUsers

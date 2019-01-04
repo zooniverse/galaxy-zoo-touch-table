@@ -14,8 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
         public Workflow Workflow { get; set; }
-        public Project Project { get; set; }
-        public ICommand WindowLoaded { get; set; }
+        public ICommand WindowLoaded { get; private set; }
         private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
 
         private bool _showJoinMessage = true;

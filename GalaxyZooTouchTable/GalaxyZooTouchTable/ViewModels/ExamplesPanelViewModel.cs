@@ -7,10 +7,10 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ExamplesPanelViewModel : INotifyPropertyChanged
     {
-        public ICommand OpenPanel { get; set; }
-        public ICommand TogglePanel { get; set; }
-        public ICommand SelectItem { get; set; }
-        public ICommand UnselectItem { get; set; }
+        public ICommand OpenPanel { get; private set; }
+        public ICommand TogglePanel { get; private set; }
+        public ICommand SelectItem { get; private set; }
+        public ICommand UnselectItem { get; private set; }
 
         public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
         public GalaxyExample Features { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Features);

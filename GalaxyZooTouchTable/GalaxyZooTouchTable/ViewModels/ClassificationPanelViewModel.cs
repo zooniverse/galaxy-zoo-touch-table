@@ -33,11 +33,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public Workflow Workflow { get; }
         private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
 
-        public ICommand CloseClassifier { get; set; }
-        public ICommand ContinueClassification { get; set; }
-        public ICommand OpenClassifier { get; set; }
-        public ICommand SelectAnswer { get; set; }
-        public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand CloseClassifier { get; private set; }
+        public ICommand ContinueClassification { get; private set; }
+        public ICommand OpenClassifier { get; private set; }
+        public ICommand SelectAnswer { get; private set; }
+        public ICommand ShowCloseConfirmation { get; private set; }
 
         private NotificationsViewModel _notifications;
         public NotificationsViewModel Notifications

@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.ViewModels
     public class LevelerViewModel : INotifyPropertyChanged
     {
         public TableUser User { get; set; }
-        public ICommand ToggleLeveler { get; set; }
+        public ICommand ToggleLeveler { get; private set; }
         const string MAX_LEVEL = "Five";
 
         private int _classificationsUntilUpgrade { get; set; } = 5;
