@@ -125,18 +125,18 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private AnswerButton _selectedItem;
-        public AnswerButton SelectedItem
+        private AnswerButton _selectedAnswer;
+        public AnswerButton SelectedAnswer
         {
-            get { return _selectedItem; }
+            get { return _selectedAnswer; }
             set
             {
-                _selectedItem = value;
+                _selectedAnswer = value;
                 if (value != null)
                 {
                     ChooseAnswer(value);
                 }
-                OnPropertyRaised("SelectedItem");
+                OnPropertyRaised("SelectedAnswer");
             }
         }
 
@@ -170,10 +170,18 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            ContinueClassification = new CustomCommand(OnContinueClassification);
-            ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
+            ContinueClassification = new CustomCommand(OnContinueClassification);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
+            SelectAnswer = new CustomCommand(OnSelectAnswer);
+            ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
+        }
+
+        private void OnSelectAnswer(object sender)
+        {
+            AnswerButton Button = sender as AnswerButton;
+            SelectedAnswer = Button;
+            CurrentAnnotation = new Annotation(CurrentTaskIndex, Button.Index);
         }
 
         public async void GetSubjectById(string subjectID)
@@ -224,7 +232,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ApiClient client = new ApiClient();
                 await client.Classifications.Create(CurrentClassification);
-                SelectedItem.AnswerCount += 1;
+                SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, $"{User.Name}_IncrementCount");
@@ -241,7 +249,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (User.Status == NotificationStatus.HelpingUser)
             {
-                Notifications.SendAnswerToUser(SelectedItem);
+                Notifications.SendAnswerToUser(SelectedAnswer);
             }
 
             if (User.Status != NotificationStatus.HelpRequestReceived &&
@@ -281,7 +289,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentClassification.Links.Subjects.Add(subject.Id);
 
             CurrentAnnotation = null;
-            SelectedItem = null;
+            SelectedAnswer = null;
             CommandManager.InvalidateRequerySuggested();
         }
 
