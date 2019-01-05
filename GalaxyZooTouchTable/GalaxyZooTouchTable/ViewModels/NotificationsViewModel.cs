@@ -17,16 +17,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ToggleNotifier { get; private set; }
         string SubjectIdToExamine { get; set; }
 
-        private ObservableCollection<TableUser> _availableUsers;
-        public ObservableCollection<TableUser> AvailableUsers
-        {
-            get { return _availableUsers; }
-            set
-            {
-                _availableUsers = value;
-                OnPropertyRaised("AvailableUsers");
-            }
-        }
+        public ObservableCollection<TableUser> AvailableUsers { get; private set; }
 
         private ClassificationPanelViewModel _classifier;
         public ClassificationPanelViewModel Classifier
@@ -94,13 +85,13 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public NotificationsViewModel(TableUser user, ObservableCollection<TableUser> allUsers, ClassificationPanelViewModel classifier)
+        public NotificationsViewModel(TableUser user, ClassificationPanelViewModel classifier)
         {
             Classifier = classifier;
             User = user;
 
             RegisterMessengerActions(user);
-            FilterCurrentUser(allUsers);
+            FilterCurrentUser();
             LoadCommands();
         }
 
@@ -133,9 +124,9 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Status = NotificationStatus.AnswerGiven;
         }
 
-        private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
+        private void FilterCurrentUser()
         {
-            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(allUsers);
+            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(CommonData.GetInstance().AllUsers);
             foreach (TableUser tableUser in allUsersCopy)
             {
                 if (User == tableUser)

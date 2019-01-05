@@ -130,13 +130,13 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(IPanoptesRepository repo, TableUser user, ObservableCollection<TableUser> allUsers)
+        public ClassificationPanelViewModel(IPanoptesRepository repo, TableUser user)
         {
             _panoptesRepository = repo;
             GetWorkflow();
             LoadCommands();
             User = user;
-            Notifications = new NotificationsViewModel(user, allUsers, this);
+            Notifications = new NotificationsViewModel(user, this);
             LevelerViewModel = new LevelerViewModel(user);
             StillThere = new StillThereViewModel(this);
             ExamplesViewModel.PropertyChanged += ResetTimer;

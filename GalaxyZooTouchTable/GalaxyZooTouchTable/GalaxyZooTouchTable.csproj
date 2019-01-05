@@ -161,6 +161,7 @@
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
     <Compile Include="Converters\ProgressWidthConverter.cs" />
     <Compile Include="Lib\ClassifierViewEnum.cs" />
+    <Compile Include="Lib\CommonData.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\HandlingEventTrigger.cs" />
     <Compile Include="Lib\NotificationStatus.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Services\IPanoptesRepository.cs" />
     <Compile Include="Services\PanoptesRepository.cs" />
+    <Compile Include="ViewModels\CenterpieceViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="Models\CircularProgress.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
