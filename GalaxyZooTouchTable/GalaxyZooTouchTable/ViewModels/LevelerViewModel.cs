@@ -1,5 +1,4 @@
-﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -62,18 +61,13 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public LevelerViewModel(TableUser user = null)
+        public LevelerViewModel(TableUser user)
         {
             User = user;
             LoadCommands();
-
-            if (user != null)
-            {
-                Messenger.Default.Register<int>(this, OnClassificationReceived, $"{user.Name}_IncrementCount");
-            }
         }
 
-        private void OnClassificationReceived(int TotalClassifications)
+        public void OnIncrementCount(int TotalClassifications)
         {
             ClassificationsThisSession = TotalClassifications;
         }

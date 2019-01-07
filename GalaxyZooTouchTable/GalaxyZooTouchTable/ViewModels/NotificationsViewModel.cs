@@ -20,6 +20,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public event Action<ClassifierViewEnum> ChangeView = delegate { };
         public event Action<TableUser> SendRequestToUser = delegate { };
         string SubjectIdToExamine { get; set; }
+        public TableUser User { get; private set; }
 
         public ObservableCollection<TableUser> AvailableUsers { get; private set; }
 
@@ -67,21 +68,9 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private TableUser _user;
-        public TableUser User
-        {
-            get { return _user; }
-            set
-            {
-                _user = value;
-                OnPropertyRaised("User");
-            }
-        }
-
         public NotificationsViewModel(TableUser user)
         {
             User = user;
-
             RegisterMessengerActions(user);
             FilterCurrentUser();
             LoadCommands();

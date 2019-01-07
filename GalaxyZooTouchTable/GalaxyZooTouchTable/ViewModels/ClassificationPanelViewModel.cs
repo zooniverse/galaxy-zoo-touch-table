@@ -25,7 +25,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public string CurrentTaskIndex { get; set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
-        public LevelerViewModel LevelerViewModel { get; set; } = new LevelerViewModel();
+        public LevelerViewModel LevelerViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
@@ -137,7 +137,7 @@ namespace GalaxyZooTouchTable.ViewModels
             GetWorkflow();
             LoadCommands();
             User = user;
-            Notifications = new NotificationsViewModel(user, this);
+            Notifications = new NotificationsViewModel(user);
             LevelerViewModel = new LevelerViewModel(user);
             StillThere = new StillThereViewModel(this);
             ExamplesViewModel.PropertyChanged += ResetTimer;
@@ -234,7 +234,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
-                Messenger.Default.Send<int>(ClassificationsThisSession, $"{User.Name}_IncrementCount");
+                LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
                 OnChangeView(ClassifierViewEnum.SummaryView);
                 HandleNotificationsOnSubmit();
             }
