@@ -142,6 +142,15 @@ namespace GalaxyZooTouchTable.ViewModels
             StillThere = new StillThereViewModel(this);
             ExamplesViewModel.PropertyChanged += ResetTimer;
             LevelerViewModel.PropertyChanged += ResetTimer;
+            Notifications.GetSubjectById += OnGetSubjectById;
+            Notifications.ChangeView += OnChangeView;
+            Notifications.SendRequestToUser += OnSendRequestToUser;
+        }
+
+        private void OnSendRequestToUser(TableUser UserToNotify)
+        {
+            NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
+            Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
         private async void GetWorkflow()
@@ -169,7 +178,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentAnnotation = new Annotation(CurrentTaskIndex, Button.Index);
         }
 
-        public async void GetSubjectById(string subjectID)
+        private async void OnGetSubjectById(string subjectID)
         {
             TotalVotes = 0;
             CurrentSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
@@ -201,13 +210,18 @@ namespace GalaxyZooTouchTable.ViewModels
         private void PrepareForNewClassification()
         {
             GetSubject();
-            CurrentView = ClassifierViewEnum.SubjectView;
+            OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
         }
 
         private void ToggleCloseConfirmation(object sender)
         {
             CloseConfirmationVisible = !CloseConfirmationVisible;
+        }
+
+        private void OnChangeView(ClassifierViewEnum view)
+        {
+            CurrentView = view;
         }
 
         private async void OnContinueClassification(object sender)
@@ -221,7 +235,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 Messenger.Default.Send<int>(ClassificationsThisSession, $"{User.Name}_IncrementCount");
-                CurrentView = ClassifierViewEnum.SummaryView;
+                OnChangeView(ClassifierViewEnum.SummaryView);
                 HandleNotificationsOnSubmit();
             }
             else
@@ -387,6 +401,14 @@ namespace GalaxyZooTouchTable.ViewModels
                     TotalVotes += answerCount;
                 }
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyRaised(string propertyname)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }

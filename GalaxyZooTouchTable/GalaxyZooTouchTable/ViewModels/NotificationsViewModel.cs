@@ -1,6 +1,7 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -15,20 +16,12 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ResetNotifications { get; private set; }
         public ICommand ToggleButtonNotification { get; private set; }
         public ICommand ToggleNotifier { get; private set; }
+        public event Action<string> GetSubjectById = delegate { };
+        public event Action<ClassifierViewEnum> ChangeView = delegate { };
+        public event Action<TableUser> SendRequestToUser = delegate { };
         string SubjectIdToExamine { get; set; }
 
         public ObservableCollection<TableUser> AvailableUsers { get; private set; }
-
-        private ClassificationPanelViewModel _classifier;
-        public ClassificationPanelViewModel Classifier
-        {
-            get { return _classifier; }
-            set
-            {
-                _classifier = value;
-                OnPropertyRaised("Classifier");
-            }
-        }
 
         private TableUser _cooperatingPeer;
         public TableUser CooperatingPeer
@@ -85,9 +78,8 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public NotificationsViewModel(TableUser user, ClassificationPanelViewModel classifier)
+        public NotificationsViewModel(TableUser user)
         {
-            Classifier = classifier;
             User = user;
 
             RegisterMessengerActions(user);
@@ -150,8 +142,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAcceptGalaxy(object sender)
         {
-            Classifier.CurrentView = ClassifierViewEnum.SubjectView;
-            Classifier.GetSubjectById(SubjectIdToExamine);
+            ChangeView(ClassifierViewEnum.SubjectView);
+            GetSubjectById(SubjectIdToExamine);
             CooperatingPeer.Status = NotificationStatus.AcceptedHelp;
             OpenNotifier = false;
             User.Status = NotificationStatus.HelpingUser;
@@ -169,9 +161,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnNotifyUser(object sender)
         {
             TableUser UserToNotify = sender as TableUser;
-            NotificationRequest Request = new NotificationRequest(User, Classifier.CurrentSubject.Id);
-
-            Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
+            SendRequestToUser(UserToNotify);
             CooperatingPeer = UserToNotify;
             OpenNotifier = false;
             User.Status = NotificationStatus.HelpRequestSent;
