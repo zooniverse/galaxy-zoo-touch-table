@@ -53,30 +53,6 @@ namespace GalaxyZooTouchTable.Models
         }
     }
 
-    static class TableUserFactory
-    {
-        public static TableUser Create(UserType type)
-        {
-            switch (type)
-            {
-                case UserType.Person:
-                    return new PersonUser();
-                case UserType.Star:
-                    return new StarUser();
-                case UserType.Earth:
-                    return new EarthUser();
-                case UserType.Light:
-                    return new LightUser();
-                case UserType.Face:
-                    return new FaceUser();
-                case UserType.Heart:
-                    return new HeartUser();
-                default:
-                    return new HeartUser();
-            }
-        }
-    }
-
     public class PersonUser : TableUser
     {
         public override string Name => "PersonUser";

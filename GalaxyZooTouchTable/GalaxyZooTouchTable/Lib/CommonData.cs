@@ -9,12 +9,12 @@ namespace GalaxyZooTouchTable.Lib
     {
         private static CommonData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
-        public TableUser PersonUser = TableUserFactory.Create(UserType.Person);
-        public TableUser LightUser = TableUserFactory.Create(UserType.Light);
-        public TableUser StarUser = TableUserFactory.Create(UserType.Star);
-        public TableUser HeartUser = TableUserFactory.Create(UserType.Heart);
-        public TableUser FaceUser = TableUserFactory.Create(UserType.Face);
-        public TableUser EarthUser = TableUserFactory.Create(UserType.Earth);
+        public TableUser PersonUser = new PersonUser();
+        public TableUser LightUser = new LightUser();
+        public TableUser StarUser = new StarUser();
+        public TableUser HeartUser = new HeartUser();
+        public TableUser FaceUser = new FaceUser();
+        public TableUser EarthUser = new EarthUser();
 
         protected CommonData()
         {
