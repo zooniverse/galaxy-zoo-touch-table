@@ -8,79 +8,19 @@ namespace GalaxyZooTouchTable.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
+        public CenterpieceViewModel CenterpieceViewModel { get; private set; } = new CenterpieceViewModel();
 
-        private ClassificationPanelViewModel _personUserVM;
-        public ClassificationPanelViewModel PersonUserVM
-        {
-            get { return _personUserVM; }
-            set
-            {
-                _personUserVM = value;
-                OnPropertyRaised("PersonUserVM");
-            }
-        }
+        public ClassificationPanelViewModel PersonUserVM { get; private set; }
+        public ClassificationPanelViewModel FaceUserVM { get; private set; }
+        public ClassificationPanelViewModel LightUserVM { get; private set; }
+        public ClassificationPanelViewModel StarUserVM { get; private set; }
+        public ClassificationPanelViewModel HeartUserVM { get; private set; }
+        public ClassificationPanelViewModel EarthUserVM { get; private set; }
 
-        private ClassificationPanelViewModel _faceUserVM;
-        public ClassificationPanelViewModel FaceUserVM
-        {
-            get { return _faceUserVM; }
-            set
-            {
-                _faceUserVM = value;
-                OnPropertyRaised("FaceUserVM");
-            }
-        }
-
-        private ClassificationPanelViewModel _lightUserVM;
-        public ClassificationPanelViewModel LightUserVM
-        {
-            get { return _lightUserVM; }
-            set
-            {
-                _lightUserVM = value;
-                OnPropertyRaised("LightUserVM");
-            }
-        }
-
-        private ClassificationPanelViewModel _starUserVM;
-        public ClassificationPanelViewModel StarUserVM
-        {
-            get { return _starUserVM; }
-            set
-            {
-                _starUserVM = value;
-                OnPropertyRaised("StarUserVM");
-            }
-        }
-
-        private ClassificationPanelViewModel _heartUserVM;
-        public ClassificationPanelViewModel HeartUserVM
-        {
-            get { return _heartUserVM; }
-            set
-            {
-                _heartUserVM = value;
-                OnPropertyRaised("HeartUserVM");
-            }
-        }
-
-        private ClassificationPanelViewModel _earthUserVM;
-        public ClassificationPanelViewModel EarthUserVM
-        {
-            get { return _earthUserVM; }
-            set
-            {
-                _earthUserVM = value;
-                OnPropertyRaised("EarthUserVM");
-            }
-        }
-
-        public CenterpieceViewModel CenterpieceViewModel { get; set; }
 
         public MainWindowViewModel()
         {
             SetChildDataContext();
-            CenterpieceViewModel = new CenterpieceViewModel();
         }
 
         private void SetChildDataContext()
