@@ -1,17 +1,12 @@
 ﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Services;
-using System.ComponentModel;
-using Microsoft.Practices.Unity;
-using Unity;
 using GalaxyZooTouchTable.Models;
+using System.ComponentModel;
+using Unity;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private IPanoptesRepository _panoptesRepository = new PanoptesRepository();
-        public CenterpieceViewModel CenterpieceViewModel { get; private set; } = new CenterpieceViewModel();
-
         public ClassificationPanelViewModel PersonUserVM { get; private set; }
         public ClassificationPanelViewModel FaceUserVM { get; private set; }
         public ClassificationPanelViewModel LightUserVM { get; private set; }
@@ -19,13 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel HeartUserVM { get; private set; }
         public ClassificationPanelViewModel EarthUserVM { get; private set; }
 
-
         public MainWindowViewModel()
-        {
-            SetChildDataContext();
-        }
-
-        private void SetChildDataContext()
         {
             PersonUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Person);
             LightUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Light);

@@ -23,8 +23,10 @@ namespace GalaxyZooTouchTable.ViewModels
         public Subject CurrentSubject { get; set; }
         public WorkflowTask CurrentTask { get; set; }
         public string CurrentTaskIndex { get; set; }
+        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
         public LevelerViewModel LevelerViewModel { get; set; } = new LevelerViewModel();
+        public NotificationsViewModel Notifications { get; private set; }
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public TableUser User { get; set; }
