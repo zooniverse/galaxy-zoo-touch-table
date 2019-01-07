@@ -1,7 +1,9 @@
 ﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using System.ComponentModel;
+using Microsoft.Practices.Unity;
+using Unity;
+using GalaxyZooTouchTable.Models;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -25,12 +27,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void SetChildDataContext()
         {
-            PersonUserVM = new ClassificationPanelViewModel(_panoptesRepository, CommonData.GetInstance().PersonUser);
-            LightUserVM = new ClassificationPanelViewModel(_panoptesRepository, CommonData.GetInstance().LightUser);
-            StarUserVM = new ClassificationPanelViewModel(_panoptesRepository, CommonData.GetInstance().StarUser);
-            HeartUserVM = new ClassificationPanelViewModel(_panoptesRepository, CommonData.GetInstance().HeartUser);
-            FaceUserVM = new ClassificationPanelViewModel(_panoptesRepository, CommonData.GetInstance().FaceUser);
-            EarthUserVM = new ClassificationPanelViewModel(_panoptesRepository, CommonData.GetInstance().EarthUser);
+            PersonUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Person);
+            LightUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Light);
+            StarUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Star);
+            HeartUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Heart);
+            FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
+            EarthUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Earth);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
