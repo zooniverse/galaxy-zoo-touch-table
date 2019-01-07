@@ -21,8 +21,11 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Green" BorderThickness="1" CornerRadius="15" Width="30" Height="30"> 
-                        <Image Width="20" Height="20" Source="{Binding SubjectLocation}"/>
+                    <Border BorderBrush="{StaticResource AttentionColor}" BorderThickness="3" CornerRadius="28" Width="56" Height="56">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-28" Y="-28"/>
+                        </Border.RenderTransform>
+                        <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

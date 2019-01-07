@@ -11,6 +11,7 @@ namespace GalaxyZooTouchTable.Models
         public double DEC { get; set; }
         public string SubjectLocation { get; set; }
         private double PlateScale { get; set; } = 1.5;
+        private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
 
         public TableSubject(Subject subject, double TableRA, double TableDEC)
@@ -31,7 +32,7 @@ namespace GalaxyZooTouchTable.Models
             double RaRange = Math.Abs(ScreenWidth * PlateScale / 3600 / Math.Cos(TableDEC));
 
             double StartY = ((TableDEC - DEC) / DecRange * ScreenHeight) + (ScreenHeight / 2);
-            double StartX = ((TableRA - RA) / RaRange * ScreenWidth) + (ScreenWidth / 2);
+            double StartX = ((TableRA - RA) / (RaRange + Offset) * ScreenWidth) + (ScreenWidth / 2);
 
             Y = Convert.ToInt32(StartY);
             X = Convert.ToInt32(StartX);
