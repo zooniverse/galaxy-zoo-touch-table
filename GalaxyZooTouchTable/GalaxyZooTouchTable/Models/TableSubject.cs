@@ -1,5 +1,4 @@
 ﻿using PanoptesNetClient.Models;
-using System;
 
 namespace GalaxyZooTouchTable.Models
 {
@@ -10,14 +9,14 @@ namespace GalaxyZooTouchTable.Models
         public double RA { get; set; }
         public double DEC { get; set; }
         public string SubjectLocation { get; set; }
-        private double PlateScale { get; set; } = 1.5;
+        private readonly double PlateScale = 1.5;
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
 
         public TableSubject(Subject subject, double TableRA, double TableDEC)
         {
-            RA = Convert.ToDouble(subject.Metadata.ra);
-            DEC = Convert.ToDouble(subject.Metadata.dec);
+            RA = System.Convert.ToDouble(subject.Metadata.ra);
+            DEC = System.Convert.ToDouble(subject.Metadata.dec);
             Subject = subject;
             SubjectLocation = subject.GetSubjectLocation();
             XYConvert(TableRA, TableDEC);
@@ -29,18 +28,18 @@ namespace GalaxyZooTouchTable.Models
             int ScreenHeight = 432; 
 
             double DecRange = ScreenHeight * PlateScale / 3600;
-            double RaRange = Math.Abs(ScreenWidth * PlateScale / 3600 / Math.Cos(TableDEC));
+            double RaRange = System.Math.Abs(ScreenWidth * PlateScale / 3600 / System.Math.Cos(TableDEC));
 
             double StartY = ((TableDEC - DEC) / DecRange * ScreenHeight) + (ScreenHeight / 2);
             double StartX = ((TableRA - RA) / (RaRange + Offset) * ScreenWidth) + (ScreenWidth / 2);
 
-            Y = Convert.ToInt32(StartY);
-            X = Convert.ToInt32(StartX);
+            Y = System.Convert.ToInt32(StartY);
+            X = System.Convert.ToInt32(StartX);
         }
 
         private double ToRadians(double Degrees)
         {
-            return (Degrees * Math.PI) / 180.0;
+            return (Degrees * System.Math.PI) / 180.0;
         }
     }
 }

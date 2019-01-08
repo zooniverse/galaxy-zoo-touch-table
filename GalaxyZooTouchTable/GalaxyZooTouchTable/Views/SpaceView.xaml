@@ -10,7 +10,27 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=SpaceViewModel}">
-    <Canvas>
+
+    <UserControl.Resources>
+        <Style x:Key="MoveMapBorder" TargetType="{x:Type Border}">
+            <Setter Property="Width" Value="94"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="Background" Value="{StaticResource SuccessColor}"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <Style x:Key="MoveMapText" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Text" Value="Move map"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid>
         <Image Source="{Binding SpaceCutoutUrl}" Width="1248" Height="432"/>
 
         <ItemsControl ItemsSource="{Binding CurrentGalaxies}">
@@ -36,5 +56,30 @@
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
-    </Canvas>
+
+        <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Border.LayoutTransform>
+                <RotateTransform Angle="180"/>
+            </Border.LayoutTransform>
+            <TextBlock Style="{StaticResource MoveMapText}"/>
+        </Border>
+
+        <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Border.LayoutTransform>
+                <RotateTransform Angle="-90"/>
+            </Border.LayoutTransform>
+            <TextBlock Style="{StaticResource MoveMapText}"/>
+        </Border>
+
+        <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Border.LayoutTransform>
+                <RotateTransform Angle="90"/>
+            </Border.LayoutTransform>
+            <TextBlock Style="{StaticResource MoveMapText}"/>
+        </Border>
+
+        <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock Style="{StaticResource MoveMapText}"/>
+        </Border>
+    </Grid>
 </UserControl>
