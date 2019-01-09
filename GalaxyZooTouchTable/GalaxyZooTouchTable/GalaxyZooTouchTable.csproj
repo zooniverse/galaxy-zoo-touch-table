@@ -197,6 +197,8 @@
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
+    <Compile Include="Services\GraphQLRepository.cs" />
+    <Compile Include="Services\IGraphQLRepository.cs" />
     <Compile Include="Services\IPanoptesRepository.cs" />
     <Compile Include="Services\PanoptesRepository.cs" />
     <Compile Include="ViewModels\CenterpieceViewModel.cs" />

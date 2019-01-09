@@ -7,16 +7,18 @@ namespace GalaxyZooTouchTable.Models
 {
     public class ClassificationPanelViewModelFactory : IClassificationPanelViewModelFactory
     {
-        private IPanoptesRepository _repo;
+        private IPanoptesRepository _panoptesRepo;
+        private IGraphQLRepository _graphQLRepo;
 
-        public ClassificationPanelViewModelFactory(IPanoptesRepository repo)
+        public ClassificationPanelViewModelFactory(IPanoptesRepository panoptesRepo, IGraphQLRepository graphQLRepo)
         {
-            if (repo == null)
+            if (panoptesRepo == null || graphQLRepo == null)
             {
-                throw new ArgumentNullException("dependency");
+                throw new ArgumentNullException("RepoDependency");
             }
 
-            _repo = repo;
+            _panoptesRepo = panoptesRepo;
+            _graphQLRepo = graphQLRepo;
         }
 
         public ClassificationPanelViewModel Create(UserType type)
@@ -24,19 +26,19 @@ namespace GalaxyZooTouchTable.Models
             switch (type)
             {
                 case UserType.Person:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().PersonUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().PersonUser);
                 case UserType.Star:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().StarUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().StarUser);
                 case UserType.Earth:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().EarthUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().EarthUser);
                 case UserType.Light:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().LightUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().LightUser);
                 case UserType.Face:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().FaceUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().FaceUser);
                 case UserType.Heart:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().HeartUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().HeartUser);
                 default:
-                    return new ClassificationPanelViewModel(_repo, CommonData.GetInstance().HeartUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().HeartUser);
             }
         }
     }

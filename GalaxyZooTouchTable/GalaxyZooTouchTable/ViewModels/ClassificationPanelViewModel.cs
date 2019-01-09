@@ -2,8 +2,6 @@
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
-using GraphQL.Client.Http;
-using GraphQL.Common.Request;
 using GraphQL.Common.Response;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
@@ -16,18 +14,18 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        public DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
+        public DispatcherTimer StillThereTimer { get; set; }
         private int ClassificationsThisSession { get; set; } = 0;
         private Classification CurrentClassification { get; set; }
         private Subject CurrentSubject { get; set; }
         public string CurrentTaskIndex { get; set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
-        public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
         public LevelerViewModel LevelerViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
         public Workflow Workflow { get; set; }
+        public IGraphQLRepository _graphQLRepository;
         private IPanoptesRepository _panoptesRepository;
 
         public ICommand CloseClassifier { get; private set; }
@@ -117,9 +115,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(IPanoptesRepository repo, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesRepository panoptesRepo, IGraphQLRepository graphQLRepo, TableUser user)
         {
-            _panoptesRepository = repo;
+            _panoptesRepository = panoptesRepo;
+            _graphQLRepository = graphQLRepo;
             User = user;
 
             Notifications = new NotificationsViewModel(user);
@@ -177,7 +176,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
-            GraphQLRequest();
+            GetSubjectReductions();
         }
 
         private void OnOpenClassifier(object sender)
@@ -274,7 +273,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (StillThereTimer != null)
             {
-                StillThereTimer.Interval = new System.TimeSpan(0, 4, 30);
+                StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
                 StillThereTimer.Start();
             }
             if (StillThere.Visible) { StillThere.Visible = false; }
@@ -327,7 +326,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(CurrentSubject);
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
-            GraphQLRequest();
+            GetSubjectReductions();
         }
 
         private void ResetAnswerCount()
@@ -338,60 +337,28 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private async void GraphQLRequest()
+        private async void GetSubjectReductions()
         {
-            var answersRequest = new GraphQLRequest
-            {
-                Query = @"
-                    query AnswerCount($workflowId: ID!, $subjectId: ID!) {
-                      workflow(id: $workflowId) {
-                        subject_reductions(subjectId: $subjectId, reducerKey: T0_Stats) {
-                            data
-                        }
-                      }
-                    }",
-                OperationName = "AnswerCount",
-                Variables = new
-                {
-                    workflowId = Workflow.Id,
-                    subjectId = CurrentSubject.Id
-                }
-            };
-
-            ResetAnswerCount();
-            GraphQLResponse response = new GraphQLResponse();
-
-            try {
-                response = await GraphQLClient.SendQueryAsync(answersRequest);
-            }
-            catch (System.Exception e)
-            {
-                System.Console.WriteLine("Graph QL Error: {0}", e.Message);
-            }
+            GraphQLResponse response = await _graphQLRepository.GetReductionAsync(Workflow, CurrentSubject);
 
             if (response.Data != null)
             {
-                GetReductions(response);
-            }
-        }
+                var reductions = response.Data.workflow.subject_reductions;
 
-        private void GetReductions(GraphQLResponse response)
-        {
-            var reductions = response.Data.workflow.subject_reductions;
-
-            if (reductions.Count > 0)
-            {
-                var data = reductions.First.data;
-                foreach (var count in data)
+                if (reductions.Count > 0)
                 {
-                    var index = System.Convert.ToInt32(count.Name);
-                    AnswerButton Answer = CurrentAnswers[index];
+                    var data = reductions.First.data;
+                    foreach (var count in data)
+                    {
+                        var index = System.Convert.ToInt32(count.Name);
+                        AnswerButton Answer = CurrentAnswers[index];
 
 
-                    int answerCount = (int)count.Value;
-                    Answer.AnswerCount = answerCount;
+                        int answerCount = (int)count.Value;
+                        Answer.AnswerCount = answerCount;
 
-                    TotalVotes += answerCount;
+                        TotalVotes += answerCount;
+                    }
                 }
             }
         }

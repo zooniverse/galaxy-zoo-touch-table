@@ -1,9 +1,7 @@
-﻿using Unity;
-using Unity.Lifetime;
+﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
-using Microsoft.Practices.Unity;
-using GalaxyZooTouchTable.Models;
-using Unity.Injection;
+using Unity;
+using Unity.Lifetime;
 
 namespace GalaxyZooTouchTable.Lib
 {
@@ -14,6 +12,9 @@ namespace GalaxyZooTouchTable.Lib
         {
             _container = new UnityContainer();
             _container.RegisterType<IPanoptesRepository, PanoptesRepository>(
+                new ContainerControlledLifetimeManager());
+
+            _container.RegisterType<IGraphQLRepository, GraphQLRepository>(
                 new ContainerControlledLifetimeManager());
 
             _container.RegisterType<IClassificationPanelViewModelFactory, ClassificationPanelViewModelFactory>(
