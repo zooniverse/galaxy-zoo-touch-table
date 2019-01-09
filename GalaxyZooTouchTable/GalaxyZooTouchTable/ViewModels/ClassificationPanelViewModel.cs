@@ -14,19 +14,20 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        public DispatcherTimer StillThereTimer { get; set; }
+        private IGraphQLRepository _graphQLRepository;
+        private IPanoptesRepository _panoptesRepository;
         private int ClassificationsThisSession { get; set; } = 0;
         private Classification CurrentClassification { get; set; }
         private Subject CurrentSubject { get; set; }
-        public string CurrentTaskIndex { get; set; }
+        private string CurrentTaskIndex { get; set; }
+        private DispatcherTimer StillThereTimer { get; set; }
+        private List<Subject> Subjects { get; set; } = new List<Subject>();
+        private Workflow Workflow { get; set; }
+
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
         public LevelerViewModel LevelerViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
-        public List<Subject> Subjects { get; set; } = new List<Subject>();
         public TableUser User { get; set; }
-        public Workflow Workflow { get; set; }
-        public IGraphQLRepository _graphQLRepository;
-        private IPanoptesRepository _panoptesRepository;
 
         public ICommand CloseClassifier { get; private set; }
         public ICommand ContinueClassification { get; private set; }
@@ -123,7 +124,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
             Notifications = new NotificationsViewModel(user);
             LevelerViewModel = new LevelerViewModel(user);
-            StillThere = new StillThereViewModel(this);
+            StillThere = new StillThereViewModel();
 
             AddSubscribers();
             GetWorkflow();
@@ -137,6 +138,13 @@ namespace GalaxyZooTouchTable.ViewModels
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             Notifications.SendRequestToUser += OnSendRequestToUser;
+            StillThere.ResetFiveMinuteTimer += ResetTimer;
+            StillThere.CloseClassificationPanel += CloseClassificationPanel;
+        }
+
+        private void CloseClassificationPanel()
+        {
+            OnCloseClassifier();
         }
 
         private void OnSendRequestToUser(TableUser UserToNotify)
@@ -186,7 +194,7 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Active = true;
         }
 
-        public void OnCloseClassifier(object sender = null)
+        private void OnCloseClassifier(object sender = null)
         {
             Notifications.ClearNotifications(true);
             StillThereTimer = null;
@@ -273,7 +281,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (StillThereTimer != null)
             {
-                StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
+                StillThereTimer.Interval = new System.TimeSpan(0, 4, 30);
                 StillThereTimer.Start();
             }
             if (StillThere.Visible) { StillThere.Visible = false; }

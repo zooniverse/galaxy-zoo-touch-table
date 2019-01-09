@@ -1,6 +1,5 @@
 ﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
-using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -9,9 +8,10 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class StillThereViewModel : ViewModelBase
     {
-        public ClassificationPanelViewModel Classifier { get; set; }
         public DispatcherTimer SecondTimer { get; set; }
         public DispatcherTimer ThirtySecondTimer { get; set; }
+        public event System.Action CloseClassificationPanel = delegate { };
+        public event System.Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
 
         public ICommand CloseClassifier { get; set; }
@@ -48,9 +48,8 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public StillThereViewModel(ClassificationPanelViewModel classifier)
+        public StillThereViewModel()
         {
-            Classifier = classifier;
             Circle = new CircularProgress(41);
             LoadCommands();
             Circle.RenderArc(Percentage);
@@ -70,13 +69,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
-            Classifier.OnCloseClassifier();
+            CloseClassificationPanel();
         }
 
         private void OnCloseModal(object sender)
         {
             Visible = false;
-            Classifier.ResetTimer();
+            ResetFiveMinuteTimer();
         }
 
         private void StartTimers()
@@ -101,9 +100,9 @@ namespace GalaxyZooTouchTable.ViewModels
             ThirtySecondTimer.Stop();
         }
 
-        private void ThirtySecondsElapsed(object sender, EventArgs e)
+        private void ThirtySecondsElapsed(object sender, System.EventArgs e)
         {
-            Classifier.OnCloseClassifier();
+            CloseClassificationPanel();
             Visible = false;
         }
 
@@ -112,7 +111,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentSeconds--;
             decimal StartingSeconds = 30;
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
-            Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
+            Percentage = System.Convert.ToInt16(System.Math.Floor(PercentOfSeconds));
             Circle.RenderArc(Percentage);
         }
     }
