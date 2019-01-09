@@ -3,12 +3,11 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class NotificationsViewModel : INotifyPropertyChanged
+    public class NotificationsViewModel : ViewModelBase
     {
         public ICommand AcceptGalaxy { get; private set; }
         public ICommand DeclineGalaxy { get; private set; }
@@ -27,45 +26,29 @@ namespace GalaxyZooTouchTable.ViewModels
         private TableUser _cooperatingPeer;
         public TableUser CooperatingPeer
         {
-            get { return _cooperatingPeer; }
-            set
-            {
-                _cooperatingPeer = value;
-                OnPropertyRaised("CooperatingPeer");
-            }
+            get => _cooperatingPeer;
+            set => SetProperty(ref _cooperatingPeer, value);
         }
 
         private bool _hideButtonNotification = false;
         public bool HideButtonNotification
         {
-            get { return _hideButtonNotification; }
-            set
-            {
-                _hideButtonNotification = value;
-                OnPropertyRaised("HideButtonNotification");
-            }
+            get => _hideButtonNotification;
+            set => SetProperty(ref _hideButtonNotification, value);
         }
 
         private bool _openNotifier = false;
         public bool OpenNotifier
         {
-            get { return _openNotifier; }
-            set
-            {
-                _openNotifier = value;
-                OnPropertyRaised("OpenNotifier");
-            }
+            get => _openNotifier;
+            set => SetProperty(ref _openNotifier, value);
         }
 
         private string _suggestedAnswer;
         public string SuggestedAnswer
         {
-            get { return _suggestedAnswer; }
-            set
-            {
-                _suggestedAnswer = value;
-                OnPropertyRaised("SuggestedAnswer");
-            }
+            get => _suggestedAnswer;
+            set => SetProperty(ref _suggestedAnswer, value);
         }
 
         public NotificationsViewModel(TableUser user)
@@ -197,14 +180,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             Messenger.Default.Send<AnswerButton>(SelectedItem, $"{CooperatingPeer.Name}_ReceivedAnswer");
             User.Status = NotificationStatus.Idle;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }

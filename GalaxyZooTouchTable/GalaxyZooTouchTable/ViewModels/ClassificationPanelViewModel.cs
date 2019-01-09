@@ -16,19 +16,16 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        public ObservableCollection<TableUser> AllUsers { get; set; }
         public DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
-        public int ClassificationsThisSession { get; set; } = 0;
-        public Classification CurrentClassification { get; set; }
-        public Subject CurrentSubject { get; set; }
-        public WorkflowTask CurrentTask { get; set; }
+        private int ClassificationsThisSession { get; set; } = 0;
+        private Classification CurrentClassification { get; set; }
+        private Subject CurrentSubject { get; set; }
         public string CurrentTaskIndex { get; set; }
-        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
+        public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
         public GraphQLHttpClient GraphQLClient { get; set; } = new GraphQLHttpClient(Config.CaesarHost);
         public LevelerViewModel LevelerViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public List<Subject> Subjects { get; set; } = new List<Subject>();
-        public ExamplesPanelViewModel ExamplesViewModel { get; set; } = new ExamplesPanelViewModel();
         public TableUser User { get; set; }
         public Workflow Workflow { get; set; }
         private IPanoptesRepository _panoptesRepository;
@@ -42,19 +39,8 @@ namespace GalaxyZooTouchTable.ViewModels
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
         {
-            get { return _currentAnswers; }
-            set
-            {
-                _currentAnswers = value;
-                OnPropertyRaised("CurrentAnswers");
-            }
-        }
-
-        private NotificationsViewModel _notifications;
-        public NotificationsViewModel Notifications
-        {
-            get => _notifications;
-            set => SetProperty(ref _notifications, value);
+            get => _currentAnswers;
+            set => SetProperty(ref _currentAnswers, value);
         }
 
         private StillThereViewModel _stillThere;
@@ -134,12 +120,19 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel(IPanoptesRepository repo, TableUser user)
         {
             _panoptesRepository = repo;
-            GetWorkflow();
-            LoadCommands();
             User = user;
+
             Notifications = new NotificationsViewModel(user);
             LevelerViewModel = new LevelerViewModel(user);
             StillThere = new StillThereViewModel(this);
+
+            AddSubscribers();
+            GetWorkflow();
+            LoadCommands();
+        }
+
+        private void AddSubscribers()
+        {
             ExamplesViewModel.PropertyChanged += ResetTimer;
             LevelerViewModel.PropertyChanged += ResetTimer;
             Notifications.GetSubjectById += OnGetSubjectById;
@@ -157,7 +150,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
             PrepareForNewClassification();
-            CurrentTask = Workflow.Tasks[Workflow.FirstTask];
+            WorkflowTask CurrentTask = Workflow.Tasks[Workflow.FirstTask];
             CurrentTaskIndex = Workflow.FirstTask;
             CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
         }
@@ -401,14 +394,6 @@ namespace GalaxyZooTouchTable.ViewModels
                     TotalVotes += answerCount;
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }

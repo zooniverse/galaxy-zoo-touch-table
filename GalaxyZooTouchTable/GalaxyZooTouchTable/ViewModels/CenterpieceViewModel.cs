@@ -7,30 +7,22 @@ using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class CenterpieceViewModel : INotifyPropertyChanged
+    public class CenterpieceViewModel : ViewModelBase
     {
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
 
         private bool _showJoinMessage = true;
         public bool ShowJoinMessage
         {
-            get { return _showJoinMessage; }
-            set
-            {
-                _showJoinMessage = value;
-                OnPropertyRaised("ShowJoinMessage");
-            }
+            get => _showJoinMessage;
+            set => SetProperty(ref _showJoinMessage, value);
         }
 
         private bool _flipCenterpiece;
         public bool FlipCenterpiece
         {
-            get { return _flipCenterpiece; }
-            set
-            {
-                _flipCenterpiece = value;
-                OnPropertyRaised("FlipCenterpiece");
-            }
+            get => _flipCenterpiece;
+            set => SetProperty(ref _flipCenterpiece, value);
         }
 
         public CenterpieceViewModel()
@@ -90,14 +82,6 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnFlipCenterpiece(object sender, System.EventArgs e)
         {
             FlipCenterpiece = !FlipCenterpiece;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }
