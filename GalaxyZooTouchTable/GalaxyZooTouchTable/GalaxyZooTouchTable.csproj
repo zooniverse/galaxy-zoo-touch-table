@@ -167,6 +167,7 @@
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="Models\CircularProgress.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
     <Compile Include="Views\AskAFriendButtons.xaml.cs">
       <DependentUpon>AskAFriendButtons.xaml</DependentUpon>
@@ -174,6 +175,8 @@
     <Compile Include="Views\AskAFriendNotifier.xaml.cs">
       <DependentUpon>AskAFriendNotifier.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\StillThereViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
@@ -197,6 +200,9 @@
     </Compile>
     <Compile Include="Views\StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StillThereModal.xaml.cs">
+      <DependentUpon>StillThereModal.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SubjectViewer.xaml.cs">
       <DependentUpon>SubjectViewer.xaml</DependentUpon>
@@ -333,6 +339,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\RoundedProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StillThereModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

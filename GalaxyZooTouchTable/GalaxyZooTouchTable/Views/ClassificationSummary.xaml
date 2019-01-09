@@ -44,7 +44,7 @@
             ItemsSource="{Binding CurrentAnswers}"
             Margin="85,70,0,0"
             ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            SelectedItem="{Binding SelectedItem}"
+            SelectedItem="{Binding SelectedAnswer}"
             VerticalAlignment="Top"
             Width="217">
             <ListView.ItemContainerStyle>
