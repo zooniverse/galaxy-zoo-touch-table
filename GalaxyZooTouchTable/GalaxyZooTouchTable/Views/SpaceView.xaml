@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
+             xmlns:dd="clr-namespace:GalaxyZooTouchTable.DragDrop"
              mc:Ignorable="d" 
              Height="432"
              Width="1248"
@@ -41,7 +42,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{StaticResource AttentionColor}" BorderThickness="3" CornerRadius="28" Width="56" Height="56">
+                    <Border dd:DragDrop.IsDragSource="True" BorderBrush="{StaticResource AttentionColor}" BorderThickness="3" CornerRadius="28" Width="56" Height="56">
                         <Border.RenderTransform>
                             <TranslateTransform X="-28" Y="-28"/>
                         </Border.RenderTransform>
