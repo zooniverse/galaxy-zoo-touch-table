@@ -74,38 +74,58 @@ namespace GalaxyZooTouchTable.Behaviors
                 //Label l = e.Source as Label;
                 //l.DoDragDrop(this.AssociatedObject, System.Windows.Forms.DragDropEffects.Copy);
 
-                _rectangle = new Rectangle();
-                _rectangle.Width = 100;
-                _rectangle.Height = 100;
-                _rectangle.Fill = Brushes.Blue;
+                var rectangle = new Rectangle();
+                rectangle.Width = 100;
+                rectangle.Height = 100;
+                rectangle.Fill = Brushes.Blue;
 
                 var touchPosition = e.GetTouchPoint(DragOverlay);
 
-                DragOverlay.Children.Add(_rectangle);
-                DragCanvas.SetLeft(_rectangle, touchPosition.Position.X);
-                DragCanvas.SetTop(_rectangle, touchPosition.Position.Y);
 
-                DragOverlay.PreviewTouchMove += DragDropContainer_PreviewTouchMove;
-                DragOverlay.PreviewTouchUp += DragDropContainer_PreviewTouchUp;
+                DragOverlay.Children.Add(rectangle);
+                DragCanvas.SetLeft(rectangle, touchPosition.Position.X);
+                DragCanvas.SetTop(rectangle, touchPosition.Position.Y);
+
+
+                //DragOverlay.PreviewTouchMove += DragDropContainer_PreviewTouchMove;
+                EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_PreviewTouchMove(s, e, rectangle));
+                DragOverlay.PreviewTouchMove += moveHandler;
+
+                EventHandler<TouchEventArgs> upHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_PreviewTouchUp(s, e, rectangle));
+                //DragOverlay.PreviewTouchUp += DragDropContainer_PreviewTouchUp;
+                DragOverlay.PreviewTouchUp += upHandler;
+                DragOverlay.PreviewTouchUp += new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_Unsubscribe(s, e, moveHandler, upHandler));
             }
             isTouchDown = false;
         }
 
+        private void DragDropContainer_Unsubscribe(object s, TouchEventArgs e, EventHandler<TouchEventArgs> moveHandler, EventHandler<TouchEventArgs> upHandler)
+        {
+            DragOverlay.PreviewTouchMove -= moveHandler;
+            DragOverlay.PreviewTouchUp -= upHandler;
+        }
+
         private void FinalizePreviewControlMouseUp()
         {
-            DragOverlay.Children.Remove(_rectangle);
-            DragOverlay.PreviewTouchMove -= DragDropContainer_PreviewTouchMove;
-            DragOverlay.PreviewTouchUp -= DragDropContainer_PreviewTouchUp;
+            //DragOverlay.Children.Remove(_rectangle);
+            //DragOverlay.PreviewTouchMove -= DragDropContainer_PreviewTouchMove;
+            //DragOverlay.PreviewTouchUp -= DragDropContainer_PreviewTouchUp;
         }
 
-        private void DragDropContainer_PreviewTouchMove(object sender, TouchEventArgs e)
+        private void DragDropContainer_PreviewTouchMove(object sender, TouchEventArgs e, Rectangle rectangle)
         {
+            Console.WriteLine("PREVIEW MOVE");
+            var touchPosition = e.GetTouchPoint(DragOverlay);
+            DragCanvas.SetLeft(rectangle, touchPosition.Position.X);
+            DragCanvas.SetTop(rectangle, touchPosition.Position.Y);
         }
 
-        private void DragDropContainer_PreviewTouchUp(object sender, TouchEventArgs e)
+        private void DragDropContainer_PreviewTouchUp(object sender, TouchEventArgs e, Rectangle rectangle)
         {
+            Console.WriteLine("PREVIEW UP");
+            DragOverlay.Children.Remove(rectangle);
             // TODO: Fix this to handle multiple subscribers. It currently remove subscription for any in progress drag
-            FinalizePreviewControlMouseUp();
+            //FinalizePreviewControlMouseUp();
         }
 
         private void AssociatedObject_TouchDown(object sender, TouchEventArgs e)
