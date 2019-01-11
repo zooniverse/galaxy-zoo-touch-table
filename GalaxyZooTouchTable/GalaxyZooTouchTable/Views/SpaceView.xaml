@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:dd="clr-namespace:GalaxyZooTouchTable.DragDrop"
+             xmlns:local="clr-namespace:GalaxyZooTouchTable"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              Height="432"
              Width="1248"
@@ -30,8 +32,8 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
-    
-    <Grid>
+
+    <Grid x:Name="OverlayCanvas">
         <Image Source="{Binding SpaceCutoutUrl}" Width="1248" Height="432"/>
 
         <ItemsControl ItemsSource="{Binding CurrentGalaxies}">
@@ -42,12 +44,32 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border dd:DragDrop.IsDragSource="True" BorderBrush="{StaticResource AttentionColor}" BorderThickness="3" CornerRadius="28" Width="56" Height="56">
+                    <Border BorderBrush="{StaticResource AttentionColor}"
+                            BorderThickness="3"
+                            CornerRadius="28"
+                            Width="56"
+                            Height="56">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:UIElementDragBehavior DragOverlay="{Binding ElementName=OverlayCanvas}"/>
+                        </i:Interaction.Behaviors>
                         <Border.RenderTransform>
                             <TranslateTransform X="-28" Y="-28"/>
                         </Border.RenderTransform>
                         <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
                     </Border>
+                    <!--<Border dd:DragDrop.IsDragSource="True"
+                            dd:DragDrop.DragDropPreviewControl="{StaticResource DragPreviewControl}"
+                            dd:DragDrop.DragDropContainer="{Binding ElementName=OverlayCanvas}"
+                            BorderBrush="{StaticResource AttentionColor}"
+                            BorderThickness="3"
+                            CornerRadius="28"
+                            Width="56"
+                            Height="56">
+                        <Border.RenderTransform>
+                            <TranslateTransform X="-28" Y="-28"/>
+                        </Border.RenderTransform>
+                        <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
+                    </Border>-->
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

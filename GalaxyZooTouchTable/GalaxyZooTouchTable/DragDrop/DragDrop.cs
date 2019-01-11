@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +49,7 @@ namespace GalaxyZooTouchTable.DragDrop
             return (Boolean)element.GetValue(IsDragSourceProperty);
         }
 
-        public static void SetIsDragSource(DependencyObject element, Boolean value)
+                public static void SetIsDragSource(DependencyObject element, Boolean value)
         {
             element.SetValue(IsDragSourceProperty, value);
         }
@@ -93,9 +94,14 @@ namespace GalaxyZooTouchTable.DragDrop
             {
                 return; //only drag when the user moved the mouse by a reasonable amount
             }
-
-            _dragDropPreviewControl = GetDragDropPreviewControl(sender as DependencyObject);
+            Console.WriteLine("PREVIEW CONTROL");
+            Console.WriteLine(_dragDropPreviewControl);
+            _dragDropPreviewControl = (DragDropPreviewBase)GetDragDropPreviewControl(sender as DependencyObject);
             _dragDropPreviewControl.DataContext = _dragDropPreviewControlDataContext;
+
+            TableSubject test = _dragDropPreviewControlDataContext as TableSubject;
+            Console.WriteLine(test.DEC);
+
             _dragDropPreviewControl.Opacity = 0.7;
 
             _dragDropContainer.Children.Add(_dragDropPreviewControl);
@@ -103,7 +109,6 @@ namespace GalaxyZooTouchTable.DragDrop
 
             //offset it just a bit so it looks like it's underneath the mouse
             Mouse.OverrideCursor = Cursors.Hand;
-
 
             Canvas.SetLeft(_dragDropPreviewControl, _initialMousePosition.Position.X - 20);
             Canvas.SetTop(_dragDropPreviewControl, _initialMousePosition.Position.Y - 15);
@@ -323,6 +328,11 @@ namespace GalaxyZooTouchTable.DragDrop
             return (Panel)element.GetValue(DragDropContainerProperty);
         }
 
+        public static void SetDragDropContainer(DependencyObject element, Panel value)
+        {
+            element.SetValue(DragDropContainerProperty, value);
+        }
+
         public static UIElement GetDropTarget(DependencyObject element)
         {
             return (UIElement)element.GetValue(DropTargetProperty);
@@ -341,6 +351,11 @@ namespace GalaxyZooTouchTable.DragDrop
         public static DragDropPreviewBase GetDragDropPreviewControl(DependencyObject element)
         {
             return (DragDropPreviewBase)element.GetValue(DragDropPreviewControlProperty);
+        }
+
+        public static void SetDragDropPreviewControl(DependencyObject element, DragDropPreviewBase value)
+        {
+            element.SetValue(DragDropPreviewControlProperty, value);
         }
 
         public static Boolean IsMovementBigEnough(TouchPoint initialMousePosition, TouchPoint currentPosition)

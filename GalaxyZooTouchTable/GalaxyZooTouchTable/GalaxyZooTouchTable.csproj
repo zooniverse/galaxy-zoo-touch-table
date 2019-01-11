@@ -182,6 +182,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\UIElementDragBehavior.cs" />
+    <Compile Include="Behaviors\UIElementDropAdorner.cs" />
+    <Compile Include="Behaviors\UIElementDropBehavior.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\FontSizeConverter.cs" />
     <Compile Include="Converters\HidePanelConverter.cs" />
@@ -192,6 +195,9 @@
     <Compile Include="DragDrop\DragDrop.cs" />
     <Compile Include="DragDrop\DragDropPreviewBase.cs" />
     <Compile Include="DragDrop\DropState.cs" />
+    <Compile Include="DragPreview.xaml.cs">
+      <DependentUpon>DragPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Lib\ClassifierViewEnum.cs" />
     <Compile Include="Lib\GlobalData.cs" />
     <Compile Include="Lib\ContainerHelper.cs" />
@@ -333,6 +339,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DragPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AskAFriendButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
