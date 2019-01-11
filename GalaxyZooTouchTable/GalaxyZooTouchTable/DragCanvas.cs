@@ -1,9 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace GalaxyZooTouchTable
 {
-    public class DragCanvas : Grid
+    public class DragCanvas : Canvas
     {
         /// <summary>
         /// 

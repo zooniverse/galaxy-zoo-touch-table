@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
@@ -15,14 +12,14 @@ namespace GalaxyZooTouchTable.Behaviors
         private bool isTouchDown = false;
         private Rectangle _rectangle { get; set; }
 
-        public Grid DragOverlay
+        public DragCanvas DragOverlay
         {
-            get { return (Grid)GetValue(DragOverlayProperty); }
+            get { return (DragCanvas)GetValue(DragOverlayProperty); }
             set { SetValue(DragOverlayProperty, value); }
         }
 
         public static readonly DependencyProperty DragOverlayProperty = DependencyProperty.Register(
-            "DragOverlay", typeof(Grid), typeof(UIElementDragBehavior));
+            "DragOverlay", typeof(DragCanvas), typeof(UIElementDragBehavior));
 
         protected override void OnAttached()
         {
@@ -36,6 +33,14 @@ namespace GalaxyZooTouchTable.Behaviors
             AssociatedObject.PreviewTouchUp += AssociatedObject_PreviewTouchUp;
         }
 
+        public static FrameworkElement FindAncestor(Type ancestorType, Visual visual)
+        {
+            while (visual != null && !ancestorType.IsInstanceOfType(visual))
+            {
+                visual = (Visual)VisualTreeHelper.GetParent(visual);
+            }
+            return visual as FrameworkElement;
+        }
 
         private void AssociatedObject_PreviewTouchUp(object sender, TouchEventArgs e)
         {
@@ -48,7 +53,6 @@ namespace GalaxyZooTouchTable.Behaviors
 
         private void AssociatedObject_PreviewTouchMove(object sender, TouchEventArgs e)
         {
-
         }
 
         private void AssociatedObject_TouchUp(object sender, TouchEventArgs e)
@@ -58,7 +62,12 @@ namespace GalaxyZooTouchTable.Behaviors
 
         private void AssociatedObject_TouchLeave(object sender, TouchEventArgs e)
         {
-            Console.WriteLine("TOUCH LEAVE");
+            if (DragOverlay == null)
+            {
+                var visual = e.OriginalSource as Visual;
+                DragOverlay = (DragCanvas)UIElementDragBehavior.FindAncestor(typeof(DragCanvas), visual);
+            }
+
             if (isTouchDown)
             {
                 e.Handled = true;
@@ -70,7 +79,11 @@ namespace GalaxyZooTouchTable.Behaviors
                 _rectangle.Height = 100;
                 _rectangle.Fill = Brushes.Blue;
 
+                var touchPosition = e.GetTouchPoint(DragOverlay);
+
                 DragOverlay.Children.Add(_rectangle);
+                DragCanvas.SetLeft(_rectangle, touchPosition.Position.X);
+                DragCanvas.SetTop(_rectangle, touchPosition.Position.Y);
 
                 DragOverlay.PreviewTouchMove += DragDropContainer_PreviewTouchMove;
                 DragOverlay.PreviewTouchUp += DragDropContainer_PreviewTouchUp;

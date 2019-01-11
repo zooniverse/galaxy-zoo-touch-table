@@ -33,7 +33,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="OverlayCanvas">
+    <Grid>
         <Image Source="{Binding SpaceCutoutUrl}" Width="1248" Height="432"/>
 
         <ItemsControl ItemsSource="{Binding CurrentGalaxies}">
