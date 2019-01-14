@@ -74,7 +74,9 @@
             VerticalAlignment="Top"
             Width="122">
 
-            <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
+            <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}">
+                
+            </Image>
         </Border>
 
         <Image

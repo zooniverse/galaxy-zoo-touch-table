@@ -50,7 +50,7 @@
                             Width="56"
                             Height="56">
                         <i:Interaction.Behaviors>
-                            <Behaviors:UIElementDragBehavior DragOverlay="{Binding ElementName=OverlayCanvas}"/>
+                            <Behaviors:UIElementDragBehavior DragOverlay="{Binding ElementName=OverlayCanvas}" DroppableAreas="{Binding DropZones}"/>
                         </i:Interaction.Behaviors>
                         <Border.RenderTransform>
                             <TranslateTransform X="-28" Y="-28"/>
