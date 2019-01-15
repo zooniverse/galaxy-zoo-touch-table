@@ -1,44 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interactivity;
+using System.Windows.Media;
 
 namespace GalaxyZooTouchTable.Behaviors
 {
     public class UIElementDropBehavior : Behavior<UIElement>
     {
+        private List<DependencyObject> hitResultsList = new List<DependencyObject>();
+
         protected override void OnAttached()
         {
             base.OnAttached();
 
-            AssociatedObject.AllowDrop = true;
-            AssociatedObject.DragEnter += AssociatedObject_DragEnter;
-            AssociatedObject.DragOver += AssociatedObject_DragOver;
-            AssociatedObject.DragLeave += AssociatedObject_DragLeave;
-            AssociatedObject.Drop += AssociatedObject_Drop;
+            AssociatedObject.TouchUp += AssociatedObject_TouchUp;
+            AssociatedObject.TouchEnter += AssociatedObject_TouchEnter;
+            AssociatedObject.TouchLeave += AssociatedObject_TouchLeave;
         }
 
-        private void AssociatedObject_Drop(object sender, DragEventArgs e)
+        private void AssociatedObject_TouchUp(object sender, TouchEventArgs e)
         {
-            e.Handled = true;
+            Console.WriteLine("TOUCH Up");
         }
 
-        private void AssociatedObject_DragLeave(object sender, DragEventArgs e)
+        private void AssociatedObject_TouchLeave(object sender, TouchEventArgs e)
         {
-            e.Handled = true;
+            Border element = sender as Border;
+            element.BorderBrush = Brushes.White;
         }
 
-        private void AssociatedObject_DragOver(object sender, DragEventArgs e)
+        private void AssociatedObject_TouchEnter(object sender, TouchEventArgs e)
         {
-            e.Handled = true;
+            var touchPosition = e.GetTouchPoint(sender as FrameworkElement);
+            var point = new Point(touchPosition.Position.X, touchPosition.Position.Y);
+
+            VisualTreeHelper.HitTest(sender as FrameworkElement, null,
+                new HitTestResultCallback(MyHitTestResult),
+                new PointHitTestParameters(point));
+
+            Console.WriteLine(hitResultsList);
+
+            Border element = sender as Border;
+            element.BorderBrush = Brushes.Red;
         }
 
-        private void AssociatedObject_DragEnter(object sender, DragEventArgs e)
+        public HitTestResultBehavior MyHitTestResult(HitTestResult result)
         {
-            e.Handled = true;
+            hitResultsList.Add(result.VisualHit);
+
+            return HitTestResultBehavior.Continue;
         }
     }
 }

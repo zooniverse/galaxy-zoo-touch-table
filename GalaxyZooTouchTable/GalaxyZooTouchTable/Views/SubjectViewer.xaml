@@ -7,6 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -73,10 +74,10 @@
             Margin="14,45,0,0" 
             VerticalAlignment="Top"
             Width="122">
-
-            <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}">
-                
-            </Image>
+            <i:Interaction.Behaviors>
+                <Behaviors:UIElementDropBehavior/>
+            </i:Interaction.Behaviors>
+            <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
         </Border>
 
         <Image
