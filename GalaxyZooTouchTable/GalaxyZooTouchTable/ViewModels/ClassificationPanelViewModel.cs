@@ -139,12 +139,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Notifications.ChangeView += OnChangeView;
             Notifications.SendRequestToUser += OnSendRequestToUser;
             StillThere.ResetFiveMinuteTimer += ResetTimer;
-            StillThere.CloseClassificationPanel += CloseClassificationPanel;
-        }
-
-        private void CloseClassificationPanel()
-        {
-            OnCloseClassifier();
+            StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
 
         private void OnSendRequestToUser(TableUser UserToNotify)
@@ -194,7 +189,7 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Active = true;
         }
 
-        private void OnCloseClassifier(object sender = null)
+        private void OnCloseClassifier(object sender)
         {
             Notifications.ClearNotifications(true);
             StillThereTimer = null;

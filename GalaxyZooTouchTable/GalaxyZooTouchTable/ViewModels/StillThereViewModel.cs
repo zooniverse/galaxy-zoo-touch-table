@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public DispatcherTimer SecondTimer { get; set; }
         public DispatcherTimer ThirtySecondTimer { get; set; }
-        public event Action CloseClassificationPanel = delegate { };
+        public event Action<object> CloseClassificationPanel = delegate { };
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
 
@@ -70,7 +70,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
-            CloseClassificationPanel();
+            CloseClassificationPanel(sender);
         }
 
         private void OnCloseModal(object sender)
@@ -103,7 +103,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ThirtySecondsElapsed(object sender, EventArgs e)
         {
-            CloseClassificationPanel();
+            CloseClassificationPanel(sender);
             Visible = false;
         }
 
