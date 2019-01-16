@@ -1,46 +1,22 @@
-﻿using GalaxyZooTouchTable.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace GalaxyZooTouchTable.Behaviors
 {
     public class UIElementDragBehavior : Behavior<UIElement>
     {
         private bool isTouchDown = false;
-        private Rectangle _rectangle { get; set; }
         List<DependencyObject> hitResultsList = new List<DependencyObject>();
-
-        public List<FrameworkElement> DroppableAreas
-        {
-            get { return (List<FrameworkElement>)GetValue(DroppableAreasProperty); }
-            set { SetValue(DroppableAreasProperty, value); }
-        }
-
-        public DragCanvas DragOverlay
-        {
-            get { return (DragCanvas)GetValue(DragOverlayProperty); }
-            set { SetValue(DragOverlayProperty, value); }
-        }
-
-        public static readonly DependencyProperty DroppableAreasProperty = DependencyProperty.Register(
-            "DroppableAreas", typeof(List<FrameworkElement>), typeof(UIElementDragBehavior));
-
-        public static readonly DependencyProperty DragOverlayProperty = DependencyProperty.Register(
-            "DragOverlay", typeof(DragCanvas), typeof(UIElementDragBehavior));
+        DragCanvas DragOverlay { get; set; }
 
         protected override void OnAttached()
         {
             base.OnAttached();
-
             AssociatedObject.TouchDown += AssociatedObject_TouchDown;
             AssociatedObject.TouchLeave += AssociatedObject_TouchLeave;
             AssociatedObject.TouchUp += AssociatedObject_TouchUp;
@@ -60,6 +36,11 @@ namespace GalaxyZooTouchTable.Behaviors
             isTouchDown = false;
         }
 
+        private void AssociatedObject_TouchDown(object sender, TouchEventArgs e)
+        {
+            isTouchDown = true;
+        }
+
         private void AssociatedObject_TouchLeave(object sender, TouchEventArgs e)
         {
             if (DragOverlay == null)
@@ -67,63 +48,53 @@ namespace GalaxyZooTouchTable.Behaviors
                 var visual = e.OriginalSource as Visual;
                 DragOverlay = (DragCanvas)UIElementDragBehavior.FindAncestor(typeof(DragCanvas), visual);
             }
-            Border test = sender as Border;
-            var DataContext = test.DataContext;
 
             if (isTouchDown)
             {
-                var touchPosition = e.GetTouchPoint(DragOverlay);
-                var initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
-                FrameworkElement element = sender as FrameworkElement;
+                TouchPoint touchPosition = e.GetTouchPoint(DragOverlay);
+                Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
+                FrameworkElement adornedElement = sender as FrameworkElement;
 
-                var myAdornerLayer = AdornerLayer.GetAdornerLayer(sender as Visual);
-                SimpleCircleAdorner adorner = new SimpleCircleAdorner(element, initialPoint);
-                adorner.IsHitTestVisible = false;
-                myAdornerLayer.Add(adorner);
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
+                GalaxyAdorner adorner = new GalaxyAdorner(adornedElement, initialPoint);
+                adornerLayer.Add(adorner);
 
-                EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_PreviewTouchMove(s, e, adorner));
-                DragOverlay.PreviewTouchMove += moveHandler;
+                EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchMove(s, e, adorner));
+                EventHandler<TouchEventArgs> upHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchUp(s, evt, adorner, adornedElement));
+                EventHandler<TouchEventArgs> unsubscribeHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_Unsubscribe(s, e, moveHandler, upHandler, adorner));
+                adorner.UnsubscribeEvent = unsubscribeHandler;
 
-                EventHandler<TouchEventArgs> upHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_PreviewTouchUp(s, evt, adorner, element));
-                DragOverlay.PreviewTouchUp += upHandler;
-
-                DragOverlay.PreviewTouchUp += new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_Unsubscribe(s, e, moveHandler, upHandler, adorner));
+                DragOverlay.TouchMove += moveHandler;
+                DragOverlay.TouchUp += upHandler;
+                DragOverlay.TouchUp += unsubscribeHandler;
             }
             isTouchDown = false;
         }
 
-        private void DragDropContainer_Unsubscribe(object s, TouchEventArgs e, EventHandler<TouchEventArgs> moveHandler, EventHandler<TouchEventArgs> upHandler, SimpleCircleAdorner adorner)
+        private void DragDropContainer_Unsubscribe(object s, TouchEventArgs e, EventHandler<TouchEventArgs> moveHandler, EventHandler<TouchEventArgs> upHandler, GalaxyAdorner adorner)
         {
             if (adorner.Parent == null)
             {
-                DragOverlay.PreviewTouchMove -= moveHandler;
-                DragOverlay.PreviewTouchUp -= upHandler;
+                DragOverlay.TouchMove -= moveHandler;
+                DragOverlay.TouchUp -= upHandler;
+                DragOverlay.TouchUp -= adorner.UnsubscribeEvent;
             }
         }
 
-        private void DragDropContainer_PreviewTouchMove(object sender, TouchEventArgs e, SimpleCircleAdorner adorner)
+        private void DragDropContainer_TouchMove(object sender, TouchEventArgs e, GalaxyAdorner adorner)
         {
             var touchPosition = e.GetTouchPoint(DragOverlay);
-            var point = new Point(touchPosition.Position.X, touchPosition.Position.Y);
-            adorner.UpdatePosition(point);
-            //DragCanvas.SetLeft(rectangle, touchPosition.Position.X - 50);
-            //DragCanvas.SetTop(rectangle, touchPosition.Position.Y - 50);
+            var adornerLocation = new Point(touchPosition.Position.X, touchPosition.Position.Y);
+            adorner.UpdatePosition(adornerLocation);
         }
 
-        private void DragDropContainer_PreviewTouchUp(object sender, TouchEventArgs e, SimpleCircleAdorner adorner, UIElement element)
+        private void DragDropContainer_TouchUp(object sender, TouchEventArgs e, GalaxyAdorner adorner, UIElement element)
         {
             var touchPosition = e.GetTouchPoint(DragOverlay);
             Point touchPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
 
-            AdornerLayer myAdornerLayer = AdornerLayer.GetAdornerLayer(sender as Visual);
-
-            Point adornerTopLeft = adorner.location;
-            Point adornerTopRight = new Point(adorner.location.X + adorner.ActualWidth, adorner.location.Y);
-            Point adornerBottomLeft = new Point(adorner.location.X, adorner.location.Y + adorner.ActualHeight);
-            Point adornerBottomRight = new Point(adorner.location.X + adorner.ActualWidth, adorner.location.Y + adorner.ActualHeight);
-
-            if (touchPoint.X >= adornerTopLeft.X && touchPoint.X <= adornerTopRight.X
-                && touchPoint.Y >= adornerTopLeft.Y && touchPoint.Y <= adornerBottomLeft.Y)
+            if (touchPoint.X >= adorner.Location.X && touchPoint.X <= adorner.Location.X + adorner.ActualWidth
+                && touchPoint.Y >= adorner.Location.Y && touchPoint.Y <= adorner.Location.Y + adorner.ActualHeight)
             {
                 AdornerLayer.GetAdornerLayer(sender as Visual).Remove(adorner);
 
@@ -146,66 +117,33 @@ namespace GalaxyZooTouchTable.Behaviors
         public HitTestResultBehavior MyHitTestResult(HitTestResult result)
         {
             hitResultsList.Add(result.VisualHit);
-
             return HitTestResultBehavior.Continue;
         }
 
-        private void OnGiveFeedback(object sender, GiveFeedbackEventArgs e)
+        public class GalaxyAdorner : Adorner
         {
-            throw new NotImplementedException();
-        }
+            public Point Location;
+            public Point Offset;
+            public EventHandler<TouchEventArgs> UnsubscribeEvent { get; set; }
 
-        private void AssociatedObject_TouchDown(object sender, TouchEventArgs e)
-        {
-            isTouchDown = true;
-        }
-
-        public class SimpleCircleAdorner : Adorner
-        {
-            public Point location;
-            public Point offset;
-
-            public static DependencyProperty SubjectProperty =
-                DependencyProperty.Register("Subject", typeof(TableSubject), typeof(SimpleCircleAdorner));
-
-            // Be sure to call the base class constructor.
-            public SimpleCircleAdorner(FrameworkElement adornedElement, Point offset)
+            public GalaxyAdorner(FrameworkElement adornedElement, Point offset)
               : base(adornedElement)
             {
-                this.offset = offset;
-                this.DataContext = adornedElement.DataContext;
-
-                this.SetUpBindings();
-            }
-
-            private void SetUpBindings()
-            {
-                BindingOperations.SetBinding(this,
-                    SimpleCircleAdorner.SubjectProperty,
-                    new Binding()
-                    {
-                        Path = new PropertyPath("DataContext"),
-                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                    });
+                Offset = offset;
+                DataContext = adornedElement.DataContext;
+                IsHitTestVisible = false;
             }
 
             public void UpdatePosition(Point location)
             {
-                this.location = location;
-
+                Location = location;
                 this.InvalidateVisual();
-            }
-
-            public TableSubject Subject
-            {
-                get { return (TableSubject)this.GetValue(SimpleCircleAdorner.SubjectProperty); }
-                set { this.SetValue(SimpleCircleAdorner.SubjectProperty, value); }
             }
 
             protected override void OnRender(DrawingContext drawingContext)
             {
-                var adornerLocation = location;
-                adornerLocation.Offset(-offset.X, -offset.Y);
+                var adornerLocation = Location;
+                adornerLocation.Offset(-Offset.X, -Offset.Y);
 
                 Rect adornedElementRect = new Rect(adornerLocation, AdornedElement.DesiredSize);
 

@@ -15,7 +15,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
-            <local:DragPreview x:Key="DragPreviewControl"/>
             <local:PercentSizeConverter x:Key="PercentSizeConverter"/>
             <local:NullImageConverter x:Key="NullImageConverter"/>
             <local:HidePanelConverter x:Key="HidePanelConverter"/>
