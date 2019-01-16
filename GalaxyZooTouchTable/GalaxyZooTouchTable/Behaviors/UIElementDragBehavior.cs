@@ -17,6 +17,7 @@ namespace GalaxyZooTouchTable.Behaviors
     {
         private bool isTouchDown = false;
         private Rectangle _rectangle { get; set; }
+        List<DependencyObject> hitResultsList = new List<DependencyObject>();
 
         public List<FrameworkElement> DroppableAreas
         {
@@ -73,10 +74,11 @@ namespace GalaxyZooTouchTable.Behaviors
             {
                 var touchPosition = e.GetTouchPoint(DragOverlay);
                 var initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
-                UIElement element = sender as UIElement;
+                FrameworkElement element = sender as FrameworkElement;
 
-                var myAdornerLayer = AdornerLayer.GetAdornerLayer(element);
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(sender as Visual);
                 SimpleCircleAdorner adorner = new SimpleCircleAdorner(element, initialPoint);
+                adorner.IsHitTestVisible = false;
                 myAdornerLayer.Add(adorner);
 
                 EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_PreviewTouchMove(s, e, adorner));
@@ -113,7 +115,7 @@ namespace GalaxyZooTouchTable.Behaviors
             var touchPosition = e.GetTouchPoint(DragOverlay);
             Point touchPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
 
-            AdornerLayer myAdornerLayer = AdornerLayer.GetAdornerLayer(element);
+            AdornerLayer myAdornerLayer = AdornerLayer.GetAdornerLayer(sender as Visual);
 
             Point adornerTopLeft = adorner.location;
             Point adornerTopRight = new Point(adorner.location.X + adorner.ActualWidth, adorner.location.Y);
@@ -123,23 +125,28 @@ namespace GalaxyZooTouchTable.Behaviors
             if (touchPoint.X >= adornerTopLeft.X && touchPoint.X <= adornerTopRight.X
                 && touchPoint.Y >= adornerTopLeft.Y && touchPoint.Y <= adornerBottomLeft.Y)
             {
-                AdornerLayer.GetAdornerLayer(element).Remove(adorner);
+                AdornerLayer.GetAdornerLayer(sender as Visual).Remove(adorner);
+
+                VisualTreeHelper.HitTest(DragOverlay, null,
+                    new HitTestResultCallback(MyHitTestResult),
+                    new PointHitTestParameters(touchPoint));
+                
+                foreach (UIElement item in hitResultsList)
+                {
+                    if (item is IDroppableArea)
+                    {
+                        IDroppableArea area = item as IDroppableArea;
+                        area.Drop(adorner);
+                    }
+                }
+                hitResultsList.Clear();
             }
-
-            //DragOverlay.Children.Remove(rectangle);
-
-            //VisualTreeHelper.HitTest(DragOverlay, null,
-            //    new HitTestResultCallback(MyHitTestResult),
-            //    new PointHitTestParameters(point));
         }
 
         public HitTestResultBehavior MyHitTestResult(HitTestResult result)
         {
-            List<DependencyObject> hitResultsList = new List<DependencyObject>();
-            // Add the hit test result to the list that will be processed after the enumeration.
             hitResultsList.Add(result.VisualHit);
 
-            // Set the behavior to return visuals at all z-order levels.
             return HitTestResultBehavior.Continue;
         }
 
@@ -162,7 +169,7 @@ namespace GalaxyZooTouchTable.Behaviors
                 DependencyProperty.Register("Subject", typeof(TableSubject), typeof(SimpleCircleAdorner));
 
             // Be sure to call the base class constructor.
-            public SimpleCircleAdorner(UIElement adornedElement, Point offset)
+            public SimpleCircleAdorner(FrameworkElement adornedElement, Point offset)
               : base(adornedElement)
             {
                 this.offset = offset;
@@ -195,26 +202,21 @@ namespace GalaxyZooTouchTable.Behaviors
                 set { this.SetValue(SimpleCircleAdorner.SubjectProperty, value); }
             }
 
-            // A common way to implement an adorner's rendering behavior is to override the OnRender
-            // method, which is called by the layout system as part of a rendering pass.
             protected override void OnRender(DrawingContext drawingContext)
             {
-                var p = location;
-                p.Offset(-offset.X, -offset.Y);
+                var adornerLocation = location;
+                adornerLocation.Offset(-offset.X, -offset.Y);
+                Console.WriteLine(this);
 
-                Rect adornedElementRect = new Rect(p, this.AdornedElement.DesiredSize);
+                Rect adornedElementRect = new Rect(adornerLocation, AdornedElement.DesiredSize);
 
-                // Some arbitrary drawing implements.
-                SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
-                renderBrush.Opacity = 0.2;
-                Pen renderPen = new Pen(new SolidColorBrush(Colors.Navy), 1.5);
-                double renderRadius = 5.0;
+                var visualBrush = new VisualBrush(AdornedElement);
+                Pen border = new Pen(new SolidColorBrush(Color.FromRgb(229,255,77)), 1.5);
 
-                // Draw a circle at each corner.
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopLeft, renderRadius, renderRadius);
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.TopRight, renderRadius, renderRadius);
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomLeft, renderRadius, renderRadius);
-                drawingContext.DrawEllipse(renderBrush, renderPen, adornedElementRect.BottomRight, renderRadius, renderRadius);
+                drawingContext.DrawRoundedRectangle(
+                    visualBrush, border, adornedElementRect,
+                    this.AdornedElement.DesiredSize.Width / 2,
+                    this.AdornedElement.DesiredSize.Height / 2);
             }
         }
     }

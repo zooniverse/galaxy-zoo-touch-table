@@ -65,7 +65,8 @@
         <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help classify the galaxy below."/>
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="14,23,0,0" Text="Please consider only the object in the center of the image."/>
 
-        <Border
+        <!--<Border
+            x:Name="DroppableArea"
             BorderBrush="White"
             BorderThickness="2"
             CornerRadius="2.85"
@@ -78,7 +79,9 @@
                 <Behaviors:UIElementDropBehavior/>
             </i:Interaction.Behaviors>
             <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
-        </Border>
+        </Border>-->
+
+        <Views:DropZone Margin="14,45,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="5"/>
 
         <Image
             Style="{StaticResource PeerAvatar}"
