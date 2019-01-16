@@ -206,7 +206,6 @@ namespace GalaxyZooTouchTable.Behaviors
             {
                 var adornerLocation = location;
                 adornerLocation.Offset(-offset.X, -offset.Y);
-                Console.WriteLine(this);
 
                 Rect adornedElementRect = new Rect(adornerLocation, AdornedElement.DesiredSize);
 

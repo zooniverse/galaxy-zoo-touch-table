@@ -94,13 +94,10 @@ namespace GalaxyZooTouchTable.DragDrop
             {
                 return; //only drag when the user moved the mouse by a reasonable amount
             }
-            Console.WriteLine("PREVIEW CONTROL");
-            Console.WriteLine(_dragDropPreviewControl);
             _dragDropPreviewControl = (DragDropPreviewBase)GetDragDropPreviewControl(sender as DependencyObject);
             _dragDropPreviewControl.DataContext = _dragDropPreviewControlDataContext;
 
             TableSubject test = _dragDropPreviewControlDataContext as TableSubject;
-            Console.WriteLine(test.DEC);
 
             _dragDropPreviewControl.Opacity = 0.7;
 
