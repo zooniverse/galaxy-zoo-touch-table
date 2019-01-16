@@ -5,9 +5,9 @@ using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.Lib
 {
-    public class CommonData : INotifyPropertyChanged
+    public class GlobalData : INotifyPropertyChanged
     {
-        private static CommonData _instance = null;
+        private static GlobalData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
         public TableUser PersonUser = new PersonUser();
         public TableUser LightUser = new LightUser();
@@ -16,15 +16,15 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser FaceUser = new FaceUser();
         public TableUser EarthUser = new EarthUser();
 
-        protected CommonData()
+        protected GlobalData()
         {
             PopulateUsers();
         }
 
-        public static CommonData GetInstance()
+        public static GlobalData GetInstance()
         {
             if (_instance == null)
-                _instance = new CommonData();
+                _instance = new GlobalData();
 
             return _instance;
         }

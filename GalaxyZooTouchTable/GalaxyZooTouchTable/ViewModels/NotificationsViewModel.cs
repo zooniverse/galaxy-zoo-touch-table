@@ -90,7 +90,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void FilterCurrentUser()
         {
-            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(CommonData.GetInstance().AllUsers);
+            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(GlobalData.GetInstance().AllUsers);
             foreach (TableUser tableUser in allUsersCopy)
             {
                 if (User == tableUser)

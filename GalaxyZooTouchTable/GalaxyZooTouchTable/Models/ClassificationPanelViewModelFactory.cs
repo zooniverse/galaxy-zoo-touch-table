@@ -26,19 +26,19 @@ namespace GalaxyZooTouchTable.Models
             switch (type)
             {
                 case UserType.Person:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().PersonUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().PersonUser);
                 case UserType.Star:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().StarUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().StarUser);
                 case UserType.Earth:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().EarthUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().EarthUser);
                 case UserType.Light:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().LightUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().LightUser);
                 case UserType.Face:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().FaceUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().FaceUser);
                 case UserType.Heart:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().HeartUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().HeartUser);
                 default:
-                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, CommonData.GetInstance().HeartUser);
+                    return new ClassificationPanelViewModel(_panoptesRepo, _graphQLRepo, GlobalData.GetInstance().HeartUser);
             }
         }
     }
