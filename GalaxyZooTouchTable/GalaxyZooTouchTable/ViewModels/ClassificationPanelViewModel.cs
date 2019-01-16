@@ -14,8 +14,8 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        private IGraphQLRepository _graphQLRepository;
-        private IPanoptesRepository _panoptesRepository;
+        private IGraphQLService _graphQLRepository;
+        private IPanoptesService _panoptesRepository;
         private int ClassificationsThisSession { get; set; } = 0;
         private Classification CurrentClassification { get; set; }
         private Subject CurrentSubject { get; set; }
@@ -116,7 +116,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ClassificationPanelViewModel(IPanoptesRepository panoptesRepo, IGraphQLRepository graphQLRepo, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesService panoptesRepo, IGraphQLService graphQLRepo, TableUser user)
         {
             _panoptesRepository = panoptesRepo;
             _graphQLRepository = graphQLRepo;

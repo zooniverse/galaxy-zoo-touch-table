@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
-    public interface IGraphQLRepository
+    public interface IGraphQLService
     {
         Task<GraphQLResponse> GetReductionAsync(Workflow workflow, Subject currentSubject);
     }

@@ -11,10 +11,10 @@ namespace GalaxyZooTouchTable.Lib
         static ContainerHelper()
         {
             _container = new UnityContainer();
-            _container.RegisterType<IPanoptesRepository, PanoptesRepository>(
+            _container.RegisterType<IPanoptesService, PanoptesService>(
                 new ContainerControlledLifetimeManager());
 
-            _container.RegisterType<IGraphQLRepository, GraphQLRepository>(
+            _container.RegisterType<IGraphQLService, GraphQLService>(
                 new ContainerControlledLifetimeManager());
 
             _container.RegisterType<IClassificationPanelViewModelFactory, ClassificationPanelViewModelFactory>(

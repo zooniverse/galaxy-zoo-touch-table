@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
-    public class PanoptesRepository : IPanoptesRepository
+    public class PanoptesService : IPanoptesService
     {
         ApiClient _panoptesClient = new ApiClient();
 

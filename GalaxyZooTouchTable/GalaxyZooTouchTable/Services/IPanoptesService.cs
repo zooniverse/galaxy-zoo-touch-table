@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
-    public interface IPanoptesRepository
+    public interface IPanoptesService
     {
         Task CreateClassificationAsync(Classification classification);
         Task<Subject> GetSubjectAsync(string id);

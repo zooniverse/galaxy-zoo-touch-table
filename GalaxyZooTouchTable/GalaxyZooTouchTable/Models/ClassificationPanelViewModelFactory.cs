@@ -7,10 +7,10 @@ namespace GalaxyZooTouchTable.Models
 {
     public class ClassificationPanelViewModelFactory : IClassificationPanelViewModelFactory
     {
-        private IPanoptesRepository _panoptesRepo;
-        private IGraphQLRepository _graphQLRepo;
+        private IPanoptesService _panoptesRepo;
+        private IGraphQLService _graphQLRepo;
 
-        public ClassificationPanelViewModelFactory(IPanoptesRepository panoptesRepo, IGraphQLRepository graphQLRepo)
+        public ClassificationPanelViewModelFactory(IPanoptesService panoptesRepo, IGraphQLService graphQLRepo)
         {
             if (panoptesRepo == null || graphQLRepo == null)
             {

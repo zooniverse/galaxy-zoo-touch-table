@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
-    public class GraphQLRepository : IGraphQLRepository
+    public class GraphQLService : IGraphQLService
     {
         private GraphQLHttpClient GraphQLClient = new GraphQLHttpClient(Config.CaesarHost);
 
