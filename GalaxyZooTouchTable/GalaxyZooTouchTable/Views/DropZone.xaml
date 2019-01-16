@@ -43,7 +43,7 @@
                 Text="Drag and drop a galaxy here to get started."
                 TextWrapping="Wrap"
                 Width="80"
-                Height="48"
+                Height="58"
                 Foreground="White"
                 FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                 FontWeight="Bold"/>

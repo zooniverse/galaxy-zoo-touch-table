@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,9 +22,12 @@ namespace GalaxyZooTouchTable.Views
             throw new NotImplementedException();
         }
 
-        void IDroppableArea.Drop(UIElement element)
+        void IDroppableArea.Drop(FrameworkElement element)
         {
-            Console.WriteLine(DataContext);
+            TableSubject passedSubject = element.DataContext as TableSubject;
+            ClassificationPanelViewModel viewModel = DataContext as ClassificationPanelViewModel;
+
+            viewModel.DropSubject(passedSubject);
         }
 
         protected override System.Windows.Media.HitTestResult HitTestCore(System.Windows.Media.PointHitTestParameters hitTestParameters)

@@ -173,7 +173,7 @@ namespace GalaxyZooTouchTable.Behaviors
               : base(adornedElement)
             {
                 this.offset = offset;
-                this.DataContext = this.AdornedElement;
+                this.DataContext = adornedElement.DataContext;
 
                 this.SetUpBindings();
             }

@@ -29,11 +29,12 @@ namespace GalaxyZooTouchTable.ViewModels
         public NotificationsViewModel Notifications { get; private set; }
         public TableUser User { get; set; }
 
-        public ICommand CloseClassifier { get; private set; }
-        public ICommand ContinueClassification { get; private set; }
-        public ICommand OpenClassifier { get; private set; }
-        public ICommand SelectAnswer { get; private set; }
-        public ICommand ShowCloseConfirmation { get; private set; }
+        public ICommand ChooseAnotherGalaxy { get; set; }
+        public ICommand CloseClassifier { get; set; }
+        public ICommand ContinueClassification { get; set; }
+        public ICommand OpenClassifier { get; set; }
+        public ICommand SelectAnswer { get; set; }
+        public ICommand ShowCloseConfirmation { get; set; }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
@@ -62,6 +63,13 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _currentView;
             set => SetProperty(ref _currentView, value);
         } 
+
+        private SubjectViewEnum _subjectView = SubjectViewEnum.DragSubject;
+        public SubjectViewEnum SubjectView
+        {
+            get => _subjectView;
+            set => SetProperty(ref _subjectView, value);
+        }
 
         private bool _closeConfirmationVisible = false;
         public bool CloseConfirmationVisible
@@ -159,6 +167,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
+            ChooseAnotherGalaxy = new CustomCommand(OnChooseAnotherGalaxy);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
             ContinueClassification = new CustomCommand(OnContinueClassification);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
@@ -166,8 +175,18 @@ namespace GalaxyZooTouchTable.ViewModels
             ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
         }
 
+        private void OnChooseAnotherGalaxy(object sender)
+        {
+            SubjectView = SubjectViewEnum.DragSubject;
+            PrepareForNewClassification();
+        }
+
         private void OnSelectAnswer(object sender)
         {
+            if (SubjectView == SubjectViewEnum.DragSubject)
+            {
+                return;
+            }
             AnswerButton Button = sender as AnswerButton;
             SelectedAnswer = Button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, Button.Index);
@@ -176,10 +195,10 @@ namespace GalaxyZooTouchTable.ViewModels
         private async void OnGetSubjectById(string subjectID)
         {
             TotalVotes = 0;
-            CurrentSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
-            StartNewClassification(CurrentSubject);
-            SubjectImageSource = CurrentSubject.GetSubjectLocation();
-            GetSubjectReductions();
+            Subject newSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
+            Subjects.Insert(0, newSubject);
+            GetSubject();
+            SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
         private void OnOpenClassifier(object sender)
@@ -330,6 +349,14 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
             GetSubjectReductions();
+        }
+
+        public void DropSubject(TableSubject subject)
+        {
+            TotalVotes = 0;
+            Subjects.Insert(0, subject.Subject);
+            GetSubject();
+            SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
         private void ResetAnswerCount()

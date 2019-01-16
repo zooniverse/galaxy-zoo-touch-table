@@ -5,6 +5,6 @@ namespace GalaxyZooTouchTable
     interface IDroppableArea
     {
         bool IsUnder(Point p);
-        void Drop(UIElement element);
+        void Drop(FrameworkElement element);
     }
 }
