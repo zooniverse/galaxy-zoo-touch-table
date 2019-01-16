@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -60,15 +61,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
         {
-            foreach (TableUser user in AllUsers)
-            {
-                if (user.Active)
-                {
-                    ShowJoinMessage = false;
-                    return;
-                }
-            }
-            ShowJoinMessage = true;
+            ShowJoinMessage = !AllUsers.Any(user => user.Active == true);
         }
 
         private void CreateTimer()
