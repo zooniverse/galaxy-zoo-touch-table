@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using System;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -10,8 +11,8 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public DispatcherTimer SecondTimer { get; set; }
         public DispatcherTimer ThirtySecondTimer { get; set; }
-        public event System.Action CloseClassificationPanel = delegate { };
-        public event System.Action ResetFiveMinuteTimer = delegate { };
+        public event Action CloseClassificationPanel = delegate { };
+        public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
 
         public ICommand CloseClassifier { get; set; }
@@ -83,13 +84,13 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentSeconds = 30;
             Percentage = 100;
             SecondTimer = new DispatcherTimer();
-            SecondTimer.Tick += new System.EventHandler(OneSecondElapsed);
-            SecondTimer.Interval = new System.TimeSpan(0, 0, 1);
+            SecondTimer.Tick += new EventHandler(OneSecondElapsed);
+            SecondTimer.Interval = new TimeSpan(0, 0, 1);
             SecondTimer.Start();
 
             ThirtySecondTimer = new DispatcherTimer();
-            ThirtySecondTimer.Tick += new System.EventHandler(ThirtySecondsElapsed);
-            ThirtySecondTimer.Interval = new System.TimeSpan(0, 0, 31);
+            ThirtySecondTimer.Tick += new EventHandler(ThirtySecondsElapsed);
+            ThirtySecondTimer.Interval = new TimeSpan(0, 0, 31);
             ThirtySecondTimer.Start();
             Circle.RenderArc(Percentage);
         }
@@ -100,18 +101,18 @@ namespace GalaxyZooTouchTable.ViewModels
             ThirtySecondTimer.Stop();
         }
 
-        private void ThirtySecondsElapsed(object sender, System.EventArgs e)
+        private void ThirtySecondsElapsed(object sender, EventArgs e)
         {
             CloseClassificationPanel();
             Visible = false;
         }
 
-        private void OneSecondElapsed(object sender, System.EventArgs e)
+        private void OneSecondElapsed(object sender, EventArgs e)
         {
             CurrentSeconds--;
             decimal StartingSeconds = 30;
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
-            Percentage = System.Convert.ToInt16(System.Math.Floor(PercentOfSeconds));
+            Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
             Circle.RenderArc(Percentage);
         }
     }
