@@ -18,11 +18,11 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _showJoinMessage, value);
         }
 
-        private bool _flipCenterpiece;
-        public bool FlipCenterpiece
+        private bool _centerpieceIsFlipped;
+        public bool CenterpieceIsFlipped
         {
-            get => _flipCenterpiece;
-            set => SetProperty(ref _flipCenterpiece, value);
+            get => _centerpieceIsFlipped;
+            set => SetProperty(ref _centerpieceIsFlipped, value);
         }
 
         public CenterpieceViewModel()
@@ -81,7 +81,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnFlipCenterpiece(object sender, System.EventArgs e)
         {
-            FlipCenterpiece = !FlipCenterpiece;
+            CenterpieceIsFlipped = !CenterpieceIsFlipped;
         }
     }
 }

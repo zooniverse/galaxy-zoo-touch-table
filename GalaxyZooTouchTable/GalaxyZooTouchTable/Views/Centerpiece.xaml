@@ -35,7 +35,7 @@
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=FlipCenterpiece}" Value="True">
+                <DataTrigger Binding="{Binding Path=CenterpieceIsFlipped}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
