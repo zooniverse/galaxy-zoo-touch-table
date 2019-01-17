@@ -287,8 +287,11 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ShowStillThereModal(object sender, System.EventArgs e)
         {
-            StillThereTimer.Stop();
-            StillThere.Visible = true;
+            if (StillThereTimer != null)
+            {
+                StillThereTimer.Stop();
+                StillThere.Visible = true;
+            }
         }
 
         private void ChooseAnswer(AnswerButton button)
