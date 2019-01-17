@@ -40,7 +40,7 @@ namespace GalaxyZooTouchTable.Behaviors
             element.Background = brush;
 
             Border childBorder = element.Child as Border;
-            childBorder.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#80E5FF4D"));
+            childBorder.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#4DE5FF4D"));
             DropShadowEffect childEffect = new DropShadowEffect();
             childEffect.BlurRadius = 20;
             childEffect.Color = Color.FromArgb(120,255,255,255);
