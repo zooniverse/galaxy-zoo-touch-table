@@ -68,7 +68,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public SubjectViewEnum SubjectView
         {
             get => _subjectView;
-            set => SetProperty(ref _subjectView, value);
+            set
+            {
+                Messenger.Default.Send<SubjectViewEnum>(value, $"{User.Name}_SubjectStatus");
+                SetProperty(ref _subjectView, value);
+            }
         }
 
         private bool _closeConfirmationVisible = false;
@@ -210,6 +214,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
+            SubjectView = SubjectViewEnum.DragSubject;
             Notifications.ClearNotifications(true);
             StillThereTimer = null;
             LevelerViewModel.IsOpen = false;
