@@ -3,13 +3,11 @@ using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class SpaceViewModel : INotifyPropertyChanged
+    public class SpaceViewModel : ViewModelBase
     {
         public double RA { get; set; } = 250.3035;
         public double DEC { get; set; } = 35.09;
@@ -18,23 +16,15 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<TableSubject> _currentGalaxies = new List<TableSubject>();
         public List<TableSubject> CurrentGalaxies
         {
-            get { return _currentGalaxies; }
-            set
-            {
-                _currentGalaxies = value;
-                OnPropertyRaised("CurrentGalaxies");
-            }
+            get => _currentGalaxies;
+            set => SetProperty(ref _currentGalaxies, value);
         }
 
         private string _spaceCutoutUrl;
         public string SpaceCutoutUrl
         {
-            get { return _spaceCutoutUrl; }
-            set
-            {
-                _spaceCutoutUrl = value;
-                OnPropertyRaised("SpaceCutoutUrl");
-            }
+            get => _spaceCutoutUrl;
+            set => SetProperty(ref _spaceCutoutUrl, value);
         }
 
         public SpaceViewModel()
@@ -66,14 +56,6 @@ namespace GalaxyZooTouchTable.ViewModels
                 TableSubject Galaxy = new TableSubject(subject, RA, DEC);
                 CurrentGalaxies.Add(Galaxy);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }
