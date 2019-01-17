@@ -1,106 +1,61 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class NotificationsViewModel : INotifyPropertyChanged
+    public class NotificationsViewModel : ViewModelBase
     {
-        public ICommand AcceptGalaxy { get; set; }
-        public ICommand DeclineGalaxy { get; set; }
-        public ICommand NotifyUser { get; set; }
-        public ICommand ResetNotifications { get; set; }
-        public ICommand ToggleButtonNotification { get; set; }
-        public ICommand ToggleNotifier { get; set; }
-        public string SubjectIdToExamine { get; set; }
+        public ICommand AcceptGalaxy { get; private set; }
+        public ICommand DeclineGalaxy { get; private set; }
+        public ICommand NotifyUser { get; private set; }
+        public ICommand ResetNotifications { get; private set; }
+        public ICommand ToggleButtonNotification { get; private set; }
+        public ICommand ToggleNotifier { get; private set; }
+        public event Action<string> GetSubjectById = delegate { };
+        public event Action<ClassifierViewEnum> ChangeView = delegate { };
+        public event Action<TableUser> SendRequestToUser = delegate { };
+        string SubjectIdToExamine { get; set; }
+        public TableUser User { get; private set; }
 
-        private ObservableCollection<TableUser> _availableUsers;
-        public ObservableCollection<TableUser> AvailableUsers
-        {
-            get { return _availableUsers; }
-            set
-            {
-                _availableUsers = value;
-                OnPropertyRaised("AvailableUsers");
-            }
-        }
-
-        private ClassificationPanelViewModel _classifier;
-        public ClassificationPanelViewModel Classifier
-        {
-            get { return _classifier; }
-            set
-            {
-                _classifier = value;
-                OnPropertyRaised("Classifier");
-            }
-        }
+        public ObservableCollection<TableUser> AvailableUsers { get; private set; }
 
         private TableUser _cooperatingPeer;
         public TableUser CooperatingPeer
         {
-            get { return _cooperatingPeer; }
-            set
-            {
-                _cooperatingPeer = value;
-                OnPropertyRaised("CooperatingPeer");
-            }
+            get => _cooperatingPeer;
+            set => SetProperty(ref _cooperatingPeer, value);
         }
 
         private bool _hideButtonNotification = false;
         public bool HideButtonNotification
         {
-            get { return _hideButtonNotification; }
-            set
-            {
-                _hideButtonNotification = value;
-                OnPropertyRaised("HideButtonNotification");
-            }
+            get => _hideButtonNotification;
+            set => SetProperty(ref _hideButtonNotification, value);
         }
 
         private bool _openNotifier = false;
         public bool OpenNotifier
         {
-            get { return _openNotifier; }
-            set
-            {
-                _openNotifier = value;
-                OnPropertyRaised("OpenNotifier");
-            }
+            get => _openNotifier;
+            set => SetProperty(ref _openNotifier, value);
         }
 
         private string _suggestedAnswer;
         public string SuggestedAnswer
         {
-            get { return _suggestedAnswer; }
-            set
-            {
-                _suggestedAnswer = value;
-                OnPropertyRaised("SuggestedAnswer");
-            }
+            get => _suggestedAnswer;
+            set => SetProperty(ref _suggestedAnswer, value);
         }
 
-        private TableUser _user;
-        public TableUser User
+        public NotificationsViewModel(TableUser user)
         {
-            get { return _user; }
-            set
-            {
-                _user = value;
-                OnPropertyRaised("User");
-            }
-        }
-
-        public NotificationsViewModel(TableUser user, ObservableCollection<TableUser> allUsers, ClassificationPanelViewModel classifier)
-        {
-            Classifier = classifier;
             User = user;
-
             RegisterMessengerActions(user);
-            FilterCurrentUser(allUsers);
+            FilterCurrentUser();
             LoadCommands();
         }
 
@@ -133,9 +88,9 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Status = NotificationStatus.AnswerGiven;
         }
 
-        private void FilterCurrentUser(ObservableCollection<TableUser> allUsers)
+        private void FilterCurrentUser()
         {
-            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(allUsers);
+            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(GlobalData.GetInstance().AllUsers);
             foreach (TableUser tableUser in allUsersCopy)
             {
                 if (User == tableUser)
@@ -159,8 +114,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAcceptGalaxy(object sender)
         {
-            Classifier.CurrentView = ClassifierViewEnum.SubjectView;
-            Classifier.GetSubjectById(SubjectIdToExamine);
+            ChangeView(ClassifierViewEnum.SubjectView);
+            GetSubjectById(SubjectIdToExamine);
             CooperatingPeer.Status = NotificationStatus.AcceptedHelp;
             OpenNotifier = false;
             User.Status = NotificationStatus.HelpingUser;
@@ -178,9 +133,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnNotifyUser(object sender)
         {
             TableUser UserToNotify = sender as TableUser;
-            NotificationRequest Request = new NotificationRequest(User, Classifier.CurrentSubject.Id);
-
-            Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
+            SendRequestToUser(UserToNotify);
             CooperatingPeer = UserToNotify;
             OpenNotifier = false;
             User.Status = NotificationStatus.HelpRequestSent;
@@ -227,14 +180,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             Messenger.Default.Send<AnswerButton>(SelectedItem, $"{CooperatingPeer.Name}_ReceivedAnswer");
             User.Status = NotificationStatus.Idle;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }

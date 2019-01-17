@@ -1,21 +1,19 @@
-﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
-using System.ComponentModel;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class LevelerViewModel : INotifyPropertyChanged
+    public class LevelerViewModel : ViewModelBase
     {
         public TableUser User { get; set; }
-        public ICommand ToggleLeveler { get; set; }
+        public ICommand ToggleLeveler { get; private set; }
         const string MAX_LEVEL = "Five";
 
-        private int _classificationsUntilUpgrade { get; set; } = 5;
+        private int _classificationsUntilUpgrade = 5;
         public int ClassificationsUntilUpgrade
         {
-            get { return _classificationsUntilUpgrade; }
+            get => _classificationsUntilUpgrade;
             set
             {
                 if (value <= 0)
@@ -23,57 +21,42 @@ namespace GalaxyZooTouchTable.ViewModels
                     value = 5;
                     LevelUp();
                 }
-                _classificationsUntilUpgrade = value;
-                OnPropertyRaised("ClassificationsUntilUpgrade");
+                SetProperty(ref _classificationsUntilUpgrade, value);
             }
         }
 
-        private int _classificationsThisSession { get; set; } = 0;
+        private int _classificationsThisSession = 0;
         public int ClassificationsThisSession
         {
-            get { return _classificationsThisSession; }
+            get => _classificationsThisSession;
             set
             {
                 ClassificationsUntilUpgrade--;
-                _classificationsThisSession = value;
-                OnPropertyRaised("ClassificationsThisSession");
+                SetProperty(ref _classificationsThisSession, value);
             }
         }
 
-        private string _classificationLevel { get; set; } = "One";
+        private string _classificationLevel = "One";
         public string ClassificationLevel
         {
-            get { return _classificationLevel; }
-            set
-            {
-                _classificationLevel = value;
-                OnPropertyRaised("ClassificationLevel");
-            }
+            get => _classificationLevel;
+            set => SetProperty(ref _classificationLevel, value);
         }
 
         private bool _isOpen = false;
         public bool IsOpen
         {
-            get { return _isOpen; }
-            set
-            {
-                _isOpen = value;
-                OnPropertyRaised("IsOpen");
-            }
+            get => _isOpen;
+            set => SetProperty(ref _isOpen, value);
         }
 
-        public LevelerViewModel(TableUser user = null)
+        public LevelerViewModel(TableUser user)
         {
             User = user;
             LoadCommands();
-
-            if (user != null)
-            {
-                Messenger.Default.Register<int>(this, OnClassificationReceived, $"{user.Name}_IncrementCount");
-            }
         }
 
-        private void OnClassificationReceived(int TotalClassifications)
+        public void OnIncrementCount(int TotalClassifications)
         {
             ClassificationsThisSession = TotalClassifications;
         }
@@ -112,14 +95,6 @@ namespace GalaxyZooTouchTable.ViewModels
                     ClassificationLevel = "One";
                     break;
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }

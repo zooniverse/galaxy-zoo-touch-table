@@ -2,10 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
              mc:Ignorable="d" 
              Height="417"
              Width="1255">
+
+    <UserControl.DataContext>
+        <ViewModels:CenterpieceViewModel/>
+    </UserControl.DataContext>
 
     <UserControl.Resources>
         <Style x:Key="JoinMessageStyle" TargetType="{x:Type Grid}">
@@ -30,7 +35,7 @@
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=FlipCenterpiece}" Value="True">
+                <DataTrigger Binding="{Binding Path=CenterpieceIsFlipped}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
