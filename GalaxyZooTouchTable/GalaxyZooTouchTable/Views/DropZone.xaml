@@ -7,8 +7,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
-             Height="122"
-             Width="122"
+             Height="132"
+             Width="132"
              d:DesignHeight="122" d:DesignWidth="122">
     <Border
         Background="Transparent"

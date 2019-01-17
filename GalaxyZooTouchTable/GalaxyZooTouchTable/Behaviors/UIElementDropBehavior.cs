@@ -22,6 +22,10 @@ namespace GalaxyZooTouchTable.Behaviors
             Border element = sender as Border;
             element.Background = Brushes.Transparent;
             element.Effect = null;
+
+            Border childBorder = element.Child as Border;
+            childBorder.Background = Brushes.Transparent;
+            childBorder.Effect = null;
         }
 
         private void AssociatedObject_TouchEnter(object sender, TouchEventArgs e)
@@ -35,8 +39,12 @@ namespace GalaxyZooTouchTable.Behaviors
             brush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString("#000000"), 1));
             element.Background = brush;
 
-            //Border childBorder = element.Child as Border;
-            //childBorder.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#E5FF4D"));
+            Border childBorder = element.Child as Border;
+            childBorder.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#80E5FF4D"));
+            DropShadowEffect childEffect = new DropShadowEffect();
+            childEffect.BlurRadius = 20;
+            childEffect.Color = Color.FromArgb(120,255,255,255);
+            childBorder.Effect = childEffect;
 
             DropShadowEffect effect = new DropShadowEffect();
             effect.ShadowDepth = 0;
