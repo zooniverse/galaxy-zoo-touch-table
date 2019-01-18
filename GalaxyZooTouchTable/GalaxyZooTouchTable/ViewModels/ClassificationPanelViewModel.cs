@@ -22,10 +22,10 @@ namespace GalaxyZooTouchTable.ViewModels
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
         private List<Subject> Subjects { get; set; } = new List<Subject>();
-        private Workflow Workflow { get; set; }
 
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
         public NotificationsViewModel Notifications { get; private set; }
+        public Workflow Workflow { get; set; }
         public TableUser User { get; set; }
 
         public ICommand ChooseAnotherGalaxy { get; set; }
@@ -174,7 +174,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
-        private async void GetWorkflow()
+        public async void GetWorkflow()
         {
             Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
             PrepareForNewClassification();
@@ -364,9 +364,12 @@ namespace GalaxyZooTouchTable.ViewModels
             }
             CurrentSubject = Subjects[0];
             StartNewClassification(CurrentSubject);
-            SubjectImageSource = CurrentSubject.GetSubjectLocation();
             Subjects.RemoveAt(0);
-            GetSubjectReductions();
+            if (CurrentSubject != null && CurrentSubject.Locations != null)
+            {
+                SubjectImageSource = CurrentSubject.GetSubjectLocation();
+                GetSubjectReductions();
+            }
         }
 
         public void DropSubject(TableSubject subject)
