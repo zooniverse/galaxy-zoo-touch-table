@@ -20,7 +20,7 @@ namespace GalaxyZooTouchTable.Models
         string Description2 { get; set; }
     }
 
-    static class GalaxyExampleFactory
+    public static class GalaxyExampleFactory
     {
         public static GalaxyExample Create(GalaxyType type)
         {

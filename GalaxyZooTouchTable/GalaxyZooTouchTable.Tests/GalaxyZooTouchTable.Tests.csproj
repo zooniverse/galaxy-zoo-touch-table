@@ -79,6 +79,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CenterpieceViewModelTests.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModelTests.cs" />
+    <Compile Include="ViewModels\ExamplesPanelViewModelTests.cs" />
     <Compile Include="ViewModels\LevelerViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
