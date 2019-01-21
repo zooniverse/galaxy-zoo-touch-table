@@ -93,6 +93,7 @@
     <Compile Include="ViewModels\ExamplesPanelViewModelTests.cs" />
     <Compile Include="ViewModels\LevelerViewModelTests.cs" />
     <Compile Include="ViewModels\NotificationsViewModelTests.cs" />
+    <Compile Include="ViewModels\StillThereViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

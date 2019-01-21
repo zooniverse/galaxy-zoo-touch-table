@@ -1,9 +1,7 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.ViewModels;
-using Moq;
 using PanoptesNetClient.Models;
-using System;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
