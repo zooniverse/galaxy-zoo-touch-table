@@ -6,14 +6,16 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 {
     public class LevelerViewModelTests
     {
+        private LevelerViewModel ViewModel { get; set; }
+
         [Fact]
         public void ShouldIncrementCount()
         {
             var starUser = new StarUser();
-            var viewModel = new LevelerViewModel(starUser);
+            ViewModel = new LevelerViewModel(starUser);
 
-            viewModel.OnIncrementCount(5);
-            Assert.Equal(5, viewModel.ClassificationsThisSession);
+            ViewModel.OnIncrementCount(5);
+            Assert.Equal(5, ViewModel.ClassificationsThisSession);
         }
     }
 }

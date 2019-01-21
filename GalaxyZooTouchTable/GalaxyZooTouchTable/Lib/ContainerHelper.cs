@@ -1,7 +1,6 @@
 ﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using Unity;
-using Unity.Lifetime;
 
 namespace GalaxyZooTouchTable.Lib
 {
@@ -11,8 +10,7 @@ namespace GalaxyZooTouchTable.Lib
         static ContainerHelper()
         {
             _container = new UnityContainer();
-            _container.RegisterType<IPanoptesService, PanoptesService>(
-                new ContainerControlledLifetimeManager());
+            _container.RegisterType<IPanoptesService, PanoptesService>();
 
             _container.RegisterType<IGraphQLService, GraphQLService>(
                 new ContainerControlledLifetimeManager());
@@ -23,7 +21,7 @@ namespace GalaxyZooTouchTable.Lib
 
         public static IUnityContainer Container
         {
-            get { return _container; }
+            get { return _container ?? new UnityContainer(); }
         }
     }
 }
