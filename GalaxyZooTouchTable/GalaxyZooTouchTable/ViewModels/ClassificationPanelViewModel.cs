@@ -199,11 +199,10 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
         }
 
-        private void OnSelectAnswer(object sender)
+        public void OnSelectAnswer(object sender)
         {
             AnswerButton Button = sender as AnswerButton;
             SelectedAnswer = Button;
-            CurrentAnnotation = new Annotation(CurrentTaskIndex, Button.Index);
         }
 
         private async void OnGetSubjectById(string subjectID)
@@ -215,7 +214,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
-        private void OnOpenClassifier(object sender)
+        public void OnOpenClassifier(object sender)
         {
             StartTimer();
             ClassifierOpen = true;
@@ -223,7 +222,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel = new LevelerViewModel(User);
         }
 
-        private void OnCloseClassifier(object sender)
+        public void OnCloseClassifier(object sender)
         {
             SubjectView = SubjectViewEnum.DragSubject;
             Notifications.ClearNotifications(true);
@@ -236,14 +235,14 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Active = false;
         }
 
-        private void PrepareForNewClassification()
+        public void PrepareForNewClassification()
         {
             GetSubject();
             OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
         }
 
-        private void ToggleCloseConfirmation(object sender)
+        public void ToggleCloseConfirmation(object sender)
         {
             CloseConfirmationVisible = !CloseConfirmationVisible;
         }
@@ -253,7 +252,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentView = view;
         }
 
-        private async void OnContinueClassification(object sender)
+        public async void OnContinueClassification(object sender)
         {
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {

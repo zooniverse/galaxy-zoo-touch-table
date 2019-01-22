@@ -1,7 +1,7 @@
-﻿using GalaxyZooTouchTable.Services;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Services;
 using Newtonsoft.Json.Linq;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -17,6 +17,14 @@ namespace GalaxyZooTouchTable.Tests.Mock
         {
             ConstructMockSubject();
             ConstructMockWorkflow();
+        }
+
+        public static AnswerButton ConstructAnswerButton()
+        {
+            TaskAnswer Answer = new TaskAnswer();
+            Answer.Label = "Smooth Galaxy";
+            Answer.Next = "T1";
+            return new AnswerButton(Answer, 1);
         }
 
         private void ConstructMockSubject()
@@ -57,7 +65,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
 
         public Task CreateClassificationAsync(Classification classification)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         public Task<Subject> GetSubjectAsync(string id)

@@ -1,5 +1,6 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Tests.Mock;
 using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using Xunit;
@@ -57,15 +58,11 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         public void ShouldReceiveAnswerRequest()
         {
-            TaskAnswer Answer = new TaskAnswer();
-            Answer.Label = "Smooth Galaxy";
-            Answer.Next = "T1";
-            AnswerButton ItemTouched = new AnswerButton(Answer, 1);
-
+            AnswerButton ItemTouched = PanoptesServiceMock.ConstructAnswerButton();
             ViewModel.OnAnswerReceived(ItemTouched);
             Assert.False(ViewModel.HideButtonNotification);
             Assert.True(ViewModel.OpenNotifier);
-            Assert.Equal(Answer.Label, ViewModel.SuggestedAnswer);
+            Assert.Equal(ItemTouched.Label, ViewModel.SuggestedAnswer);
             Assert.Equal(NotificationStatus.AnswerGiven, ViewModel.User.Status);
         }
 
