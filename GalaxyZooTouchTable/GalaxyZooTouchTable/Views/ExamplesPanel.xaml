@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
@@ -253,35 +254,6 @@
             <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
             <Setter Property="PanningMode" Value="HorizontalOnly"/>
             <Setter Property="Margin" Value="0,15,0,0"/>
-            <Setter Property="OpacityMask">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0.99,1" EndPoint="1,1" Opacity="1">
-                        <LinearGradientBrush.GradientStops>
-                           <GradientStop Offset="0" Color="Black"/>
-                           <GradientStop Offset="1" Color="Transparent"/>
-                        </LinearGradientBrush.GradientStops>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard BeginTime="0:0:0.2">
-                                <PointAnimation Storyboard.TargetProperty="(ScrollViewer.OpacityMask).(StartPoint)" To="0.85,1" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <PointAnimation Storyboard.TargetProperty="(ScrollViewer.OpacityMask).(StartPoint)" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style x:Key="SelectedItemText" TargetType="{x:Type ScrollViewer}">
@@ -446,6 +418,9 @@
                     </StackPanel>
 
                     <ScrollViewer x:Name="SmoothScroller" Style="{StaticResource ExampleScrollViewer}">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9"/>
+                        </i:Interaction.Behaviors>
                         <StackPanel Style="{StaticResource ScrollableStackPanel}">
                             <Border Style="{StaticResource ExampleImage}">
                                 <Border.Background>
@@ -495,6 +470,9 @@
                     </StackPanel>
 
                     <ScrollViewer x:Name="FeaturesScroller" Style="{StaticResource ExampleScrollViewer}">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9"/>
+                        </i:Interaction.Behaviors>
                         <StackPanel Style="{StaticResource ScrollableStackPanel}">
                             <Border Style="{StaticResource ExampleImage}">
                                 <Border.Background>
@@ -544,6 +522,9 @@
                     </StackPanel>
 
                     <ScrollViewer x:Name="NotAGalaxyScroller" Style="{StaticResource ExampleScrollViewer}">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9"/>
+                        </i:Interaction.Behaviors>
                         <StackPanel Style="{StaticResource ScrollableStackPanel}">
                             <Border Style="{StaticResource ExampleImage}">
                                 <Border.Background>
@@ -565,14 +546,9 @@
                 </Grid>
 
                 <ScrollViewer Canvas.Top="140" x:Name="ItemText" Style="{StaticResource SelectedItemText}">
-                        <ScrollViewer.OpacityMask>
-                            <LinearGradientBrush StartPoint="0,0.6" EndPoint="0,1">
-                                <LinearGradientBrush.GradientStops>
-                                    <GradientStop Offset="0" Color="Black"/>
-                                    <GradientStop Offset="1" Color="Transparent"/>
-                                </LinearGradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                        </ScrollViewer.OpacityMask>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="False" StartPercent="0.6"/>
+                    </i:Interaction.Behaviors>
                     <StackPanel Style="{StaticResource SelectedTextStackPanel}">
                         <StackPanel.RenderTransform>
                             <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
