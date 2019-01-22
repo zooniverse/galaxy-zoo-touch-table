@@ -13,18 +13,18 @@
     <UserControl.Resources>
         <Style x:Key="LevelerPanelStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
+                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0:0.2"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>

@@ -25,7 +25,6 @@ namespace GalaxyZooTouchTable.ViewModels
         private Workflow Workflow { get; set; }
 
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
-        public LevelerViewModel LevelerViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public TableUser User { get; set; }
 
@@ -41,6 +40,13 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _currentAnswers;
             set => SetProperty(ref _currentAnswers, value);
+        }
+
+        private LevelerViewModel _levelerViewModel;
+        public LevelerViewModel LevelerViewModel
+        {
+            get => _levelerViewModel;
+            set => SetProperty(ref _levelerViewModel, value);
         }
 
         private StillThereViewModel _stillThere;
@@ -210,6 +216,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StartTimer();
             ClassifierOpen = true;
             User.Active = true;
+            LevelerViewModel = new LevelerViewModel(User);
         }
 
         private void OnCloseClassifier(object sender)
@@ -217,7 +224,6 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectView = SubjectViewEnum.DragSubject;
             Notifications.ClearNotifications(true);
             StillThereTimer = null;
-            LevelerViewModel.IsOpen = false;
             ExamplesViewModel.IsOpen = true;
             ExamplesViewModel.SelectedExample = null;
             PrepareForNewClassification();
