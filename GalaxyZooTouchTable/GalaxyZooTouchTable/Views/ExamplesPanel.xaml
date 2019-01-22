@@ -253,6 +253,35 @@
             <Setter Property="HorizontalScrollBarVisibility" Value="Hidden"/>
             <Setter Property="PanningMode" Value="HorizontalOnly"/>
             <Setter Property="Margin" Value="0,15,0,0"/>
+            <Setter Property="OpacityMask">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0.99,1" EndPoint="1,1" Opacity="1">
+                        <LinearGradientBrush.GradientStops>
+                           <GradientStop Offset="0" Color="Black"/>
+                           <GradientStop Offset="1" Color="Transparent"/>
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard BeginTime="0:0:0.2">
+                                <PointAnimation Storyboard.TargetProperty="(ScrollViewer.OpacityMask).(StartPoint)" To="0.85,1" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <PointAnimation Storyboard.TargetProperty="(ScrollViewer.OpacityMask).(StartPoint)" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="SelectedItemText" TargetType="{x:Type ScrollViewer}">
@@ -536,6 +565,14 @@
                 </Grid>
 
                 <ScrollViewer Canvas.Top="140" x:Name="ItemText" Style="{StaticResource SelectedItemText}">
+                        <ScrollViewer.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0.6" EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Offset="0" Color="Black"/>
+                                    <GradientStop Offset="1" Color="Transparent"/>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </ScrollViewer.OpacityMask>
                     <StackPanel Style="{StaticResource SelectedTextStackPanel}">
                         <StackPanel.RenderTransform>
                             <TranslateTransform X="{Binding Path=ActualWidth, ElementName=ItemText, Converter={StaticResource HidePanelConverter}, ConverterParameter='-1'}"/>
