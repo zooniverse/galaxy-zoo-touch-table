@@ -26,16 +26,32 @@
         </Storyboard>
 
         <Storyboard x:Key="BeginRotateArrowStoryboard">
-            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
+            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
         </Storyboard>
 
         <Storyboard x:Key="ReturnRotateArrowStoryboard">
-            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(RotateTransform.Angle)" Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" Duration="0:0:0.1"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveArrowLeftStoryboard">
+            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.X)" To="-35" Duration="0:0:0.1"/>
+        </Storyboard>        
+        
+        <Storyboard x:Key="MoveArrowRightStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.X)" Duration="0:0:0.1"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveToggleTextRight">
+            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(TextBlock.RenderTransform).(TranslateTransform.X)" To="8" Duration="0:0:0.1"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveToggleTextLeft">
+            <DoubleAnimation Storyboard.TargetProperty="(TextBlock.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.1"/>
         </Storyboard>
 
         <Style x:Key="ExampleArrow" TargetType="{x:Type fa:ImageAwesome}">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Icon" Value="CaretRight"/>
             <Setter Property="Margin" Value="4,1,0,0"/>
             <Setter Property="Height" Value="5"/>
@@ -45,9 +61,11 @@
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard Storyboard="{StaticResource BeginRotateArrowStoryboard}"/>
+                        <BeginStoryboard Storyboard="{StaticResource MoveArrowLeftStoryboard}"/>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard Storyboard="{StaticResource ReturnRotateArrowStoryboard}"/>
+                        <BeginStoryboard Storyboard="{StaticResource MoveArrowRightStoryboard}"/>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
@@ -136,7 +154,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-
 
         <Style x:Key="NotAGalaxyExample" TargetType="{x:Type Grid}" BasedOn="{StaticResource GalaxyExamples}">
             <Style.Triggers>
@@ -279,17 +296,17 @@
             <Setter Property="Height" Value="Auto"/>
         </Style>
 
-        <Style x:Key="ExampleStackPanel" TargetType="{x:Type StackPanel}">
+        <Style x:Key="ExampleGrid" TargetType="{x:Type Grid}">
             <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="Margin" Value="18,0"/>
-            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="18,0,14,0"/>
             <Setter Property="Height" Value="10"/>
             <Setter Property="Background" Value="{StaticResource MedGrayColor}"/>
         </Style>
 
         <Style x:Key="ExampleTextBlock" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="9"/>
+            <Setter Property="FontSize" Value="7.5"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
         </Style>
 
@@ -356,6 +373,29 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="ToggleText" BasedOn="{StaticResource ExampleText}" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="6.75"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource MoveToggleTextRight}"/>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource MoveToggleTextLeft}"/>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ToggleStackPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
     </UserControl.Resources>
 
     <Viewbox>
@@ -382,7 +422,10 @@
                     <TextBlock Margin="0,12,0,0" Text="Tap each item to learn more." FontSize="7" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontStyle="Italic"/>
                     <fa:ImageAwesome Style="{StaticResource ToggleArrowStyle}">
                         <fa:ImageAwesome.RenderTransform>
-                            <RotateTransform/>
+                            <TransformGroup>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
                         </fa:ImageAwesome.RenderTransform>
                     </fa:ImageAwesome>
                 </Grid>
@@ -395,14 +438,14 @@
 
                 <Separator Canvas.Top="36.15" Style="{StaticResource GridSeparators}"/>
 
-                <Grid Canvas.Top="44.2" Style="{StaticResource SmoothExample}">
+                <Grid Canvas.Top="44" Style="{StaticResource SmoothExample}">
                     <i:Interaction.Triggers>
                         <Lib:HandlingEventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
                         </Lib:HandlingEventTrigger>
                     </i:Interaction.Triggers>
 
-                    <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="SmoothStackPanel_TouchUp">
+                    <Grid Style="{StaticResource ExampleGrid}" TouchUp="SmoothStackPanel_TouchUp">
                         <i:Interaction.Triggers>
                             <Lib:HandlingEventTrigger EventName="TouchUp">
                                 <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Smooth}"/>
@@ -410,12 +453,22 @@
                         </i:Interaction.Triggers>
 
                         <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Smooth"/>
-                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
-                            <fa:ImageAwesome.RenderTransform>
-                                <RotateTransform/>
-                            </fa:ImageAwesome.RenderTransform>
-                        </fa:ImageAwesome>
-                    </StackPanel>
+                        <StackPanel Style="{StaticResource ToggleStackPanel}">
+                            <TextBlock Style="{StaticResource ToggleText}" Text="More Info">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                                <fa:ImageAwesome.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </fa:ImageAwesome.RenderTransform>
+                            </fa:ImageAwesome>
+                        </StackPanel>
+                    </Grid>
 
                     <ScrollViewer x:Name="SmoothScroller" Style="{StaticResource ExampleScrollViewer}">
                         <i:Interaction.Behaviors>
@@ -454,7 +507,7 @@
                         </Lib:HandlingEventTrigger>
                     </i:Interaction.Triggers>
 
-                    <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="FeaturesStackPanel_TouchUp">
+                    <Grid Style="{StaticResource ExampleGrid}" TouchUp="FeaturesStackPanel_TouchUp">
                         <i:Interaction.Triggers>
                             <Lib:HandlingEventTrigger EventName="TouchUp">
                                 <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding Features}"/>
@@ -462,12 +515,22 @@
                         </i:Interaction.Triggers>
 
                         <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Features"/>
-                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
-                            <fa:ImageAwesome.RenderTransform>
-                                <RotateTransform/>
-                            </fa:ImageAwesome.RenderTransform>
-                        </fa:ImageAwesome>
-                    </StackPanel>
+                        <StackPanel Style="{StaticResource ToggleStackPanel}">
+                            <TextBlock Style="{StaticResource ToggleText}" Text="More Info">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                                <fa:ImageAwesome.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </fa:ImageAwesome.RenderTransform>
+                            </fa:ImageAwesome>
+                        </StackPanel>
+                    </Grid>
 
                     <ScrollViewer x:Name="FeaturesScroller" Style="{StaticResource ExampleScrollViewer}">
                         <i:Interaction.Behaviors>
@@ -506,7 +569,7 @@
                         </Lib:HandlingEventTrigger>
                     </i:Interaction.Triggers>
 
-                    <StackPanel Style="{StaticResource ExampleStackPanel}" TouchUp="NotAGalaxyStackPanel_TouchUp">
+                    <Grid Style="{StaticResource ExampleGrid}" TouchUp="NotAGalaxyStackPanel_TouchUp">
                         <i:Interaction.Triggers>
                             <Lib:HandlingEventTrigger EventName="TouchUp">
                                 <i:InvokeCommandAction Command="{Binding UnselectItem}" CommandParameter="{Binding NotAGalaxy}"/>
@@ -514,12 +577,22 @@
                         </i:Interaction.Triggers>
 
                         <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Not a Galaxy"/>
-                        <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
-                            <fa:ImageAwesome.RenderTransform>
-                                <RotateTransform/>
-                            </fa:ImageAwesome.RenderTransform>
-                        </fa:ImageAwesome>
-                    </StackPanel>
+                        <StackPanel Style="{StaticResource ToggleStackPanel}">
+                            <TextBlock Style="{StaticResource ToggleText}" Text="More Info">
+                                <TextBlock.RenderTransform>
+                                    <TranslateTransform/>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                            <fa:ImageAwesome Style="{StaticResource ExampleArrow}">
+                                <fa:ImageAwesome.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </fa:ImageAwesome.RenderTransform>
+                            </fa:ImageAwesome>
+                        </StackPanel>
+                    </Grid>
 
                     <ScrollViewer x:Name="NotAGalaxyScroller" Style="{StaticResource ExampleScrollViewer}">
                         <i:Interaction.Behaviors>

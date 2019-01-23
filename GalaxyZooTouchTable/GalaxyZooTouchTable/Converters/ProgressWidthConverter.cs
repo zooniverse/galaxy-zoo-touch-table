@@ -13,11 +13,13 @@ namespace GalaxyZooTouchTable
         {
             if (values.Length >= 3)
             {
+                const double MINIMUM_PERCENT = 0.06;
                 double Width = System.Convert.ToDouble(values[0]);
                 double Value = System.Convert.ToDouble(values[1]);
                 double Maximum = System.Convert.ToDouble(values[2]);
 
                 double Percent = Value / Maximum;
+                Percent = Percent > 0 ? Math.Max(Percent, MINIMUM_PERCENT) : Percent;
                 return Percent * Width;
             }
             return null;

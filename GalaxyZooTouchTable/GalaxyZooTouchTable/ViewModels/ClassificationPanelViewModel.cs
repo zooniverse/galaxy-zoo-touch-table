@@ -309,7 +309,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (StillThereTimer != null)
             {
-                StillThereTimer.Interval = new System.TimeSpan(0, 4, 30);
+                StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
                 StillThereTimer.Start();
             }
             if (StillThere.Visible) { StillThere.Visible = false; }
