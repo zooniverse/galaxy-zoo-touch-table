@@ -26,7 +26,7 @@
         </Storyboard>
 
         <Storyboard x:Key="BeginRotateArrowStoryboard">
-            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
+            <DoubleAnimation BeginTime="0:0:0.1" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" To="180" Duration="0:0:0.1"/>
         </Storyboard>
 
         <Storyboard x:Key="ReturnRotateArrowStoryboard">
@@ -34,7 +34,7 @@
         </Storyboard>
 
         <Storyboard x:Key="MoveArrowLeftStoryboard">
-            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.X)" To="-35" Duration="0:0:0.1"/>
+            <DoubleAnimation BeginTime="0:0:0.1" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.X)" To="-18" Duration="0:0:0.1"/>
         </Storyboard>        
         
         <Storyboard x:Key="MoveArrowRightStoryboard">
@@ -42,7 +42,7 @@
         </Storyboard>
 
         <Storyboard x:Key="MoveToggleTextRight">
-            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(TextBlock.RenderTransform).(TranslateTransform.X)" To="8" Duration="0:0:0.1"/>
+            <DoubleAnimation BeginTime="0:0:0.1" Storyboard.TargetProperty="(TextBlock.RenderTransform).(TranslateTransform.X)" To="8" Duration="0:0:0.1"/>
         </Storyboard>
 
         <Storyboard x:Key="MoveToggleTextLeft">
@@ -291,7 +291,7 @@
         </Style>
 
         <Style x:Key="ScrollableStackPanel" TargetType="{x:Type StackPanel}">
-            <Setter Property="Margin" Value="18,0,0,0"/>
+            <Setter Property="Margin" Value="18,6,0,0"/>
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Height" Value="Auto"/>
         </Style>
@@ -299,7 +299,7 @@
         <Style x:Key="ExampleGrid" TargetType="{x:Type Grid}">
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Margin" Value="18,0,14,0"/>
-            <Setter Property="Height" Value="10"/>
+            <Setter Property="Height" Value="16"/>
             <Setter Property="Background" Value="{StaticResource MedGrayColor}"/>
         </Style>
 
@@ -378,9 +378,11 @@
             <Setter Property="FontSize" Value="6.75"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="Typography.Capitals" Value="AllSmallCaps"/>
+            <Setter Property="Text" Value="More Info"/>
 
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <Setter Property="Text" Value="Back"/>
                     <DataTrigger.EnterActions>
                         <BeginStoryboard Storyboard="{StaticResource MoveToggleTextRight}"/>
                     </DataTrigger.EnterActions>
@@ -438,7 +440,7 @@
 
                 <Separator Canvas.Top="36.15" Style="{StaticResource GridSeparators}"/>
 
-                <Grid Canvas.Top="44" Style="{StaticResource SmoothExample}">
+                <Grid Canvas.Top="38" Style="{StaticResource SmoothExample}">
                     <i:Interaction.Triggers>
                         <Lib:HandlingEventTrigger EventName="TouchUp">
                             <i:InvokeCommandAction Command="{Binding SelectItem}" CommandParameter="{Binding Smooth}"/>
@@ -454,7 +456,7 @@
 
                         <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Smooth"/>
                         <StackPanel Style="{StaticResource ToggleStackPanel}">
-                            <TextBlock Style="{StaticResource ToggleText}" Text="More Info">
+                            <TextBlock Style="{StaticResource ToggleText}">
                                 <TextBlock.RenderTransform>
                                     <TranslateTransform/>
                                 </TextBlock.RenderTransform>
@@ -496,7 +498,7 @@
 
                 <Separator Canvas.Top="96.15" Style="{StaticResource HidingGridSeparators}"/>
 
-                <Grid Canvas.Top="101.2" Style="{StaticResource FeaturesExample}">
+                <Grid Canvas.Top="95" Style="{StaticResource FeaturesExample}">
                     <Grid.RenderTransform>
                         <TranslateTransform/>
                     </Grid.RenderTransform>
@@ -516,7 +518,7 @@
 
                         <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Features"/>
                         <StackPanel Style="{StaticResource ToggleStackPanel}">
-                            <TextBlock Style="{StaticResource ToggleText}" Text="More Info">
+                            <TextBlock Style="{StaticResource ToggleText}">
                                 <TextBlock.RenderTransform>
                                     <TranslateTransform/>
                                 </TextBlock.RenderTransform>
@@ -558,7 +560,7 @@
 
                 <Separator Canvas.Top="153.15" Style="{StaticResource HidingGridSeparators}"/>
 
-                <Grid Canvas.Top="159.2" Style="{StaticResource NotAGalaxyExample}">
+                <Grid Canvas.Top="153" Style="{StaticResource NotAGalaxyExample}">
                     <Grid.RenderTransform>
                         <TranslateTransform/>
                     </Grid.RenderTransform>
@@ -578,7 +580,7 @@
 
                         <TextBlock Style="{StaticResource ExampleTextBlock}" Text="Not a Galaxy"/>
                         <StackPanel Style="{StaticResource ToggleStackPanel}">
-                            <TextBlock Style="{StaticResource ToggleText}" Text="More Info">
+                            <TextBlock Style="{StaticResource ToggleText}">
                                 <TextBlock.RenderTransform>
                                     <TranslateTransform/>
                                 </TextBlock.RenderTransform>
