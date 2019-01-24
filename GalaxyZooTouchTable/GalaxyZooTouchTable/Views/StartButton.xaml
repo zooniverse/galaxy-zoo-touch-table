@@ -40,14 +40,9 @@
         Background="Transparent"
         BorderThickness="0"
         Style="{StaticResource StartButtonStyle}">
-            <i:Interaction.Behaviors>
-                <Behaviors:TapBehavior Command="{Binding OpenClassifier}"/>
-            </i:Interaction.Behaviors>
-        <!--<i:Interaction.Triggers>
-            <i:EventTrigger EventName="TouchUp">
-                <i:InvokeCommandAction Command="{Binding OpenClassifier}"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>-->
+        <i:Interaction.Behaviors>
+            <Behaviors:TapBehavior Command="{Binding OpenClassifier}"/>
+        </i:Interaction.Behaviors>
         <Button.RenderTransform>
             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
         </Button.RenderTransform>

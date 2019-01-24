@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -70,11 +71,9 @@
                     Margin="13,7"
                     Orientation="Horizontal"
                     VerticalAlignment="Top">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchUp">
-                            <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
+                    </i:Interaction.Behaviors>
                     <TextBlock
                         Margin="0,0,6,0"
                         FontSize="10"

@@ -5,6 +5,12 @@ namespace GalaxyZooTouchTable.Lib
 {
     public class HandlingEventTrigger : System.Windows.Interactivity.EventTrigger
     {
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            
+        }
+
         protected override void OnEvent(EventArgs eventArgs)
         {
             var routedEventArgs = eventArgs as RoutedEventArgs;

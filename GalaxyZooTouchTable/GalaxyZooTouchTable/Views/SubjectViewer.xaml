@@ -6,8 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
-             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -114,11 +114,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="34" Width="144" Margin="0,0,0,9">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}"/>
+                        </i:Interaction.Behaviors>
                         <Grid.Effect>
                             <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
                         </Grid.Effect>
@@ -151,11 +149,9 @@
             Height="23"
             VerticalAlignment="Bottom"
             Width="285">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TouchUp">
-                    <i:InvokeCommandAction Command="{Binding ContinueClassification}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
+            </i:Interaction.Behaviors>
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock

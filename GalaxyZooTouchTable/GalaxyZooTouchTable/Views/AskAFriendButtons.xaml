@@ -7,6 +7,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="31" d:DesignWidth="287">
     <UserControl.Resources>
@@ -290,11 +291,9 @@
                                 Text="declined your invitation. Ask someone else?"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Triggers>
-                                <Lib:HandlingEventTrigger EventName="TouchUp">
-                                    <i:InvokeCommandAction Command="{Binding ResetNotifications}"/>
-                                </Lib:HandlingEventTrigger>
-                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:TapBehavior Command="{Binding ResetNotifications}"/>
+                            </i:Interaction.Behaviors>
                             <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
                         </StackPanel>
                     </Grid>
@@ -320,11 +319,9 @@
                                 Text="accepted your invitation!"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Triggers>
-                                <Lib:HandlingEventTrigger EventName="TouchUp">
-                                    <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
-                                </Lib:HandlingEventTrigger>
-                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:TapBehavior Command="{Binding ToggleButtonNotification}"/>
+                            </i:Interaction.Behaviors>
                             <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
                         </StackPanel>
                     </Grid>
@@ -350,11 +347,9 @@
                                 Text="made a classification!"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Triggers>
-                                <Lib:HandlingEventTrigger EventName="TouchUp">
-                                    <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
-                                </Lib:HandlingEventTrigger>
-                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:TapBehavior Command="{Binding ToggleButtonNotification}"/>
+                            </i:Interaction.Behaviors>
                             <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
                         </StackPanel>
                     </Grid>
@@ -380,11 +375,9 @@
                                 Text="has left the table."/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Triggers>
-                                <Lib:HandlingEventTrigger EventName="TouchUp">
-                                    <i:InvokeCommandAction Command="{Binding ToggleButtonNotification}"/>
-                                </Lib:HandlingEventTrigger>
-                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:TapBehavior Command="{Binding ToggleButtonNotification}"/>
+                            </i:Interaction.Behaviors>
                             <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
                         </StackPanel>
                     </Grid>
@@ -416,11 +409,9 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="5,0,0,0" Width="24" Height="24" Style="{StaticResource UserGrid}">
-                                    <i:Interaction.Triggers>
-                                        <Lib:HandlingEventTrigger EventName="TouchUp">
-                                            <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding}"/>
-                                        </Lib:HandlingEventTrigger>
-                                    </i:Interaction.Triggers>
+                                    <i:Interaction.Behaviors>
+                                        <Behaviors:TapBehavior Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding}"/>
+                                    </i:Interaction.Behaviors>
                                     <Border Style="{StaticResource AttentionBorder}" BorderBrush="{StaticResource AttentionColor}" CornerRadius="15"/>
                                     <Image Source="{Binding Avatar}" Style="{StaticResource UserImage}" Width="24"/>
 

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
@@ -83,11 +84,9 @@
             BorderThickness="3.5"
             BorderBrush="{StaticResource MedGrayColor}"
             CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="33.6" Height="30">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TouchUp">
-                    <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding ToggleNotifier}"/>
+            </i:Interaction.Behaviors>
             <Border BorderThickness="1" BorderBrush="Black">
                 <fa:ImageAwesome Icon="BellOutline" HorizontalAlignment="Left" Margin="5,0,0,0" Height="10"/>    
             </Border>
@@ -100,11 +99,9 @@
 
             <Grid>
                 <StackPanel Background="Transparent" Height="20" HorizontalAlignment="Right" Width="40"  VerticalAlignment="Top">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchUp">
-                            <i:InvokeCommandAction Command="{Binding ToggleNotifier}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding ToggleNotifier}"/>
+                    </i:Interaction.Behaviors>
                     <fa:ImageAwesome Icon="ChevronRight" Foreground="White" Height="8.5" Margin="0,6.5,0,0"/>
                 </StackPanel>
 
@@ -163,11 +160,9 @@
                         Margin="2.5,0,0,61.64"
                         Text="you think about a galaxy they're working on. Do you want to help?"/>
                     <Border Background="{StaticResource SuccessColor}" VerticalAlignment="Bottom" BorderThickness="1" CornerRadius="3" Margin="0,0,0,34" Height="19" BorderBrush="Black">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding AcceptGalaxy}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding AcceptGalaxy}"/>
+                        </i:Interaction.Behaviors>
                         <Border.Effect>
                             <DropShadowEffect BlurRadius="6" Color="#55565A" ShadowDepth="1"/>
                         </Border.Effect>
@@ -181,11 +176,9 @@
                     </Border>
 
                     <Border BorderThickness="1" CornerRadius="3" Margin="0,0,0,10.5" VerticalAlignment="Bottom" Height="19" BorderBrush="Black">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding DeclineGalaxy}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding DeclineGalaxy}"/>
+                        </i:Interaction.Behaviors>
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             Text="Decline galaxy"

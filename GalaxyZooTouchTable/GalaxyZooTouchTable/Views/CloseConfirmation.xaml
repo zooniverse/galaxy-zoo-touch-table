@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="199" d:DesignWidth="243">
     <UserControl.Resources>
@@ -22,11 +23,9 @@
 
         <Grid Width="243" Height="199">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TouchUp">
-                        <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <i:Interaction.Behaviors>
+                    <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
+                </i:Interaction.Behaviors>
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
@@ -90,11 +89,9 @@
                 Margin="15,0,0,14"
                 VerticalAlignment="Bottom"
                 Width="104">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TouchUp">
-                        <i:InvokeCommandAction Command="{Binding ShowCloseConfirmation}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <i:Interaction.Behaviors>
+                    <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
+                </i:Interaction.Behaviors>
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
@@ -112,11 +109,9 @@
                 Margin="0,0,15.3,14.59"
                 VerticalAlignment="Bottom"
                 Width="104">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="TouchUp">
-                        <i:InvokeCommandAction Command="{Binding CloseClassifier}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <i:Interaction.Behaviors>
+                    <Behaviors:TapBehavior Command="{Binding CloseClassifier}"/>
+                </i:Interaction.Behaviors>
                 <Button.Effect>
                     <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
                 </Button.Effect>
