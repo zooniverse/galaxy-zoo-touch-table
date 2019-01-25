@@ -41,8 +41,20 @@
                         </Border>
 
                         <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsEnabled" Value="True">
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
                             <Trigger Property="Button.IsPressed" Value="True">
                                 <Setter TargetName="Border" Property="Background" Value="#80015F7B"/>
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="0" Color="#343438" ShadowDepth="0"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
@@ -56,6 +68,11 @@
                                     </Condition>
                                 </MultiDataTrigger.Conditions>
                                 <Setter Property="Background" Value="#015F7B"/>
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="0" Color="#343438" ShadowDepth="0"/>
+                                    </Setter.Value>
+                                </Setter>
                             </MultiDataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -112,18 +129,6 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
-        <!--<Style x:Key="SubmitButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessBtn}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=CanSendClassification}" Value="True">
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>-->
-
         <Style x:Key="PeerAvatar" TargetType="{x:Type Image}">
             <Setter Property="Visibility" Value="Collapsed"/>
 
@@ -170,25 +175,20 @@
             Width="165">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="34" Width="144" Margin="0,0,0,9">
+                    <Button Style="{StaticResource AnswerButton}" Height="34" Width="144" Margin="0,0,0,9">
                         <i:Interaction.Behaviors>
                             <Behaviors:TapBehavior Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}"/>
                         </i:Interaction.Behaviors>
-                        <Grid.Effect>
-                            <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
-                        </Grid.Effect>
-                        <Button Style="{StaticResource AnswerButton}">
-                            <Grid>
-                                <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
-                                    <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
-                                </Border>
-                                <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
-                                    <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding Label}" FontSize="10"/>
-                                    <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6" TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Grid>
-                        </Button>
-                    </Grid>
+                        <Grid>
+                            <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
+                                <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
+                                <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding Label}" FontSize="10"/>
+                                <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -201,7 +201,10 @@
             Width="287"/>
 
         <Button
-            Style="{StaticResource SubmitButton}"
+            Style="{StaticResource SubmitWithDownstate}"
+            Height="23"
+            Width="285"
+            VerticalAlignment="Bottom"
             IsEnabled="{Binding CanSendClassification}">
             <i:Interaction.Behaviors>
                 <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>

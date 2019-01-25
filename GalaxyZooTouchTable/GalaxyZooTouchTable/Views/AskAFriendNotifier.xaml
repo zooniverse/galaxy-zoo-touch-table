@@ -159,13 +159,15 @@
                         VerticalAlignment="Bottom"
                         Margin="2.5,0,0,61.64"
                         Text="you think about a galaxy they're working on. Do you want to help?"/>
-                    <Border Background="{StaticResource SuccessColor}" VerticalAlignment="Bottom" BorderThickness="1" CornerRadius="3" Margin="0,0,0,34" Height="19" BorderBrush="Black">
+                    <Button
+                        Style="{StaticResource SubmitWithDownstate}"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="1"
+                        Margin="0,0,0,34"
+                        Height="19">
                         <i:Interaction.Behaviors>
                             <Behaviors:TapBehavior Command="{Binding AcceptGalaxy}"/>
                         </i:Interaction.Behaviors>
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="6" Color="#55565A" ShadowDepth="1"/>
-                        </Border.Effect>
                         <TextBlock
                             Text="Accept galaxy"
                             FontSize="8"
@@ -173,9 +175,13 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </Border>
+                    </Button>
 
-                    <Border BorderThickness="1" CornerRadius="3" Margin="0,0,0,10.5" VerticalAlignment="Bottom" Height="19" BorderBrush="Black">
+                    <Button
+                        Style="{StaticResource TransparentWithDownstate}"
+                        Margin="0,0,0,10.5"
+                        VerticalAlignment="Bottom"
+                        Height="19">
                         <i:Interaction.Behaviors>
                             <Behaviors:TapBehavior Command="{Binding DeclineGalaxy}"/>
                         </i:Interaction.Behaviors>
@@ -186,7 +192,7 @@
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
-                    </Border>
+                    </Button>
                 </Grid>
             </Grid>
         </Border>

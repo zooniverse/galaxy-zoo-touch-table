@@ -92,8 +92,7 @@
                 </TextBlock>
 
                 <Button
-                    Style="{StaticResource OutlineBtn}"
-                    FontWeight="Bold"
+                    Style="{StaticResource TransparentWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Left"
                     Margin="15,0,0,14"
@@ -111,17 +110,12 @@
                 </Button>
 
                 <Button
-                    Style="{StaticResource SuccessBtn}"
-                    FontWeight="Bold"
-                    Foreground="Black"
+                    Style="{StaticResource SubmitWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Right"
                     Margin="0,0,15.3,14.59"
                     VerticalAlignment="Bottom"
                     Width="104">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
-                    </Button.Effect>
                     <i:Interaction.Behaviors>
                         <Behaviors:TapBehavior Command="{Binding CloseModal}"/>
                     </i:Interaction.Behaviors>

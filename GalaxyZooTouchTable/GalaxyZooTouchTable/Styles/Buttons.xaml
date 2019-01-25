@@ -41,14 +41,78 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="BellBtn" TargetType="Button">
+    <Style x:Key="TransparentWithDownstate" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+        <Setter Property="Background" Value="Transparent"/>
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="5,0,0,5" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1" Padding="2">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25">
+                        <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
+                            <ContentPresenter/>
+                        </Border>
                     </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsEnabled" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                        </Trigger>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#171718"/>
+                            <Setter TargetName="InnerBorder" Property="Background" Value="#171718"/>
+                            <Setter TargetName="InnerBorder" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="3" Color="#000000"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SubmitWithDownstate" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+        <Setter Property="Background" Value="#4D63AB51"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25" ClipToBounds="True">
+                        <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
+                            <ContentPresenter/>
+                        </Border>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsEnabled" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#63AB51"/>
+                            <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
+                            <Setter TargetName="Border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#000000"/>
+                            <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
+                            <Setter TargetName="Border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="0" ShadowDepth="0"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="InnerBorder" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#213E1B"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
