@@ -28,34 +28,91 @@
             <Views:DropZone/>
         </DataTemplate>
 
-        <Style x:Key="AnswerBorder" TargetType="{x:Type Border}">
+        <Style x:Key="AnswerButton" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="Background" Value="#55565A"/>
-            <Setter Property="CornerRadius" Value="3"/>
 
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="."/>
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:SubjectViewer}" Path="DataContext.SelectedAnswer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="#015F7B"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="3" Background="{TemplateBinding Background}">
+                            <ContentPresenter/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#80015F7B"/>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Value="True">
+                                        <Condition.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                                <Binding Path="."/>
+                                                <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:SubjectViewer}" Path="DataContext.SelectedAnswer"/>
+                                            </MultiBinding>
+                                        </Condition.Binding>
+                                    </Condition>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="#015F7B"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-        
+
+        <Style x:Key="SubmitButton" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="Background" Value="#4D63AB51"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Width" Value="285"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25" ClipToBounds="True">
+                            <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
+                                <ContentPresenter/>
+                            </Border>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsEnabled" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#63AB51"/>
+                                <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="4" ShadowDepth="1" Direction="275" Color="#80000000"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#000000"/>
+                                <Setter TargetName="Border" Property="ClipToBounds" Value="True"/>
+                                <Setter TargetName="Border" Property="Effect" Value="{x:Null}"/>
+                                <Setter TargetName="InnerBorder" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#213E1B"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="CommonBoldFont" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
 
-        <Style x:Key="SubmitButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessBtn}">
+        <!--<Style x:Key="SubmitButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessBtn}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=CanSendClassification}" Value="True">
                     <Setter Property="Effect">
@@ -65,7 +122,7 @@
                     </Setter>
                 </DataTrigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
 
         <Style x:Key="PeerAvatar" TargetType="{x:Type Image}">
             <Setter Property="Visibility" Value="Collapsed"/>
@@ -120,15 +177,17 @@
                         <Grid.Effect>
                             <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
                         </Grid.Effect>
-                        <Border Style="{StaticResource AnswerBorder}">
-                            <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
-                                <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
-                            </Border>
-                        </Border>
-                        <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
-                            <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding Label}" FontSize="10"/>
-                            <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6" TextWrapping="Wrap"/>
-                        </StackPanel>
+                        <Button Style="{StaticResource AnswerButton}">
+                            <Grid>
+                                <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
+                                    <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
+                                    <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding Label}" FontSize="10"/>
+                                    <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -142,13 +201,8 @@
             Width="287"/>
 
         <Button
-            x:Name="SubmitButton"
             Style="{StaticResource SubmitButton}"
-            Foreground="Black"
-            IsEnabled="{Binding CanSendClassification}"
-            Height="23"
-            VerticalAlignment="Bottom"
-            Width="285">
+            IsEnabled="{Binding CanSendClassification}">
             <i:Interaction.Behaviors>
                 <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
             </i:Interaction.Behaviors>

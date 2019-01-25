@@ -9,6 +9,7 @@
         WindowStyle="None"
         WindowState="Maximized"
         x:Name="Root"
+        Stylus.IsPressAndHoldEnabled="False"
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
     <Window.DataContext>
