@@ -55,21 +55,25 @@ namespace GalaxyZooTouchTable.Behaviors
                 TouchPoint touchPosition = e.GetTouchPoint(DragOverlay);
                 Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
                 FrameworkElement adornedElement = sender as FrameworkElement;
-
-                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
-                GalaxyAdorner adorner = new GalaxyAdorner(adornedElement, initialPoint);
-                adornerLayer.Add(adorner);
-
-                EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchMove(s, e, adorner));
-                EventHandler<TouchEventArgs> upHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchUp(s, evt, adorner, adornedElement));
-                EventHandler<TouchEventArgs> unsubscribeHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_Unsubscribe(s, e, moveHandler, upHandler, adorner));
-                adorner.UnsubscribeEvent = unsubscribeHandler;
-
-                DragOverlay.TouchMove += moveHandler;
-                DragOverlay.TouchUp += upHandler;
-                DragOverlay.TouchUp += unsubscribeHandler;
+                ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
             }
             isTouchDown = false;
+        }
+
+        private void ConstructGhostAdornerWithHandlers(Point initialPoint, FrameworkElement adornedElement, TouchEventArgs e)
+        {
+            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
+            GalaxyAdorner adorner = new GalaxyAdorner(adornedElement, initialPoint);
+            adornerLayer.Add(adorner);
+
+            EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchMove(s, e, adorner));
+            EventHandler<TouchEventArgs> upHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchUp(s, evt, adorner, adornedElement));
+            EventHandler<TouchEventArgs> unsubscribeHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_Unsubscribe(s, e, moveHandler, upHandler, adorner));
+            adorner.UnsubscribeEvent = unsubscribeHandler;
+
+            DragOverlay.TouchMove += moveHandler;
+            DragOverlay.TouchUp += upHandler;
+            DragOverlay.TouchUp += unsubscribeHandler;
         }
 
         private void DragDropContainer_Unsubscribe(object s, TouchEventArgs e, EventHandler<TouchEventArgs> moveHandler, EventHandler<TouchEventArgs> upHandler, GalaxyAdorner adorner)
@@ -94,25 +98,31 @@ namespace GalaxyZooTouchTable.Behaviors
             var touchPosition = e.GetTouchPoint(DragOverlay);
             Point touchPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
 
-            if (touchPoint.X >= adorner.Location.X && touchPoint.X <= adorner.Location.X + adorner.ActualWidth
-                && touchPoint.Y >= adorner.Location.Y && touchPoint.Y <= adorner.Location.Y + adorner.ActualHeight)
+            bool TouchUpIsOverAdorner = touchPoint.X >= adorner.Location.X && touchPoint.X <= adorner.Location.X + adorner.ActualWidth
+                && touchPoint.Y >= adorner.Location.Y && touchPoint.Y <= adorner.Location.Y + adorner.ActualHeight;
+
+            if (TouchUpIsOverAdorner)
             {
                 AdornerLayer.GetAdornerLayer(sender as Visual).Remove(adorner);
+                CheckAndExecuteDrop(adorner, touchPoint);
+            }
+        }
 
-                VisualTreeHelper.HitTest(DragOverlay, null,
+        private void CheckAndExecuteDrop(GalaxyAdorner adorner, Point touchPoint)
+        {
+            VisualTreeHelper.HitTest(DragOverlay, null,
                     new HitTestResultCallback(MyHitTestResult),
                     new PointHitTestParameters(touchPoint));
-                
-                foreach (UIElement item in hitResultsList)
+
+            foreach (UIElement item in hitResultsList)
+            {
+                if (item is IDroppableArea)
                 {
-                    if (item is IDroppableArea)
-                    {
-                        IDroppableArea area = item as IDroppableArea;
-                        area.Drop(adorner);
-                    }
+                    IDroppableArea area = item as IDroppableArea;
+                    area.Drop(adorner);
                 }
-                hitResultsList.Clear();
             }
+            hitResultsList.Clear();
         }
 
         public HitTestResultBehavior MyHitTestResult(HitTestResult result)

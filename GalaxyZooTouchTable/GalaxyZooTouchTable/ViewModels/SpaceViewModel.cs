@@ -31,7 +31,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             PrepareForNewPosition();
         }
-
+        
         private void GetSpaceCutout()
         {
             SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={SCALE}";
