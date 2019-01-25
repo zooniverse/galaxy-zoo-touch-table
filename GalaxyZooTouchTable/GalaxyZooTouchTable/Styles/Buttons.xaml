@@ -15,32 +15,6 @@
         </Setter>
     </Style>
 
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="TransButton" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Margin" Value="10,0" />
-    </Style>
-
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="MoreInfoBtn" TargetType="Button">
-        <Setter Property="Background" Value="#55565A"/>
-    </Style>    
-    
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="OutlineBtn" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-    </Style>
-
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="SuccessBtn" TargetType="Button">
-        <Setter Property="Background" Value="#63AB51"/>
-        <Setter Property="BorderBrush" Value="#63AB51"/>
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="Gray"/>
-                <Setter Property="BorderBrush" Value="Gray"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
     <Style x:Key="TransparentWithDownstate" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
@@ -56,15 +30,12 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Button.IsEnabled" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
-                        </Trigger>
                         <Trigger Property="Button.IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#171718"/>
-                            <Setter TargetName="InnerBorder" Property="Background" Value="#171718"/>
+                            <Setter TargetName="Border" Property="ClipToBounds" Value="True"/>
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0.5"/>
                             <Setter TargetName="InnerBorder" Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect ShadowDepth="0" BlurRadius="3" Color="#000000"/>
+                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0"/>
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

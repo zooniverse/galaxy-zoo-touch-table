@@ -61,51 +61,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <Style x:Key="SubmitButton" TargetType="{x:Type Button}">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-            <Setter Property="Background" Value="#4D63AB51"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="Margin" Value="0,0,14,0"/>
-            <Setter Property="Width" Value="137"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25" ClipToBounds="True">
-                            <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
-                                <ContentPresenter/>
-                            </Border>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="Button.IsEnabled" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#63AB51"/>
-                                <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
-                                <Setter TargetName="Border" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="Button.IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#000000"/>
-                                <Setter TargetName="Border" Property="ClipToBounds" Value="True"/>
-                                <Setter TargetName="Border" Property="Effect" Value="{x:Null}"/>
-                                <Setter TargetName="InnerBorder" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#213E1B"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     
     <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
@@ -269,7 +224,12 @@
         </Button>
 
         <Button
-            Style="{StaticResource SubmitButton}">
+            Height="23"
+            HorizontalAlignment="Right"
+            Margin="0,0,14,0"
+            Width="137"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource SubmitWithDownstate}">
             <i:Interaction.Behaviors>
                 <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
             </i:Interaction.Behaviors>

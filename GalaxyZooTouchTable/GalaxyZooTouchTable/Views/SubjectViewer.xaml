@@ -80,49 +80,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="SubmitButton" TargetType="{x:Type Button}">
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-            <Setter Property="Background" Value="#4D63AB51"/>
-            <Setter Property="Height" Value="23"/>
-            <Setter Property="Width" Value="285"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25" ClipToBounds="True">
-                            <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
-                                <ContentPresenter/>
-                            </Border>
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="Button.IsEnabled" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#63AB51"/>
-                                <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
-                                <Setter TargetName="Border" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect BlurRadius="4" ShadowDepth="1" Direction="275" Color="#80000000"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="Button.IsPressed" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#000000"/>
-                                <Setter TargetName="Border" Property="ClipToBounds" Value="True"/>
-                                <Setter TargetName="Border" Property="Effect" Value="{x:Null}"/>
-                                <Setter TargetName="InnerBorder" Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#213E1B"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style x:Key="CommonBoldFont" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="Foreground" Value="White"/>
