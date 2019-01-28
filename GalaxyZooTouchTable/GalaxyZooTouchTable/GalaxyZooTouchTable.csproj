@@ -198,7 +198,6 @@
     <Compile Include="Lib\ContainerHelper.cs" />
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
-    <Compile Include="Lib\HandlingEventTrigger.cs" />
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
