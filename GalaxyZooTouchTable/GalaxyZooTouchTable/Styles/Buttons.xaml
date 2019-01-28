@@ -23,21 +23,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25">
-                        <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
+                    <Border x:Name="OuterBorder" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.5">
+                        <Grid>
                             <ContentPresenter/>
-                        </Border>
+                            <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.5" Margin="-0.5"/>
+                        </Grid>
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="Button.IsPressed" Value="True">
-                            <Setter TargetName="Border" Property="ClipToBounds" Value="True"/>
-                            <Setter TargetName="Border" Property="BorderThickness" Value="0.5"/>
+                            <Setter TargetName="OuterBorder" Property="Background" Value="#171718"/>
                             <Setter TargetName="InnerBorder" Property="Effect">
                                 <Setter.Value>
-                                    <DropShadowEffect BlurRadius="10" ShadowDepth="0"/>
+                                    <DropShadowEffect BlurRadius="8" ShadowDepth="0"/>
                                 </Setter.Value>
                             </Setter>
+                            <Setter TargetName="OuterBorder" Property="ClipToBounds" Value="True"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -44,7 +44,7 @@
                     <ControlTemplate TargetType="Button">
                         <Grid>
                             <Border x:Name="DropShadowBorder" Width="144" Height="34" CornerRadius="3" Background="Transparent" BorderThickness="1" BorderBrush="Black"/>
-                            <Border x:Name="OuterGrid" CornerRadius="3">
+                            <Border x:Name="OuterBorder" CornerRadius="3">
                                 <Grid>
                                     <Border Background="#E5FF4D" CornerRadius="5,0,0,5" Width="35" HorizontalAlignment="Left">
                                         <Image Margin="6.5" Source="{Binding Url}"/>
@@ -60,7 +60,7 @@
                         
                         <ControlTemplate.Triggers>
                             <Trigger Property="Button.IsEnabled" Value="True">
-                                <Setter TargetName="OuterGrid" Property="Background" Value="#55565A"/>
+                                <Setter TargetName="OuterBorder" Property="Background" Value="#55565A"/>
                                 <Setter TargetName="DropShadowBorder" Property="Effect">
                                     <Setter.Value>
                                         <DropShadowEffect ShadowDepth="2" BlurRadius="5" Direction="300" Color="Black"/>
@@ -79,8 +79,8 @@
                                     </Condition>
                                 </MultiDataTrigger.Conditions>
                                 <Setter TargetName="DropShadowBorder" Property="BorderThickness" Value="0"/>
-                                <Setter TargetName="OuterGrid" Property="Background" Value="#015F7B"/>
-                                <Setter TargetName="OuterGrid" Property="Clip">
+                                <Setter TargetName="OuterBorder" Property="Background" Value="#015F7B"/>
+                                <Setter TargetName="OuterBorder" Property="Clip">
                                     <Setter.Value>
                                         <RectangleGeometry Rect="0,0,144,34" RadiusX="4" RadiusY="4"/>
                                     </Setter.Value>
@@ -93,8 +93,8 @@
                             </MultiDataTrigger>
                             <Trigger Property="Button.IsPressed" Value="True">
                                 <Setter TargetName="DropShadowBorder" Property="BorderThickness" Value="0"/>
-                                <Setter TargetName="OuterGrid" Property="Background" Value="#4D015F7B"/>
-                                <Setter TargetName="OuterGrid" Property="Clip">
+                                <Setter TargetName="OuterBorder" Property="Background" Value="#4D015F7B"/>
+                                <Setter TargetName="OuterBorder" Property="Clip">
                                     <Setter.Value>
                                         <RectangleGeometry Rect="0,0,144,34" RadiusX="4" RadiusY="4"/>
                                     </Setter.Value>
