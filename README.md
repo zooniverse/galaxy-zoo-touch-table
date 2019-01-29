@@ -6,3 +6,5 @@ Currently, the app is setup to publish through a ClickOnce wizard with Google Dr
 
 ## Installing
 Likewise, the app can be installed via the same Google Drive File Stream location (Zooniverse/Citizen Science/Touch Table/Setup). It may be necessary to uninstall older versions of the app if conflicts appear during setup.
+
+[![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
