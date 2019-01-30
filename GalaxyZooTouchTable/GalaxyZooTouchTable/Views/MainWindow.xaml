@@ -12,10 +12,6 @@
         Stylus.IsPressAndHoldEnabled="False"
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
-    <Window.DataContext>
-        <ViewModels:MainWindowViewModel/>
-    </Window.DataContext>
-
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
             <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="330"/>

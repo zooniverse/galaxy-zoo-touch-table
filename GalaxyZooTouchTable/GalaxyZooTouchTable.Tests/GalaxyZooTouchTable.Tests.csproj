@@ -85,8 +85,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mock\GraphQLServiceMock.cs" />
-    <Compile Include="Mock\PanoptesServiceMock.cs" />
+    <Compile Include="Mock\GraphQLServiceMockData.cs" />
+    <Compile Include="Mock\PanoptesServiceMockData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CenterpieceViewModelTests.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModelTests.cs" />

@@ -14,8 +14,8 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        private IGraphQLService _graphQLRepository;
-        private IPanoptesService _panoptesRepository;
+        private IGraphQLService _graphQLService;
+        private IPanoptesService _panoptesService;
         private int ClassificationsThisSession { get; set; } = 0;
         private Classification CurrentClassification { get; set; }
         private Subject CurrentSubject { get; set; }
@@ -34,6 +34,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
+
+        public void Load()
+        {
+            GetWorkflow();
+        }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
@@ -142,10 +147,10 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _allowSelection, value);
         }
 
-        public ClassificationPanelViewModel(IPanoptesService panoptesRepo, IGraphQLService graphQLRepo, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, TableUser user)
         {
-            _panoptesRepository = panoptesRepo;
-            _graphQLRepository = graphQLRepo;
+            _panoptesService = panoptesService;
+            _graphQLService = graphQLService;
             User = user;
 
             Notifications = new NotificationsViewModel(user);
@@ -153,7 +158,6 @@ namespace GalaxyZooTouchTable.ViewModels
             StillThere = new StillThereViewModel();
 
             AddSubscribers();
-            GetWorkflow();
             LoadCommands();
         }
 
@@ -176,7 +180,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public async void GetWorkflow()
         {
-            Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
+            Workflow = await _panoptesService.GetWorkflowAsync(Config.WorkflowId);
             PrepareForNewClassification();
             WorkflowTask CurrentTask = Workflow.Tasks[Workflow.FirstTask];
             CurrentTaskIndex = Workflow.FirstTask;
@@ -208,7 +212,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private async void OnGetSubjectById(string subjectID)
         {
             TotalVotes = 0;
-            Subject newSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
+            Subject newSubject = await _panoptesService.GetSubjectAsync(subjectID);
             Subjects.Insert(0, newSubject);
             GetSubject();
             SubjectView = SubjectViewEnum.MatchedSubject;
@@ -258,7 +262,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                await _panoptesRepository.CreateClassificationAsync(CurrentClassification);
+                await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -359,7 +363,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     { "workflow_id", Config.WorkflowId }
                 };
-                Subjects = await _panoptesRepository.GetSubjectsAsync("queued", query);
+                Subjects = await _panoptesService.GetSubjectsAsync("queued", query);
             }
             CurrentSubject = Subjects[0];
             StartNewClassification(CurrentSubject);
@@ -389,7 +393,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void GetSubjectReductions()
         {
-            GraphQLResponse response = await _graphQLRepository.GetReductionAsync(Workflow, CurrentSubject);
+            GraphQLResponse response = await _graphQLService.GetReductionAsync(Workflow, CurrentSubject);
 
             if (response.Data != null)
             {

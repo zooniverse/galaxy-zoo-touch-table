@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
-             xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters"
-             StartupUri="Views/MainWindow.xaml">
+             xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

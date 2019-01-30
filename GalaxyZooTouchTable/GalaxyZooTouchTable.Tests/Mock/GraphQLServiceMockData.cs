@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Tests.Mock
 {
-    public class GraphQLServiceMock : IGraphQLService
+    public class GraphQLServiceMockData : IGraphQLService
     {
         public Task<GraphQLResponse> GetReductionAsync(Workflow workflow, Subject currentSubject)
         {
