@@ -1,15 +1,12 @@
-﻿using GalaxyZooTouchTable.Services;
-using GraphQL.Common.Response;
-using PanoptesNetClient.Models;
-using System.Threading.Tasks;
+﻿using GraphQL.Common.Response;
 
 namespace GalaxyZooTouchTable.Tests.Mock
 {
-    public class GraphQLServiceMockData : IGraphQLService
+    public static class GraphQLServiceMockData
     {
-        public Task<GraphQLResponse> GetReductionAsync(Workflow workflow, Subject currentSubject)
+        public static GraphQLResponse GraphQLResponse()
         {
-            return Task.FromResult<GraphQLResponse>(new GraphQLResponse());
+            return new GraphQLResponse();
         }
     }
 }

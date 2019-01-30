@@ -7,6 +7,7 @@ using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -17,12 +18,12 @@ namespace GalaxyZooTouchTable.ViewModels
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
         private int ClassificationsThisSession { get; set; } = 0;
-        private Classification CurrentClassification { get; set; }
-        private Subject CurrentSubject { get; set; }
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
         private List<Subject> Subjects { get; set; } = new List<Subject>();
 
+        public Classification CurrentClassification { get; set; } = new Classification();
+        public Subject CurrentSubject { get; set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
         public NotificationsViewModel Notifications { get; private set; }
         public Workflow Workflow { get; set; }
@@ -35,9 +36,10 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
 
-        public void Load()
+        public async void Load()
         {
-            GetWorkflow();
+            await GetWorkflow();
+            PrepareForNewClassification();
         }
 
         private List<AnswerButton> _currentAnswers;
@@ -178,10 +180,9 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
-        public async void GetWorkflow()
+        public async Task GetWorkflow()
         {
             Workflow = await _panoptesService.GetWorkflowAsync(Config.WorkflowId);
-            PrepareForNewClassification();
             WorkflowTask CurrentTask = Workflow.Tasks[Workflow.FirstTask];
             CurrentTaskIndex = Workflow.FirstTask;
             CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
@@ -209,12 +210,12 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectedAnswer = Button;
         }
 
-        private async void OnGetSubjectById(string subjectID)
+        public async void OnGetSubjectById(string subjectID)
         {
             TotalVotes = 0;
             Subject newSubject = await _panoptesService.GetSubjectAsync(subjectID);
             Subjects.Insert(0, newSubject);
-            GetSubject();
+            GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
@@ -241,7 +242,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void PrepareForNewClassification()
         {
-            GetSubject();
+            GetSubjectQueue();
             OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
         }
@@ -355,7 +356,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private async void GetSubject()
+        public async void GetSubjectQueue()
         {
             if (Subjects.Count <= 0)
             {
@@ -379,7 +380,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             TotalVotes = 0;
             Subjects.Insert(0, subject.Subject);
-            GetSubject();
+            GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
@@ -395,7 +396,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             GraphQLResponse response = await _graphQLService.GetReductionAsync(Workflow, CurrentSubject);
 
-            if (response.Data != null)
+            if (response != null && response.Data != null)
             {
                 var reductions = response.Data.workflow.subject_reductions;
 

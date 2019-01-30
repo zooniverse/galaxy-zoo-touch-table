@@ -3,6 +3,9 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Tests.Mock;
 using GalaxyZooTouchTable.ViewModels;
 using Moq;
+using PanoptesNetClient.Models;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -11,14 +14,30 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
     {
         private ClassificationPanelViewModel _viewModel { get; set; }
         private Mock<IPanoptesService> _panoptesServiceMock = new Mock<IPanoptesService>();
+        private Mock<IGraphQLService> _graphQLServiceMock = new Mock<IGraphQLService>();
 
         public ClassificationPanelViewModelTests()
         {
-            var starUser = new StarUser();
             _panoptesServiceMock.Setup(dp => dp.GetWorkflowAsync("1"))
                 .ReturnsAsync(PanoptesServiceMockData.Workflow("1"));
 
-            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, new GraphQLServiceMockData(), starUser);
+            _panoptesServiceMock.Setup(dp => dp.GetSubjectAsync("1"))
+                .ReturnsAsync(PanoptesServiceMockData.Subject());
+
+            NameValueCollection query = new NameValueCollection
+                {
+                    { "workflow_id", "1" }
+                };
+            _panoptesServiceMock.Setup(dp => dp.GetSubjectsAsync("queued", query))
+                .ReturnsAsync(PanoptesServiceMockData.Subjects());
+
+            _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(new Classification()))
+                .Returns(Task.CompletedTask);
+
+            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), new Subject()))
+                .ReturnsAsync(GraphQLServiceMockData.GraphQLResponse());
+
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, new StarUser());
         }
 
         [Fact]
@@ -35,11 +54,43 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldLoadAWorkflow()
+        public async void ShouldLoadAWorkflow()
         {
-            _viewModel.Load();
+            await _viewModel.GetWorkflow();
             _panoptesServiceMock.Verify(vm=>vm.GetWorkflowAsync("1"), Times.Once);
             Assert.NotNull(_viewModel.Workflow);
+        }
+
+        [Fact]
+        public void ShouldLoadSubjects()
+        {
+            _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
+            _viewModel.GetSubjectQueue();
+            NameValueCollection query = new NameValueCollection
+                {
+                    { "workflow_id", "1" }
+                };
+            _panoptesServiceMock.Verify(vm => vm.GetSubjectsAsync("queued", query), Times.Once);
+            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
+            Assert.NotNull(_viewModel.CurrentSubject);
+        }
+
+        [Fact]
+        public void ShouldLoadASubject()
+        {
+            _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
+            _viewModel.OnGetSubjectById("1");
+            _panoptesServiceMock.Verify(vm => vm.GetSubjectAsync("1"), Times.Once);
+            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
+            Assert.NotNull(_viewModel.CurrentSubject);
+        }
+
+        [Fact]
+        public void ShouldSubmitClassificationOnSubmission()
+        {
+            _viewModel.OnSelectAnswer(PanoptesServiceMockData.AnswerButton());
+            _viewModel.OnContinueClassification(null);
+            _panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
         }
 
         //[Fact]

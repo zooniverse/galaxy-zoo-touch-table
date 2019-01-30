@@ -42,7 +42,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
             };
         }
 
-        public static AnswerButton ConstructAnswerButton()
+        public static AnswerButton AnswerButton()
         {
             TaskAnswer Answer = new TaskAnswer();
             Answer.Label = "Smooth Galaxy";
@@ -50,21 +50,11 @@ namespace GalaxyZooTouchTable.Tests.Mock
             return new AnswerButton(Answer, 1);
         }
 
-        //public Task CreateClassificationAsync(Classification classification)
-        //{
-        //    return Task.CompletedTask;
-        //}
-
-        //public Task<Subject> GetSubjectAsync(string id)
-        //{
-        //    return Task.FromResult<Subject>(new Subject());
-        //}
-
         public static List<Subject> Subjects()
         {
             List<Subject> subjectList = new List<Subject>();
             subjectList.Add(Subject());
-            return new List<Subject>(subjectList);
+            return subjectList;
         }
     }
 }

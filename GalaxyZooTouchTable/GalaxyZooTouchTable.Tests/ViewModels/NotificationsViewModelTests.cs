@@ -55,16 +55,16 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.Equal(NotificationStatus.HelpRequestReceived, ViewModel.User.Status);
         }
 
-        //[Fact]
-        //public void ShouldReceiveAnswerRequest()
-        //{
-        //    AnswerButton ItemTouched = PanoptesServiceMockData.AnswerButton();
-        //    ViewModel.OnAnswerReceived(ItemTouched);
-        //    Assert.False(ViewModel.HideButtonNotification);
-        //    Assert.True(ViewModel.OpenNotifier);
-        //    Assert.Equal(ItemTouched.Label, ViewModel.SuggestedAnswer);
-        //    Assert.Equal(NotificationStatus.AnswerGiven, ViewModel.User.Status);
-        //}
+        [Fact]
+        public void ShouldReceiveAnswerRequest()
+        {
+            AnswerButton ItemTouched = PanoptesServiceMockData.AnswerButton();
+            ViewModel.OnAnswerReceived(ItemTouched);
+            Assert.False(ViewModel.HideButtonNotification);
+            Assert.True(ViewModel.OpenNotifier);
+            Assert.Equal(ItemTouched.Label, ViewModel.SuggestedAnswer);
+            Assert.Equal(NotificationStatus.AnswerGiven, ViewModel.User.Status);
+        }
 
         [Fact]
         public void ShouldAcceptNotifications()
