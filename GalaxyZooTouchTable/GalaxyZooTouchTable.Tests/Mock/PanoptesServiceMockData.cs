@@ -7,7 +7,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
 {
     public static class PanoptesServiceMockData
     {
-        public static Workflow Workflow(string id)
+        public static Workflow Workflow(string id = null)
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>()
             {

@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class ClassificationPanelViewModel : ViewModelBase
+    public class ClassificationPanelViewModel : ViewModelBase, IClassificationPanelViewModel
     {
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
@@ -35,12 +35,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; set; }
         public ICommand SelectAnswer { get; set; }
         public ICommand ShowCloseConfirmation { get; set; }
-
-        public async void Load()
-        {
-            await GetWorkflow();
-            PrepareForNewClassification();
-        }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
@@ -163,7 +157,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
         }
 
-        private void AddSubscribers()
+        public void AddSubscribers()
         {
             ExamplesViewModel.PropertyChanged += ResetTimer;
             LevelerViewModel.PropertyChanged += ResetTimer;
@@ -174,7 +168,13 @@ namespace GalaxyZooTouchTable.ViewModels
             StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
 
-        private void OnSendRequestToUser(TableUser UserToNotify)
+        public async void Load()
+        {
+            await GetWorkflow();
+            PrepareForNewClassification();
+        }
+
+        public void OnSendRequestToUser(TableUser UserToNotify)
         {
             NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
@@ -252,7 +252,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseConfirmationVisible = !CloseConfirmationVisible;
         }
 
-        private void OnChangeView(ClassifierViewEnum view)
+        public void OnChangeView(ClassifierViewEnum view)
         {
             CurrentView = view;
         }
@@ -277,7 +277,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void HandleNotificationsOnSubmit()
+        public void HandleNotificationsOnSubmit()
         {
             if (User.Status == NotificationStatus.HelpingUser)
             {
@@ -292,14 +292,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void StartTimer()
+        public void StartTimer()
         {
             StillThereTimer = new DispatcherTimer();
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
             ResetTimer();
         }
 
-        private void ShowStillThereModal(object sender, System.EventArgs e)
+        public void ShowStillThereModal(object sender, System.EventArgs e)
         {
             if (StillThereTimer != null)
             {
@@ -308,7 +308,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void ChooseAnswer(AnswerButton button)
+        public void ChooseAnswer(AnswerButton button)
         {
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
@@ -323,7 +323,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (StillThere.Visible) { StillThere.Visible = false; }
         }
 
-        private void ResetTimer(object sender, PropertyChangedEventArgs e)
+        public void ResetTimer(object sender, PropertyChangedEventArgs e)
         {
             ResetTimer();
         }
@@ -384,7 +384,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
-        private void ResetAnswerCount()
+        public void ResetAnswerCount()
         {
             foreach (AnswerButton Answer in CurrentAnswers)
             {
@@ -392,7 +392,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private async void GetSubjectReductions()
+        public async void GetSubjectReductions()
         {
             GraphQLResponse response = await _graphQLService.GetReductionAsync(Workflow, CurrentSubject);
 

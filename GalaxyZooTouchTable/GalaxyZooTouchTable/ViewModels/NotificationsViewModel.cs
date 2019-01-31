@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class NotificationsViewModel : ViewModelBase
+    public class NotificationsViewModel : ViewModelBase, INotificationsViewModel
     {
         public ICommand AcceptGalaxy { get; private set; }
         public ICommand DeclineGalaxy { get; private set; }
@@ -66,7 +66,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
         }
 
-        private void RegisterMessengerActions(TableUser user)
+        public void RegisterMessengerActions(TableUser user)
         {
             Messenger.Default.Register<AnswerButton>(this, OnAnswerReceived, $"{user.Name}_ReceivedAnswer");
             Messenger.Default.Register<NotificationRequest>(this, OnNotificationReceived, $"{user.Name}_ReceivedNotification");
@@ -152,7 +152,7 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Status = NotificationStatus.HelpRequestSent;
         }
 
-        private void OnResetNotifications(object sender = null)
+        public void OnResetNotifications(object sender = null)
         {
             ClearNotifications(false);
         }

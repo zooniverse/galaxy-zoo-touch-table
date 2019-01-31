@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class LevelerViewModel : ViewModelBase
+    public class LevelerViewModel : ViewModelBase, ILevelerViewModel
     {
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; private set; }
@@ -65,17 +65,17 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassificationsThisSession = TotalClassifications;
         }
 
-        public void LoadCommands()
+        private void LoadCommands()
         {
             ToggleLeveler = new CustomCommand(SlideLeveler);
         }
 
-        private void SlideLeveler(object sender)
+        public void SlideLeveler(object sender)
         {
             IsOpen = !IsOpen;
         }
 
-        private void LevelUp()
+        public void LevelUp()
         {
             if (ClassificationLevel == MAX_LEVEL)
             {

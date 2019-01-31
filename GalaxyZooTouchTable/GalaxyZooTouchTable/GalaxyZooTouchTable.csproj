@@ -194,6 +194,12 @@
     <Compile Include="Services\IPanoptesService.cs" />
     <Compile Include="Services\PanoptesService.cs" />
     <Compile Include="ViewModels\CenterpieceViewModel.cs" />
+    <Compile Include="ViewModels\ICenterpieceViewModel.cs" />
+    <Compile Include="ViewModels\IClassificationPanelViewModel.cs" />
+    <Compile Include="ViewModels\IExamplesPanelViewModel.cs" />
+    <Compile Include="ViewModels\ILevelerViewModel.cs" />
+    <Compile Include="ViewModels\INotificationsViewModel.cs" />
+    <Compile Include="ViewModels\IStillThereViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="Models\CircularProgress.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />

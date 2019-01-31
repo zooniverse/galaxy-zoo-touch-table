@@ -111,16 +111,19 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.True(_viewModel.User.Active);
         }
 
-        //[Fact]
-        //public void ShouldCloseClassifier()
-        //{
-        //    ViewModel.OnCloseClassifier(null);
-        //    Assert.False(ViewModel.Notifications.OpenNotifier);
-        //    Assert.True(ViewModel.ExamplesViewModel.IsOpen);
-        //    Assert.False(ViewModel.LevelerViewModel.IsOpen);
-        //    Assert.False(ViewModel.ClassifierOpen);
-        //    Assert.False(ViewModel.User.Active);
-        //}
+        [Fact]
+        public void ShouldCloseClassifier()
+        {
+            _viewModel.Workflow = PanoptesServiceMockData.Workflow();
+            _viewModel.OnCloseClassifier(null);
+            Assert.False(_viewModel.Notifications.OpenNotifier);
+            Assert.True(_viewModel.ExamplesViewModel.IsOpen);
+            Assert.False(_viewModel.LevelerViewModel.IsOpen);
+            Assert.False(_viewModel.ClassifierOpen);
+            Assert.False(_viewModel.User.Active);
+
+
+        }
 
         //[Fact]
         //public void ShouldPrepareNewClassification()

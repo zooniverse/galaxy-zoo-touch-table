@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class ExamplesPanelViewModel : ViewModelBase
+    public class ExamplesPanelViewModel : ViewModelBase, IExamplesPanelViewModel
     {
         public ICommand OpenPanel { get; private set; }
         public ICommand TogglePanel { get; private set; }
@@ -45,7 +45,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
         }
 
-        public void LoadCommands()
+        private void LoadCommands()
         {
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);

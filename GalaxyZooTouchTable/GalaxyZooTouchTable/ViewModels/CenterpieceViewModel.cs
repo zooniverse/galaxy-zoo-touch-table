@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class CenterpieceViewModel : ViewModelBase
+    public class CenterpieceViewModel : ViewModelBase, ICenterpieceViewModel
     {
         public DispatcherTimer Timer = new DispatcherTimer();
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
@@ -41,7 +41,7 @@ namespace GalaxyZooTouchTable.ViewModels
             AllUsers.Add(GlobalData.GetInstance().EarthUser);
         }
 
-        private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
+        public void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
         {
 
             if (changedEventArgs.NewItems != null)
@@ -60,12 +60,12 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
+        public void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
         {
             ShowJoinMessage = !AllUsers.Any(user => user.Active == true);
         }
 
-        private void CreateTimer()
+        public void CreateTimer()
         {
             Timer.Tick += new System.EventHandler(OnFlipCenterpiece);
             Timer.Interval = new System.TimeSpan(0, 1, 0);
