@@ -2,43 +2,42 @@
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Tests.Mock;
 using GalaxyZooTouchTable.ViewModels;
-using PanoptesNetClient.Models;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
 {
     public class NotificationsViewModelTests
     {
-        private NotificationsViewModel ViewModel { get; set; }
+        private NotificationsViewModel _viewModel;
 
         public NotificationsViewModelTests()
         {
             TableUser StarUser = GlobalData.GetInstance().StarUser;
-            ViewModel = new NotificationsViewModel(StarUser);
+            _viewModel = new NotificationsViewModel(StarUser);
         }
 
         [Fact]
         public void ShouldInitializeWithDefaultValues()
         {
-            Assert.False(ViewModel.HideButtonNotification);
-            Assert.False(ViewModel.OpenNotifier);
-            Assert.Null(ViewModel.SuggestedAnswer);
-            Assert.Null(ViewModel.CooperatingPeer);
+            Assert.False(_viewModel.HideButtonNotification);
+            Assert.False(_viewModel.OpenNotifier);
+            Assert.Null(_viewModel.SuggestedAnswer);
+            Assert.Null(_viewModel.CooperatingPeer);
         }
 
         [Fact]
         public void ShouldFilterUserFromAvailableUsers()
         {
             TableUser StarUser = GlobalData.GetInstance().StarUser;
-            Assert.DoesNotContain(StarUser, ViewModel.AvailableUsers);
+            Assert.DoesNotContain(StarUser, _viewModel.AvailableUsers);
         }
 
         [Fact]
         public void ShouldCloseNotifierWhenPeerHasLeft()
         {
-            ViewModel.OnPeerLeaving();
-            Assert.False(ViewModel.OpenNotifier);
-            Assert.Equal(NotificationStatus.PeerHasLeft, ViewModel.User.Status);
+            _viewModel.OnPeerLeaving();
+            Assert.False(_viewModel.OpenNotifier);
+            Assert.Equal(NotificationStatus.PeerHasLeft, _viewModel.User.Status);
         }
 
         [Fact]
@@ -48,40 +47,40 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             string SubjectID = "1";
             NotificationRequest Request = new NotificationRequest(HeartUser, SubjectID);
 
-            ViewModel.OnNotificationReceived(Request);
-            Assert.Equal(HeartUser, ViewModel.CooperatingPeer);
-            Assert.True(ViewModel.OpenNotifier);
-            Assert.Equal(SubjectID, ViewModel.SubjectIdToExamine);
-            Assert.Equal(NotificationStatus.HelpRequestReceived, ViewModel.User.Status);
+            _viewModel.OnNotificationReceived(Request);
+            Assert.Equal(HeartUser, _viewModel.CooperatingPeer);
+            Assert.True(_viewModel.OpenNotifier);
+            Assert.Equal(SubjectID, _viewModel.SubjectIdToExamine);
+            Assert.Equal(NotificationStatus.HelpRequestReceived, _viewModel.User.Status);
         }
 
         [Fact]
         public void ShouldReceiveAnswerRequest()
         {
-            AnswerButton ItemTouched = PanoptesServiceMockData.AnswerButton();
-            ViewModel.OnAnswerReceived(ItemTouched);
-            Assert.False(ViewModel.HideButtonNotification);
-            Assert.True(ViewModel.OpenNotifier);
-            Assert.Equal(ItemTouched.Label, ViewModel.SuggestedAnswer);
-            Assert.Equal(NotificationStatus.AnswerGiven, ViewModel.User.Status);
+            AnswerButton AnswerSelected = PanoptesServiceMockData.AnswerButton();
+            _viewModel.OnAnswerReceived(AnswerSelected);
+            Assert.False(_viewModel.HideButtonNotification);
+            Assert.True(_viewModel.OpenNotifier);
+            Assert.Equal(AnswerSelected.Label, _viewModel.SuggestedAnswer);
+            Assert.Equal(NotificationStatus.AnswerGiven, _viewModel.User.Status);
         }
 
         [Fact]
         public void ShouldAcceptNotifications()
         {
             TableUser HeartUser = new HeartUser();
-            ViewModel.CooperatingPeer = HeartUser;
+            _viewModel.CooperatingPeer = HeartUser;
 
             var ChangeViewCalled = false;
             var GetSubjectByIdCalled = false;
-            ViewModel.ChangeView += (s) => ChangeViewCalled = true;
-            ViewModel.GetSubjectById += (s) => GetSubjectByIdCalled = true;
-            ViewModel.OnAcceptGalaxy(null);
+            _viewModel.ChangeView += (s) => ChangeViewCalled = true;
+            _viewModel.GetSubjectById += (s) => GetSubjectByIdCalled = true;
+            _viewModel.OnAcceptGalaxy(null);
 
             Assert.True(ChangeViewCalled);
             Assert.True(GetSubjectByIdCalled);
-            Assert.False(ViewModel.OpenNotifier);
-            Assert.Equal(NotificationStatus.HelpingUser, ViewModel.User.Status);
+            Assert.False(_viewModel.OpenNotifier);
+            Assert.Equal(NotificationStatus.HelpingUser, _viewModel.User.Status);
             Assert.Equal(NotificationStatus.AcceptedHelp, HeartUser.Status);
         }
 
@@ -89,12 +88,12 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public void ShouldDeclineNotifications()
         {
             TableUser HeartUser = new HeartUser();
-            ViewModel.CooperatingPeer = HeartUser;
+            _viewModel.CooperatingPeer = HeartUser;
 
-            ViewModel.OnDeclineGalaxy(null);
-            Assert.Null(ViewModel.CooperatingPeer);
-            Assert.False(ViewModel.OpenNotifier);
-            Assert.Equal(NotificationStatus.Idle, ViewModel.User.Status);
+            _viewModel.OnDeclineGalaxy(null);
+            Assert.Null(_viewModel.CooperatingPeer);
+            Assert.False(_viewModel.OpenNotifier);
+            Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
 
         [Fact]
@@ -102,58 +101,58 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             TableUser HeartUser = new HeartUser();
             var SendRequestToUserCalled = false;
-            ViewModel.SendRequestToUser += (s) => SendRequestToUserCalled = true;
-            ViewModel.OnNotifyUser(HeartUser);
+            _viewModel.SendRequestToUser += (s) => SendRequestToUserCalled = true;
+            _viewModel.OnNotifyUser(HeartUser);
 
-            Assert.Equal(HeartUser, ViewModel.CooperatingPeer);
             Assert.True(SendRequestToUserCalled);
-            Assert.False(ViewModel.OpenNotifier);
-            Assert.Equal(NotificationStatus.HelpRequestSent, ViewModel.User.Status);
+            Assert.Equal(HeartUser, _viewModel.CooperatingPeer);
+            Assert.False(_viewModel.OpenNotifier);
+            Assert.Equal(NotificationStatus.HelpRequestSent, _viewModel.User.Status);
         }
 
         [Fact]
         public void ShouldClearNotifications()
         {
-            ViewModel.ClearNotifications();
+            _viewModel.ClearNotifications();
 
-            Assert.Null(ViewModel.CooperatingPeer);
-            Assert.False(ViewModel.OpenNotifier);
-            Assert.Null(ViewModel.SuggestedAnswer);
-            Assert.Equal(NotificationStatus.Idle, ViewModel.User.Status);
+            Assert.Null(_viewModel.CooperatingPeer);
+            Assert.False(_viewModel.OpenNotifier);
+            Assert.Null(_viewModel.SuggestedAnswer);
+            Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
 
         [Fact]
         public void ShouldToggleNotificationWhenAnswerGiven()
         {
             GlobalData.GetInstance().StarUser.Status = NotificationStatus.AnswerGiven;
-            ViewModel.OnToggleButtonNotification(null);
-            Assert.False(ViewModel.HideButtonNotification);
-            Assert.Equal(NotificationStatus.Idle, ViewModel.User.Status);
+            _viewModel.OnToggleButtonNotification(null);
+            Assert.False(_viewModel.HideButtonNotification);
+            Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
 
         [Fact]
         public void ShouldToggleNotificationWhenPeerHasLeft()
         {
-            Assert.False(ViewModel.HideButtonNotification);
+            Assert.False(_viewModel.HideButtonNotification);
             GlobalData.GetInstance().StarUser.Status = NotificationStatus.PeerHasLeft;
-            ViewModel.OnToggleButtonNotification(null);
-            Assert.True(ViewModel.HideButtonNotification);
+            _viewModel.OnToggleButtonNotification(null);
+            Assert.True(_viewModel.HideButtonNotification);
         }
 
         [Fact]
         public void ShouldToggleNotifier()
         {
-            Assert.False(ViewModel.OpenNotifier);
-            ViewModel.OnToggleNotifier(null);
-            Assert.True(ViewModel.OpenNotifier);
+            Assert.False(_viewModel.OpenNotifier);
+            _viewModel.OnToggleNotifier(null);
+            Assert.True(_viewModel.OpenNotifier);
         }
 
         [Fact]
         public void ShouldSendAnswerToUser()
         {
-            ViewModel.CooperatingPeer = new HeartUser();
-            ViewModel.SendAnswerToUser(null);
-            Assert.Equal(NotificationStatus.Idle, ViewModel.User.Status);
+            _viewModel.CooperatingPeer = new HeartUser();
+            _viewModel.SendAnswerToUser(null);
+            Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
     }
 }

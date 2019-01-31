@@ -19,6 +19,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private IPanoptesService _panoptesService;
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
+        private NotificationsViewModel Notifications { get; set; }
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public Subject CurrentSubject { get; set; }
@@ -33,13 +34,6 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
         public List<Subject> Subjects { get; set; } = new List<Subject>();
-
-        private INotificationsViewModel _notifications;
-        public INotificationsViewModel Notifications
-        {
-            get => _notifications;
-            set => SetProperty(ref _notifications, value);
-        }
 
         private IExamplesPanelViewModel _examplesPanelViewModel;
         public IExamplesPanelViewModel ExamplesViewModel
@@ -160,7 +154,14 @@ namespace GalaxyZooTouchTable.ViewModels
             _panoptesService = panoptesService;
             _graphQLService = graphQLService;
             User = user;
+
+            ExamplesViewModel = new ExamplesPanelViewModel();
+            LevelerViewModel = new LevelerViewModel(User);
+            Notifications = new NotificationsViewModel(User);
+            StillThere = new StillThereViewModel();
+
             LoadCommands();
+            AddSubscribers();
         }
 
         public void AddSubscribers()
@@ -178,13 +179,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             await GetWorkflow();
             PrepareForNewClassification();
-
-            ExamplesViewModel = new ExamplesPanelViewModel();
-            LevelerViewModel = new LevelerViewModel(User);
-            Notifications = new NotificationsViewModel(User);
-            StillThere = new StillThereViewModel();
-
-            AddSubscribers();
         }
 
         public void OnSendRequestToUser(TableUser UserToNotify)

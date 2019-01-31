@@ -7,28 +7,34 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 {
     public class CenterpieceViewModelTests
     {
-        private CenterpieceViewModel ViewModel = new CenterpieceViewModel();
+        private CenterpieceViewModel _viewModel;
+
+        public CenterpieceViewModelTests()
+        {
+            _viewModel = new CenterpieceViewModel();
+        }
 
         [Fact]
         private void ShouldInstantiateWithDefaultValues()
         {
-            Assert.True(ViewModel.AllUsers.Count > 0);
-            Assert.True(ViewModel.ShowJoinMessage);
-            Assert.False(ViewModel.CenterpieceIsFlipped);
+            Assert.True(_viewModel.AllUsers.Count > 0);
+            Assert.True(_viewModel.ShowJoinMessage);
+            Assert.False(_viewModel.CenterpieceIsFlipped);
         }
 
         [Fact]
         private void ShouldHideJoinMessageWithActiveUser()
         {
+            Assert.True(_viewModel.ShowJoinMessage);
             GlobalData.GetInstance().StarUser.Active = true;
-            Assert.False(ViewModel.ShowJoinMessage);
+            Assert.False(_viewModel.ShowJoinMessage);
         }
 
         [Fact]
         private void ShouldFlipCenterpiece()
         {
-            ViewModel.OnFlipCenterpiece(null, new EventArgs());
-            Assert.True(ViewModel.CenterpieceIsFlipped);
+            _viewModel.OnFlipCenterpiece(null, new EventArgs());
+            Assert.True(_viewModel.CenterpieceIsFlipped);
         }
     }
 }

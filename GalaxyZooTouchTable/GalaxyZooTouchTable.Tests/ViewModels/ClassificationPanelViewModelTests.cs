@@ -159,27 +159,5 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 };
             _panoptesServiceMock.Verify(vm => vm.GetSubjectsAsync("queued", query), Times.Exactly(2));
         }
-
-        [Fact]
-        public void ShouldCallViewModelPropertyChangedEvents()
-        {
-            var levelerMock = new Mock<ILevelerViewModel>();
-            var levelerViewModelFired = _viewModel.IsPropertyChangedFired(() =>
-            {
-                _viewModel.LevelerViewModel = levelerMock.Object;
-            }, nameof(_viewModel.LevelerViewModel));
-
-            var examplesMock = new Mock<IExamplesPanelViewModel>();
-            var exampleViewModelFired = _viewModel.IsPropertyChangedFired(() =>
-            {
-                _viewModel.ExamplesViewModel = examplesMock.Object;
-            }, nameof(_viewModel.ExamplesViewModel));
-
-            var notificationsMock = new Mock<INotificationsViewModel>();
-            var notificationsViewModelFired = _viewModel.IsPropertyChangedFired(() =>
-            {
-                _viewModel.Notifications = notificationsMock.Object;
-            }, nameof(_viewModel.Notifications));
-        }
     }
 }

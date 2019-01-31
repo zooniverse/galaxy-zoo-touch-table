@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class StillThereViewModel : ViewModelBase, IStillThereViewModel
+    public class StillThereViewModel : ViewModelBase
     {
         public DispatcherTimer SecondTimer { get; set; }
         public DispatcherTimer ThirtySecondTimer { get; set; }
@@ -79,7 +79,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ResetFiveMinuteTimer();
         }
 
-        public void StartTimers()
+        private void StartTimers()
         {
             CurrentSeconds = 30;
             Percentage = 100;
@@ -95,7 +95,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Circle.RenderArc(Percentage);
         }
 
-        public void StopTimers()
+        private void StopTimers()
         {
             if (SecondTimer != null && ThirtySecondTimer != null)
             {

@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class NotificationsViewModel : ViewModelBase, INotificationsViewModel
+    public class NotificationsViewModel : ViewModelBase
     {
         public ICommand AcceptGalaxy { get; private set; }
         public ICommand DeclineGalaxy { get; private set; }
