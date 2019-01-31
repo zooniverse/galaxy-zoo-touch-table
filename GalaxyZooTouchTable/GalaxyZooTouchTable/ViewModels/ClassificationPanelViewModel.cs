@@ -17,24 +17,36 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
-        private int ClassificationsThisSession { get; set; } = 0;
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
-        private List<Subject> Subjects { get; set; } = new List<Subject>();
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public Subject CurrentSubject { get; set; }
-        public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
-        public NotificationsViewModel Notifications { get; private set; }
         public Workflow Workflow { get; set; }
         public TableUser User { get; set; }
 
+        public int ClassificationsThisSession { get; set; } = 0;
         public ICommand ChooseAnotherGalaxy { get; set; }
-        public ICommand CloseClassifier { get; set; }
-        public ICommand ContinueClassification { get; set; }
-        public ICommand OpenClassifier { get; set; }
-        public ICommand SelectAnswer { get; set; }
-        public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand CloseClassifier { get; private set; }
+        public ICommand ContinueClassification { get; private set; }
+        public ICommand OpenClassifier { get; private set; }
+        public ICommand SelectAnswer { get; private set; }
+        public ICommand ShowCloseConfirmation { get; private set; }
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
+
+        private INotificationsViewModel _notifications;
+        public INotificationsViewModel Notifications
+        {
+            get => _notifications;
+            set => SetProperty(ref _notifications, value);
+        }
+
+        private IExamplesPanelViewModel _examplesPanelViewModel;
+        public IExamplesPanelViewModel ExamplesViewModel
+        {
+            get => _examplesPanelViewModel;
+            set => SetProperty(ref _examplesPanelViewModel, value);
+        }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
@@ -148,12 +160,6 @@ namespace GalaxyZooTouchTable.ViewModels
             _panoptesService = panoptesService;
             _graphQLService = graphQLService;
             User = user;
-
-            Notifications = new NotificationsViewModel(user);
-            LevelerViewModel = new LevelerViewModel(user);
-            StillThere = new StillThereViewModel();
-
-            AddSubscribers();
             LoadCommands();
         }
 
@@ -172,6 +178,13 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             await GetWorkflow();
             PrepareForNewClassification();
+
+            ExamplesViewModel = new ExamplesPanelViewModel();
+            LevelerViewModel = new LevelerViewModel(User);
+            Notifications = new NotificationsViewModel(User);
+            StillThere = new StillThereViewModel();
+
+            AddSubscribers();
         }
 
         public void OnSendRequestToUser(TableUser UserToNotify)
@@ -230,11 +243,13 @@ namespace GalaxyZooTouchTable.ViewModels
         public void OnCloseClassifier(object sender)
         {
             SubjectView = SubjectViewEnum.DragSubject;
-            Notifications.ClearNotifications(true);
-            StillThereTimer = null;
-            ExamplesViewModel.IsOpen = true;
-            ExamplesViewModel.SelectedExample = null;
+            bool UserIsLeaving = true;
+            LevelerViewModel.CloseLeveler();
+            ExamplesViewModel.ResetExamples();
             PrepareForNewClassification();
+            Notifications.ClearNotifications(UserIsLeaving);
+
+            StillThereTimer = null;
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
             User.Active = false;
@@ -366,13 +381,17 @@ namespace GalaxyZooTouchTable.ViewModels
                 };
                 Subjects = await _panoptesService.GetSubjectsAsync("queued", query);
             }
-            CurrentSubject = Subjects[0];
-            StartNewClassification(CurrentSubject);
-            Subjects.RemoveAt(0);
-            if (CurrentSubject != null && CurrentSubject.Locations != null)
+            if (Subjects.Count > 0)
             {
-                SubjectImageSource = CurrentSubject.GetSubjectLocation();
-                GetSubjectReductions();
+                CurrentSubject = Subjects[0];
+                StartNewClassification(CurrentSubject);
+                Subjects.RemoveAt(0);
+
+                if (CurrentSubject != null && CurrentSubject.Locations != null)
+                {
+                    SubjectImageSource = CurrentSubject.GetSubjectLocation();
+                    GetSubjectReductions();
+                }
             }
         }
 

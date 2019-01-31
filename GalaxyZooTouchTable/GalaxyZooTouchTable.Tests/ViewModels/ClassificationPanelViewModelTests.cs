@@ -1,5 +1,7 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
+using GalaxyZooTouchTable.Tests.Extensions;
 using GalaxyZooTouchTable.Tests.Mock;
 using GalaxyZooTouchTable.ViewModels;
 using Moq;
@@ -46,11 +48,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.False(_viewModel.CloseConfirmationVisible);
             Assert.False(_viewModel.ClassifierOpen);
             Assert.False(_viewModel.CanSendClassification);
-
-            Assert.NotNull(_viewModel.Notifications);
-            Assert.NotNull(_viewModel.LevelerViewModel);
-            Assert.NotNull(_viewModel.StillThere);
-            Assert.NotNull(_viewModel.ExamplesViewModel);
         }
 
         [Fact]
@@ -59,6 +56,62 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             await _viewModel.GetWorkflow();
             _panoptesServiceMock.Verify(vm=>vm.GetWorkflowAsync("1"), Times.Once);
             Assert.NotNull(_viewModel.Workflow);
+        }
+
+        [Fact]
+        public void ShouldSelectAnswerAndMakeAnnotation()
+        {
+            AnswerButton AnswerButton = PanoptesServiceMockData.AnswerButton();
+            _viewModel.OnSelectAnswer(AnswerButton);
+            Assert.Equal(AnswerButton, _viewModel.SelectedAnswer);
+            Assert.Equal(AnswerButton.Index, _viewModel.CurrentAnnotation.Value);
+        }
+
+        [Fact]
+        public void ShouldLoadASubject()
+        {
+            _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
+            _viewModel.OnGetSubjectById("1");
+            _panoptesServiceMock.Verify(vm => vm.GetSubjectAsync("1"), Times.Once);
+            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
+            Assert.NotNull(_viewModel.CurrentSubject);
+        }
+
+        [Fact]
+        public void ShouldOpenClassifier()
+        {
+            _viewModel.Load();
+            _viewModel.OnOpenClassifier(null);
+            Assert.True(_viewModel.ClassifierOpen);
+            Assert.True(_viewModel.User.Active);
+        }
+
+        [Fact]
+        public void ShouldCloseClassifier()
+        {
+            _viewModel.Load();
+            _viewModel.Workflow = PanoptesServiceMockData.Workflow();
+            _viewModel.OnCloseClassifier(null);
+
+            Assert.False(_viewModel.ClassifierOpen);
+            Assert.False(_viewModel.CloseConfirmationVisible);
+            Assert.False(_viewModel.User.Active);
+        }
+
+        [Fact]
+        public void ShouldToggleCloseConfirmation()
+        {
+            Assert.False(_viewModel.CloseConfirmationVisible);
+            _viewModel.ToggleCloseConfirmation(null);
+            Assert.True(_viewModel.CloseConfirmationVisible);
+        }
+
+        [Fact]
+        public void ShouldChangeView()
+        {
+            Assert.Equal(ClassifierViewEnum.SubjectView, _viewModel.CurrentView);
+            _viewModel.OnChangeView(ClassifierViewEnum.SummaryView);
+            Assert.Equal(ClassifierViewEnum.SummaryView, _viewModel.CurrentView);
         }
 
         [Fact]
@@ -76,81 +129,57 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldLoadASubject()
-        {
-            _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
-            _viewModel.OnGetSubjectById("1");
-            _panoptesServiceMock.Verify(vm => vm.GetSubjectAsync("1"), Times.Once);
-            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
-            Assert.NotNull(_viewModel.CurrentSubject);
-        }
-
-        [Fact]
         public void ShouldSubmitClassificationOnSubmission()
         {
+            _viewModel.Load();
+            Assert.Empty(_viewModel.CurrentClassification.Annotations);
+
             _viewModel.OnSelectAnswer(PanoptesServiceMockData.AnswerButton());
             _viewModel.OnContinueClassification(null);
             _panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
-        }
 
-        //[Fact]
-        //public void ShouldSelectAnswer()
-        //{
-        //    AnswerButton AnswerButton = PanoptesServiceMockData.ConstructAnswerButton();
-
-        //    ViewModel.OnSelectAnswer(AnswerButton);
-        //    Assert.Equal(AnswerButton, ViewModel.SelectedAnswer);
-        //    Assert.Equal(AnswerButton.Index, ViewModel.CurrentAnnotation.Value);
-        //}
-
-        [Fact]
-        public void ShouldOpenClassifier()
-        {
-            _viewModel.OnOpenClassifier(null);
-            Assert.True(_viewModel.ClassifierOpen);
-            Assert.True(_viewModel.User.Active);
+            Assert.Equal(1, _viewModel.SelectedAnswer.AnswerCount);
+            Assert.Equal(1, _viewModel.TotalVotes);
+            Assert.Equal(1, _viewModel.ClassificationsThisSession);
+            Assert.Single(_viewModel.CurrentClassification.Annotations);
         }
 
         [Fact]
-        public void ShouldCloseClassifier()
+        public void ShouldLoadANewSubjectWhenContinuingSummary()
         {
-            _viewModel.Workflow = PanoptesServiceMockData.Workflow();
-            _viewModel.OnCloseClassifier(null);
-            Assert.False(_viewModel.Notifications.OpenNotifier);
-            Assert.True(_viewModel.ExamplesViewModel.IsOpen);
-            Assert.False(_viewModel.LevelerViewModel.IsOpen);
-            Assert.False(_viewModel.ClassifierOpen);
-            Assert.False(_viewModel.User.Active);
+            _viewModel.Load();
+            Assert.Empty(_viewModel.Subjects);
 
+            _viewModel.CurrentView = ClassifierViewEnum.SummaryView;
+            _viewModel.OnContinueClassification(null);
 
+            NameValueCollection query = new NameValueCollection
+                {
+                    { "workflow_id", "1" }
+                };
+            _panoptesServiceMock.Verify(vm => vm.GetSubjectsAsync("queued", query), Times.Exactly(2));
         }
-
-        //[Fact]
-        //public void ShouldPrepareNewClassification()
-        //{
-        //    ViewModel.TotalVotes = 5;
-        //    ViewModel.PrepareForNewClassification();
-        //    Assert.Equal(0, ViewModel.TotalVotes);
-        //}
 
         [Fact]
-        public void ShouldToggleCloseConfirmation()
+        public void ShouldCallViewModelPropertyChangedEvents()
         {
-            Assert.False(_viewModel.CloseConfirmationVisible);
-            _viewModel.ToggleCloseConfirmation(null);
-            Assert.True(_viewModel.CloseConfirmationVisible);
+            var levelerMock = new Mock<ILevelerViewModel>();
+            var levelerViewModelFired = _viewModel.IsPropertyChangedFired(() =>
+            {
+                _viewModel.LevelerViewModel = levelerMock.Object;
+            }, nameof(_viewModel.LevelerViewModel));
+
+            var examplesMock = new Mock<IExamplesPanelViewModel>();
+            var exampleViewModelFired = _viewModel.IsPropertyChangedFired(() =>
+            {
+                _viewModel.ExamplesViewModel = examplesMock.Object;
+            }, nameof(_viewModel.ExamplesViewModel));
+
+            var notificationsMock = new Mock<INotificationsViewModel>();
+            var notificationsViewModelFired = _viewModel.IsPropertyChangedFired(() =>
+            {
+                _viewModel.Notifications = notificationsMock.Object;
+            }, nameof(_viewModel.Notifications));
         }
-
-        //[Fact]
-        //public void ShouldViewClassificationSummaryOnSubmit()
-        //{
-        //    ViewModel.OnSelectAnswer(PanoptesServiceMockData.ConstructAnswerButton());
-
-        //    Assert.Equal(0, ViewModel.TotalVotes);
-        //    Assert.Equal(ClassifierViewEnum.SubjectView, ViewModel.CurrentView);
-        //    ViewModel.OnContinueClassification(null);
-        //    Assert.Equal(1, ViewModel.TotalVotes);
-        //    Assert.Equal(ClassifierViewEnum.SummaryView, ViewModel.CurrentView);
-        //}
     }
 }

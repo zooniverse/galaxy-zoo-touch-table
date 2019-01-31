@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    interface IClassificationPanelViewModel
+    public interface IClassificationPanelViewModel : INotifyPropertyChanged
     {
         void AddSubscribers();
         void ChooseAnswer(AnswerButton button);

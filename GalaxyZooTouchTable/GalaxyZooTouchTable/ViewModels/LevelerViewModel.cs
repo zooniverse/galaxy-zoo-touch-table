@@ -70,6 +70,11 @@ namespace GalaxyZooTouchTable.ViewModels
             ToggleLeveler = new CustomCommand(SlideLeveler);
         }
 
+        public void CloseLeveler()
+        {
+            IsOpen = false;
+        }
+
         public void SlideLeveler(object sender)
         {
             IsOpen = !IsOpen;

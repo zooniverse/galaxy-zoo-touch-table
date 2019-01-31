@@ -45,6 +45,12 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
         }
 
+        public void ResetExamples()
+        {
+            IsOpen = true;
+            SelectedExample = null;
+        }
+
         private void LoadCommands()
         {
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);

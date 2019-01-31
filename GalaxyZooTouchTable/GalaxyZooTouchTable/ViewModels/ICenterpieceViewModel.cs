@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    interface ICenterpieceViewModel
+    public interface ICenterpieceViewModel : INotifyPropertyChanged
     {
         void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs);
         void CreateTimer();

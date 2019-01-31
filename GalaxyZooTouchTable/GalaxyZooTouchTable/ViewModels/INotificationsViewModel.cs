@@ -1,8 +1,11 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
+using System;
+using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    interface INotificationsViewModel
+    public interface INotificationsViewModel : INotifyPropertyChanged
     {
         void ClearNotifications(bool UserLeaving = false);
         void FilterCurrentUser();
@@ -17,5 +20,9 @@ namespace GalaxyZooTouchTable.ViewModels
         void OnToggleNotifier(object sender);
         void RegisterMessengerActions(TableUser user);
         void SendAnswerToUser(AnswerButton SelectedItem);
+
+        event Action<string> GetSubjectById;
+        event Action<ClassifierViewEnum> ChangeView;
+        event Action<TableUser> SendRequestToUser;
     }
 }

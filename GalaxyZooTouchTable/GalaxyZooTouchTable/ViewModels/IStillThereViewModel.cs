@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    interface IStillThereViewModel
+    public interface IStillThereViewModel : INotifyPropertyChanged
     {
         void CircleChanged(object sender, PropertyChangedEventArgs e);
         void OnCloseClassifier(object sender);
