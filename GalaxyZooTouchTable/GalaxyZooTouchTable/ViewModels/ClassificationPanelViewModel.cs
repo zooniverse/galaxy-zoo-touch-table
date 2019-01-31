@@ -13,13 +13,12 @@ using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class ClassificationPanelViewModel : ViewModelBase, IClassificationPanelViewModel
+    public class ClassificationPanelViewModel : ViewModelBase
     {
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
-        private NotificationsViewModel Notifications { get; set; }
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public Subject CurrentSubject { get; set; }
@@ -35,25 +34,15 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ShowCloseConfirmation { get; private set; }
         public List<Subject> Subjects { get; set; } = new List<Subject>();
 
-        private IExamplesPanelViewModel _examplesPanelViewModel;
-        public IExamplesPanelViewModel ExamplesViewModel
-        {
-            get => _examplesPanelViewModel;
-            set => SetProperty(ref _examplesPanelViewModel, value);
-        }
+        public NotificationsViewModel Notifications { get; private set; }
+        public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
+        public LevelerViewModel LevelerViewModel { get; private set; }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
         {
             get => _currentAnswers;
             set => SetProperty(ref _currentAnswers, value);
-        }
-
-        private LevelerViewModel _levelerViewModel;
-        public LevelerViewModel LevelerViewModel
-        {
-            get => _levelerViewModel;
-            set => SetProperty(ref _levelerViewModel, value);
         }
 
         private StillThereViewModel _stillThere;

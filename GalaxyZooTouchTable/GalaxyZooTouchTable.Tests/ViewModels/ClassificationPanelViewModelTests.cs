@@ -1,11 +1,11 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
-using GalaxyZooTouchTable.Tests.Extensions;
 using GalaxyZooTouchTable.Tests.Mock;
 using GalaxyZooTouchTable.ViewModels;
 using Moq;
 using PanoptesNetClient.Models;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Xunit;
@@ -43,7 +43,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldInitializeWithDefaultValues()
+        private void ShouldInitializeWithDefaultValues()
         {
             Assert.False(_viewModel.CloseConfirmationVisible);
             Assert.False(_viewModel.ClassifierOpen);
@@ -51,7 +51,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public async void ShouldLoadAWorkflow()
+        private async void ShouldLoadAWorkflow()
         {
             await _viewModel.GetWorkflow();
             _panoptesServiceMock.Verify(vm=>vm.GetWorkflowAsync("1"), Times.Once);
@@ -59,7 +59,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldSelectAnswerAndMakeAnnotation()
+        private void ShouldSelectAnswerAndMakeAnnotation()
         {
             AnswerButton AnswerButton = PanoptesServiceMockData.AnswerButton();
             _viewModel.OnSelectAnswer(AnswerButton);
@@ -68,7 +68,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldLoadASubject()
+        private void ShouldLoadASubject()
         {
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
             _viewModel.OnGetSubjectById("1");
@@ -78,7 +78,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldOpenClassifier()
+        private void ShouldOpenClassifier()
         {
             _viewModel.Load();
             _viewModel.OnOpenClassifier(null);
@@ -87,7 +87,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldCloseClassifier()
+        private void ShouldCloseClassifier()
         {
             _viewModel.Load();
             _viewModel.Workflow = PanoptesServiceMockData.Workflow();
@@ -99,7 +99,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldToggleCloseConfirmation()
+        private void ShouldToggleCloseConfirmation()
         {
             Assert.False(_viewModel.CloseConfirmationVisible);
             _viewModel.ToggleCloseConfirmation(null);
@@ -107,7 +107,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldChangeView()
+        private void ShouldChangeView()
         {
             Assert.Equal(ClassifierViewEnum.SubjectView, _viewModel.CurrentView);
             _viewModel.OnChangeView(ClassifierViewEnum.SummaryView);
@@ -115,7 +115,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldLoadSubjects()
+        private void ShouldLoadSubjects()
         {
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
             _viewModel.GetSubjectQueue();
@@ -129,7 +129,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldSubmitClassificationOnSubmission()
+        private void ShouldSubmitClassificationOnSubmission()
         {
             _viewModel.Load();
             Assert.Empty(_viewModel.CurrentClassification.Annotations);
@@ -145,7 +145,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldLoadANewSubjectWhenContinuingSummary()
+        private void ShouldLoadANewSubjectWhenContinuingSummary()
         {
             _viewModel.Load();
             Assert.Empty(_viewModel.Subjects);
@@ -158,6 +158,52 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                     { "workflow_id", "1" }
                 };
             _panoptesServiceMock.Verify(vm => vm.GetSubjectsAsync("queued", query), Times.Exactly(2));
+        }
+
+        [Fact]
+        private void ShouldCreateAnAnnotationWhenSelectingAnswer()
+        {
+            AnswerButton SelectedAnswer = PanoptesServiceMockData.AnswerButton();
+            _viewModel.ChooseAnswer(SelectedAnswer);
+            Assert.Equal(SelectedAnswer.Index, _viewModel.CurrentAnnotation.Value);
+        }
+
+        [Fact]
+        private void ShouldParseTaskAnswers()
+        {
+            List<TaskAnswer> Answers = PanoptesServiceMockData.TaskAnswerList();
+            var result = _viewModel.ParseTaskAnswers(Answers);
+
+            Assert.Equal(2, result.Count);
+            Assert.Equal("First Task", result[0].Label);
+            Assert.Equal(0, result[0].Index);
+            Assert.Equal("Second Task", result[1].Label);
+            Assert.Equal(1, result[1].Index);
+        }
+
+        [Fact]
+        private async void ShouldCreateANewClassification()
+        {
+            await _viewModel.GetWorkflow();
+            var TestSubject = PanoptesServiceMockData.Subject();
+
+            _viewModel.StartNewClassification(TestSubject);
+            Assert.Null(_viewModel.CurrentAnnotation);
+            Assert.Null(_viewModel.SelectedAnswer);
+            Assert.NotNull(_viewModel.CurrentClassification);
+        }
+
+        [Fact]
+        private void ShouldTheResetAnswerCount()
+        {
+            List<TaskAnswer> Answers = PanoptesServiceMockData.TaskAnswerList();
+            _viewModel.CurrentAnswers = _viewModel.ParseTaskAnswers(Answers);
+            _viewModel.CurrentAnswers[0].AnswerCount = 5;
+            _viewModel.CurrentAnswers[1].AnswerCount = 7;
+
+            _viewModel.ResetAnswerCount();
+            Assert.Equal(0, _viewModel.CurrentAnswers[0].AnswerCount);
+            Assert.Equal(0, _viewModel.CurrentAnswers[1].AnswerCount);
         }
     }
 }

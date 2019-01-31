@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class LevelerViewModel : ViewModelBase, ILevelerViewModel
+    public class LevelerViewModel : ViewModelBase
     {
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; private set; }

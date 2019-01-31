@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class CenterpieceViewModel : ViewModelBase, ICenterpieceViewModel
+    public class CenterpieceViewModel : ViewModelBase
     {
         public DispatcherTimer Timer = new DispatcherTimer();
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();

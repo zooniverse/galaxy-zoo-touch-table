@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
-    public class ExamplesPanelViewModel : ViewModelBase, IExamplesPanelViewModel
+    public class ExamplesPanelViewModel : ViewModelBase
     {
         public ICommand OpenPanel { get; private set; }
         public ICommand TogglePanel { get; private set; }
@@ -22,14 +22,14 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _isSelected, value);
         }
 
-        public bool _isOpen = true;
+        private bool _isOpen = true;
         public bool IsOpen
         {
             get => _isOpen;
             set => SetProperty(ref _isOpen, value);
         }
 
-        public GalaxyExample _selectedExample;
+        private GalaxyExample _selectedExample;
         public GalaxyExample SelectedExample
         {
             get => _selectedExample;

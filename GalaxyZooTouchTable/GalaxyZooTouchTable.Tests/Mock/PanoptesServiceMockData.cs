@@ -7,6 +7,24 @@ namespace GalaxyZooTouchTable.Tests.Mock
 {
     public static class PanoptesServiceMockData
     {
+        public static List<TaskAnswer> TaskAnswerList()
+        {
+            List<TaskAnswer> TaskAnswers = new List<TaskAnswer>();
+            TaskAnswer FirstTask = new TaskAnswer()
+            {
+                Label = "First Task",
+                Next = "T1"
+            };
+            TaskAnswer SecondTask = new TaskAnswer()
+            {
+                Label = "Second Task",
+                Next = "T2"
+            };
+            TaskAnswers.Add(FirstTask);
+            TaskAnswers.Add(SecondTask);
+            return TaskAnswers;
+        }
+
         public static Workflow Workflow(string id = null)
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>()
