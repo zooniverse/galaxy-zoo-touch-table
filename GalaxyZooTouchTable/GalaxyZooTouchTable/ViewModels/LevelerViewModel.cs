@@ -8,11 +8,11 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; private set; }
-        const string MAX_LEVEL = "Five";
-        const int DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE = 5;
-        const int DEFAULT_CLASSIFICATIONS_COUNT = 5;
-        const string DEFAULT_CLASSIFICATION_LEVEL = "One";
-        const bool DEFAULT_CLASSIFICATION_OPEN = false;
+        private const string MAX_LEVEL = "Five";
+        private const int DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE = 5;
+        private const int DEFAULT_CLASSIFICATIONS_COUNT = 5;
+        private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
+        private const bool DEFAULT_CLASSIFICATION_OPEN = false;
 
         private int _classificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
         public int ClassificationsUntilUpgrade

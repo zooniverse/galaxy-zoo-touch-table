@@ -496,9 +496,9 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Separator Canvas.Top="96.15" Style="{StaticResource HidingGridSeparators}"/>
+                <Separator Canvas.Top="95" Style="{StaticResource HidingGridSeparators}"/>
 
-                <Grid Canvas.Top="95" Style="{StaticResource FeaturesExample}">
+                <Grid Canvas.Top="96" Style="{StaticResource FeaturesExample}">
                     <Grid.RenderTransform>
                         <TranslateTransform/>
                     </Grid.RenderTransform>
@@ -558,9 +558,9 @@
                     </ScrollViewer>
                 </Grid>
 
-                <Separator Canvas.Top="153.15" Style="{StaticResource HidingGridSeparators}"/>
+                <Separator Canvas.Top="153" Style="{StaticResource HidingGridSeparators}"/>
 
-                <Grid Canvas.Top="153" Style="{StaticResource NotAGalaxyExample}">
+                <Grid Canvas.Top="154" Style="{StaticResource NotAGalaxyExample}">
                     <Grid.RenderTransform>
                         <TranslateTransform/>
                     </Grid.RenderTransform>

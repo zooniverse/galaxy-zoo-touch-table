@@ -21,8 +21,8 @@ namespace GalaxyZooTouchTable.Behaviors
         private void SetOpacityMask()
         {
             var gradientCollection = new GradientStopCollection();
-            var gradientStop1 = new GradientStop(Color.FromRgb(0, 0, 0), 0);
-            var gradientStop2 = new GradientStop(Color.FromArgb(0, 0, 0, 0), 1);
+            var gradientStop1 = new GradientStop(Colors.Black, 0);
+            var gradientStop2 = new GradientStop(Colors.Transparent, 1);
             gradientCollection.Add(gradientStop1);
             gradientCollection.Add(gradientStop2);
             
@@ -44,7 +44,7 @@ namespace GalaxyZooTouchTable.Behaviors
             AssociatedObject.OpacityMask = InitialOpacityMask;
         }
 
-        public static readonly DependencyProperty IsHorizontalProperty =
+        private static readonly DependencyProperty IsHorizontalProperty =
             DependencyProperty.Register("IsHorizontal", typeof(Boolean), typeof(DisableOpacityMaskOnEndScroll));
 
         public bool IsHorizontal
@@ -53,7 +53,7 @@ namespace GalaxyZooTouchTable.Behaviors
             set { SetValue(IsHorizontalProperty, value); }
         }
 
-        public static readonly DependencyProperty StartPercentProperty =
+        private static readonly DependencyProperty StartPercentProperty =
             DependencyProperty.Register("StartPercent", typeof(double), typeof(DisableOpacityMaskOnEndScroll));
 
         public double StartPercent
