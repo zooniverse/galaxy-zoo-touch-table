@@ -4,6 +4,11 @@ using System.Windows.Interactivity;
 
 namespace GalaxyZooTouchTable.Behaviors
 {
+    /// <summary>
+    /// This class defines a tap behavior as a TouchDown and TouchUp on a single UIElement.
+    /// Previously, only using TouchUp led to commands being triggered when a touch movement
+    /// across the app surface was lifted on an unintended UIElement.
+    /// </summary>
     public class TapBehavior : Behavior<UIElement>
     {
         private bool IsTouchDown { get; set; } = false;
@@ -16,6 +21,10 @@ namespace GalaxyZooTouchTable.Behaviors
             AssociatedObject.TouchUp += AssociatedObject_TouchUp;
         }
 
+        /// <summary>
+        /// We check to make sure the TouchUp element is the same as the one that received
+        /// the TouchDown action. If so, execute the defined command
+        /// </summary>
         private void AssociatedObject_TouchUp(object sender, TouchEventArgs e)
         {
             e.Handled = true;
