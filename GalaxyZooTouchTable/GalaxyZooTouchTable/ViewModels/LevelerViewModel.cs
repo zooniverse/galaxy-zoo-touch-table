@@ -8,9 +8,13 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; private set; }
-        const string MAX_LEVEL = "Five";
+        private const string MAX_LEVEL = "Five";
+        private const int DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE = 5;
+        private const int DEFAULT_CLASSIFICATIONS_COUNT = 5;
+        private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
+        private const bool DEFAULT_CLASSIFICATION_OPEN = false;
 
-        private int _classificationsUntilUpgrade = 5;
+        private int _classificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
         public int ClassificationsUntilUpgrade
         {
             get => _classificationsUntilUpgrade;
@@ -25,7 +29,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private int _classificationsThisSession = 0;
+        private int _classificationsThisSession = DEFAULT_CLASSIFICATIONS_COUNT;
         public int ClassificationsThisSession
         {
             get => _classificationsThisSession;
@@ -36,14 +40,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private string _classificationLevel = "One";
+        private string _classificationLevel = DEFAULT_CLASSIFICATION_LEVEL;
         public string ClassificationLevel
         {
             get => _classificationLevel;
             set => SetProperty(ref _classificationLevel, value);
         }
 
-        private bool _isOpen = false;
+        private bool _isOpen = DEFAULT_CLASSIFICATION_OPEN;
         public bool IsOpen
         {
             get => _isOpen;
