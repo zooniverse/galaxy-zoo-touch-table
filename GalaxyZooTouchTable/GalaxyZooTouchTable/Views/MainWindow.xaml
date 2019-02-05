@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
+        xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
         mc:Ignorable="d"
@@ -18,27 +19,30 @@
 
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
-            <local:Centerpiece x:Name="Centerpiece" Width="1255" Height="417"/>
-
+            <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="330"/>
+            
             <local:UserConsole
                 x:Name="PersonUser"
                 DataContext="{Binding PersonUserVM}"
                 Style="{StaticResource PersonUser}"
-                Margin="333,0,1039,10"
+                Canvas.Left="333"
+                Canvas.Bottom="10"
                 VerticalAlignment="Bottom"/>
 
             <local:UserConsole
                 x:Name="FaceUser"
                 DataContext="{Binding FaceUserVM}"
                 Style="{StaticResource FaceUser}"
-                Margin="1059,0,313,10"
+                Canvas.Left="1059"
+                Canvas.Bottom="10"
                 VerticalAlignment="Bottom"/>
 
             <local:UserConsole
                 x:Name="HeartUser"
                 DataContext="{Binding HeartUserVM}"
                 Style="{StaticResource HeartUser}"
-                Margin="313,10,1059,0"
+                Canvas.Left="313"
+                Canvas.Top="10"
                 VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
@@ -49,7 +53,8 @@
                 x:Name="StarUser"
                 DataContext="{Binding StarUserVM}"
                 Style="{StaticResource StarUser}"
-                Margin="1039,10,333,0"
+                Canvas.Left="1039"
+                Canvas.Top="10"
                 VerticalAlignment="Top">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
@@ -60,7 +65,8 @@
                 x:Name="EarthUser"
                 DataContext="{Binding EarthUserVM}"
                 Style="{StaticResource EarthUser}"
-                Margin="10,0,0,0"
+                Canvas.Left="10"
+                Canvas.Top="266"
                 HorizontalAlignment="Left">
                 <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="90"/>
@@ -71,8 +77,8 @@
                 x:Name="LightUser"
                 DataContext="{Binding LightUserVM}"
                 Style="{StaticResource LightUser}"
-                Margin="0,0,10,0"
-                HorizontalAlignment="Right">
+                Canvas.Right="10"
+                Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="-90"/>
                 </local:UserConsole.LayoutTransform>

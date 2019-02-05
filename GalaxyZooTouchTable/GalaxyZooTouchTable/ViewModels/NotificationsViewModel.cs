@@ -51,6 +51,13 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _suggestedAnswer, value);
         }
 
+        private SubjectViewEnum _subjectView = SubjectViewEnum.DragSubject;
+        public SubjectViewEnum SubjectView
+        {
+            get => _subjectView;
+            set => SetProperty(ref _subjectView, value);
+        }
+
         public NotificationsViewModel(TableUser user)
         {
             User = user;
@@ -64,6 +71,12 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Register<AnswerButton>(this, OnAnswerReceived, $"{user.Name}_ReceivedAnswer");
             Messenger.Default.Register<NotificationRequest>(this, OnNotificationReceived, $"{user.Name}_ReceivedNotification");
             Messenger.Default.Register<TableUser>(this, OnPeerLeaving, $"{user.Name}_PeerLeaving");
+            Messenger.Default.Register<SubjectViewEnum>(this, OnSubjectStatusChange, $"{user.Name}_SubjectStatus");
+        }
+
+        private void OnSubjectStatusChange(SubjectViewEnum status)
+        {
+            SubjectView = status;
         }
 
         private void OnPeerLeaving(TableUser user)

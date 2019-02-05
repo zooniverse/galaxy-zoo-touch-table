@@ -7,9 +7,27 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
+        <DataTemplate x:Key="SubjectTemplate">
+            <Border
+            x:Name="DroppableArea"
+            BorderBrush="White"
+            BorderThickness="2"
+            CornerRadius="2.85"
+            Height="122"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="122">
+                <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="DropTemplate">
+            <Views:DropZone/>
+        </DataTemplate>
+
         <Style x:Key="AnswerBorder" TargetType="{x:Type Border}">
             <Setter Property="Background" Value="#55565A"/>
             <Setter Property="CornerRadius" Value="3"/>
@@ -64,18 +82,18 @@
         <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help classify the galaxy below."/>
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="14,23,0,0" Text="Please consider only the object in the center of the image."/>
 
-        <Border
-            BorderBrush="White"
-            BorderThickness="2"
-            CornerRadius="2.85"
-            Height="122"
-            HorizontalAlignment="Left"
-            Margin="14,45,0,0" 
-            VerticalAlignment="Top"
-            Width="122">
-
-            <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
-        </Border>
+        <ContentControl Content="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,45,0,0">
+            <ContentControl.Style>
+                <Style TargetType="{x:Type ContentControl}">
+                    <Setter Property="ContentTemplate" Value="{StaticResource SubjectTemplate}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SubjectView}" Value="{x:Static Lib:SubjectViewEnum.DragSubject}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource DropTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
 
         <Image
             Style="{StaticResource PeerAvatar}"

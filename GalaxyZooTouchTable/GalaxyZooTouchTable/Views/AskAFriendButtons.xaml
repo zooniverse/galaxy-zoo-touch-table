@@ -52,6 +52,9 @@
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </MultiDataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.SubjectView}" Value="{x:Static Lib:SubjectViewEnum.DragSubject}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -208,6 +211,9 @@
                     </MultiDataTrigger.Conditions>
                     <Setter Property="Opacity" Value="1"/>
                 </MultiDataTrigger>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.SubjectView}" Value="{x:Static Lib:SubjectViewEnum.DragSubject}">
+                    <Setter Property="Opacity" Value="0.25"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 

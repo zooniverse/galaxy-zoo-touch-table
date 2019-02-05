@@ -101,6 +101,7 @@
       <HintPath>..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.WebSockets, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.WebSockets.4.3.0\lib\net46\System.Net.WebSockets.dll</HintPath>
       <Private>True</Private>
@@ -134,6 +135,7 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -180,6 +182,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\UIElementDragBehavior.cs" />
+    <Compile Include="Behaviors\UIElementDropBehavior.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\FontSizeConverter.cs" />
     <Compile Include="Converters\HidePanelConverter.cs" />
@@ -190,12 +194,14 @@
     <Compile Include="Lib\ClassifierViewEnum.cs" />
     <Compile Include="Lib\GlobalData.cs" />
     <Compile Include="Lib\ContainerHelper.cs" />
+    <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\HandlingEventTrigger.cs" />
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
+    <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Services\GraphQLService.cs" />
     <Compile Include="Services\IGraphQLService.cs" />
@@ -213,6 +219,9 @@
     </Compile>
     <Compile Include="ViewModels\StillThereViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Models\TableSubject.cs" />
+    <Compile Include="ViewModels\SpaceViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
@@ -220,6 +229,9 @@
       <DependentUpon>ClassificationSummary.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
+    <Compile Include="Views\DropZone.xaml.cs">
+      <DependentUpon>DropZone.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExamplesPanel.xaml.cs">
       <DependentUpon>ExamplesPanel.xaml</DependentUpon>
     </Compile>
@@ -233,6 +245,9 @@
     <Compile Include="Converters\NullImageConverter.cs" />
     <Compile Include="Views\Leveler.xaml.cs">
       <DependentUpon>Leveler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SpaceView.xaml.cs">
+      <DependentUpon>SpaceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StartButton.xaml.cs">
       <DependentUpon>StartButton.xaml</DependentUpon>
@@ -350,6 +365,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DropZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Leveler.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -359,6 +378,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SpaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
