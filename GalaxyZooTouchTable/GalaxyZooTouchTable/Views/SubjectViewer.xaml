@@ -151,6 +151,7 @@
         <ItemsControl
             Height="136"
             HorizontalAlignment="Left"
+            IsHitTestVisible="{Binding AllowSelection}"
             ItemsSource="{Binding CurrentAnswers}"
             Margin="144,44,0,0"
             VerticalAlignment="Top"
