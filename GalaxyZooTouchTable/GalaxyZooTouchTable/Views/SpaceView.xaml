@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GalaxyZooTouchTable"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
+             xmlns:views="clr-namespace:GalaxyZooTouchTable.Views"
              mc:Ignorable="d" 
              Height="432"
              Width="1248"
@@ -43,19 +41,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="{StaticResource AttentionColor}"
-                            BorderThickness="3"
-                            CornerRadius="28"
-                            Width="56"
-                            Height="56">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:UIElementDragBehavior/>
-                        </i:Interaction.Behaviors>
-                        <Border.RenderTransform>
-                            <TranslateTransform X="-28" Y="-28"/>
-                        </Border.RenderTransform>
-                        <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
-                    </Border>
+                    <views:GalaxyTileView/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemContainerStyle>

@@ -186,6 +186,7 @@
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
+    <Compile Include="Models\ClassificationRingCreator.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
     <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
@@ -229,6 +230,9 @@
     <Compile Include="Models\GalaxyExample.cs" />
     <Compile Include="Models\TableUserFactory.cs" />
     <Compile Include="Converters\NullImageConverter.cs" />
+    <Compile Include="Views\GalaxyTileView.xaml.cs">
+      <DependentUpon>GalaxyTileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Leveler.xaml.cs">
       <DependentUpon>Leveler.xaml</DependentUpon>
     </Compile>
@@ -352,6 +356,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DropZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GalaxyTileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

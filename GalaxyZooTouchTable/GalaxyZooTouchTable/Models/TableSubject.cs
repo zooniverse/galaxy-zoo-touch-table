@@ -1,8 +1,10 @@
-﻿using PanoptesNetClient.Models;
+﻿using System.Collections.ObjectModel;
+using GalaxyZooTouchTable.ViewModels;
+using PanoptesNetClient.Models;
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class TableSubject
+    public class TableSubject : ViewModelBase
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -12,6 +14,7 @@ namespace GalaxyZooTouchTable.Models
         private readonly double PlateScale = 1.5;
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
+        public ObservableCollection<TableUser> Submissions { get; set; } = new ObservableCollection<TableUser>();
 
         public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
@@ -36,6 +39,11 @@ namespace GalaxyZooTouchTable.Models
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);
+        }
+
+        public void AddRing(TableUser user)
+        {
+            Submissions.Add(user);
         }
 
         private double ToRadians(double Degrees)

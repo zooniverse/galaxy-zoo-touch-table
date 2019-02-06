@@ -260,6 +260,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {
+                NotifySpaceView();
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 await _panoptesService.CreateClassificationAsync(CurrentClassification);
@@ -274,6 +275,12 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 PrepareForNewClassification();
             }
+        }
+
+        private void NotifySpaceView()
+        {
+            ClassificationRingCreator Notification = new ClassificationRingCreator(CurrentGalaxy.Subject, User);
+            Messenger.Default.Send<ClassificationRingCreator>(Notification);
         }
 
         private void HandleNotificationsOnSubmit()

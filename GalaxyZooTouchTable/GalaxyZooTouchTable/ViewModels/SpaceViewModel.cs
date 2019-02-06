@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
@@ -30,6 +31,18 @@ namespace GalaxyZooTouchTable.ViewModels
         public SpaceViewModel()
         {
             PrepareForNewPosition();
+            Messenger.Default.Register<ClassificationRingCreator>(this, OnClassificationSent);
+        }
+
+        private void OnClassificationSent(ClassificationRingCreator RingCreator)
+        {
+            foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
+            {
+                if (RingCreator.Subject == SpaceViewGalaxy.Subject)
+                {
+                    SpaceViewGalaxy.AddRing(RingCreator.User);
+                }
+            }
         }
         
         private void GetSpaceCutout()
