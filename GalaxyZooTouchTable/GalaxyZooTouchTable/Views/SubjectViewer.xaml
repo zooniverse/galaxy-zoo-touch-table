@@ -6,8 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
-             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
+             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -28,43 +28,87 @@
             <Views:DropZone/>
         </DataTemplate>
 
-        <Style x:Key="AnswerBorder" TargetType="{x:Type Border}">
-            <Setter Property="Background" Value="#55565A"/>
-            <Setter Property="CornerRadius" Value="3"/>
-
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="."/>
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:SubjectViewer}" Path="DataContext.SelectedAnswer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="#015F7B"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
-        
         <Style x:Key="CommonBoldFont" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+        
+        <Style x:Key="AnswerButton" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="Background" Value="#55565A"/>
 
-        <Style x:Key="SubmitButton" TargetType="{x:Type Button}" BasedOn="{StaticResource SuccessBtn}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=CanSendClassification}" Value="True">
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="DropShadowBorder" Width="144" Height="34" CornerRadius="3" Background="Transparent" BorderThickness="1" BorderBrush="Black"/>
+                            <Border x:Name="OuterBorder" CornerRadius="3">
+                                <Grid>
+                                    <Border Background="#E5FF4D" CornerRadius="5,0,0,5" Width="35" HorizontalAlignment="Left">
+                                        <Image Margin="6.5" Source="{Binding Url}"/>
+                                    </Border>
+                                    <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
+                                        <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding Label}" FontSize="10"/>
+                                        <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6.75" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    <Border x:Name="InsetShadow" Width="144" Height="34" Background="Transparent" BorderThickness="0.75" BorderBrush="Black" CornerRadius="3"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsEnabled" Value="True">
+                                <Setter TargetName="OuterBorder" Property="Background" Value="#55565A"/>
+                                <Setter TargetName="DropShadowBorder" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="2" BlurRadius="5" Direction="300" Color="Black"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Value="True">
+                                        <Condition.Binding>
+                                            <MultiBinding Converter="{StaticResource EqualityConverter}">
+                                                <Binding Path="."/>
+                                                <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:SubjectViewer}" Path="DataContext.SelectedAnswer"/>
+                                            </MultiBinding>
+                                        </Condition.Binding>
+                                    </Condition>
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="DropShadowBorder" Property="BorderThickness" Value="0"/>
+                                <Setter TargetName="OuterBorder" Property="Background" Value="#015F7B"/>
+                                <Setter TargetName="OuterBorder" Property="Clip">
+                                    <Setter.Value>
+                                        <RectangleGeometry Rect="0,0,144,34" RadiusX="4" RadiusY="4"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="InsetShadow" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="8"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="DropShadowBorder" Property="BorderThickness" Value="0"/>
+                                <Setter TargetName="OuterBorder" Property="Background" Value="#4D015F7B"/>
+                                <Setter TargetName="OuterBorder" Property="Clip">
+                                    <Setter.Value>
+                                        <RectangleGeometry Rect="0,0,144,34" RadiusX="4" RadiusY="4"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="InsetShadow" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="8"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="PeerAvatar" TargetType="{x:Type Image}">
@@ -107,31 +151,18 @@
         <ItemsControl
             Height="136"
             HorizontalAlignment="Left"
+            IsHitTestVisible="{Binding AllowSelection}"
             ItemsSource="{Binding CurrentAnswers}"
             Margin="144,44,0,0"
             VerticalAlignment="Top"
             Width="165">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="34" Width="144" Margin="0,0,0,9">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="TouchUp">
-                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <Grid.Effect>
-                            <DropShadowEffect BlurRadius="8" Color="#343438" ShadowDepth="2"/>
-                        </Grid.Effect>
-                        <Border Style="{StaticResource AnswerBorder}">
-                            <Border Background="#E5FF4D" CornerRadius="3,0,0,3" Width="35" HorizontalAlignment="Left">
-                                <Image Margin="6.5" Source="{Binding Url}" StretchDirection="Both"/>
-                            </Border>
-                        </Border>
-                        <StackPanel VerticalAlignment="Center" Margin="43,0,0,0">
-                            <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding Label}" FontSize="10"/>
-                            <TextBlock Foreground="White" Text="{Binding SubLabel}" FontStyle="Italic" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontSize="6" TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Grid>
+                    <Button Style="{StaticResource AnswerButton}" Height="34" Width="144" Margin="0,0,0,9">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}"/>
+                        </i:Interaction.Behaviors>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -144,18 +175,14 @@
             Width="287"/>
 
         <Button
-            x:Name="SubmitButton"
-            Style="{StaticResource SubmitButton}"
-            Foreground="Black"
-            IsEnabled="{Binding CanSendClassification}"
+            Style="{StaticResource SubmitWithDownstate}"
             Height="23"
+            Width="285"
             VerticalAlignment="Bottom"
-            Width="285">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TouchUp">
-                    <i:InvokeCommandAction Command="{Binding ContinueClassification}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+            IsEnabled="{Binding CanSendClassification}">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
+            </i:Interaction.Behaviors>
 
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock

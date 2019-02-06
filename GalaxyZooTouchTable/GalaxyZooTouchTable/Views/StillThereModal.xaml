@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -22,11 +23,9 @@
                 <Image Source="../Images/General/Logo.png" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0"/>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchUp">
-                            <i:InvokeCommandAction Command="{Binding CloseModal}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding CloseModal}"/>
+                    </i:Interaction.Behaviors>
                     <TextBlock
                         FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                         FontSize="10"
@@ -93,18 +92,15 @@
                 </TextBlock>
 
                 <Button
-                    Style="{StaticResource OutlineBtn}"
-                    FontWeight="Bold"
+                    Style="{StaticResource TransparentWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Left"
                     Margin="15,0,0,14"
                     VerticalAlignment="Bottom"
                     Width="104">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchUp">
-                            <i:InvokeCommandAction Command="{Binding CloseClassifier}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding CloseClassifier}"/>
+                    </i:Interaction.Behaviors>
                     <TextBlock
                         Style="{StaticResource CommonType}"
                         FontSize="10"
@@ -114,22 +110,15 @@
                 </Button>
 
                 <Button
-                    Style="{StaticResource SuccessBtn}"
-                    FontWeight="Bold"
-                    Foreground="Black"
+                    Style="{StaticResource SubmitWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Right"
                     Margin="0,0,15.3,14.59"
                     VerticalAlignment="Bottom"
                     Width="104">
-                    <Button.Effect>
-                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
-                    </Button.Effect>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="TouchUp">
-                            <i:InvokeCommandAction Command="{Binding CloseModal}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding CloseModal}"/>
+                    </i:Interaction.Behaviors>
                     <TextBlock
                         Style="{StaticResource CommonType}"
                         FontSize="10"

@@ -7,6 +7,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -14,6 +15,51 @@
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="ClassifyAnother" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="14,0,0,0"/>
+            <Setter Property="Width" Value="137"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25" ClipToBounds="True">
+                            <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
+                                <ContentPresenter/>
+                            </Border>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsEnabled" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#63AB51"/>
+                                <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
+                                <Setter TargetName="Border" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="Button.IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#000000"/>
+                                <Setter TargetName="Border" Property="ClipToBounds" Value="True"/>
+                                <Setter TargetName="Border" Property="Effect" Value="{x:Null}"/>
+                                <Setter TargetName="InnerBorder" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#213E1B"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     
@@ -157,13 +203,12 @@
             Background="{StaticResource MedGrayColor}"/>
 
         <Button
-            Style="{StaticResource StandardBtn}"
-            Background="Transparent"
             Height="23"
             HorizontalAlignment="Left"
             Margin="14,0,0,0"
             Width="137"
-            VerticalAlignment="Bottom">
+            VerticalAlignment="Bottom"
+            Style="{StaticResource TransparentWithDownstate}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="TouchUp">
                     <i:InvokeCommandAction Command="{Binding ChooseAnotherGalaxy}"/>
@@ -179,21 +224,15 @@
         </Button>
 
         <Button
-            Style="{StaticResource SuccessBtn}"
             Height="23"
-            Foreground="Black"
             HorizontalAlignment="Right"
             Margin="0,0,14,0"
             Width="137"
-            VerticalAlignment="Bottom">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TouchUp">
-                    <i:InvokeCommandAction Command="{Binding ContinueClassification}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Button.Effect>
-                <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
-            </Button.Effect>
+            VerticalAlignment="Bottom"
+            Style="{StaticResource SubmitWithDownstate}">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
+            </i:Interaction.Behaviors>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"

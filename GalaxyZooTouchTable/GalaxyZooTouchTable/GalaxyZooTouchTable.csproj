@@ -185,6 +185,7 @@
     <Compile Include="Behaviors\UIElementDragBehavior.cs" />
     <Compile Include="Behaviors\UIElementDropBehavior.cs" />
     <Compile Include="Behaviors\DisableOpacityMaskOnEndScroll.cs" />
+    <Compile Include="Behaviors\TapBehavior.cs" />
     <Compile Include="Converters\EqualityConverter.cs" />
     <Compile Include="Converters\FontSizeConverter.cs" />
     <Compile Include="Converters\HidePanelConverter.cs" />
@@ -197,7 +198,6 @@
     <Compile Include="Lib\ContainerHelper.cs" />
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
-    <Compile Include="Lib\HandlingEventTrigger.cs" />
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />

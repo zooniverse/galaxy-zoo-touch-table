@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:GalaxyZooTouchTable.Styles">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="StandardBtn" TargetType="Button">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
@@ -15,41 +14,77 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="TransButton" TargetType="Button">
+
+    <Style x:Key="TransparentWithDownstate" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Margin" Value="10,0" />
-    </Style>
-
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="MoreInfoBtn" TargetType="Button">
-        <Setter Property="Background" Value="#55565A"/>
-    </Style>    
-    
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="OutlineBtn" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-    </Style>
-
-    <Style BasedOn="{StaticResource StandardBtn}" x:Key="SuccessBtn" TargetType="Button">
-        <Setter Property="Background" Value="#63AB51"/>
-        <Setter Property="BorderBrush" Value="#63AB51"/>
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="Gray"/>
-                <Setter Property="BorderBrush" Value="Gray"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="BellBtn" TargetType="Button">
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="5,0,0,5" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1" Padding="2">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border x:Name="OuterBorder" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.5">
+                        <Grid>
+                            <ContentPresenter/>
+                            <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.5" Margin="-0.5"/>
+                        </Grid>
                     </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter TargetName="OuterBorder" Property="Background" Value="#171718"/>
+                            <Setter TargetName="InnerBorder" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="8" ShadowDepth="0"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="OuterBorder" Property="ClipToBounds" Value="True"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SubmitWithDownstate" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+        <Setter Property="Background" Value="#4D63AB51"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border" CornerRadius="3" BorderBrush="Black" Background="{TemplateBinding Background}" BorderThickness="0.25" ClipToBounds="True">
+                        <Border x:Name="InnerBorder" CornerRadius="3" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0.25" Margin="-0.5">
+                            <ContentPresenter/>
+                        </Border>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Button.IsEnabled" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#63AB51"/>
+                            <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
+                            <Setter TargetName="Border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="5" ShadowDepth="2"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="Button.IsPressed" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#000000"/>
+                            <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
+                            <Setter TargetName="Border" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect BlurRadius="0" ShadowDepth="0"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="InnerBorder" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect ShadowDepth="0" BlurRadius="10" Color="#213E1B"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

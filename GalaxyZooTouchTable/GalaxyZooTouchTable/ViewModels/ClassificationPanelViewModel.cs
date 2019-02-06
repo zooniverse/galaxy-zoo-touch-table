@@ -77,6 +77,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set
             {
                 Messenger.Default.Send<SubjectViewEnum>(value, $"{User.Name}_SubjectStatus");
+                AllowSelection = value == SubjectViewEnum.MatchedSubject;
                 SetProperty(ref _subjectView, value);
             }
         }
@@ -132,6 +133,13 @@ namespace GalaxyZooTouchTable.ViewModels
                 }
                 SetProperty(ref _selectedAnswer, value);
             }
+        }
+
+        private bool _allowSelection;
+        public bool AllowSelection
+        {
+            get => _allowSelection;
+            set => SetProperty(ref _allowSelection, value);
         }
 
         public ClassificationPanelViewModel(IPanoptesService panoptesRepo, IGraphQLService graphQLRepo, TableUser user)
@@ -193,10 +201,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnSelectAnswer(object sender)
         {
-            if (SubjectView == SubjectViewEnum.DragSubject)
-            {
-                return;
-            }
             AnswerButton Button = sender as AnswerButton;
             SelectedAnswer = Button;
             CurrentAnnotation = new Annotation(CurrentTaskIndex, Button.Index);
