@@ -17,6 +17,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
+        private TableSubject CurrentGalaxy { get; set; }
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
 
@@ -172,7 +173,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnSendRequestToUser(TableUser UserToNotify)
         {
-            NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
+            NotificationRequest Request = new NotificationRequest(User, CurrentGalaxy.Subject.Id);
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 

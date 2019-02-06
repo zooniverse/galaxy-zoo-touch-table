@@ -13,7 +13,7 @@ namespace GalaxyZooTouchTable.Models
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
 
-        public TableSubject(Subject subject, double TableRA, double TableDEC)
+        public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
             RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
             Declination = System.Convert.ToDouble(subject.Metadata.dec);
