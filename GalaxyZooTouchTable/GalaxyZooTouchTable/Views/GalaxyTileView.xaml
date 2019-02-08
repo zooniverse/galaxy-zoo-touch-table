@@ -9,23 +9,12 @@
              d:DesignHeight="100" d:DesignWidth="100">
     <Grid>
         <Grid.RenderTransform>
-            <TranslateTransform X="-28" Y="-28"/>
+            <TranslateTransform X="{Binding TileOffset}" Y="-28"/>
         </Grid.RenderTransform>
-        <ItemsControl ItemsSource="{Binding Submissions}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border
-                        BorderBrush="{Binding ThemeColor}"
-                        BorderThickness="3"
-                        CornerRadius="36"
-                        Width="72"
-                        Height="72"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
         <Border BorderBrush="{StaticResource AttentionColor}"
                 BorderThickness="3"
                 CornerRadius="28"
+                VerticalAlignment="Top"
                 Width="56"
                 Height="56">
             <i:Interaction.Behaviors>
@@ -33,5 +22,29 @@
             </i:Interaction.Behaviors>
             <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
         </Border>
+        <ItemsControl x:Name="RingCollection" ItemsSource="{Binding Submissions}">
+            <!--<ItemsControl.RenderTransform>
+                <TranslateTransform X="-28" Y="-28"/>
+            </ItemsControl.RenderTransform>-->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        BorderBrush="{Binding UserColor}"
+                        BorderThickness="3"
+                        CornerRadius="{Binding CornerRadius}"
+                        Width="{Binding Diameter}"
+                        Height="{Binding Diameter}">
+                        <Border.RenderTransform>
+                            <TranslateTransform Y="{Binding YPos}"/>
+                        </Border.RenderTransform>
+                        <Image Width="26" Height="26" Source="{Binding UserAvatar}">
+                            <Image.RenderTransform>
+                                <TranslateTransform X="{Binding AvatarX}" Y="-0"/>
+                            </Image.RenderTransform>
+                        </Image>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

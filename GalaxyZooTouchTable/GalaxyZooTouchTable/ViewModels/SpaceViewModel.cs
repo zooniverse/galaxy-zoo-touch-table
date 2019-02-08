@@ -31,10 +31,10 @@ namespace GalaxyZooTouchTable.ViewModels
         public SpaceViewModel()
         {
             PrepareForNewPosition();
-            Messenger.Default.Register<ClassificationRingCreator>(this, OnClassificationSent);
+            Messenger.Default.Register<ClassificationRingCreator>(this, OnClassificationBegun);
         }
 
-        private void OnClassificationSent(ClassificationRingCreator RingCreator)
+        private void OnClassificationBegun(ClassificationRingCreator RingCreator)
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {

@@ -260,7 +260,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {
-                NotifySpaceView();
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 await _panoptesService.CreateClassificationAsync(CurrentClassification);
@@ -392,6 +391,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Subjects.Insert(0, subject.Subject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
+            NotifySpaceView();
         }
 
         public void ResetAnswerCount()

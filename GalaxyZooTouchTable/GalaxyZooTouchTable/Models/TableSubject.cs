@@ -14,7 +14,14 @@ namespace GalaxyZooTouchTable.Models
         private readonly double PlateScale = 1.5;
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
-        public ObservableCollection<TableUser> Submissions { get; set; } = new ObservableCollection<TableUser>();
+        public ObservableCollection<GalaxyRing> Submissions { get; set; } = new ObservableCollection<GalaxyRing>();
+
+        private int _tileOffset = -28;
+        public int TileOffset
+        {
+            get => _tileOffset;
+            set => SetProperty(ref _tileOffset, value);
+        }
 
         public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
@@ -43,7 +50,13 @@ namespace GalaxyZooTouchTable.Models
 
         public void AddRing(TableUser user)
         {
-            Submissions.Add(user);
+            int NewIndex = Submissions.Count;
+            GalaxyRing NewRing = new GalaxyRing(NewIndex, user);
+            if (NewIndex > 0)
+            {
+                TileOffset -= 8;
+            }
+            Submissions.Add(NewRing);
         }
 
         private double ToRadians(double Degrees)
