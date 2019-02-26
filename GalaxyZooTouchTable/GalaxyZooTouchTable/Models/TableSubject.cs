@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 
@@ -46,6 +47,11 @@ namespace GalaxyZooTouchTable.Models
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);
+        }
+
+        public void DimRing(TableUser user)
+        {
+            throw new NotImplementedException();
         }
 
         public void AddRing(TableUser user)

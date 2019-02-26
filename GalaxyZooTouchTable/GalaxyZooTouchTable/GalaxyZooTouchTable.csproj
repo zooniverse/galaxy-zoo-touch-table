@@ -186,7 +186,7 @@
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
-    <Compile Include="Models\ClassificationRingCreator.cs" />
+    <Compile Include="Models\ClassificationRingNotifier.cs" />
     <Compile Include="Models\GalaxyRing.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
     <Compile Include="Lib\SubjectViewEnum.cs" />

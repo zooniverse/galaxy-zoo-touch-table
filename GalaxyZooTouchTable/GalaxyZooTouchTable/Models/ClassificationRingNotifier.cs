@@ -2,13 +2,15 @@
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class ClassificationRingCreator
+    public class ClassificationRingNotifier
     {
         public TableUser User { get; set; }
         public Subject Subject { get; set; }
+        public bool IsCreating { get; set; }
 
-        public ClassificationRingCreator(Subject subject, TableUser user)
+        public ClassificationRingNotifier(Subject subject, TableUser user, bool isCreating)
         {
+            IsCreating = isCreating;
             Subject = subject;
             User = user;
         }

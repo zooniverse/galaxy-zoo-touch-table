@@ -6,7 +6,7 @@ namespace GalaxyZooTouchTable.Models
     {
         const int RING_WIDTH_STEP = 16;
         const int INITIAL_RING_WIDTH = 56;
-        const int INITIAL_AVATAR_RADIUS_POSITION = 26;
+        const int INITIAL_AVATAR_RADIUS_POSITION = 20;
         const int INITIAL_RADIUS = 28;
 
         public int Diameter { get; set; }
@@ -28,9 +28,11 @@ namespace GalaxyZooTouchTable.Models
         {
             Diameter = INITIAL_RING_WIDTH + (RING_WIDTH_STEP * index);
             CornerRadius = Diameter / 2;
-            AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * RING_WIDTH_STEP);
+            AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * (6));
+            AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * (6));
             YPos = index == 0 ? 0 : (Diameter) * -1;
-            var test = ((INITIAL_RING_WIDTH * index) + Diameter) * -1;
+
+            AvatarRotation(index);
 
             var position = 0;
             for (var start = 0; start < index; start++)
@@ -38,6 +40,28 @@ namespace GalaxyZooTouchTable.Models
                 position -= (Diameter - (8 * index));
             }
             YPos = position;
+        }
+
+        private void AvatarRotation(int index)
+        {
+            var RotationStart = index + 1;
+            var Remainder = RotationStart % 4;
+
+            switch (Remainder)
+            {
+                case 1:
+                    AvatarX = AvatarX * -1;
+                    break;
+                case 2:
+                    AvatarX = AvatarX * -1;
+                    AvatarY = AvatarY * -1;
+                    break;
+                case 3:
+                    AvatarY = AvatarY * -1;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -31,16 +31,22 @@ namespace GalaxyZooTouchTable.ViewModels
         public SpaceViewModel()
         {
             PrepareForNewPosition();
-            Messenger.Default.Register<ClassificationRingCreator>(this, OnClassificationBegun);
+            Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
         }
 
-        private void OnClassificationBegun(ClassificationRingCreator RingCreator)
+        private void OnGalaxyInteraction(ClassificationRingNotifier RingNotifier)
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                if (RingCreator.Subject == SpaceViewGalaxy.Subject)
+                if (RingNotifier.Subject == SpaceViewGalaxy.Subject)
                 {
-                    SpaceViewGalaxy.AddRing(RingCreator.User);
+                    if (RingNotifier.IsCreating)
+                    {
+                        SpaceViewGalaxy.AddRing(RingNotifier.User);
+                    } else
+                    {
+                        SpaceViewGalaxy.DimRing(RingNotifier.User);
+                    }
                 }
             }
         }
