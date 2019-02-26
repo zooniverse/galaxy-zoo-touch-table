@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ToggleLeveler { get; private set; }
         private const string MAX_LEVEL = "Five";
         private const int DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE = 5;
-        private const int DEFAULT_CLASSIFICATIONS_COUNT = 5;
+        private const int DEFAULT_CLASSIFICATIONS_COUNT = 0;
         private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
         private const bool DEFAULT_CLASSIFICATION_OPEN = false;
 
@@ -80,7 +80,7 @@ namespace GalaxyZooTouchTable.ViewModels
             IsOpen = !IsOpen;
         }
 
-        public void LevelUp()
+        private void LevelUp()
         {
             if (ClassificationLevel == MAX_LEVEL)
             {

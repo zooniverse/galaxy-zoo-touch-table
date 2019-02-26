@@ -153,7 +153,7 @@ namespace GalaxyZooTouchTable.ViewModels
             AddSubscribers();
         }
 
-        public void AddSubscribers()
+        private void AddSubscribers()
         {
             ExamplesViewModel.PropertyChanged += ResetTimer;
             LevelerViewModel.PropertyChanged += ResetTimer;
@@ -170,7 +170,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
         }
 
-        public void OnSendRequestToUser(TableUser UserToNotify)
+        private void OnSendRequestToUser(TableUser UserToNotify)
         {
             NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
@@ -200,7 +200,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
         }
 
-        public void OnSelectAnswer(object sender)
+        private void OnSelectAnswer(object sender)
         {
             AnswerButton Button = sender as AnswerButton;
             SelectedAnswer = Button;
@@ -215,7 +215,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
-        public void OnOpenClassifier(object sender)
+        private void OnOpenClassifier(object sender)
         {
             StartTimer();
             ClassifierOpen = true;
@@ -223,7 +223,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel = new LevelerViewModel(User);
         }
 
-        public void OnCloseClassifier(object sender)
+        private void OnCloseClassifier(object sender)
         {
             SubjectView = SubjectViewEnum.DragSubject;
             bool UserIsLeaving = true;
@@ -238,14 +238,14 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Active = false;
         }
 
-        public void PrepareForNewClassification()
+        private void PrepareForNewClassification()
         {
             GetSubjectQueue();
             OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
         }
 
-        public void ToggleCloseConfirmation(object sender)
+        private void ToggleCloseConfirmation(object sender)
         {
             CloseConfirmationVisible = !CloseConfirmationVisible;
         }
@@ -255,7 +255,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentView = view;
         }
 
-        public async void OnContinueClassification(object sender)
+        private async void OnContinueClassification(object sender)
         {
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {
@@ -275,7 +275,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public void HandleNotificationsOnSubmit()
+        private void HandleNotificationsOnSubmit()
         {
             if (User.Status == NotificationStatus.HelpingUser)
             {
@@ -290,14 +290,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public void StartTimer()
+        private void StartTimer()
         {
             StillThereTimer = new DispatcherTimer();
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
             ResetTimer();
         }
 
-        public void ShowStillThereModal(object sender, System.EventArgs e)
+        private void ShowStillThereModal(object sender, System.EventArgs e)
         {
             if (StillThereTimer != null)
             {
@@ -311,7 +311,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
-        public void ResetTimer()
+        private void ResetTimer()
         {
             if (StillThereTimer != null)
             {
@@ -321,7 +321,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (StillThere.Visible) { StillThere.Visible = false; }
         }
 
-        public void ResetTimer(object sender, PropertyChangedEventArgs e)
+        private void ResetTimer(object sender, PropertyChangedEventArgs e)
         {
             ResetTimer();
         }
@@ -394,7 +394,7 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public async void GetSubjectReductions()
+        private async void GetSubjectReductions()
         {
             GraphQLResponse response = await _graphQLService.GetReductionAsync(Workflow, CurrentSubject);
 

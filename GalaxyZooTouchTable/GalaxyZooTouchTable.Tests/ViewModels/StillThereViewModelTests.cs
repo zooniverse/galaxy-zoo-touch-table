@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.ViewModels;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -24,7 +25,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             var closeClassificationPanelFired = false;
             _viewModel.CloseClassificationPanel += (s) => closeClassificationPanelFired = true;
-            _viewModel.OnCloseClassifier(null);
+            _viewModel.CloseClassifier.Execute(null);
             Assert.True(closeClassificationPanelFired);
         }
 
@@ -33,27 +34,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             var resetFiveMinuteTimerFired = false;
             _viewModel.ResetFiveMinuteTimer += () => resetFiveMinuteTimerFired = true;
-            _viewModel.OnCloseModal(null);
+            _viewModel.CloseModal.Execute(null);
             Assert.False(_viewModel.Visible);
             Assert.True(resetFiveMinuteTimerFired);
-        }
-
-        [Fact]
-        public void ShouldClosePanelAfterThirtySeconds()
-        {
-            var CloseClassificationPanelCalled = false;
-            _viewModel.CloseClassificationPanel += (s) => CloseClassificationPanelCalled = true;
-            _viewModel.ThirtySecondsElapsed(null, new System.EventArgs());
-            Assert.True(CloseClassificationPanelCalled);
-            Assert.False(_viewModel.Visible);
-        }
-
-        [Fact]
-        public void ShouldCalculatePercentageAtEachSecond()
-        {
-            _viewModel.CurrentSeconds = 16;
-            _viewModel.OneSecondElapsed(null, new System.EventArgs());
-            Assert.Equal(50, _viewModel.Percentage);
         }
     }
 }

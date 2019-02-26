@@ -41,7 +41,7 @@ namespace GalaxyZooTouchTable.ViewModels
             AllUsers.Add(GlobalData.GetInstance().EarthUser);
         }
 
-        public void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
+        private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
         {
 
             if (changedEventArgs.NewItems != null)
@@ -60,19 +60,19 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
+        private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
         {
             ShowJoinMessage = !AllUsers.Any(user => user.Active == true);
         }
 
-        public void CreateTimer()
+        private void CreateTimer()
         {
             Timer.Tick += new System.EventHandler(OnFlipCenterpiece);
             Timer.Interval = new System.TimeSpan(0, 1, 0);
             Timer.Start();
         }
 
-        public void OnFlipCenterpiece(object sender, System.EventArgs e)
+        private void OnFlipCenterpiece(object sender, System.EventArgs e)
         {
             CenterpieceIsFlipped = !CenterpieceIsFlipped;
         }

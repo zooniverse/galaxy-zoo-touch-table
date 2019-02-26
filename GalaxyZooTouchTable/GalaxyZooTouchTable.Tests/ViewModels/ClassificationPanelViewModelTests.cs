@@ -62,7 +62,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldSelectAnswerAndMakeAnnotation()
         {
             AnswerButton AnswerButton = PanoptesServiceMockData.AnswerButton();
-            _viewModel.OnSelectAnswer(AnswerButton);
+            _viewModel.SelectAnswer.Execute(AnswerButton);
             Assert.Equal(AnswerButton, _viewModel.SelectedAnswer);
             Assert.Equal(AnswerButton.Index, _viewModel.CurrentAnnotation.Value);
         }
@@ -81,7 +81,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldOpenClassifier()
         {
             _viewModel.Load();
-            _viewModel.OnOpenClassifier(null);
+            _viewModel.OpenClassifier.Execute(null);
             Assert.True(_viewModel.ClassifierOpen);
             Assert.True(_viewModel.User.Active);
         }
@@ -91,7 +91,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             _viewModel.Load();
             _viewModel.Workflow = PanoptesServiceMockData.Workflow();
-            _viewModel.OnCloseClassifier(null);
+            _viewModel.CloseClassifier.Execute(null);
 
             Assert.False(_viewModel.ClassifierOpen);
             Assert.False(_viewModel.CloseConfirmationVisible);
@@ -102,7 +102,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldToggleCloseConfirmation()
         {
             Assert.False(_viewModel.CloseConfirmationVisible);
-            _viewModel.ToggleCloseConfirmation(null);
+            _viewModel.ShowCloseConfirmation.Execute(null);
             Assert.True(_viewModel.CloseConfirmationVisible);
         }
 
@@ -134,8 +134,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.Load();
             Assert.Empty(_viewModel.CurrentClassification.Annotations);
 
-            _viewModel.OnSelectAnswer(PanoptesServiceMockData.AnswerButton());
-            _viewModel.OnContinueClassification(null);
+            _viewModel.SelectAnswer.Execute(PanoptesServiceMockData.AnswerButton());
+            _viewModel.ContinueClassification.Execute(null);
             _panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
 
             Assert.Equal(1, _viewModel.SelectedAnswer.AnswerCount);
@@ -151,7 +151,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.Empty(_viewModel.Subjects);
 
             _viewModel.CurrentView = ClassifierViewEnum.SummaryView;
-            _viewModel.OnContinueClassification(null);
+            _viewModel.ContinueClassification.Execute(null);
 
             NameValueCollection query = new NameValueCollection
                 {

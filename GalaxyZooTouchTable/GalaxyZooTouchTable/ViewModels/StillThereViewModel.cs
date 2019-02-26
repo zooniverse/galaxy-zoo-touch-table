@@ -13,7 +13,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public DispatcherTimer ThirtySecondTimer { get; set; }
         public event Action<object> CloseClassificationPanel = delegate { };
         public event Action ResetFiveMinuteTimer = delegate { };
-        public int Percentage { get; set; } = 100;
+        private int Percentage { get; set; } = 100;
 
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseModal { get; set; }
@@ -57,7 +57,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Circle.PropertyChanged += CircleChanged;
         }
 
-        public void CircleChanged(object sender, PropertyChangedEventArgs e)
+        private void CircleChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged("Circle");
         }
@@ -68,12 +68,12 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseModal = new CustomCommand(OnCloseModal);
         }
 
-        public void OnCloseClassifier(object sender)
+        private void OnCloseClassifier(object sender)
         {
             CloseClassificationPanel(sender);
         }
 
-        public void OnCloseModal(object sender)
+        private void OnCloseModal(object sender)
         {
             Visible = false;
             ResetFiveMinuteTimer();
@@ -104,13 +104,13 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public void ThirtySecondsElapsed(object sender, EventArgs e)
+        private void ThirtySecondsElapsed(object sender, EventArgs e)
         {
             CloseClassificationPanel(sender);
             Visible = false;
         }
 
-        public void OneSecondElapsed(object sender, EventArgs e)
+        private void OneSecondElapsed(object sender, EventArgs e)
         {
             CurrentSeconds--;
             decimal StartingSeconds = 30;

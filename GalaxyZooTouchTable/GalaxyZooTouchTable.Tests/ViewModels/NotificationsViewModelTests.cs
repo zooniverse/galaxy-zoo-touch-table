@@ -33,39 +33,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldCloseNotifierWhenPeerHasLeft()
-        {
-            _viewModel.OnPeerLeaving();
-            Assert.False(_viewModel.OpenNotifier);
-            Assert.Equal(NotificationStatus.PeerHasLeft, _viewModel.User.Status);
-        }
-
-        [Fact]
-        public void ShouldHandleNotificationRequest()
-        {
-            TableUser HeartUser = new HeartUser();
-            string SubjectID = "1";
-            NotificationRequest Request = new NotificationRequest(HeartUser, SubjectID);
-
-            _viewModel.OnNotificationReceived(Request);
-            Assert.Equal(HeartUser, _viewModel.CooperatingPeer);
-            Assert.True(_viewModel.OpenNotifier);
-            Assert.Equal(SubjectID, _viewModel.SubjectIdToExamine);
-            Assert.Equal(NotificationStatus.HelpRequestReceived, _viewModel.User.Status);
-        }
-
-        [Fact]
-        public void ShouldReceiveAnswerRequest()
-        {
-            AnswerButton AnswerSelected = PanoptesServiceMockData.AnswerButton();
-            _viewModel.OnAnswerReceived(AnswerSelected);
-            Assert.False(_viewModel.HideButtonNotification);
-            Assert.True(_viewModel.OpenNotifier);
-            Assert.Equal(AnswerSelected.Label, _viewModel.SuggestedAnswer);
-            Assert.Equal(NotificationStatus.AnswerGiven, _viewModel.User.Status);
-        }
-
-        [Fact]
         public void ShouldAcceptNotifications()
         {
             TableUser HeartUser = new HeartUser();
@@ -75,7 +42,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             var GetSubjectByIdCalled = false;
             _viewModel.ChangeView += (s) => ChangeViewCalled = true;
             _viewModel.GetSubjectById += (s) => GetSubjectByIdCalled = true;
-            _viewModel.OnAcceptGalaxy(null);
+            _viewModel.AcceptGalaxy.Execute(null);
 
             Assert.True(ChangeViewCalled);
             Assert.True(GetSubjectByIdCalled);
@@ -90,7 +57,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             TableUser HeartUser = new HeartUser();
             _viewModel.CooperatingPeer = HeartUser;
 
-            _viewModel.OnDeclineGalaxy(null);
+            _viewModel.DeclineGalaxy.Execute(null);
             Assert.Null(_viewModel.CooperatingPeer);
             Assert.False(_viewModel.OpenNotifier);
             Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
@@ -102,7 +69,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             TableUser HeartUser = new HeartUser();
             var SendRequestToUserCalled = false;
             _viewModel.SendRequestToUser += (s) => SendRequestToUserCalled = true;
-            _viewModel.OnNotifyUser(HeartUser);
+            _viewModel.NotifyUser.Execute(HeartUser);
 
             Assert.True(SendRequestToUserCalled);
             Assert.Equal(HeartUser, _viewModel.CooperatingPeer);
@@ -125,7 +92,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public void ShouldToggleNotificationWhenAnswerGiven()
         {
             GlobalData.GetInstance().StarUser.Status = NotificationStatus.AnswerGiven;
-            _viewModel.OnToggleButtonNotification(null);
+            _viewModel.ToggleButtonNotification.Execute(null);
             Assert.False(_viewModel.HideButtonNotification);
             Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
@@ -135,7 +102,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             Assert.False(_viewModel.HideButtonNotification);
             GlobalData.GetInstance().StarUser.Status = NotificationStatus.PeerHasLeft;
-            _viewModel.OnToggleButtonNotification(null);
+            _viewModel.ToggleButtonNotification.Execute(null);
             Assert.True(_viewModel.HideButtonNotification);
         }
 
@@ -143,7 +110,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public void ShouldToggleNotifier()
         {
             Assert.False(_viewModel.OpenNotifier);
-            _viewModel.OnToggleNotifier(null);
+            _viewModel.ToggleNotifier.Execute(null);
             Assert.True(_viewModel.OpenNotifier);
         }
 

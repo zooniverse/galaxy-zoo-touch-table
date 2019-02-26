@@ -1,6 +1,5 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.ViewModels;
-using System;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -28,13 +27,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.True(_viewModel.ShowJoinMessage);
             GlobalData.GetInstance().StarUser.Active = true;
             Assert.False(_viewModel.ShowJoinMessage);
-        }
-
-        [Fact]
-        private void ShouldFlipCenterpiece()
-        {
-            _viewModel.OnFlipCenterpiece(null, new EventArgs());
-            Assert.True(_viewModel.CenterpieceIsFlipped);
         }
     }
 }
