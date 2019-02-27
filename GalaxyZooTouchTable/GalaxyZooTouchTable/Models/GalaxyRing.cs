@@ -15,7 +15,7 @@ namespace GalaxyZooTouchTable.Models
         public BitmapImage UserAvatar { get; set; }
         public int AvatarX { get; set; }
         public int AvatarY { get; set; }
-        public string UserColor { get; set; }
+        public string UserColor { get; set; } = "#E5FF4D";
         public int YPos { get; set; }
         public TableUser User { get; private set; }
 
@@ -26,11 +26,14 @@ namespace GalaxyZooTouchTable.Models
             set => SetProperty(ref _currentlyClassifying, value);
         }
 
-        public GalaxyRing(int index, TableUser user)
+        public GalaxyRing(int index = 0, TableUser user = null)
         {
-            User = user;
-            UserColor = user.ThemeColor;
-            UserAvatar = user.Avatar;
+            if (user != null)
+            {
+                User = user;
+                UserColor = user.ThemeColor;
+                UserAvatar = user.Avatar;
+            }
             GetProperties(index);
         }
 

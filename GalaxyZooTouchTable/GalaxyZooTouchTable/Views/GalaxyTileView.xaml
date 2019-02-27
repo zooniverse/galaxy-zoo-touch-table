@@ -34,9 +34,7 @@
         <Grid.RenderTransform>
             <TranslateTransform X="{Binding TileOffset}" Y="-28"/>
         </Grid.RenderTransform>
-        <Border BorderBrush="{StaticResource AttentionColor}"
-                BorderThickness="3"
-                CornerRadius="28"
+        <Border CornerRadius="28"
                 VerticalAlignment="Top"
                 Width="56"
                 Height="56">

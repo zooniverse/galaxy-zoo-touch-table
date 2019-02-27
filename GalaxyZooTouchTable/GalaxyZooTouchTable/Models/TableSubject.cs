@@ -31,6 +31,8 @@ namespace GalaxyZooTouchTable.Models
             Subject = subject;
             SubjectLocation = subject.GetSubjectLocation();
             XYConvert(TableRA, TableDEC);
+
+            Submissions.Add(new GalaxyRing());
         }
 
         private void XYConvert(double CenterRightAscension, double CenterDeclination)
