@@ -1,8 +1,9 @@
-﻿using System.Windows.Media.Imaging;
+﻿using GalaxyZooTouchTable.ViewModels;
+using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class GalaxyRing
+    public class GalaxyRing : ViewModelBase
     {
         const int RING_WIDTH_STEP = 16;
         const int INITIAL_RING_WIDTH = 56;
@@ -16,9 +17,18 @@ namespace GalaxyZooTouchTable.Models
         public int AvatarY { get; set; }
         public string UserColor { get; set; }
         public int YPos { get; set; }
+        public TableUser User { get; private set; }
+
+        private bool _currentlyClassifying = true;
+        public bool CurrentlyClassifying
+        {
+            get => _currentlyClassifying;
+            set => SetProperty(ref _currentlyClassifying, value);
+        }
 
         public GalaxyRing(int index, TableUser user)
         {
+            User = user;
             UserColor = user.ThemeColor;
             UserAvatar = user.Avatar;
             GetProperties(index);

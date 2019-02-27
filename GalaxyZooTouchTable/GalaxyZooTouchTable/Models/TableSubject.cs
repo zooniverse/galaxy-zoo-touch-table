@@ -49,9 +49,15 @@ namespace GalaxyZooTouchTable.Models
             X = System.Convert.ToInt32(StartX);
         }
 
-        public void DimRing(TableUser user)
+        public void DimRing(TableUser userClassifying)
         {
-            throw new NotImplementedException();
+            foreach (GalaxyRing Ring in Submissions)
+            {
+                if (Ring.User == userClassifying)
+                {
+                    Ring.CurrentlyClassifying = false;
+                }
+            }
         }
 
         public void AddRing(TableUser user)

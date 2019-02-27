@@ -7,6 +7,29 @@
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100">
+
+    <UserControl.Resources>
+        <Style x:Key="ColoredRing" TargetType="{x:Type Border}">
+            <Setter Property="Opacity" Value="1"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CurrentlyClassifying}" Value="False">
+                    <Setter Property="Opacity" Value="0.3"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="UserAvatar" TargetType="{x:Type Image}">
+            <Setter Property="Visibility" Value="Visible"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=CurrentlyClassifying}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RenderTransform>
             <TranslateTransform X="{Binding TileOffset}" Y="-28"/>
@@ -26,6 +49,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border
+                        Style="{StaticResource ColoredRing}"
                         BorderBrush="{Binding UserColor}"
                         BorderThickness="3"
                         CornerRadius="{Binding CornerRadius}"
@@ -47,7 +71,7 @@
                         <Border.RenderTransform>
                             <TranslateTransform Y="{Binding YPos}"/>
                         </Border.RenderTransform>
-                        <Image Width="26" Height="26" Source="{Binding UserAvatar}">
+                        <Image Style="{StaticResource UserAvatar}" Width="26" Height="26" Source="{Binding UserAvatar}">
                             <Image.RenderTransform>
                                 <TranslateTransform X="{Binding AvatarX}" Y="{Binding AvatarY}"/>
                             </Image.RenderTransform>
