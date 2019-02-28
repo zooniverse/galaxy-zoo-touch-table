@@ -38,7 +38,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                if (RingNotifier.Subject == SpaceViewGalaxy.Subject)
+                if (RingNotifier.Subject.Id == SpaceViewGalaxy.Subject.Id)
                 {
                     if (RingNotifier.Status == RingNotifierStatus.IsCreating)
                     {
@@ -46,6 +46,9 @@ namespace GalaxyZooTouchTable.ViewModels
                     } else if (RingNotifier.Status == RingNotifierStatus.IsSubmitting)
                     {
                         SpaceViewGalaxy.DimRing(RingNotifier.User);
+                    } else if (RingNotifier.Status == RingNotifierStatus.IsHelping)
+                    {
+                        SpaceViewGalaxy.RemoveRing(RingNotifier.User);
                     }
                 } else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
                 {

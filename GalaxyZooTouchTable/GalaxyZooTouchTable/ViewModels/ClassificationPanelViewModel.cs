@@ -209,11 +209,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public async void OnGetSubjectById(string subjectID)
         {
+            NotifySpaceView(RingNotifierStatus.IsHelping);
             TotalVotes = 0;
             Subject newSubject = await _panoptesService.GetSubjectAsync(subjectID);
             Subjects.Insert(0, newSubject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
+            NotifySpaceView(RingNotifierStatus.IsCreating);
         }
 
         private void OnOpenClassifier(object sender)

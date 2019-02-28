@@ -96,27 +96,5 @@ namespace GalaxyZooTouchTable.Models
                 }
             }
         }
-
-        //private void AvatarRotation(int index)
-        //{
-        //    var RotationStart = index + 1;
-        //    var Remainder = RotationStart % 4;
-
-        //    switch (Remainder)
-        //    {
-        //        case 1:
-        //            AvatarX = AvatarX * -1;
-        //            break;
-        //        case 2:
-        //            AvatarX = AvatarX * -1;
-        //            AvatarY = AvatarY * -1;
-        //            break;
-        //        case 3:
-        //            AvatarY = AvatarY * -1;
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
     }
 }

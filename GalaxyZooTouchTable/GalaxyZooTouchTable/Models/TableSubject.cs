@@ -58,11 +58,14 @@ namespace GalaxyZooTouchTable.Models
                 }
             }
 
-            int index = 0;
-            foreach (GalaxyRing Ring in Submissions)
+            if (RingRemoved)
             {
-                Ring.SetProperties(index);
-                index++;
+                int index = 0;
+                foreach (GalaxyRing Ring in Submissions)
+                {
+                    Ring.SetProperties(index);
+                    index++;
+                }
             }
         }
 
