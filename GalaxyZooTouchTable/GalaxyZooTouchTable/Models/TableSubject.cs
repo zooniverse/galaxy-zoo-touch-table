@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 
@@ -49,6 +50,18 @@ namespace GalaxyZooTouchTable.Models
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);
+        }
+
+        public void RemoveRing(TableUser user)
+        {
+            foreach (GalaxyRing Ring in Submissions)
+            {
+                if (Ring.User == user)
+                {
+                    Submissions.Remove(Ring);
+                    break;
+                }
+            }
         }
 
         public void DimRing(TableUser userClassifying)

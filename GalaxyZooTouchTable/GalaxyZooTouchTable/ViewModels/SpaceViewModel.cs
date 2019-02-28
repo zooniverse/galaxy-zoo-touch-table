@@ -40,13 +40,16 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 if (RingNotifier.Subject == SpaceViewGalaxy.Subject)
                 {
-                    if (RingNotifier.IsCreating)
+                    if (RingNotifier.Status == RingNotifierStatus.IsCreating)
                     {
                         SpaceViewGalaxy.AddRing(RingNotifier.User);
-                    } else
+                    } else if (RingNotifier.Status == RingNotifierStatus.IsSubmitting)
                     {
                         SpaceViewGalaxy.DimRing(RingNotifier.User);
                     }
+                } else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
+                {
+                    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
                 }
             }
         }
