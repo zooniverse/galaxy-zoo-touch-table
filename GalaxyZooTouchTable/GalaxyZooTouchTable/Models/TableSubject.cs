@@ -18,13 +18,6 @@ namespace GalaxyZooTouchTable.Models
         public Subject Subject { get; set; }
         public ObservableCollection<GalaxyRing> Submissions { get; set; } = new ObservableCollection<GalaxyRing>();
 
-        private int _tileOffset = -28;
-        public int TileOffset
-        {
-            get => _tileOffset;
-            set => SetProperty(ref _tileOffset, value);
-        }
-
         public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
             RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
@@ -54,13 +47,22 @@ namespace GalaxyZooTouchTable.Models
 
         public void RemoveRing(TableUser user)
         {
+            bool RingRemoved = false;
             foreach (GalaxyRing Ring in Submissions)
             {
                 if (Ring.User == user)
                 {
                     Submissions.Remove(Ring);
+                    RingRemoved = true;
                     break;
                 }
+            }
+
+            int index = 0;
+            foreach (GalaxyRing Ring in Submissions)
+            {
+                Ring.SetProperties(index);
+                index++;
             }
         }
 
@@ -79,10 +81,6 @@ namespace GalaxyZooTouchTable.Models
         {
             int NewIndex = Submissions.Count;
             GalaxyRing NewRing = new GalaxyRing(NewIndex, user);
-            if (NewIndex > 0)
-            {
-                TileOffset -= 8;
-            }
             Submissions.Add(NewRing);
         }
 

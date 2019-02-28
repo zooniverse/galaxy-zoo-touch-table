@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GalaxyZooTouchTable.Views
 {
@@ -23,6 +11,17 @@ namespace GalaxyZooTouchTable.Views
         public GalaxyTileView()
         {
             InitializeComponent();
+        }
+
+        private void RingCollection_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            var OffsetX = (RingCollection.ActualWidth - SubjectImage.ActualWidth) / 2;
+            var OffsetY = (RingCollection.ActualHeight - SubjectImage.ActualHeight) / 2;
+
+            TranslateTransform Transform = new TranslateTransform();
+            Transform.X = (OffsetX * -1) - 28;
+            Transform.Y = (OffsetY * -1) - 28;
+            TileGrid.RenderTransform = Transform;
         }
     }
 }

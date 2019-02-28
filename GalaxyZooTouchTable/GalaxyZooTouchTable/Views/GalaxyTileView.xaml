@@ -29,13 +29,12 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.RenderTransform>
-            <TranslateTransform X="{Binding TileOffset}" Y="-28"/>
-        </Grid.RenderTransform>
-        <Border CornerRadius="28"
-                VerticalAlignment="Top"
+
+    <Grid x:Name="TileGrid">
+        <Border x:Name="SubjectImage"
+                CornerRadius="28"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Width="56"
                 Height="56">
             <i:Interaction.Behaviors>
@@ -43,38 +42,40 @@
             </i:Interaction.Behaviors>
             <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
         </Border>
-        <ItemsControl x:Name="RingCollection" ItemsSource="{Binding Submissions}">
+        <ItemsControl x:Name="RingCollection" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding Submissions}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border
                         Style="{StaticResource ColoredRing}"
                         BorderBrush="{Binding UserColor}"
                         BorderThickness="3"
-                        CornerRadius="{Binding CornerRadius}"
+                        CornerRadius="100"
                         Width="{Binding Diameter}"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
                         Height="{Binding Diameter}">
-                        <Border.RenderTransform>
-                            <TranslateTransform Y="{Binding YPos}"/>
-                        </Border.RenderTransform>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding Submissions}">
+        <ItemsControl ItemsSource="{Binding Submissions}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border
-                        Width="{Binding Diameter}"
-                        Height="{Binding Diameter}">
-                        <Border.RenderTransform>
-                            <TranslateTransform Y="{Binding YPos}"/>
-                        </Border.RenderTransform>
-                        <Image Style="{StaticResource UserAvatar}" Width="26" Height="26" Source="{Binding UserAvatar}">
-                            <Image.RenderTransform>
-                                <TranslateTransform X="{Binding AvatarX}" Y="{Binding AvatarY}"/>
-                            </Image.RenderTransform>
-                        </Image>
-                    </Border>
+                    <Image Style="{StaticResource UserAvatar}" Width="26" Height="26" Source="{Binding UserAvatar}">
+                        <Image.RenderTransform>
+                            <TranslateTransform X="{Binding AvatarX}" Y="{Binding AvatarY}"/>
+                        </Image.RenderTransform>
+                    </Image>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

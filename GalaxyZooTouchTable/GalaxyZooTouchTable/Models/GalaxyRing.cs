@@ -8,16 +8,31 @@ namespace GalaxyZooTouchTable.Models
         const int RING_WIDTH_STEP = 16;
         const int INITIAL_RING_WIDTH = 56;
         const int INITIAL_AVATAR_RADIUS_POSITION = 20;
-        const int INITIAL_RADIUS = 28;
 
-        public int Diameter { get; set; }
-        public int CornerRadius { get; set; }
         public BitmapImage UserAvatar { get; set; }
-        public int AvatarX { get; set; }
-        public int AvatarY { get; set; }
         public string UserColor { get; set; } = "#E5FF4D";
-        public int YPos { get; set; }
         public TableUser User { get; private set; }
+
+        private int _avatarX = 0;
+        public int AvatarX
+        {
+            get => _avatarX;
+            set => SetProperty(ref _avatarX, value);
+        }
+
+        private int _avatarY = 0;
+        public int AvatarY
+        {
+            get => _avatarY;
+            set => SetProperty(ref _avatarY, value);
+        }
+
+        private int _diameter = 0;
+        public int Diameter
+        {
+            get => _diameter;
+            set => SetProperty(ref _diameter, value);
+        }
 
         private bool _currentlyClassifying = true;
         public bool CurrentlyClassifying
@@ -34,47 +49,74 @@ namespace GalaxyZooTouchTable.Models
                 UserColor = user.ThemeColor;
                 UserAvatar = user.Avatar;
             }
-            GetProperties(index);
+            SetProperties(index);
         }
 
-        private void GetProperties(int index)
+        public void SetProperties(int index)
         {
             Diameter = INITIAL_RING_WIDTH + (RING_WIDTH_STEP * index);
-            CornerRadius = Diameter / 2;
             AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * (6));
             AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * (6));
-            YPos = index == 0 ? 0 : (Diameter) * -1;
 
-            AvatarRotation(index);
+            AvatarPlacement();
 
             var position = 0;
             for (var start = 0; start < index; start++)
             {
                 position -= (Diameter - (8 * index));
             }
-            YPos = position;
         }
 
-        private void AvatarRotation(int index)
+        private void AvatarPlacement()
         {
-            var RotationStart = index + 1;
-            var Remainder = RotationStart % 4;
-
-            switch (Remainder)
+            if (User != null)
             {
-                case 1:
-                    AvatarX = AvatarX * -1;
-                    break;
-                case 2:
-                    AvatarX = AvatarX * -1;
-                    AvatarY = AvatarY * -1;
-                    break;
-                case 3:
-                    AvatarY = AvatarY * -1;
-                    break;
-                default:
-                    break;
+                switch (User.Name)
+                {
+                    case "HeartUser":
+                        AvatarY *= -1;
+                        AvatarX *= -1;
+                        break;
+                    case "StarUser":
+                        AvatarY *= -1;
+                        break;
+                    case "LightUser":
+                        AvatarY = 0;
+                        AvatarX = Diameter / 2;
+                        break;
+                    case "PersonUser":
+                        AvatarX *= -1;
+                        break;
+                    case "EarthUser":
+                        AvatarY = 0;
+                        AvatarX = Diameter / 2 * -1;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+
+        //private void AvatarRotation(int index)
+        //{
+        //    var RotationStart = index + 1;
+        //    var Remainder = RotationStart % 4;
+
+        //    switch (Remainder)
+        //    {
+        //        case 1:
+        //            AvatarX = AvatarX * -1;
+        //            break;
+        //        case 2:
+        //            AvatarX = AvatarX * -1;
+        //            AvatarY = AvatarY * -1;
+        //            break;
+        //        case 3:
+        //            AvatarY = AvatarY * -1;
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
     }
 }
