@@ -22,14 +22,14 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _isSelected, value);
         }
 
-        public bool _isOpen = true;
+        private bool _isOpen = true;
         public bool IsOpen
         {
             get => _isOpen;
             set => SetProperty(ref _isOpen, value);
         }
 
-        public GalaxyExample _selectedExample;
+        private GalaxyExample _selectedExample;
         public GalaxyExample SelectedExample
         {
             get => _selectedExample;
@@ -45,7 +45,13 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
         }
 
-        public void LoadCommands()
+        public void ResetExamples()
+        {
+            IsOpen = true;
+            SelectedExample = null;
+        }
+
+        private void LoadCommands()
         {
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);

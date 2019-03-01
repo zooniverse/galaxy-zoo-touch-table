@@ -22,5 +22,15 @@ namespace GalaxyZooTouchTable.ViewModels
             FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
             EarthUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Earth);
         }
+
+        public void Load()
+        {
+            PersonUserVM.Load();
+            FaceUserVM.Load();
+            LightUserVM.Load();
+            StarUserVM.Load();
+            HeartUserVM.Load();
+            EarthUserVM.Load();
+        }
     }
 }

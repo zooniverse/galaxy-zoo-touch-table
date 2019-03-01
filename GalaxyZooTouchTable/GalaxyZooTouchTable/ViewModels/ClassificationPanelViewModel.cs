@@ -7,6 +7,7 @@ using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -14,39 +15,34 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        private IGraphQLService _graphQLRepository;
-        private IPanoptesService _panoptesRepository;
-        private int ClassificationsThisSession { get; set; } = 0;
-        private Classification CurrentClassification { get; set; }
-        private Subject CurrentSubject { get; set; }
+        private IGraphQLService _graphQLService;
+        private IPanoptesService _panoptesService;
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; }
-        private List<Subject> Subjects { get; set; } = new List<Subject>();
-        private Workflow Workflow { get; set; }
 
-        public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
-        public NotificationsViewModel Notifications { get; private set; }
+        public Classification CurrentClassification { get; set; } = new Classification();
+        public Subject CurrentSubject { get; set; }
+        public Workflow Workflow { get; set; }
         public TableUser User { get; set; }
 
+        public int ClassificationsThisSession { get; set; } = 0;
         public ICommand ChooseAnotherGalaxy { get; set; }
-        public ICommand CloseClassifier { get; set; }
-        public ICommand ContinueClassification { get; set; }
-        public ICommand OpenClassifier { get; set; }
-        public ICommand SelectAnswer { get; set; }
-        public ICommand ShowCloseConfirmation { get; set; }
+        public ICommand CloseClassifier { get; private set; }
+        public ICommand ContinueClassification { get; private set; }
+        public ICommand OpenClassifier { get; private set; }
+        public ICommand SelectAnswer { get; private set; }
+        public ICommand ShowCloseConfirmation { get; private set; }
+        public List<Subject> Subjects { get; set; } = new List<Subject>();
+
+        public NotificationsViewModel Notifications { get; private set; }
+        public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
+        public LevelerViewModel LevelerViewModel { get; private set; }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
         {
             get => _currentAnswers;
             set => SetProperty(ref _currentAnswers, value);
-        }
-
-        private LevelerViewModel _levelerViewModel;
-        public LevelerViewModel LevelerViewModel
-        {
-            get => _levelerViewModel;
-            set => SetProperty(ref _levelerViewModel, value);
         }
 
         private StillThereViewModel _stillThere;
@@ -142,19 +138,19 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _allowSelection, value);
         }
 
-        public ClassificationPanelViewModel(IPanoptesService panoptesRepo, IGraphQLService graphQLRepo, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, TableUser user)
         {
-            _panoptesRepository = panoptesRepo;
-            _graphQLRepository = graphQLRepo;
+            _panoptesService = panoptesService;
+            _graphQLService = graphQLService;
             User = user;
 
-            Notifications = new NotificationsViewModel(user);
-            LevelerViewModel = new LevelerViewModel(user);
+            ExamplesViewModel = new ExamplesPanelViewModel();
+            LevelerViewModel = new LevelerViewModel(User);
+            Notifications = new NotificationsViewModel(User);
             StillThere = new StillThereViewModel();
 
-            AddSubscribers();
-            GetWorkflow();
             LoadCommands();
+            AddSubscribers();
         }
 
         private void AddSubscribers()
@@ -168,16 +164,21 @@ namespace GalaxyZooTouchTable.ViewModels
             StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
 
+        public async void Load()
+        {
+            await GetWorkflow();
+            PrepareForNewClassification();
+        }
+
         private void OnSendRequestToUser(TableUser UserToNotify)
         {
             NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
-        private async void GetWorkflow()
+        public async Task GetWorkflow()
         {
-            Workflow = await _panoptesRepository.GetWorkflowAsync(Config.WorkflowId);
-            PrepareForNewClassification();
+            Workflow = await _panoptesService.GetWorkflowAsync(Config.WorkflowId);
             WorkflowTask CurrentTask = Workflow.Tasks[Workflow.FirstTask];
             CurrentTaskIndex = Workflow.FirstTask;
             CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
@@ -203,15 +204,14 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             AnswerButton Button = sender as AnswerButton;
             SelectedAnswer = Button;
-            CurrentAnnotation = new Annotation(CurrentTaskIndex, Button.Index);
         }
 
-        private async void OnGetSubjectById(string subjectID)
+        public async void OnGetSubjectById(string subjectID)
         {
             TotalVotes = 0;
-            Subject newSubject = await _panoptesRepository.GetSubjectAsync(subjectID);
+            Subject newSubject = await _panoptesService.GetSubjectAsync(subjectID);
             Subjects.Insert(0, newSubject);
-            GetSubject();
+            GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
@@ -226,11 +226,13 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             SubjectView = SubjectViewEnum.DragSubject;
-            Notifications.ClearNotifications(true);
-            StillThereTimer = null;
-            ExamplesViewModel.IsOpen = true;
-            ExamplesViewModel.SelectedExample = null;
+            bool UserIsLeaving = true;
+            LevelerViewModel.CloseLeveler();
+            ExamplesViewModel.ResetExamples();
             PrepareForNewClassification();
+            Notifications.ClearNotifications(UserIsLeaving);
+
+            StillThereTimer = null;
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
             User.Active = false;
@@ -238,7 +240,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void PrepareForNewClassification()
         {
-            GetSubject();
+            GetSubjectQueue();
             OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
         }
@@ -248,7 +250,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseConfirmationVisible = !CloseConfirmationVisible;
         }
 
-        private void OnChangeView(ClassifierViewEnum view)
+        public void OnChangeView(ClassifierViewEnum view)
         {
             CurrentView = view;
         }
@@ -259,7 +261,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                await _panoptesRepository.CreateClassificationAsync(CurrentClassification);
+                await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -304,12 +306,12 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void ChooseAnswer(AnswerButton button)
+        public void ChooseAnswer(AnswerButton button)
         {
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
-        public void ResetTimer()
+        private void ResetTimer()
         {
             if (StillThereTimer != null)
             {
@@ -352,7 +354,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private async void GetSubject()
+        public async void GetSubjectQueue()
         {
             if (Subjects.Count <= 0)
             {
@@ -360,24 +362,31 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     { "workflow_id", Config.WorkflowId }
                 };
-                Subjects = await _panoptesRepository.GetSubjectsAsync("queued", query);
+                Subjects = await _panoptesService.GetSubjectsAsync("queued", query);
             }
-            CurrentSubject = Subjects[0];
-            StartNewClassification(CurrentSubject);
-            SubjectImageSource = CurrentSubject.GetSubjectLocation();
-            Subjects.RemoveAt(0);
-            GetSubjectReductions();
+            if (Subjects.Count > 0)
+            {
+                CurrentSubject = Subjects[0];
+                StartNewClassification(CurrentSubject);
+                Subjects.RemoveAt(0);
+
+                if (CurrentSubject != null && CurrentSubject.Locations != null)
+                {
+                    SubjectImageSource = CurrentSubject.GetSubjectLocation();
+                    GetSubjectReductions();
+                }
+            }
         }
 
         public void DropSubject(TableSubject subject)
         {
             TotalVotes = 0;
             Subjects.Insert(0, subject.Subject);
-            GetSubject();
+            GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
         }
 
-        private void ResetAnswerCount()
+        public void ResetAnswerCount()
         {
             foreach (AnswerButton Answer in CurrentAnswers)
             {
@@ -387,9 +396,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void GetSubjectReductions()
         {
-            GraphQLResponse response = await _graphQLRepository.GetReductionAsync(Workflow, CurrentSubject);
+            GraphQLResponse response = await _graphQLService.GetReductionAsync(Workflow, CurrentSubject);
 
-            if (response.Data != null)
+            if (response != null && response.Data != null)
             {
                 var reductions = response.Data.workflow.subject_reductions;
 

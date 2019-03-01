@@ -97,8 +97,11 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void StopTimers()
         {
-            SecondTimer.Stop();
-            ThirtySecondTimer.Stop();
+            if (SecondTimer != null && ThirtySecondTimer != null)
+            {
+                SecondTimer.Stop();
+                ThirtySecondTimer.Stop();
+            }
         }
 
         private void ThirtySecondsElapsed(object sender, EventArgs e)

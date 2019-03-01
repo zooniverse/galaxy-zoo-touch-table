@@ -10,6 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class CenterpieceViewModel : ViewModelBase
     {
+        public DispatcherTimer Timer = new DispatcherTimer();
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
 
         private bool _showJoinMessage = true;
@@ -19,7 +20,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _showJoinMessage, value);
         }
 
-        private bool _centerpieceIsFlipped;
+        private bool _centerpieceIsFlipped = false;
         public bool CenterpieceIsFlipped
         {
             get => _centerpieceIsFlipped;
@@ -66,10 +67,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void CreateTimer()
         {
-            var dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Tick += new System.EventHandler(OnFlipCenterpiece);
-            dispatcherTimer.Interval = new System.TimeSpan(0, 1, 0);
-            dispatcherTimer.Start();
+            Timer.Tick += new System.EventHandler(OnFlipCenterpiece);
+            Timer.Interval = new System.TimeSpan(0, 1, 0);
+            Timer.Start();
         }
 
         private void OnFlipCenterpiece(object sender, System.EventArgs e)

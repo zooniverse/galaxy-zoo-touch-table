@@ -79,7 +79,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectView = status;
         }
 
-        private void OnPeerLeaving(TableUser user)
+        private void OnPeerLeaving(TableUser user = null)
         {
             User.Status = NotificationStatus.PeerHasLeft;
             OpenNotifier = false;
