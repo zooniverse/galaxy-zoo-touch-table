@@ -13,6 +13,10 @@ namespace GalaxyZooTouchTable.Views
             InitializeComponent();
         }
 
+        /// <summary>
+        /// When a galaxy gain or loses rings, the tile must change position so the center point is always over the 
+        /// subject.
+        /// </summary>
         private void RingCollection_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
             var OffsetX = (RingCollection.ActualWidth - SubjectImage.ActualWidth) / 2;

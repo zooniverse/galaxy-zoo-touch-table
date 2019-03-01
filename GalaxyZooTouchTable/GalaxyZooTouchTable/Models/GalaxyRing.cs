@@ -6,6 +6,7 @@ namespace GalaxyZooTouchTable.Models
     public class GalaxyRing : ViewModelBase
     {
         const int RING_WIDTH_STEP = 16;
+        const int AVATAR_WIDTH_STEP = 6;
         const int INITIAL_RING_WIDTH = 56;
         const int INITIAL_AVATAR_RADIUS_POSITION = 20;
 
@@ -55,16 +56,10 @@ namespace GalaxyZooTouchTable.Models
         public void SetProperties(int index)
         {
             Diameter = INITIAL_RING_WIDTH + (RING_WIDTH_STEP * index);
-            AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * (6));
-            AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * (6));
+            AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * (AVATAR_WIDTH_STEP));
+            AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * (AVATAR_WIDTH_STEP));
 
             AvatarPlacement();
-
-            var position = 0;
-            for (var start = 0; start < index; start++)
-            {
-                position -= (Diameter - (8 * index));
-            }
         }
 
         private void AvatarPlacement()

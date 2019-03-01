@@ -38,17 +38,21 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                if (RingNotifier.Subject.Id == SpaceViewGalaxy.Subject.Id)
+                if (RingNotifier.SubjectId == SpaceViewGalaxy.Subject.Id)
                 {
-                    if (RingNotifier.Status == RingNotifierStatus.IsCreating)
+                    switch (RingNotifier.Status)
                     {
-                        SpaceViewGalaxy.AddRing(RingNotifier.User);
-                    } else if (RingNotifier.Status == RingNotifierStatus.IsSubmitting)
-                    {
-                        SpaceViewGalaxy.DimRing(RingNotifier.User);
-                    } else if (RingNotifier.Status == RingNotifierStatus.IsHelping)
-                    {
-                        SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                        case RingNotifierStatus.IsCreating:
+                            SpaceViewGalaxy.AddRing(RingNotifier.User);
+                            break;
+                        case RingNotifierStatus.IsSubmitting:
+                            SpaceViewGalaxy.DimRing(RingNotifier.User);
+                            break;
+                        case RingNotifierStatus.IsHelping:
+                            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                            break;
+                        default:
+                            break;
                     }
                 } else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
                 {

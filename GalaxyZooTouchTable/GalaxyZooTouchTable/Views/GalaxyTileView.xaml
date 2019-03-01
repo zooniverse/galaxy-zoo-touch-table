@@ -42,7 +42,7 @@
             </i:Interaction.Behaviors>
             <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
         </Border>
-        <ItemsControl x:Name="RingCollection" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding Submissions}">
+        <ItemsControl x:Name="RingCollection" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding GalaxyRings}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid VerticalAlignment="Top" HorizontalAlignment="Left"/>
@@ -63,7 +63,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <ItemsControl ItemsSource="{Binding Submissions}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ItemsControl ItemsSource="{Binding GalaxyRings}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid />

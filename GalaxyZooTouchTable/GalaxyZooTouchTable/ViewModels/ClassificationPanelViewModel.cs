@@ -173,7 +173,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnSendRequestToUser(TableUser UserToNotify)
         {
-            NotificationRequest Request = new NotificationRequest(User, CurrentGalaxy.Subject.Id);
+            NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
             Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
@@ -282,7 +282,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void NotifySpaceView(RingNotifierStatus Status)
         {
-            ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentGalaxy.Subject, User, Status);
+            ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentSubject, User, Status);
             Messenger.Default.Send<ClassificationRingNotifier>(Notification);
         }
 

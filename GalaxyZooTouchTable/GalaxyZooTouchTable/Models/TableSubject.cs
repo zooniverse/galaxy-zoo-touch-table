@@ -1,12 +1,9 @@
-﻿using System;
+﻿using PanoptesNetClient.Models;
 using System.Collections.ObjectModel;
-using System.Linq;
-using GalaxyZooTouchTable.ViewModels;
-using PanoptesNetClient.Models;
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class TableSubject : ViewModelBase
+    public class TableSubject
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -16,7 +13,7 @@ namespace GalaxyZooTouchTable.Models
         private readonly double PlateScale = 1.5;
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
-        public ObservableCollection<GalaxyRing> Submissions { get; set; } = new ObservableCollection<GalaxyRing>();
+        public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
 
         public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
@@ -26,7 +23,7 @@ namespace GalaxyZooTouchTable.Models
             SubjectLocation = subject.GetSubjectLocation();
             XYConvert(TableRA, TableDEC);
 
-            Submissions.Add(new GalaxyRing());
+            GalaxyRings.Add(new GalaxyRing());
         }
 
         private void XYConvert(double CenterRightAscension, double CenterDeclination)
@@ -48,11 +45,11 @@ namespace GalaxyZooTouchTable.Models
         public void RemoveRing(TableUser user)
         {
             bool RingRemoved = false;
-            foreach (GalaxyRing Ring in Submissions)
+            foreach (GalaxyRing Ring in GalaxyRings)
             {
                 if (Ring.User == user)
                 {
-                    Submissions.Remove(Ring);
+                    GalaxyRings.Remove(Ring);
                     RingRemoved = true;
                     break;
                 }
@@ -61,7 +58,7 @@ namespace GalaxyZooTouchTable.Models
             if (RingRemoved)
             {
                 int index = 0;
-                foreach (GalaxyRing Ring in Submissions)
+                foreach (GalaxyRing Ring in GalaxyRings)
                 {
                     Ring.SetProperties(index);
                     index++;
@@ -71,7 +68,7 @@ namespace GalaxyZooTouchTable.Models
 
         public void DimRing(TableUser userClassifying)
         {
-            foreach (GalaxyRing Ring in Submissions)
+            foreach (GalaxyRing Ring in GalaxyRings)
             {
                 if (Ring.User == userClassifying)
                 {
@@ -82,9 +79,9 @@ namespace GalaxyZooTouchTable.Models
 
         public void AddRing(TableUser user)
         {
-            int NewIndex = Submissions.Count;
+            int NewIndex = GalaxyRings.Count;
             GalaxyRing NewRing = new GalaxyRing(NewIndex, user);
-            Submissions.Add(NewRing);
+            GalaxyRings.Add(NewRing);
         }
 
         private double ToRadians(double Degrees)
