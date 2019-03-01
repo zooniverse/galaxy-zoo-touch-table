@@ -17,8 +17,11 @@ namespace GalaxyZooTouchTable.Models
 
         public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
-            RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
-            Declination = System.Convert.ToDouble(subject.Metadata.dec);
+            if (subject.Metadata != null)
+            {
+                RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
+                Declination = System.Convert.ToDouble(subject.Metadata.dec);
+            }
             Subject = subject;
             SubjectLocation = subject.GetSubjectLocation();
             XYConvert(TableRA, TableDEC);

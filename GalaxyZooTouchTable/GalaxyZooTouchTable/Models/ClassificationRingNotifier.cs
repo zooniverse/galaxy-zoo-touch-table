@@ -11,8 +11,8 @@ namespace GalaxyZooTouchTable.Models
 
         public ClassificationRingNotifier(Subject subject, TableUser user, RingNotifierStatus status)
         {
+            SubjectId = subject != null ? subject.Id : null;
             Status = status;
-            SubjectId = subject.Id;
             User = user;
         }
     }
