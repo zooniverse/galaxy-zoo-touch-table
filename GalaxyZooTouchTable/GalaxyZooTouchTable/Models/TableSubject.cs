@@ -50,7 +50,7 @@ namespace GalaxyZooTouchTable.Models
             bool RingRemoved = false;
             foreach (GalaxyRing Ring in GalaxyRings)
             {
-                if (Ring.User == user)
+                if (Ring.UserName == user.Name)
                 {
                     GalaxyRings.Remove(Ring);
                     RingRemoved = true;
@@ -73,7 +73,7 @@ namespace GalaxyZooTouchTable.Models
         {
             foreach (GalaxyRing Ring in GalaxyRings)
             {
-                if (Ring.User == userClassifying)
+                if (Ring.UserName == userClassifying.Name)
                 {
                     Ring.CurrentlyClassifying = false;
                 }

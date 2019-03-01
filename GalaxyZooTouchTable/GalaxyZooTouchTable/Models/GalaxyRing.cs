@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.Models
 
         public BitmapImage UserAvatar { get; set; }
         public string UserColor { get; set; } = "#E5FF4D";
-        public TableUser User { get; private set; }
+        public string UserName { get; set; }
 
         private int _avatarX = 0;
         public int AvatarX
@@ -46,7 +46,7 @@ namespace GalaxyZooTouchTable.Models
         {
             if (user != null)
             {
-                User = user;
+                UserName = user.Name;
                 UserColor = user.ThemeColor;
                 UserAvatar = user.Avatar;
             }
@@ -59,14 +59,14 @@ namespace GalaxyZooTouchTable.Models
             AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * (AVATAR_WIDTH_STEP));
             AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * (AVATAR_WIDTH_STEP));
 
-            AvatarPlacement();
+            PlaceAvatar();
         }
 
-        private void AvatarPlacement()
+        private void PlaceAvatar()
         {
-            if (User != null)
+            if (UserName != null)
             {
-                switch (User.Name)
+                switch (UserName)
                 {
                     case "HeartUser":
                         AvatarY *= -1;
