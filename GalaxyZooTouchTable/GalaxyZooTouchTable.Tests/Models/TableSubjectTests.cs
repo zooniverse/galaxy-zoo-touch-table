@@ -34,7 +34,7 @@ namespace GalaxyZooTouchTable.Tests.Models
             GalaxyRing EarthRing;
             foreach (GalaxyRing Ring in _tableSubject.GalaxyRings)
             {
-                if (Ring.User == GlobalData.GetInstance().EarthUser)
+                if (Ring.UserName == GlobalData.GetInstance().EarthUser.Name)
                 {
                     EarthRing = Ring;
                     Assert.False(EarthRing.CurrentlyClassifying);
