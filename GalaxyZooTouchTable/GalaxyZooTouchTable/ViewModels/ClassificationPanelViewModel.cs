@@ -156,12 +156,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void AddSubscribers()
         {
-            ExamplesViewModel.PropertyChanged += ResetTimer;
-            LevelerViewModel.PropertyChanged += ResetTimer;
+            ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
+            LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             Notifications.SendRequestToUser += OnSendRequestToUser;
-            StillThere.ResetFiveMinuteTimer += StartTimer;
+            StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
             StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
 
@@ -218,7 +218,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnOpenClassifier(object sender)
         {
-            StartTimer();
+            StartStillThereModalTimer();
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel = new LevelerViewModel(User);
@@ -294,10 +294,10 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
             StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
-            StartTimer();
+            StartStillThereModalTimer();
         }
 
-        private void StartTimer()
+        public void StartStillThereModalTimer()
         {
             StillThereTimer.Stop();
             StillThereTimer.Start();
@@ -315,9 +315,9 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
-        private void ResetTimer(object sender, PropertyChangedEventArgs e)
+        private void ResetStillThereModalTimer(object sender, PropertyChangedEventArgs e)
         {
-            StartTimer();
+            StartStillThereModalTimer();
         }
 
         public List<AnswerButton> ParseTaskAnswers(List<TaskAnswer> answers)

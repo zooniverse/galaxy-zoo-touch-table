@@ -22,7 +22,7 @@
         </DataTemplate>
     </UserControl.Resources>
  
-    <Grid Height="315" Width="547">
+    <Grid Height="315" Width="547" TouchUp="ResetTimer">
         <Views:Leveler
             DataContext="{Binding LevelerViewModel}"
             HorizontalAlignment="Left"
