@@ -9,8 +9,8 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class StillThereViewModel : ViewModelBase
     {
-        public DispatcherTimer SecondTimer { get; set; }
-        public DispatcherTimer ThirtySecondTimer { get; set; }
+        public DispatcherTimer SecondTimer { get; set; } = new DispatcherTimer();
+        public DispatcherTimer ThirtySecondTimer { get; set; } = new DispatcherTimer();
         public event Action<object> CloseClassificationPanel = delegate { };
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
@@ -55,6 +55,8 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
             Circle.RenderArc(Percentage);
             Circle.PropertyChanged += CircleChanged;
+
+            SetTimers();
         }
 
         private void CircleChanged(object sender, PropertyChangedEventArgs e)
@@ -79,29 +81,32 @@ namespace GalaxyZooTouchTable.ViewModels
             ResetFiveMinuteTimer();
         }
 
+        private void SetTimers()
+        {
+            SecondTimer.Tick += new EventHandler(OneSecondElapsed);
+            SecondTimer.Interval = new TimeSpan(0, 0, 1);
+
+            ThirtySecondTimer.Tick += new EventHandler(ThirtySecondsElapsed);
+            ThirtySecondTimer.Interval = new TimeSpan(0, 0, 31);
+        }
+
         private void StartTimers()
         {
             CurrentSeconds = 30;
             Percentage = 100;
-            SecondTimer = new DispatcherTimer();
-            SecondTimer.Tick += new EventHandler(OneSecondElapsed);
-            SecondTimer.Interval = new TimeSpan(0, 0, 1);
-            SecondTimer.Start();
 
-            ThirtySecondTimer = new DispatcherTimer();
-            ThirtySecondTimer.Tick += new EventHandler(ThirtySecondsElapsed);
-            ThirtySecondTimer.Interval = new TimeSpan(0, 0, 31);
+            SecondTimer.Stop();
+            ThirtySecondTimer.Stop();
+
+            SecondTimer.Start();
             ThirtySecondTimer.Start();
             Circle.RenderArc(Percentage);
         }
 
         private void StopTimers()
         {
-            if (SecondTimer != null && ThirtySecondTimer != null)
-            {
-                SecondTimer.Stop();
-                ThirtySecondTimer.Stop();
-            }
+            SecondTimer.Stop();
+            ThirtySecondTimer.Stop();
         }
 
         private void ThirtySecondsElapsed(object sender, EventArgs e)
