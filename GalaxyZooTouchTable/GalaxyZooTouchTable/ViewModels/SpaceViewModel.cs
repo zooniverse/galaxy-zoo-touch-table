@@ -1,10 +1,13 @@
 using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
+using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -13,7 +16,15 @@ namespace GalaxyZooTouchTable.ViewModels
         private IPanoptesService _panoptesService;
         public double RA { get; set; } = 250.3035;
         public double DEC { get; set; } = 35.09;
-        public double SCALE { get; set; } = 1.5;
+        public double PLATE_SCALE { get; set; } = 1.5;
+
+        private double RaRange { get; set; }
+        private double DecRange { get; set; }
+
+        public ICommand MoveViewNorth { get; private set; }
+        public ICommand MoveViewEast { get; private set; }
+        public ICommand MoveViewSouth { get; private set; }
+        public ICommand MoveViewWest { get; private set; }
 
         private List<TableSubject> _currentGalaxies = new List<TableSubject>();
         public List<TableSubject> CurrentGalaxies
@@ -33,6 +44,8 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             _panoptesService = panoptesService;
             PrepareForNewPosition();
+            GetRange();
+            LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
         }
 
@@ -63,9 +76,51 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private void GetRange()
+        {
+            int CutoutWidth = 1248;
+            int CutoutHeight = 432;
+            const int ArcDegreeInSeconds = 3600;
+
+            DecRange = CutoutHeight * PLATE_SCALE / ArcDegreeInSeconds;
+            RaRange = Math.Abs(CutoutWidth * PLATE_SCALE / ArcDegreeInSeconds / Math.Cos(DEC));
+        }
+
+        private void LoadCommands()
+        {
+            MoveViewNorth = new CustomCommand(OnMoveViewNorth);
+            MoveViewEast = new CustomCommand(OnMoveViewEast);
+            MoveViewSouth = new CustomCommand(OnMoveViewSouth);
+            MoveViewWest = new CustomCommand(OnMoveViewWest);
+        }
+
+        private void OnMoveViewWest(object obj)
+        {
+            RA += RaRange;
+            GetSpaceCutout();
+        }
+
+        private void OnMoveViewSouth(object obj)
+        {
+            DEC -= DecRange;
+            GetSpaceCutout();
+        }
+
+        private void OnMoveViewEast(object obj)
+        {
+            RA -= RaRange;
+            GetSpaceCutout();
+        }
+
+        private void OnMoveViewNorth(object obj)
+        {
+            DEC += DecRange;
+            GetSpaceCutout();
+        }
+
         private void GetSpaceCutout()
         {
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={SCALE}";
+            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={PLATE_SCALE}";
         }
 
         private async void PrepareForNewPosition()

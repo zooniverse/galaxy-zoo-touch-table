@@ -53,6 +53,9 @@
         </ItemsControl>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewNorth}"/>
+            </i:Interaction.Behaviors>
             <Border.LayoutTransform>
                 <RotateTransform Angle="180"/>
             </Border.LayoutTransform>
@@ -60,6 +63,9 @@
         </Border>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewEast}"/>
+            </i:Interaction.Behaviors>
             <Border.LayoutTransform>
                 <RotateTransform Angle="-90"/>
             </Border.LayoutTransform>
@@ -67,6 +73,9 @@
         </Border>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewWest}"/>
+            </i:Interaction.Behaviors>
             <Border.LayoutTransform>
                 <RotateTransform Angle="90"/>
             </Border.LayoutTransform>
@@ -74,6 +83,9 @@
         </Border>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewSouth}"/>
+            </i:Interaction.Behaviors>
             <TextBlock Style="{StaticResource MoveMapText}"/>
         </Border>
     </Grid>
