@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.Services
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
             {
                 connection.Open();
-                string query = $"select * from Subject where dec > {minDec} and dec < {maxDec} and ra > {minRa} and ra < {maxRa}";
+                string query = $"select * from Subjects where dec > {minDec} and dec < {maxDec} and ra > {minRa} and ra < {maxRa}";
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 SQLiteDataReader reader = command.ExecuteReader();
                 List<TableSubject> SubjectsWithinBounds = new List<TableSubject>();
@@ -28,6 +28,54 @@ namespace GalaxyZooTouchTable.Services
 
                 connection.Close();
                 return SubjectsWithinBounds;
+            }
+        }
+
+        public static TableSubject GetLocalSubject(string id)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects where subject_id = {id}";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                TableSubject RetrievedSubject = null;
+
+                while (reader.Read())
+                {
+                    string image = reader["image"] as string;
+                    double ra = (double)reader["ra"];
+                    double dec = (double)reader["dec"];
+                    RetrievedSubject = new TableSubject(id, image, ra, dec);
+                }
+
+                connection.Close();
+                return RetrievedSubject;
+            }
+        }
+
+        public static List<TableSubject> GetQueuedSubjects()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects order by classifications_count asc limit 10";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                List<TableSubject> Subjects = new List<TableSubject>();
+
+                while (reader.Read())
+                {
+                    string id = reader["subject_id"] as string;
+                    string image = reader["image"] as string;
+                    double ra = (double)reader["ra"];
+                    double dec = (double)reader["dec"];
+                    TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec);
+                    Subjects.Add(RetrievedSubject);
+                }
+
+                connection.Close();
+                return Subjects;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using GraphQL.Client.Http;
+﻿using GalaxyZooTouchTable.Models;
+using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using GraphQL.Common.Response;
 using PanoptesNetClient.Models;
@@ -10,7 +11,7 @@ namespace GalaxyZooTouchTable.Services
     {
         private GraphQLHttpClient GraphQLClient = new GraphQLHttpClient(Config.CaesarHost);
 
-        public async Task<GraphQLResponse> GetReductionAsync(Workflow workflow, Subject currentSubject)
+        public async Task<GraphQLResponse> GetReductionAsync(Workflow workflow, TableSubject currentSubject)
         {
             GraphQLResponse response = new GraphQLResponse();
             var answersRequest = new GraphQLRequest
