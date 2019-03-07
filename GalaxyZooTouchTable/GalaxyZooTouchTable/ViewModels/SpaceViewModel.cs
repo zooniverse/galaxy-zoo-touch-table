@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Services;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data.SQLite;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -62,7 +63,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 }
             }
         }
-        
+
         private void GetSpaceCutout()
         {
             SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={SCALE}";

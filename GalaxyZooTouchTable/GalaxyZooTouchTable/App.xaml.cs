@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.ViewModels;
+using System;
 using System.Windows;
 
 namespace GalaxyZooTouchTable
@@ -8,6 +9,10 @@ namespace GalaxyZooTouchTable
     /// </summary>
     public partial class App : Application
     {
+        static string databaseName = "test_database.db";
+        static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string databasePath = System.IO.Path.Combine(folderPath, databaseName);
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
