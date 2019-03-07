@@ -37,6 +37,8 @@ namespace GalaxyZooTouchTable.Models
             Location = location;
             RightAscension = ra;
             Declination = dec;
+            SubjectLocation = location;
+            XYConvert(257.9, 23.23);
         }
 
         private void XYConvert(double CenterRightAscension, double CenterDeclination)

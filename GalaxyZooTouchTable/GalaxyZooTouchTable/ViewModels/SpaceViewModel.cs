@@ -14,8 +14,8 @@ namespace GalaxyZooTouchTable.ViewModels
     public class SpaceViewModel : ViewModelBase
     {
         private IPanoptesService _panoptesService;
-        public double RA { get; set; } = 250.3035;
-        public double DEC { get; set; } = 35.09;
+        public double RA { get; set; } = 257.9;
+        public double DEC { get; set; } = 23.23;
         public double PLATE_SCALE { get; set; } = 1.5;
 
         private double RaRange { get; set; }
@@ -43,8 +43,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public SpaceViewModel(IPanoptesService panoptesService)
         {
             _panoptesService = panoptesService;
-            PrepareForNewPosition();
             GetRange();
+            PrepareForNewPosition();
             LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
         }
@@ -97,25 +97,25 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnMoveViewWest(object obj)
         {
             RA += RaRange;
-            GetSpaceCutout();
+            PrepareForNewPosition();
         }
 
         private void OnMoveViewSouth(object obj)
         {
             DEC -= DecRange;
-            GetSpaceCutout();
+            PrepareForNewPosition();
         }
 
         private void OnMoveViewEast(object obj)
         {
             RA -= RaRange;
-            GetSpaceCutout();
+            PrepareForNewPosition();
         }
 
         private void OnMoveViewNorth(object obj)
         {
             DEC += DecRange;
-            GetSpaceCutout();
+            PrepareForNewPosition();
         }
 
         private void GetSpaceCutout()
@@ -123,10 +123,15 @@ namespace GalaxyZooTouchTable.ViewModels
             SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={PLATE_SCALE}";
         }
 
-        private async void PrepareForNewPosition()
+        private void PrepareForNewPosition()
         {
             GetSpaceCutout();
-            await GetSubjectsAsync();
+
+            double minRa = RA - (RaRange / 2);
+            double maxRa = RA + (RaRange / 2);
+            double minDec = DEC - (DecRange / 2);
+            double maxDec = DEC + (DecRange / 2);
+            CurrentGalaxies = LocalDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
         }
 
         private async Task GetSubjectsAsync()
