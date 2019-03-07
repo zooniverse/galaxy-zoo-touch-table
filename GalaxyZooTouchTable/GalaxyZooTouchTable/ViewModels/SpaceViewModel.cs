@@ -1,10 +1,9 @@
-﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data.SQLite;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.ViewModels

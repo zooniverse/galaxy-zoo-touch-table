@@ -14,6 +14,8 @@ namespace GalaxyZooTouchTable.Models
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
+        public string Location { get; set; }
+        public string Id { get; set; }
 
         public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
@@ -27,6 +29,14 @@ namespace GalaxyZooTouchTable.Models
             XYConvert(TableRA, TableDEC);
 
             GalaxyRings.Add(new GalaxyRing());
+        }
+
+        public TableSubject(string id, string location, double ra, double dec)
+        {
+            Id = id;
+            Location = location;
+            RightAscension = ra;
+            Declination = dec;
         }
 
         private void XYConvert(double CenterRightAscension, double CenterDeclination)
