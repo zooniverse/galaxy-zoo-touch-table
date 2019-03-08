@@ -14,9 +14,6 @@ namespace GalaxyZooTouchTable.ViewModels
     public class SpaceViewModel : ViewModelBase
     {
         private IPanoptesService _panoptesService;
-        public double RA { get; set; } = 257.9;
-        public double DEC { get; set; } = 23.23;
-        public double PLATE_SCALE { get; set; } = 1.5;
 
         private double RaRange { get; set; }
         private double DecRange { get; set; }
@@ -43,6 +40,10 @@ namespace GalaxyZooTouchTable.ViewModels
         public SpaceViewModel(IPanoptesService panoptesService)
         {
             _panoptesService = panoptesService;
+
+            SpacePoint StartingLocation = LocalDBService.GetRandomPoint();
+            SpaceNavigation.RA = StartingLocation.RightAscension;
+            SpaceNavigation.DEC = StartingLocation.Declination;
             GetRange();
             PrepareForNewPosition();
             LoadCommands();
@@ -82,8 +83,8 @@ namespace GalaxyZooTouchTable.ViewModels
             int CutoutHeight = 432;
             const int ArcDegreeInSeconds = 3600;
 
-            DecRange = CutoutHeight * PLATE_SCALE / ArcDegreeInSeconds;
-            RaRange = Math.Abs(CutoutWidth * PLATE_SCALE / ArcDegreeInSeconds / Math.Cos(DEC));
+            DecRange = CutoutHeight * SpaceNavigation.PlateScale / ArcDegreeInSeconds;
+            RaRange = Math.Abs(CutoutWidth * SpaceNavigation.PlateScale / ArcDegreeInSeconds / Math.Cos(SpaceNavigation.DEC));
         }
 
         private void LoadCommands()
@@ -96,41 +97,41 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
-            RA += RaRange;
+            SpaceNavigation.RA += RaRange;
             PrepareForNewPosition();
         }
 
         private void OnMoveViewSouth(object obj)
         {
-            DEC -= DecRange;
+            SpaceNavigation.DEC -= DecRange;
             PrepareForNewPosition();
         }
 
         private void OnMoveViewEast(object obj)
         {
-            RA -= RaRange;
+            SpaceNavigation.RA -= RaRange;
             PrepareForNewPosition();
         }
 
         private void OnMoveViewNorth(object obj)
         {
-            DEC += DecRange;
+            SpaceNavigation.DEC += DecRange;
             PrepareForNewPosition();
         }
 
         private void GetSpaceCutout()
         {
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={PLATE_SCALE}";
+            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={SpaceNavigation.PlateScale}";
         }
 
         private void PrepareForNewPosition()
         {
             GetSpaceCutout();
 
-            double minRa = RA - (RaRange / 2);
-            double maxRa = RA + (RaRange / 2);
-            double minDec = DEC - (DecRange / 2);
-            double maxDec = DEC + (DecRange / 2);
+            double minRa = SpaceNavigation.RA - (RaRange / 2);
+            double maxRa = SpaceNavigation.RA + (RaRange / 2);
+            double minDec = SpaceNavigation.DEC - (DecRange /2);
+            double maxDec = SpaceNavigation.DEC + (DecRange / 2);
             CurrentGalaxies = LocalDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
         }
 

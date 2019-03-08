@@ -38,20 +38,20 @@ namespace GalaxyZooTouchTable.Models
             RightAscension = ra;
             Declination = dec;
             SubjectLocation = location;
-            XYConvert(257.9, 23.23);
+            XYConvert();
         }
 
-        private void XYConvert(double CenterRightAscension, double CenterDeclination)
+        private void XYConvert()
         {
             int CutoutWidth = 1248; 
             int CutoutHeight = 432;
             const int ArcDegreeInSeconds = 3600;
 
             double DecRange = CutoutHeight * PlateScale / ArcDegreeInSeconds;
-            double RaRange = System.Math.Abs(CutoutWidth * PlateScale / ArcDegreeInSeconds / System.Math.Cos(CenterDeclination));
+            double RaRange = System.Math.Abs(CutoutWidth * PlateScale / ArcDegreeInSeconds / System.Math.Cos(SpaceNavigation.DEC));
 
-            double StartY = ((CenterDeclination - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
-            double StartX = ((CenterRightAscension - RightAscension) / (RaRange + Offset) * CutoutWidth) + (CutoutWidth / 2);
+            double StartY = ((SpaceNavigation.DEC - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
+            double StartX = ((SpaceNavigation.RA - RightAscension) / (RaRange + Offset) * CutoutWidth) + (CutoutWidth / 2);
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);

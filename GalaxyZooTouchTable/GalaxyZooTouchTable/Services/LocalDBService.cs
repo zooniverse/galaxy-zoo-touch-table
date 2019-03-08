@@ -78,5 +78,27 @@ namespace GalaxyZooTouchTable.Services
                 return Subjects;
             }
         }
+
+        public static SpacePoint GetRandomPoint()
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects order by random() limit 1";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                SpacePoint point = null;
+
+                while (reader.Read())
+                {
+                    double ra = (double)reader["ra"];
+                    double dec = (double)reader["dec"];
+                    point = new SpacePoint(ra, dec);
+                }
+
+                connection.Close();
+                return point;
+            }
+        }
     }
 }
