@@ -100,5 +100,93 @@ namespace GalaxyZooTouchTable.Services
                 return point;
             }
         }
+
+        public static SpacePoint FindNextAscendingRa(double RaLowerBounds)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects where ra > {RaLowerBounds} limit 1";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                SpacePoint point = null;
+
+                while (reader.Read())
+                {
+                    double ra = (double)reader["ra"];
+                    double dec = (double)reader["dec"];
+                    point = new SpacePoint(ra, dec);
+                }
+
+                connection.Close();
+                return point;
+            }
+        }
+
+        public static SpacePoint FindNextDescendingRa(double RaUpperBounds)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects where ra < {RaUpperBounds} limit 1";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                SpacePoint point = null;
+
+                while (reader.Read())
+                {
+                    double ra = (double)reader["ra"];
+                    double dec = (double)reader["dec"];
+                    point = new SpacePoint(ra, dec);
+                }
+
+                connection.Close();
+                return point;
+            }
+        }
+
+        public static SpacePoint FindNextAscendingDec(double DecLowerBounds)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects where dec > {DecLowerBounds} limit 1";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                SpacePoint point = null;
+
+                while (reader.Read())
+                {
+                    double dec = (double)reader["dec"];
+                    double ra = (double)reader["ra"];
+                    point = new SpacePoint(ra, dec);
+                }
+
+                connection.Close();
+                return point;
+            }
+        }
+
+        public static SpacePoint FindNextDescendingDec(double DecUpperBounds)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            {
+                connection.Open();
+                string query = $"select * from Subjects where dec < {DecUpperBounds} limit 1";
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                SpacePoint point = null;
+
+                while (reader.Read())
+                {
+                    double dec = (double)reader["dec"];
+                    double ra = (double)reader["ra"];
+                    point = new SpacePoint(ra, dec);
+                }
+
+                connection.Close();
+                return point;
+            }
+        }
     }
 }

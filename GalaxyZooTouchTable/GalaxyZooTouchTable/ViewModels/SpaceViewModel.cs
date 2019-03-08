@@ -99,24 +99,60 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             SpaceNavigation.RA += RaRange;
             PrepareForNewPosition();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                double NewBounds = SpaceNavigation.RA + (RaRange / 2);
+                SpacePoint newCenter = LocalDBService.FindNextAscendingRa(NewBounds);
+                SpaceNavigation.RA = newCenter.RightAscension;
+                SpaceNavigation.DEC = newCenter.Declination;
+                PrepareForNewPosition();
+            }
         }
 
         private void OnMoveViewSouth(object obj)
         {
             SpaceNavigation.DEC -= DecRange;
             PrepareForNewPosition();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                double NewBounds = SpaceNavigation.DEC - (DecRange / 2);
+                SpacePoint newCenter = LocalDBService.FindNextDescendingDec(NewBounds);
+                SpaceNavigation.RA = newCenter.RightAscension;
+                SpaceNavigation.DEC = newCenter.Declination;
+                PrepareForNewPosition();
+            }
         }
 
         private void OnMoveViewEast(object obj)
         {
             SpaceNavigation.RA -= RaRange;
             PrepareForNewPosition();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                double NewBounds = SpaceNavigation.RA - (RaRange / 2);
+                SpacePoint newCenter = LocalDBService.FindNextDescendingRa(NewBounds);
+                SpaceNavigation.RA = newCenter.RightAscension;
+                SpaceNavigation.DEC = newCenter.Declination;
+                PrepareForNewPosition();
+            }
         }
 
         private void OnMoveViewNorth(object obj)
         {
             SpaceNavigation.DEC += DecRange;
             PrepareForNewPosition();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                double NewBounds = SpaceNavigation.DEC + (DecRange / 2);
+                SpacePoint newCenter = LocalDBService.FindNextAscendingDec(NewBounds);
+                SpaceNavigation.RA = newCenter.RightAscension;
+                SpaceNavigation.DEC = newCenter.Declination;
+                PrepareForNewPosition();
+            }
         }
 
         private void GetSpaceCutout()
@@ -128,7 +164,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             GetSpaceCutout();
 
-            double minRa = SpaceNavigation.RA - (RaRange / 2);
+            double minRa = SpaceNavigation.RA - (RaRange / 2); 
             double maxRa = SpaceNavigation.RA + (RaRange / 2);
             double minDec = SpaceNavigation.DEC - (DecRange /2);
             double maxDec = SpaceNavigation.DEC + (DecRange / 2);
