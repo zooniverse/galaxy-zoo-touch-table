@@ -18,6 +18,8 @@ namespace GalaxyZooTouchTable.ViewModels
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
         private TableSubject CurrentGalaxy { get; set; }
+        private ILocalDBService _localDBService;
+
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
 
@@ -139,10 +141,11 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _allowSelection, value);
         }
 
-        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, ILocalDBService localDBService, TableUser user)
         {
             _panoptesService = panoptesService;
             _graphQLService = graphQLService;
+            _localDBService = localDBService;
             User = user;
 
             ExamplesViewModel = new ExamplesPanelViewModel();
@@ -212,7 +215,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             NotifySpaceView(RingNotifierStatus.IsHelping);
             TotalVotes = 0;
-            TableSubject newSubject = LocalDBService.GetLocalSubject(subjectID);
+            TableSubject newSubject = _localDBService.GetLocalSubject(subjectID);
             Subjects.Insert(0, newSubject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
@@ -367,7 +370,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     { "workflow_id", Config.WorkflowId }
                 };
-                Subjects = LocalDBService.GetQueuedSubjects();
+                Subjects = _localDBService.GetQueuedSubjects();
             }
             if (Subjects.Count > 0)
             {

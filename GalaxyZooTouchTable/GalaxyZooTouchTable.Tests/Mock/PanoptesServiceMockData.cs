@@ -7,6 +7,8 @@ namespace GalaxyZooTouchTable.Tests.Mock
 {
     public static class PanoptesServiceMockData
     {
+        public static TableSubject TableSubject = new TableSubject("1", "www.fakewebsite.com", 22.22, 33.33);
+
         public static List<TaskAnswer> TaskAnswerList()
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>();
@@ -58,6 +60,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
                 Id = "1",
                 Locations = mockLocation
             };
+
         }
 
         public static AnswerButton AnswerButton()

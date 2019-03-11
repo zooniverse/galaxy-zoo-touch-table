@@ -16,6 +16,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ViewModelLocator()
         {
             container.RegisterType<IPanoptesService, PanoptesService>();
+            container.RegisterType<ILocalDBService, LocalDBService>();
             _spaceViewModel = container.Resolve<SpaceViewModel>();
         }
     }

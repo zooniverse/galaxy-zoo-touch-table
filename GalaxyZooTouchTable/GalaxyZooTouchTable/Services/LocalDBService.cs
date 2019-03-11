@@ -4,14 +4,14 @@ using System.Data.SQLite;
 
 namespace GalaxyZooTouchTable.Services
 {
-    public static class LocalDBService
+    public class LocalDBService : ILocalDBService
     {
-        private static string HighestRaQuery = "select * from Subjects order by ra desc limit 1";
-        private static string HighestDecQuery = "select * from Subjects order by dec desc limit 1";
-        private static string LowestRaQuery = "select * from Subjects order by ra asc limit 1";
-        private static string LowestDecQuery = "select * from Subjects order by dec asc limit 1";
+        string HighestRaQuery = "select * from Subjects order by ra desc limit 1";
+        string HighestDecQuery = "select * from Subjects order by dec desc limit 1";
+        string LowestRaQuery = "select * from Subjects order by ra asc limit 1";
+        string LowestDecQuery = "select * from Subjects order by dec asc limit 1";
 
-        public static TableSubject GetLocalSubject(string id)
+        public TableSubject GetLocalSubject(string id)
         {
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
             {
@@ -34,19 +34,19 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        public static List<TableSubject> GetQueuedSubjects()
+        public List<TableSubject> GetQueuedSubjects()
         {
             string query = "select * from Subjects order by classifications_count asc limit 10";
             return GetSubjects(query);
         }
 
-        public static List<TableSubject> GetLocalSubjects(double minRa = 0, double maxRa = 360, double minDec = -90, double maxDec = 90)
+        public List<TableSubject> GetLocalSubjects(double minRa = 0, double maxRa = 360, double minDec = -90, double maxDec = 90)
         {
             string query = $"select * from Subjects where dec > {minDec} and dec < {maxDec} and ra > {minRa} and ra < {maxRa}";
             return GetSubjects(query);
         }
 
-        public static List<TableSubject> GetSubjects(string query)
+        public List<TableSubject> GetSubjects(string query)
         {
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
             {
@@ -70,7 +70,7 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        public static SpacePoint GetPoint(string query)
+        public SpacePoint GetPoint(string query)
         {
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
             {
@@ -91,15 +91,15 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        public static SpacePoint GetRandomPoint()
+        public SpacePoint GetRandomPoint()
         {
             string query = "select * from Subjects order by random() limit 1";
             return GetPoint(query);
         }
 
-        public static SpacePoint FindNextAscendingRa(double RaLowerBounds)
+        public SpacePoint FindNextAscendingRa(double RaLowerBounds)
         {
-            string query = $"select * from Subjects where ra > {RaLowerBounds} limit 1";
+            string query = $"select * from Subjects where ra > {RaLowerBounds} order by ra asc limit 1";
             SpacePoint Center = GetPoint(query);
 
             if (Center == null)
@@ -110,9 +110,9 @@ namespace GalaxyZooTouchTable.Services
             return Center;
         }
 
-        public static SpacePoint FindNextDescendingRa(double RaUpperBounds)
+        public SpacePoint FindNextDescendingRa(double RaUpperBounds)
         {
-            string query = $"select * from Subjects where ra < {RaUpperBounds} limit 1";
+            string query = $"select * from Subjects where ra < {RaUpperBounds} order by ra desc limit 1";
             SpacePoint Center = GetPoint(query);
 
             if (Center == null)
@@ -123,9 +123,9 @@ namespace GalaxyZooTouchTable.Services
             return Center;
         }
 
-        public static SpacePoint FindNextAscendingDec(double DecLowerBounds)
+        public SpacePoint FindNextAscendingDec(double DecLowerBounds)
         {
-            string query = $"select * from Subjects where dec > {DecLowerBounds} limit 1";
+            string query = $"select * from Subjects where dec > {DecLowerBounds} order by dec asc limit 1";
             SpacePoint Center = GetPoint(query);
 
             if (Center == null)
@@ -136,9 +136,9 @@ namespace GalaxyZooTouchTable.Services
             return Center;
         }
 
-        public static SpacePoint FindNextDescendingDec(double DecUpperBounds)
+        public SpacePoint FindNextDescendingDec(double DecUpperBounds)
         {
-            string query = $"select * from Subjects where dec < {DecUpperBounds} limit 1";
+            string query = $"select * from Subjects where dec < {DecUpperBounds} order by dec desc limit 1";
             SpacePoint Center = GetPoint(query);
 
             if (Center == null)

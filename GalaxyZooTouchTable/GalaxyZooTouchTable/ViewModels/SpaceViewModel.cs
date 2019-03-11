@@ -14,7 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
     public class SpaceViewModel : ViewModelBase
     {
         private IPanoptesService _panoptesService;
-
+        private ILocalDBService _localDBService;
         private double RaRange { get; set; }
         private double DecRange { get; set; }
 
@@ -37,11 +37,12 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _spaceCutoutUrl, value);
         }
 
-        public SpaceViewModel(IPanoptesService panoptesService)
+        public SpaceViewModel(IPanoptesService panoptesService, ILocalDBService localDBService)
         {
             _panoptesService = panoptesService;
+            _localDBService = localDBService;
 
-            SpacePoint StartingLocation = LocalDBService.GetRandomPoint();
+            SpacePoint StartingLocation = _localDBService.GetRandomPoint();
             SpaceNavigation.RA = StartingLocation.RightAscension;
             SpaceNavigation.DEC = StartingLocation.Declination;
             GetRange();
@@ -103,7 +104,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentGalaxies.Count == 0)
             {
                 double NewBounds = SpaceNavigation.RA + (RaRange / 2);
-                SpacePoint newCenter = LocalDBService.FindNextAscendingRa(NewBounds);
+                SpacePoint newCenter = _localDBService.FindNextAscendingRa(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
                 PrepareForNewPosition();
@@ -118,7 +119,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentGalaxies.Count == 0)
             {
                 double NewBounds = SpaceNavigation.DEC - (DecRange / 2);
-                SpacePoint newCenter = LocalDBService.FindNextDescendingDec(NewBounds);
+                SpacePoint newCenter = _localDBService.FindNextDescendingDec(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
                 PrepareForNewPosition();
@@ -133,7 +134,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentGalaxies.Count == 0)
             {
                 double NewBounds = SpaceNavigation.RA - (RaRange / 2);
-                SpacePoint newCenter = LocalDBService.FindNextDescendingRa(NewBounds);
+                SpacePoint newCenter = _localDBService.FindNextDescendingRa(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
                 PrepareForNewPosition();
@@ -148,7 +149,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentGalaxies.Count == 0)
             {
                 double NewBounds = SpaceNavigation.DEC + (DecRange / 2);
-                SpacePoint newCenter = LocalDBService.FindNextAscendingDec(NewBounds);
+                SpacePoint newCenter = _localDBService.FindNextAscendingDec(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
                 PrepareForNewPosition();
@@ -168,7 +169,7 @@ namespace GalaxyZooTouchTable.ViewModels
             double maxRa = SpaceNavigation.RA + (RaRange / 2);
             double minDec = SpaceNavigation.DEC - (DecRange /2);
             double maxDec = SpaceNavigation.DEC + (DecRange / 2);
-            CurrentGalaxies = LocalDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
+            CurrentGalaxies = _localDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
         }
 
         private async Task GetSubjectsAsync()
