@@ -9,8 +9,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class StillThereViewModel : ViewModelBase
     {
-        public DispatcherTimer SecondTimer { get; set; }
-        public DispatcherTimer ThirtySecondTimer { get; set; }
+        public DispatcherTimer SecondTimer { get; set; } = new DispatcherTimer();
         public event Action<object> CloseClassificationPanel = delegate { };
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
@@ -40,10 +39,10 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 if (value == true)
                 {
-                    StartTimers();
+                    StartTimer();
                 } else
                 {
-                    StopTimers();
+                    SecondTimer.Stop();
                 }
                 SetProperty(ref _visible, value);
             }
@@ -55,6 +54,8 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
             Circle.RenderArc(Percentage);
             Circle.PropertyChanged += CircleChanged;
+
+            SetTimer();
         }
 
         private void CircleChanged(object sender, PropertyChangedEventArgs e)
@@ -79,35 +80,20 @@ namespace GalaxyZooTouchTable.ViewModels
             ResetFiveMinuteTimer();
         }
 
-        private void StartTimers()
+        private void SetTimer()
+        {
+            SecondTimer.Tick += new EventHandler(OneSecondElapsed);
+            SecondTimer.Interval = new TimeSpan(0, 0, 1);
+        }
+
+        private void StartTimer()
         {
             CurrentSeconds = 30;
             Percentage = 100;
-            SecondTimer = new DispatcherTimer();
-            SecondTimer.Tick += new EventHandler(OneSecondElapsed);
-            SecondTimer.Interval = new TimeSpan(0, 0, 1);
+
+            SecondTimer.Stop();
             SecondTimer.Start();
-
-            ThirtySecondTimer = new DispatcherTimer();
-            ThirtySecondTimer.Tick += new EventHandler(ThirtySecondsElapsed);
-            ThirtySecondTimer.Interval = new TimeSpan(0, 0, 31);
-            ThirtySecondTimer.Start();
             Circle.RenderArc(Percentage);
-        }
-
-        private void StopTimers()
-        {
-            if (SecondTimer != null && ThirtySecondTimer != null)
-            {
-                SecondTimer.Stop();
-                ThirtySecondTimer.Stop();
-            }
-        }
-
-        private void ThirtySecondsElapsed(object sender, EventArgs e)
-        {
-            CloseClassificationPanel(sender);
-            Visible = false;
         }
 
         private void OneSecondElapsed(object sender, EventArgs e)
@@ -117,6 +103,12 @@ namespace GalaxyZooTouchTable.ViewModels
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
             Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
             Circle.RenderArc(Percentage);
+
+            if (CurrentSeconds == 0)
+            {
+                CloseClassificationPanel(null);
+                Visible = false;
+            }
         }
     }
 }

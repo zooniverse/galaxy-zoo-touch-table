@@ -27,7 +27,7 @@ namespace GalaxyZooTouchTable.Behaviors
         /// </summary>
         private void AssociatedObject_TouchUp(object sender, TouchEventArgs e)
         {
-            e.Handled = true;
+            e.Handled = Handle;
             if (IsTouchDown && Command.CanExecute(sender))
             {
                 Command.Execute(CommandParameter);
@@ -38,6 +38,15 @@ namespace GalaxyZooTouchTable.Behaviors
         private void AssociatedObject_TouchDown(object sender, TouchEventArgs e)
         {
             IsTouchDown = true;
+        }
+
+        public static readonly DependencyProperty HandleProperty =
+            DependencyProperty.Register("Handle", typeof(bool), typeof(TapBehavior), new UIPropertyMetadata(true));
+
+        public bool Handle
+        {
+            get { return (bool)GetValue(HandleProperty); }
+            set { SetValue(HandleProperty, value); }
         }
 
         public static readonly DependencyProperty CommandProperty =

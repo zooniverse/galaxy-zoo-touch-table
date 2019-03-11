@@ -18,7 +18,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
         private string CurrentTaskIndex { get; set; }
-        private DispatcherTimer StillThereTimer { get; set; }
+        private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public Subject CurrentSubject { get; set; }
@@ -151,16 +151,17 @@ namespace GalaxyZooTouchTable.ViewModels
 
             LoadCommands();
             AddSubscribers();
+            SetTimer();
         }
 
         private void AddSubscribers()
         {
-            ExamplesViewModel.PropertyChanged += ResetTimer;
-            LevelerViewModel.PropertyChanged += ResetTimer;
+            ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
+            LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             Notifications.SendRequestToUser += OnSendRequestToUser;
-            StillThere.ResetFiveMinuteTimer += ResetTimer;
+            StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
             StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
 
@@ -217,7 +218,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnOpenClassifier(object sender)
         {
-            StartTimer();
+            StartStillThereModalTimer();
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel = new LevelerViewModel(User);
@@ -232,7 +233,6 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
             Notifications.ClearNotifications(UserIsLeaving);
 
-            StillThereTimer = null;
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
             User.Active = false;
@@ -290,20 +290,24 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void StartTimer()
+        private void SetTimer()
         {
-            StillThereTimer = new DispatcherTimer();
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            ResetTimer();
+            StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
+            StartStillThereModalTimer();
+        }
+
+        public void StartStillThereModalTimer()
+        {
+            StillThereTimer.Stop();
+            StillThereTimer.Start();
+            if (StillThere.Visible) { StillThere.Visible = false; }
         }
 
         private void ShowStillThereModal(object sender, System.EventArgs e)
         {
-            if (StillThereTimer != null)
-            {
-                StillThereTimer.Stop();
-                StillThere.Visible = true;
-            }
+            StillThereTimer.Stop();
+            StillThere.Visible = true;
         }
 
         public void ChooseAnswer(AnswerButton button)
@@ -311,19 +315,9 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
-        private void ResetTimer()
+        private void ResetStillThereModalTimer(object sender, PropertyChangedEventArgs e)
         {
-            if (StillThereTimer != null)
-            {
-                StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
-                StillThereTimer.Start();
-            }
-            if (StillThere.Visible) { StillThere.Visible = false; }
-        }
-
-        private void ResetTimer(object sender, PropertyChangedEventArgs e)
-        {
-            ResetTimer();
+            StartStillThereModalTimer();
         }
 
         public List<AnswerButton> ParseTaskAnswers(List<TaskAnswer> answers)

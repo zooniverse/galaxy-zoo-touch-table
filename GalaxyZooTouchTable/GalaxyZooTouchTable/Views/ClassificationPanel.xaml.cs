@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using GalaxyZooTouchTable.ViewModels;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace GalaxyZooTouchTable
 {
@@ -10,6 +12,13 @@ namespace GalaxyZooTouchTable
         public ClassificationPanel()
         {
             InitializeComponent();
+        }
+
+        private void ResetTimer(object sender, System.Windows.Input.TouchEventArgs e)
+        {
+            var Element = sender as FrameworkElement;
+            ClassificationPanelViewModel Classifier = Element.DataContext as ClassificationPanelViewModel;
+            Classifier.StartStillThereModalTimer();
         }
     }
 }

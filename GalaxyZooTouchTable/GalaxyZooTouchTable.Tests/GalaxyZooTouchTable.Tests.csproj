@@ -85,6 +85,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\GalaxyZooTouchTable\ViewModels\StillThereViewModel.cs">
+      <Link>StillThereViewModel.cs</Link>
+    </Compile>
     <Compile Include="Extensions\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Mock\GraphQLServiceMockData.cs" />
     <Compile Include="Mock\PanoptesServiceMockData.cs" />
