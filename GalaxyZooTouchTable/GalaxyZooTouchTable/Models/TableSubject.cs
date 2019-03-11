@@ -1,4 +1,5 @@
 ﻿using PanoptesNetClient.Models;
+using System.Collections.ObjectModel;
 
 namespace GalaxyZooTouchTable.Models
 {
@@ -12,14 +13,20 @@ namespace GalaxyZooTouchTable.Models
         private readonly double PlateScale = 1.5;
         private readonly double Offset = 0.03;
         public Subject Subject { get; set; }
+        public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
 
-        public TableSubject(Subject subject, double TableRA, double TableDEC)
+        public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
         {
-            RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
-            Declination = System.Convert.ToDouble(subject.Metadata.dec);
+            if (subject.Metadata != null)
+            {
+                RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
+                Declination = System.Convert.ToDouble(subject.Metadata.dec);
+            }
             Subject = subject;
             SubjectLocation = subject.GetSubjectLocation();
             XYConvert(TableRA, TableDEC);
+
+            GalaxyRings.Add(new GalaxyRing());
         }
 
         private void XYConvert(double CenterRightAscension, double CenterDeclination)
@@ -36,6 +43,48 @@ namespace GalaxyZooTouchTable.Models
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);
+        }
+
+        public void RemoveRing(TableUser user)
+        {
+            bool RingRemoved = false;
+            foreach (GalaxyRing Ring in GalaxyRings)
+            {
+                if (Ring.UserName == user.Name)
+                {
+                    GalaxyRings.Remove(Ring);
+                    RingRemoved = true;
+                    break;
+                }
+            }
+
+            if (RingRemoved)
+            {
+                int index = 0;
+                foreach (GalaxyRing Ring in GalaxyRings)
+                {
+                    Ring.SetProperties(index);
+                    index++;
+                }
+            }
+        }
+
+        public void DimRing(TableUser userClassifying)
+        {
+            foreach (GalaxyRing Ring in GalaxyRings)
+            {
+                if (Ring.UserName == userClassifying.Name)
+                {
+                    Ring.CurrentlyClassifying = false;
+                }
+            }
+        }
+
+        public void AddRing(TableUser user)
+        {
+            int NewIndex = GalaxyRings.Count;
+            GalaxyRing NewRing = new GalaxyRing(NewIndex, user);
+            GalaxyRings.Add(NewRing);
         }
 
         private double ToRadians(double Degrees)

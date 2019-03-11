@@ -91,12 +91,14 @@
     <Compile Include="Extensions\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Mock\GraphQLServiceMockData.cs" />
     <Compile Include="Mock\PanoptesServiceMockData.cs" />
+    <Compile Include="Models\TableSubjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CenterpieceViewModelTests.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModelTests.cs" />
     <Compile Include="ViewModels\ExamplesPanelViewModelTests.cs" />
     <Compile Include="ViewModels\LevelerViewModelTests.cs" />
     <Compile Include="ViewModels\NotificationsViewModelTests.cs" />
+    <Compile Include="ViewModels\SpaceViewModelTests.cs" />
     <Compile Include="ViewModels\StillThereViewModelTests.cs" />
   </ItemGroup>
   <ItemGroup>

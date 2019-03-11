@@ -17,6 +17,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
+        private TableSubject CurrentGalaxy { get; set; }
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
 
@@ -209,11 +210,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public async void OnGetSubjectById(string subjectID)
         {
+            NotifySpaceView(RingNotifierStatus.IsHelping);
             TotalVotes = 0;
             Subject newSubject = await _panoptesService.GetSubjectAsync(subjectID);
             Subjects.Insert(0, newSubject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
+            NotifySpaceView(RingNotifierStatus.IsCreating);
         }
 
         private void OnOpenClassifier(object sender)
@@ -236,6 +239,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
             User.Active = false;
+            NotifySpaceView(RingNotifierStatus.IsLeaving);
         }
 
         private void PrepareForNewClassification()
@@ -259,6 +263,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {
+                NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 await _panoptesService.CreateClassificationAsync(CurrentClassification);
@@ -273,6 +278,12 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 PrepareForNewClassification();
             }
+        }
+
+        private void NotifySpaceView(RingNotifierStatus Status)
+        {
+            ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentSubject, User, Status);
+            Messenger.Default.Send<ClassificationRingNotifier>(Notification);
         }
 
         private void HandleNotificationsOnSubmit()
@@ -378,6 +389,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Subjects.Insert(0, subject.Subject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
+            NotifySpaceView(RingNotifierStatus.IsCreating);
         }
 
         public void ResetAnswerCount()

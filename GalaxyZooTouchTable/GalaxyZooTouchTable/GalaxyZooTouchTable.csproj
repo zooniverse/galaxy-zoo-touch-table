@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -185,7 +185,10 @@
     <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
+    <Compile Include="Lib\RingNotifierStatus.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
+    <Compile Include="Models\ClassificationRingNotifier.cs" />
+    <Compile Include="Models\GalaxyRing.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
     <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
@@ -229,6 +232,9 @@
     <Compile Include="Models\GalaxyExample.cs" />
     <Compile Include="Models\TableUserFactory.cs" />
     <Compile Include="Converters\NullImageConverter.cs" />
+    <Compile Include="Views\GalaxyTileView.xaml.cs">
+      <DependentUpon>GalaxyTileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Leveler.xaml.cs">
       <DependentUpon>Leveler.xaml</DependentUpon>
     </Compile>
@@ -352,6 +358,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DropZone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GalaxyTileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
