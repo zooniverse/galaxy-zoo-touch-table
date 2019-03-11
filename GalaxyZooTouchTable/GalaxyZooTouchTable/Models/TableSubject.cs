@@ -48,10 +48,10 @@ namespace GalaxyZooTouchTable.Models
             const int ArcDegreeInSeconds = 3600;
 
             double DecRange = CutoutHeight * PlateScale / ArcDegreeInSeconds;
-            double RaRange = System.Math.Abs(CutoutWidth * PlateScale / ArcDegreeInSeconds / System.Math.Cos(SpaceNavigation.DEC));
+            double RaRange = (CutoutWidth * PlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(SpaceNavigation.DEC))));
 
             double StartY = ((SpaceNavigation.DEC - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
-            double StartX = ((SpaceNavigation.RA - RightAscension) / (RaRange + Offset) * CutoutWidth) + (CutoutWidth / 2);
+            double StartX = ((SpaceNavigation.RA - RightAscension) / (RaRange) * CutoutWidth) + (CutoutWidth / 2);
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);
