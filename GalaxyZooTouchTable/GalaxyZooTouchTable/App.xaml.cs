@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable
     {
         static string databaseName = "test_database.db";
         static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static string databasePath = System.IO.Path.Combine(folderPath, databaseName);
+        public static string DatabasePath = System.IO.Path.Combine(folderPath, databaseName);
 
         protected override void OnStartup(StartupEventArgs e)
         {

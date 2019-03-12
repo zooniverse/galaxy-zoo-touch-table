@@ -13,7 +13,7 @@ namespace GalaxyZooTouchTable.Services
 
         public TableSubject GetLocalSubject(string id)
         {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
                 connection.Open();
                 string query = $"select * from Subjects where subject_id = {id}";
@@ -48,7 +48,7 @@ namespace GalaxyZooTouchTable.Services
 
         public List<TableSubject> GetSubjects(string query)
         {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
                 connection.Open();
                 SQLiteCommand command = new SQLiteCommand(query, connection);
@@ -72,7 +72,7 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint GetPoint(string query)
         {
-            using (SQLiteConnection connection = new SQLiteConnection("Data Source=C:\\sqlite\\databases\\test_database.db"))
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
                 connection.Open();
                 SQLiteCommand command = new SQLiteCommand(query, connection);
