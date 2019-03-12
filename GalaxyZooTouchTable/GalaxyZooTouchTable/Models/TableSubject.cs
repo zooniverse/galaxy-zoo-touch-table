@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
         public double RightAscension { get; set; }
         public double Declination { get; set; }
         public string SubjectLocation { get; set; }
-        private readonly double PlateScale = 1.8;
+        private readonly double WidenedPlateScale = 1.8;
         public Subject Subject { get; set; }
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
         public string Location { get; set; }
@@ -34,8 +34,8 @@ namespace GalaxyZooTouchTable.Models
             int CutoutHeight = 432;
             const int ArcDegreeInSeconds = 3600;
 
-            double DecRange = CutoutHeight * PlateScale / ArcDegreeInSeconds;
-            double RaRange = (CutoutWidth * PlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(SpaceNavigation.DEC))));
+            double DecRange = CutoutHeight * WidenedPlateScale / ArcDegreeInSeconds;
+            double RaRange = (CutoutWidth * WidenedPlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(SpaceNavigation.DEC))));
 
             double StartY = ((SpaceNavigation.DEC - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
             double StartX = System.Math.Abs(((SpaceNavigation.RA - RightAscension) / RaRange * CutoutWidth) + (CutoutWidth / 2));

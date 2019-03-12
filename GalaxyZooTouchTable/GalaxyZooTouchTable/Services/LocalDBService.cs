@@ -122,53 +122,25 @@ namespace GalaxyZooTouchTable.Services
         public SpacePoint FindNextAscendingRa(double RaLowerBounds)
         {
             string query = $"select * from Subjects where ra > {RaLowerBounds} order by ra asc limit 1";
-            SpacePoint Center = GetPoint(query);
-
-            if (Center == null)
-            {
-                Center = GetPoint(LowestRaQuery);
-            }
-
-            return Center;
+            return GetPoint(query) ?? GetPoint(LowestRaQuery);
         }
 
         public SpacePoint FindNextDescendingRa(double RaUpperBounds)
         {
             string query = $"select * from Subjects where ra < {RaUpperBounds} order by ra desc limit 1";
-            SpacePoint Center = GetPoint(query);
-
-            if (Center == null)
-            {
-                Center = GetPoint(HighestRaQuery);
-            }
-
-            return Center;
+            return GetPoint(query) ?? GetPoint(HighestRaQuery);
         }
 
         public SpacePoint FindNextAscendingDec(double DecLowerBounds)
         {
             string query = $"select * from Subjects where dec > {DecLowerBounds} order by dec asc limit 1";
-            SpacePoint Center = GetPoint(query);
-
-            if (Center == null)
-            {
-                Center = GetPoint(LowestDecQuery);
-            }
-
-            return Center;
+            return GetPoint(query) ?? GetPoint(LowestDecQuery);
         }
 
         public SpacePoint FindNextDescendingDec(double DecUpperBounds)
         {
             string query = $"select * from Subjects where dec < {DecUpperBounds} order by dec desc limit 1";
-            SpacePoint Center = GetPoint(query);
-
-            if (Center == null)
-            {
-                Center = GetPoint(HighestDecQuery);
-            }
-
-            return Center;
+            return GetPoint(query) ?? GetPoint(HighestDecQuery);
         }
     }
 }

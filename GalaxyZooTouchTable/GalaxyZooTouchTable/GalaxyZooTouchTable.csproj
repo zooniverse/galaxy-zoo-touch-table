@@ -218,6 +218,7 @@
     <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Models\SpaceNavigation.cs" />
+    <Compile Include="Models\SpacePoint.cs" />
     <Compile Include="Services\GraphQLService.cs" />
     <Compile Include="Services\IGraphQLService.cs" />
     <Compile Include="Services\ILocalDBService.cs" />

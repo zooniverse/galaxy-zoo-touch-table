@@ -66,27 +66,27 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                //if (RingNotifier.SubjectId == SpaceViewGalaxy.Id)
-                //{
-                //    switch (RingNotifier.Status)
-                //    {
-                //        case RingNotifierStatus.IsCreating:
-                //            SpaceViewGalaxy.AddRing(RingNotifier.User);
-                //            break;
-                //        case RingNotifierStatus.IsSubmitting:
-                //            SpaceViewGalaxy.DimRing(RingNotifier.User);
-                //            break;
-                //        case RingNotifierStatus.IsHelping:
-                //            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
-                //            break;
-                //        default:
-                //            break;
-                //    }
-                //}
-                //else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
-                //{
-                //    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
-                //}
+                if (RingNotifier.SubjectId == SpaceViewGalaxy.Id)
+                {
+                    switch (RingNotifier.Status)
+                    {
+                        case RingNotifierStatus.IsCreating:
+                            SpaceViewGalaxy.AddRing(RingNotifier.User);
+                            break;
+                        case RingNotifierStatus.IsSubmitting:
+                            SpaceViewGalaxy.DimRing(RingNotifier.User);
+                            break;
+                        case RingNotifierStatus.IsHelping:
+                            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
+                {
+                    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                }
             }
         }
 
@@ -187,7 +187,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void GetSpaceCutout()
         {
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={1.8}";
+            double WidenedPlateScale = 1.8;
+            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={WidenedPlateScale}";
         }
 
         private void PrepareForNewPosition()
