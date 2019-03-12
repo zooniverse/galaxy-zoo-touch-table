@@ -28,6 +28,15 @@
             <Setter Property="Text" Value="Move map"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+
+        <Style x:Key="ErrorPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowError}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -88,5 +97,9 @@
             </i:Interaction.Behaviors>
             <TextBlock Style="{StaticResource MoveMapText}"/>
         </Border>
+        <StackPanel Style="{StaticResource ErrorPanel}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+            <Button Content="X" Command="{Binding HideError}" Foreground="White" Background="Transparent" Margin="5,0" BorderThickness="0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

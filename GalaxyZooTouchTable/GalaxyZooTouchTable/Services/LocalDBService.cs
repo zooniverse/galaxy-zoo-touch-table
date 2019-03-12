@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using System.Collections.Generic;
 using System.Data.SQLite;
 
@@ -34,7 +35,8 @@ namespace GalaxyZooTouchTable.Services
                     connection.Close();
                 } catch (SQLiteException exception)
                 {
-                    System.Console.WriteLine($"Error Connecting to Database. Error Code: {exception.ErrorCode}");
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
                 return RetrievedSubject;
             }
@@ -76,7 +78,8 @@ namespace GalaxyZooTouchTable.Services
                     connection.Close();
                 } catch (SQLiteException exception)
                 {
-                    System.Console.WriteLine($"Error Connecting to Database. Error Code: {exception.ErrorCode}");
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
                 return Subjects;
             }
@@ -103,7 +106,8 @@ namespace GalaxyZooTouchTable.Services
                     connection.Close();
                 } catch (SQLiteException exception)
                 {
-                    System.Console.WriteLine($"Error Connecting to Database. Error Code: {exception.ErrorCode}");
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
                 return point;
             }

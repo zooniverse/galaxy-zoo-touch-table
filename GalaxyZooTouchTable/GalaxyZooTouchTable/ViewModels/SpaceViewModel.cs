@@ -1,4 +1,4 @@
-using GalaxyZooTouchTable.Lib;
+﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
@@ -21,6 +21,21 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand MoveViewEast { get; private set; }
         public ICommand MoveViewSouth { get; private set; }
         public ICommand MoveViewWest { get; private set; }
+        public ICommand HideError { get; private set; }
+
+        private bool _showError = false;
+        public bool ShowError
+        {
+            get => _showError;
+            set => SetProperty(ref _showError, value);
+        }
+
+        private string _errorMessage = "error error";
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
 
         private List<TableSubject> _currentGalaxies = new List<TableSubject>();
         public List<TableSubject> CurrentGalaxies
@@ -48,6 +63,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewPosition();
             LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
+            Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
         }
 
         private void OnGalaxyInteraction(ClassificationRingNotifier RingNotifier)
@@ -98,6 +114,18 @@ namespace GalaxyZooTouchTable.ViewModels
             MoveViewEast = new CustomCommand(OnMoveViewEast);
             MoveViewSouth = new CustomCommand(OnMoveViewSouth);
             MoveViewWest = new CustomCommand(OnMoveViewWest);
+            HideError = new CustomCommand(OnHideError);
+        }
+
+        private void OnHideError(object obj)
+        {
+            ShowError = false;
+        }
+
+        private void OnShowError(string message)
+        {
+            ShowError = true;
+            ErrorMessage = message;
         }
 
         private void OnMoveViewWest(object obj)
