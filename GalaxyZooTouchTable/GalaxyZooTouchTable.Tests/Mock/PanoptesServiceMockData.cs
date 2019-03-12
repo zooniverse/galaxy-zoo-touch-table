@@ -7,8 +7,6 @@ namespace GalaxyZooTouchTable.Tests.Mock
 {
     public static class PanoptesServiceMockData
     {
-        public static TableSubject TableSubject = new TableSubject("1", "www.fakewebsite.com", 22.22, 33.33);
-
         public static List<TaskAnswer> TaskAnswerList()
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>();
@@ -25,6 +23,11 @@ namespace GalaxyZooTouchTable.Tests.Mock
             TaskAnswers.Add(FirstTask);
             TaskAnswers.Add(SecondTask);
             return TaskAnswers;
+        }
+
+        public static TableSubject TableSubject()
+        {
+            return new TableSubject("1", "www.fakewebsite.com", 22.22, 33.33);
         }
 
         public static Workflow Workflow(string id = null)
@@ -81,7 +84,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
         public static List<TableSubject> TableSubjects()
         {
             List<TableSubject> subjectList = new List<TableSubject>();
-            subjectList.Add(TableSubject);
+            subjectList.Add(TableSubject());
             return subjectList;
         }
     }

@@ -16,22 +16,10 @@ namespace GalaxyZooTouchTable.Models
         public string Location { get; set; }
         public string Id { get; set; }
 
-        public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
-        {
-            if (subject.Metadata != null)
-            {
-                RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
-                Declination = System.Convert.ToDouble(subject.Metadata.dec);
-            }
-            Subject = subject;
-            SubjectLocation = subject.GetSubjectLocation();
-            XYConvert(TableRA, TableDEC);
-
-            GalaxyRings.Add(new GalaxyRing());
-        }
-
         public TableSubject(string id, string location, double ra, double dec)
         {
+            GalaxyRings.Add(new GalaxyRing());
+
             Id = id;
             Location = location;
             RightAscension = ra;

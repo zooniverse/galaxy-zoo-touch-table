@@ -8,13 +8,10 @@ namespace GalaxyZooTouchTable.Tests.Models
 {
     public class TableSubjectTests
     {
-        private TableSubject _tableSubject { get; set; }
+        private TableSubject _tableSubject = PanoptesServiceMockData.TableSubject();
 
         public TableSubjectTests()
         {
-            Subject _subject = PanoptesServiceMockData.Subject();
-            _tableSubject = new TableSubject(_subject, 0, 0);
-
             _tableSubject.GalaxyRings.Add(new GalaxyRing(1, GlobalData.GetInstance().StarUser));
             _tableSubject.GalaxyRings.Add(new GalaxyRing(2, GlobalData.GetInstance().EarthUser));
         }

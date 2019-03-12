@@ -26,10 +26,10 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(new Classification()))
                 .Returns(Task.CompletedTask);
 
-            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), PanoptesServiceMockData.TableSubject))
+            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), PanoptesServiceMockData.TableSubject()))
                 .ReturnsAsync(GraphQLServiceMockData.GraphQLResponse());
 
-            _localDBServiceMock.Setup(dp => dp.GetLocalSubject("1")).Returns(PanoptesServiceMockData.TableSubject);
+            _localDBServiceMock.Setup(dp => dp.GetLocalSubject("1")).Returns(PanoptesServiceMockData.TableSubject());
             _localDBServiceMock.Setup(dp => dp.GetQueuedSubjects()).Returns(PanoptesServiceMockData.TableSubjects());
 
             _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, _localDBServiceMock.Object, new StarUser());
@@ -178,7 +178,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private async void ShouldCreateANewClassification()
         {
             await _viewModel.GetWorkflow();
-            var Subject = PanoptesServiceMockData.TableSubject;
+            var Subject = PanoptesServiceMockData.TableSubject();
 
             _viewModel.StartNewClassification(Subject);
             Assert.Null(_viewModel.CurrentAnnotation);

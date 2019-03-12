@@ -1,18 +1,14 @@
-﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
-using PanoptesNetClient.Models;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : ViewModelBase
     {
-        private IPanoptesService _panoptesService;
         private ILocalDBService _localDBService;
         private double RaRange { get; set; }
         private double DecRange { get; set; }
@@ -51,14 +47,14 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _spaceCutoutUrl, value);
         }
 
-        public SpaceViewModel(IPanoptesService panoptesService, ILocalDBService localDBService)
+        public SpaceViewModel(ILocalDBService localDBService)
         {
-            _panoptesService = panoptesService;
             _localDBService = localDBService;
 
             SpacePoint StartingLocation = _localDBService.GetRandomPoint();
             SpaceNavigation.RA = StartingLocation.RightAscension;
             SpaceNavigation.DEC = StartingLocation.Declination;
+
             GetRange();
             PrepareForNewPosition();
             LoadCommands();
@@ -70,26 +66,27 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                if (RingNotifier.SubjectId == SpaceViewGalaxy.Subject.Id)
-                {
-                    switch (RingNotifier.Status)
-                    {
-                        case RingNotifierStatus.IsCreating:
-                            SpaceViewGalaxy.AddRing(RingNotifier.User);
-                            break;
-                        case RingNotifierStatus.IsSubmitting:
-                            SpaceViewGalaxy.DimRing(RingNotifier.User);
-                            break;
-                        case RingNotifierStatus.IsHelping:
-                            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
-                            break;
-                        default:
-                            break;
-                    }
-                } else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
-                {
-                    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
-                }
+                //if (RingNotifier.SubjectId == SpaceViewGalaxy.Id)
+                //{
+                //    switch (RingNotifier.Status)
+                //    {
+                //        case RingNotifierStatus.IsCreating:
+                //            SpaceViewGalaxy.AddRing(RingNotifier.User);
+                //            break;
+                //        case RingNotifierStatus.IsSubmitting:
+                //            SpaceViewGalaxy.DimRing(RingNotifier.User);
+                //            break;
+                //        case RingNotifierStatus.IsHelping:
+                //            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                //            break;
+                //        default:
+                //            break;
+                //    }
+                //}
+                //else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
+                //{
+                //    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                //}
             }
         }
 
@@ -202,20 +199,6 @@ namespace GalaxyZooTouchTable.ViewModels
             double minDec = SpaceNavigation.DEC - (DecRange /2);
             double maxDec = SpaceNavigation.DEC + (DecRange / 2);
             CurrentGalaxies = _localDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
-        }
-
-        private async Task GetSubjectsAsync()
-        {
-            NameValueCollection query = new NameValueCollection();
-            query.Add("workflow_id", Config.WorkflowId);
-            query.Add("page_size", "25");
-
-            var GalaxyList = await _panoptesService.GetSubjectsAsync("queued", query);
-            foreach (Subject subject in GalaxyList)
-            {
-                TableSubject Galaxy = new TableSubject(subject, RA, DEC);
-                CurrentGalaxies.Add(Galaxy);
-            }
         }
     }
 }
