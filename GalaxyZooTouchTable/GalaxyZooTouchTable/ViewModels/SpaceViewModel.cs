@@ -3,7 +3,6 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
@@ -85,7 +84,12 @@ namespace GalaxyZooTouchTable.ViewModels
             const int ArcDegreeInSeconds = 3600;
 
             DecRange = CutoutHeight * SpaceNavigation.PlateScale / ArcDegreeInSeconds;
-            RaRange = Math.Abs(CutoutWidth * SpaceNavigation.PlateScale / ArcDegreeInSeconds / Math.Cos(SpaceNavigation.DEC));
+            RaRange = (CutoutWidth * SpaceNavigation.PlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(SpaceNavigation.DEC))));
+        }
+
+        private double ToRadians(double Degrees)
+        {
+            return (Degrees * System.Math.PI) / 180.0;
         }
 
         private void LoadCommands()
@@ -158,7 +162,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void GetSpaceCutout()
         {
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={SpaceNavigation.PlateScale}";
+            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={1.8}";
         }
 
         private void PrepareForNewPosition()

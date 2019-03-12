@@ -77,5 +77,12 @@ namespace GalaxyZooTouchTable.Tests.Mock
             subjectList.Add(Subject());
             return subjectList;
         }
+
+        public static List<TableSubject> TableSubjects()
+        {
+            List<TableSubject> subjectList = new List<TableSubject>();
+            subjectList.Add(TableSubject);
+            return subjectList;
+        }
     }
 }
