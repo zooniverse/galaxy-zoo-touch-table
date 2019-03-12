@@ -15,21 +15,27 @@ namespace GalaxyZooTouchTable.Services
         {
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
-                connection.Open();
-                string query = $"select * from Subjects where subject_id = {id}";
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                SQLiteDataReader reader = command.ExecuteReader();
                 TableSubject RetrievedSubject = null;
-
-                while (reader.Read())
+                try
                 {
-                    string image = reader["image"] as string;
-                    double ra = (double)reader["ra"];
-                    double dec = (double)reader["dec"];
-                    RetrievedSubject = new TableSubject(id, image, ra, dec);
-                }
+                    connection.Open();
+                    string query = $"select * from Subjects where subject_id = {id}";
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
 
-                connection.Close();
+                    while (reader.Read())
+                    {
+                        string image = reader["image"] as string;
+                        double ra = (double)reader["ra"];
+                        double dec = (double)reader["dec"];
+                        RetrievedSubject = new TableSubject(id, image, ra, dec);
+                    }
+
+                    connection.Close();
+                } catch (SQLiteException exception)
+                {
+                    System.Console.WriteLine($"Error Connecting to Database. Error Code: {exception.ErrorCode}");
+                }
                 return RetrievedSubject;
             }
         }
@@ -50,22 +56,28 @@ namespace GalaxyZooTouchTable.Services
         {
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                SQLiteDataReader reader = command.ExecuteReader();
                 List<TableSubject> Subjects = new List<TableSubject>();
-
-                while (reader.Read())
+                try
                 {
-                    string id = reader["subject_id"] as string;
-                    string image = reader["image"] as string;
-                    double ra = (double)reader["ra"];
-                    double dec = (double)reader["dec"];
-                    TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec);
-                    Subjects.Add(RetrievedSubject);
-                }
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
 
-                connection.Close();
+                    while (reader.Read())
+                    {
+                        string id = reader["subject_id"] as string;
+                        string image = reader["image"] as string;
+                        double ra = (double)reader["ra"];
+                        double dec = (double)reader["dec"];
+                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec);
+                        Subjects.Add(RetrievedSubject);
+                    }
+
+                    connection.Close();
+                } catch (SQLiteException exception)
+                {
+                    System.Console.WriteLine($"Error Connecting to Database. Error Code: {exception.ErrorCode}");
+                }
                 return Subjects;
             }
         }
@@ -74,19 +86,25 @@ namespace GalaxyZooTouchTable.Services
         {
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand(query, connection);
-                SQLiteDataReader reader = command.ExecuteReader();
-                SpacePoint point = null;
-
-                while (reader.Read())
+                SpacePoint point = new SpacePoint();
+                try
                 {
-                    double ra = (double)reader["ra"];
-                    double dec = (double)reader["dec"];
-                    point = new SpacePoint(ra, dec);
-                }
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
 
-                connection.Close();
+                    while (reader.Read())
+                    {
+                        double ra = (double)reader["ra"];
+                        double dec = (double)reader["dec"];
+                        point = new SpacePoint(ra, dec);
+                    }
+
+                    connection.Close();
+                } catch (SQLiteException exception)
+                {
+                    System.Console.WriteLine($"Error Connecting to Database. Error Code: {exception.ErrorCode}");
+                }
                 return point;
             }
         }

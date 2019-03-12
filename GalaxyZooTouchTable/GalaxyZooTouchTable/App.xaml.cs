@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable
     /// </summary>
     public partial class App : Application
     {
-        static string databaseName = "test_database.db";
+        static string databaseName = "GZ_Staging_Subjectsl.db";
         static string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DatabasePath = System.IO.Path.Combine(folderPath, databaseName);
 
