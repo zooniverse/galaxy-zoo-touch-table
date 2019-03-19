@@ -11,6 +11,18 @@ namespace GalaxyZooTouchTable.Services
         string HighestDecQuery = "select * from Subjects order by dec desc limit 1";
         string LowestRaQuery = "select * from Subjects order by ra asc limit 1";
         string LowestDecQuery = "select * from Subjects order by dec asc limit 1";
+        string QueuedSubjectsQuery = "select * from Subjects order by classifications_count asc limit 10";
+        string RandomSubjectQuery = "select * from Subjects order by random() limit 1";
+        string SubjectByIdQuery(string id) { return $"select * from Subjects where subject_id = {id}"; }
+        string NextAscendingRaQuery(double bounds) { return $"select * from Subjects where ra > {bounds} order by ra asc limit 1"; }
+        string NextDescendingRaQuery(double bounds) { return $"select * from Subjects where ra < {bounds} order by ra desc limit 1"; }
+        string NextAscendingDecQuery(double bounds) { return $"select * from Subjects where dec > {bounds} order by dec asc limit 1"; }
+        string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
+
+        string SubjectsWithinBoundsQuery(double minRa, double minDec, double maxRa, double maxDec)
+        {
+            return $"select * from Subjects where dec > {minDec} and dec < {maxDec} and ra > {minRa} and ra < {maxRa}";
+        }
 
         public TableSubject GetLocalSubject(string id)
         {
@@ -20,8 +32,7 @@ namespace GalaxyZooTouchTable.Services
                 try
                 {
                     connection.Open();
-                    string query = $"select * from Subjects where subject_id = {id}";
-                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteCommand command = new SQLiteCommand(SubjectByIdQuery(id), connection);
                     SQLiteDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
@@ -44,13 +55,12 @@ namespace GalaxyZooTouchTable.Services
 
         public List<TableSubject> GetQueuedSubjects()
         {
-            string query = "select * from Subjects order by classifications_count asc limit 10";
-            return GetSubjects(query);
+            return GetSubjects(QueuedSubjectsQuery);
         }
 
         public List<TableSubject> GetLocalSubjects(double minRa = 0, double maxRa = 360, double minDec = -90, double maxDec = 90)
         {
-            string query = $"select * from Subjects where dec > {minDec} and dec < {maxDec} and ra > {minRa} and ra < {maxRa}";
+            string query = SubjectsWithinBoundsQuery(minRa, minDec, maxRa, maxDec);
             return GetSubjects(query);
         }
 
@@ -115,32 +125,27 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint GetRandomPoint()
         {
-            string query = "select * from Subjects order by random() limit 1";
-            return GetPoint(query);
+            return GetPoint(RandomSubjectQuery);
         }
 
-        public SpacePoint FindNextAscendingRa(double RaLowerBounds)
+        public SpacePoint FindNextAscendingRa(double bounds)
         {
-            string query = $"select * from Subjects where ra > {RaLowerBounds} order by ra asc limit 1";
-            return GetPoint(query) ?? GetPoint(LowestRaQuery);
+            return GetPoint(NextAscendingRaQuery(bounds)) ?? GetPoint(LowestRaQuery);
         }
 
-        public SpacePoint FindNextDescendingRa(double RaUpperBounds)
+        public SpacePoint FindNextDescendingRa(double bounds)
         {
-            string query = $"select * from Subjects where ra < {RaUpperBounds} order by ra desc limit 1";
-            return GetPoint(query) ?? GetPoint(HighestRaQuery);
+            return GetPoint(NextDescendingRaQuery(bounds)) ?? GetPoint(HighestRaQuery);
         }
 
-        public SpacePoint FindNextAscendingDec(double DecLowerBounds)
+        public SpacePoint FindNextAscendingDec(double bounds)
         {
-            string query = $"select * from Subjects where dec > {DecLowerBounds} order by dec asc limit 1";
-            return GetPoint(query) ?? GetPoint(LowestDecQuery);
+            return GetPoint(NextAscendingDecQuery(bounds)) ?? GetPoint(LowestDecQuery);
         }
 
-        public SpacePoint FindNextDescendingDec(double DecUpperBounds)
+        public SpacePoint FindNextDescendingDec(double bounds)
         {
-            string query = $"select * from Subjects where dec < {DecUpperBounds} order by dec desc limit 1";
-            return GetPoint(query) ?? GetPoint(HighestDecQuery);
+            return GetPoint(NextDescendingDecQuery(bounds)) ?? GetPoint(HighestDecQuery);
         }
     }
 }

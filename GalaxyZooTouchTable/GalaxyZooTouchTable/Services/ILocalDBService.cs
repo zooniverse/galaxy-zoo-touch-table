@@ -11,10 +11,10 @@ namespace GalaxyZooTouchTable.Services
         List<TableSubject> GetQueuedSubjects();
         List<TableSubject> GetSubjects(string query);
 
-        SpacePoint FindNextAscendingRa(double RaLowerBounds);
-        SpacePoint FindNextDescendingRa(double RaUpperBounds);
-        SpacePoint FindNextAscendingDec(double DecLowerBounds);
-        SpacePoint FindNextDescendingDec(double DecUpperBounds);
+        SpacePoint FindNextAscendingRa(double raLowerBounds);
+        SpacePoint FindNextDescendingRa(double raUpperBounds);
+        SpacePoint FindNextAscendingDec(double decLowerBounds);
+        SpacePoint FindNextDescendingDec(double decUpperBounds);
         SpacePoint GetPoint(string query);
         SpacePoint GetRandomPoint();
     }
