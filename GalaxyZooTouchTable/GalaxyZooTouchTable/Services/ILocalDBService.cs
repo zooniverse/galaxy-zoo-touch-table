@@ -7,9 +7,9 @@ namespace GalaxyZooTouchTable.Services
     {
         TableSubject GetLocalSubject(string id);
 
-        List<TableSubject> GetLocalSubjects(double minRa = 0, double maxRa = 360, double minDec = -90, double maxDec = 90);
+        List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation);
         List<TableSubject> GetQueuedSubjects();
-        List<TableSubject> GetSubjects(string query);
+        List<TableSubject> GetSubjects(string query, SpaceNavigation currentLocation = null);
 
         SpacePoint FindNextAscendingRa(double raLowerBounds);
         SpacePoint FindNextDescendingRa(double raUpperBounds);

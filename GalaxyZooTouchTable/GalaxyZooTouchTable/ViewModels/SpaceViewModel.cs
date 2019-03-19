@@ -12,6 +12,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private ILocalDBService _localDBService;
         private double RaRange { get; set; }
         private double DecRange { get; set; }
+        private SpaceNavigation CurrentLocation { get; set; }
 
         public ICommand MoveViewNorth { get; private set; }
         public ICommand MoveViewEast { get; private set; }
@@ -56,10 +57,8 @@ namespace GalaxyZooTouchTable.ViewModels
             _localDBService = localDBService;
 
             SpacePoint StartingLocation = _localDBService.GetRandomPoint();
-            SpaceNavigation.RA = StartingLocation.RightAscension;
-            SpaceNavigation.DEC = StartingLocation.Declination;
+            CurrentLocation = new SpaceNavigation(StartingLocation);
 
-            GetRange();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
             LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
@@ -94,21 +93,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void GetRange()
-        {
-            int CutoutWidth = 1248;
-            int CutoutHeight = 432;
-            const int ArcDegreeInSeconds = 3600;
-
-            DecRange = CutoutHeight * SpaceNavigation.PlateScale / ArcDegreeInSeconds;
-            RaRange = (CutoutWidth * SpaceNavigation.PlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(SpaceNavigation.DEC))));
-        }
-
-        private double ToRadians(double Degrees)
-        {
-            return (Degrees * System.Math.PI) / 180.0;
-        }
-
         private void LoadCommands()
         {
             MoveViewNorth = new CustomCommand(OnMoveViewNorth);
@@ -131,77 +115,61 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
-            SpaceNavigation.RA += RaRange;
+            CurrentLocation.MoveWest();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
-                double NewBounds = SpaceNavigation.RA + (RaRange / 2);
-                SpacePoint newCenter = _localDBService.FindNextAscendingRa(NewBounds);
-                SpaceNavigation.RA = newCenter.RightAscension;
-                SpaceNavigation.DEC = newCenter.Declination;
+                CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private void OnMoveViewSouth(object obj)
         {
-            SpaceNavigation.DEC -= DecRange;
+            CurrentLocation.MoveSouth();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
-                double NewBounds = SpaceNavigation.DEC - (DecRange / 2);
-                SpacePoint newCenter = _localDBService.FindNextDescendingDec(NewBounds);
-                SpaceNavigation.RA = newCenter.RightAscension;
-                SpaceNavigation.DEC = newCenter.Declination;
+                CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private void OnMoveViewEast(object obj)
         {
-            SpaceNavigation.RA -= RaRange;
+            CurrentLocation.MoveEast();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
-                double NewBounds = SpaceNavigation.RA - (RaRange / 2);
-                SpacePoint newCenter = _localDBService.FindNextDescendingRa(NewBounds);
-                SpaceNavigation.RA = newCenter.RightAscension;
-                SpaceNavigation.DEC = newCenter.Declination;
+                CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private void OnMoveViewNorth(object obj)
         {
-            SpaceNavigation.DEC += DecRange;
+            CurrentLocation.MoveNorth();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
-                double NewBounds = SpaceNavigation.DEC + (DecRange / 2);
-                SpacePoint newCenter = _localDBService.FindNextAscendingDec(NewBounds);
-                SpaceNavigation.RA = newCenter.RightAscension;
-                SpaceNavigation.DEC = newCenter.Declination;
+                CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private string UpdateSpaceCutout()
         {
-            double WidenedPlateScale = 1.8;
-            return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={WidenedPlateScale}";
+            double WidenedPlateScale = 1.75;
+            return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&width=1248&height=432&scale={WidenedPlateScale}";
         }
 
         private List<TableSubject> FindGalaxiesAtNewBounds()
         {
-            double minRa = SpaceNavigation.RA - (RaRange / 2); 
-            double maxRa = SpaceNavigation.RA + (RaRange / 2);
-            double minDec = SpaceNavigation.DEC - (DecRange /2);
-            double maxDec = SpaceNavigation.DEC + (DecRange / 2);
-            return _localDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
+            return _localDBService.GetLocalSubjects(CurrentLocation);
         }
     }
 }

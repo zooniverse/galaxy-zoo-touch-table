@@ -19,9 +19,9 @@ namespace GalaxyZooTouchTable.Services
         string NextAscendingDecQuery(double bounds) { return $"select * from Subjects where dec > {bounds} order by dec asc limit 1"; }
         string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
 
-        string SubjectsWithinBoundsQuery(double minRa, double minDec, double maxRa, double maxDec)
+        string SubjectsWithinBoundsQuery(SpaceNavigation location)
         {
-            return $"select * from Subjects where dec > {minDec} and dec < {maxDec} and ra > {minRa} and ra < {maxRa}";
+            return $"select * from Subjects where dec > {location.MinDec} and dec < {location.MaxDec} and ra > {location.MinRa} and ra < {location.MaxRa}";
         }
 
         public TableSubject GetLocalSubject(string id)
@@ -58,13 +58,13 @@ namespace GalaxyZooTouchTable.Services
             return GetSubjects(QueuedSubjectsQuery);
         }
 
-        public List<TableSubject> GetLocalSubjects(double minRa = 0, double maxRa = 360, double minDec = -90, double maxDec = 90)
+        public List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation)
         {
-            string query = SubjectsWithinBoundsQuery(minRa, minDec, maxRa, maxDec);
-            return GetSubjects(query);
+            string query = SubjectsWithinBoundsQuery(currentLocation);
+            return GetSubjects(query, currentLocation);
         }
 
-        public List<TableSubject> GetSubjects(string query)
+        public List<TableSubject> GetSubjects(string query, SpaceNavigation currentLocation = null)
         {
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
@@ -81,7 +81,7 @@ namespace GalaxyZooTouchTable.Services
                         string image = reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
-                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec);
+                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec, currentLocation);
                         Subjects.Add(RetrievedSubject);
                     }
 

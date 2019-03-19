@@ -5,19 +5,21 @@ namespace GalaxyZooTouchTable.Models
 {
     public class TableSubject
     {
+        SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public double RightAscension { get; set; }
         public double Declination { get; set; }
         public string SubjectLocation { get; set; }
-        private readonly double WidenedPlateScale = 1.8;
+        private readonly double WidenedPlateScale = 1.75;
         public Subject Subject { get; set; }
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
         public string Location { get; set; }
         public string Id { get; set; }
 
-        public TableSubject(string id, string location, double ra, double dec)
+        public TableSubject(string id, string location, double ra, double dec, SpaceNavigation currentLocation = null)
         {
+            CurrentLocation = currentLocation;
             GalaxyRings.Add(new GalaxyRing());
 
             Id = id;
@@ -25,7 +27,7 @@ namespace GalaxyZooTouchTable.Models
             RightAscension = ra;
             Declination = dec;
             SubjectLocation = location;
-            XYConvert();
+            if (currentLocation != null) XYConvert();
         }
 
         private void XYConvert()
@@ -35,10 +37,10 @@ namespace GalaxyZooTouchTable.Models
             const int ArcDegreeInSeconds = 3600;
 
             double DecRange = CutoutHeight * WidenedPlateScale / ArcDegreeInSeconds;
-            double RaRange = (CutoutWidth * WidenedPlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(SpaceNavigation.DEC))));
+            double RaRange = (CutoutWidth * WidenedPlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos(ToRadians(CurrentLocation.Center.Declination)));
 
-            double StartY = ((SpaceNavigation.DEC - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
-            double StartX = System.Math.Abs(((SpaceNavigation.RA - RightAscension) / RaRange * CutoutWidth) + (CutoutWidth / 2));
+            double StartY = ((CurrentLocation.Center.Declination - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
+            double StartX = System.Math.Abs(((CurrentLocation.Center.RightAscension - RightAscension) / RaRange * CutoutWidth) + (CutoutWidth / 2));
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);
