@@ -26,7 +26,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _showError, value);
         }
 
-        private string _errorMessage = "error error";
+        private string _errorMessage;
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -37,7 +37,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<TableSubject> CurrentGalaxies
         {
             get => _currentGalaxies;
-            set => SetProperty(ref _currentGalaxies, value);
+            set 
+            {
+                SpaceCutoutUrl = UpdateSpaceCutout();
+                SetProperty(ref _currentGalaxies, value);
+            }
         }
 
         private string _spaceCutoutUrl;
@@ -56,7 +60,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SpaceNavigation.DEC = StartingLocation.Declination;
 
             GetRange();
-            PrepareForNewPosition();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
             LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
             Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
@@ -128,7 +132,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnMoveViewWest(object obj)
         {
             SpaceNavigation.RA += RaRange;
-            PrepareForNewPosition();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
@@ -136,14 +140,14 @@ namespace GalaxyZooTouchTable.ViewModels
                 SpacePoint newCenter = _localDBService.FindNextAscendingRa(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
-                PrepareForNewPosition();
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private void OnMoveViewSouth(object obj)
         {
             SpaceNavigation.DEC -= DecRange;
-            PrepareForNewPosition();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
@@ -151,14 +155,14 @@ namespace GalaxyZooTouchTable.ViewModels
                 SpacePoint newCenter = _localDBService.FindNextDescendingDec(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
-                PrepareForNewPosition();
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private void OnMoveViewEast(object obj)
         {
             SpaceNavigation.RA -= RaRange;
-            PrepareForNewPosition();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
@@ -166,14 +170,14 @@ namespace GalaxyZooTouchTable.ViewModels
                 SpacePoint newCenter = _localDBService.FindNextDescendingRa(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
-                PrepareForNewPosition();
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
         private void OnMoveViewNorth(object obj)
         {
             SpaceNavigation.DEC += DecRange;
-            PrepareForNewPosition();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
 
             if (CurrentGalaxies.Count == 0)
             {
@@ -181,25 +185,23 @@ namespace GalaxyZooTouchTable.ViewModels
                 SpacePoint newCenter = _localDBService.FindNextAscendingDec(NewBounds);
                 SpaceNavigation.RA = newCenter.RightAscension;
                 SpaceNavigation.DEC = newCenter.Declination;
-                PrepareForNewPosition();
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
         }
 
-        private void GetSpaceCutout()
+        private string UpdateSpaceCutout()
         {
             double WidenedPlateScale = 1.8;
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={WidenedPlateScale}";
+            return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={SpaceNavigation.RA}&dec={SpaceNavigation.DEC}&width=1248&height=432&scale={WidenedPlateScale}";
         }
 
-        private void PrepareForNewPosition()
+        private List<TableSubject> FindGalaxiesAtNewBounds()
         {
-            GetSpaceCutout();
-
             double minRa = SpaceNavigation.RA - (RaRange / 2); 
             double maxRa = SpaceNavigation.RA + (RaRange / 2);
             double minDec = SpaceNavigation.DEC - (DecRange /2);
             double maxDec = SpaceNavigation.DEC + (DecRange / 2);
-            CurrentGalaxies = _localDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
+            return _localDBService.GetLocalSubjects(minRa, maxRa, minDec, maxDec);
         }
     }
 }

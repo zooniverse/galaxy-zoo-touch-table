@@ -99,7 +99,7 @@ namespace GalaxyZooTouchTable.Services
         {
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
             {
-                SpacePoint point = new SpacePoint();
+                SpacePoint point = null;
                 try
                 {
                     connection.Open();

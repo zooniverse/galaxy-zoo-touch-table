@@ -5,7 +5,7 @@
         public double RightAscension { get; set; }
         public double Declination { get; set; }
 
-        public SpacePoint(double ra = 0, double dec = 0)
+        public SpacePoint(double ra, double dec)
         {
             RightAscension = ra;
             Declination = dec;
