@@ -12,23 +12,7 @@
     <UserControl.Resources>
         <Style x:Key="ContentPanelBorder" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=NotificationPanel}" Value="{x:Null}">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.25"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-                <!--<DataTrigger Binding="{Binding Path=NotifierIsOpen}" Value="True">
+                <DataTrigger Binding="{Binding Path=NotifierIsOpen}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -43,7 +27,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
-                </DataTrigger>-->
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -139,7 +123,7 @@
                         Margin="9.5,22.9,0,0"
                         Text="Good news!"/>
                     <Grid Margin="10.3,39,0,0" HorizontalAlignment="Left">
-                        <Image Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Image Source="{Binding NotificationPanel.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             FontSize="8"

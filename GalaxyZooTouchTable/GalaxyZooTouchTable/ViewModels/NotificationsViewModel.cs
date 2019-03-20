@@ -29,7 +29,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public NotificationPanel NotificationPanel
         {
             get => _notificationPanel;
-            set => SetProperty(ref _notificationPanel, value);
+            set
+            {
+                NotifierIsOpen = value != null;
+                SetProperty(ref _notificationPanel, value);
+            }
         }
 
         private NotificationOverlay _overlay;
@@ -46,7 +50,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _cooperatingPeer, value);
         }
 
-        private bool _notifierIsOpen = true;
+        private bool _notifierIsOpen = false;
         public bool NotifierIsOpen
         {
             get => _notifierIsOpen;
