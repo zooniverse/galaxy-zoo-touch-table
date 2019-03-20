@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.Models
         public string Answer { get; private set; }
         public NotificationPanelStatus Status { get; private set; }
 
-        public NotificationPanel(NotificationPanelStatus status, BitmapImage avatar, string answer)
+        public NotificationPanel(NotificationPanelStatus status, BitmapImage avatar, string answer = null)
         {
             Answer = answer;
             Avatar = avatar;

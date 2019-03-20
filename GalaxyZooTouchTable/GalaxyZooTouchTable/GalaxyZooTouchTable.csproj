@@ -216,6 +216,7 @@
     <Compile Include="Models\ClassificationRingNotifier.cs" />
     <Compile Include="Models\CompletedClassification.cs" />
     <Compile Include="Models\GalaxyRing.cs" />
+    <Compile Include="Models\HelpNotification.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
     <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationAvatar.cs" />

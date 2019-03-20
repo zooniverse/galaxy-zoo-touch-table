@@ -78,6 +78,41 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Register<NotificationRequest>(this, OnNotificationReceived, $"{user.Name}_ReceivedNotification");
             Messenger.Default.Register<TableUser>(this, OnPeerLeaving, $"{user.Name}_PeerLeaving");
             Messenger.Default.Register<SubjectViewEnum>(this, OnSubjectStatusChange, $"{user.Name}_SubjectStatus");
+            Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"{user.Name}_PostNotification");
+        }
+
+        private void OnReceiveNotification(HelpNotification notification)
+        {
+            switch (notification.Status)
+            {
+                case HelpNotificationStatus.AskForHelp:
+                    OnAskForHelp(notification);
+                    return;
+                case HelpNotificationStatus.Decline:
+                    OnDeclinedHelp(notification);
+                    return;
+                case HelpNotificationStatus.SendAnswer:
+                    OnSendAnswer(notification);
+                    return;
+            }
+        }
+
+        private void OnSendAnswer(HelpNotification notification)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnDeclinedHelp(HelpNotification notification)
+        {
+            string firstMessage = "Sorry,";
+            string secondMessage = "declined your invitation. Ask someone else?";
+            Overlay = new NotificationOverlay(firstMessage, secondMessage, CooperatingPeer.Avatar);
+        }
+
+        private void OnAskForHelp(HelpNotification notification)
+        {
+            CooperatingPeer = notification.SentBy;
+            NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowRequest, notification.SentBy.Avatar);
         }
 
         private void OnSubjectStatusChange(SubjectViewEnum status)
@@ -138,11 +173,14 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnDeclineGalaxy(object sender)
         {
-            CooperatingPeer.Status = NotificationStatus.DeclinedHelp;
-            CooperatingPeer = null;
-            NotifierIsOpen = false;
-            CurrentSubjectId = null;
-            User.Status = NotificationStatus.Idle;
+            HelpNotification Notification = new HelpNotification(CooperatingPeer, HelpNotificationStatus.Decline);
+            Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
+            NotificationPanel = null;
+            //CooperatingPeer.Status = NotificationStatus.DeclinedHelp;
+            //CooperatingPeer = null;
+            //NotifierIsOpen = false;
+            //CurrentSubjectId = null;
+            //User.Status = NotificationStatus.Idle;
         }
 
         private void OnNotifyUser(object sender)
@@ -153,6 +191,9 @@ namespace GalaxyZooTouchTable.ViewModels
             if (UserIsUnavailable(UserToNotify)) return;
             if (UserHasAlreadySeen(UserToNotify)) return;
 
+            CooperatingPeer = UserToNotify;
+            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.AskForHelp);
+            Messenger.Default.Send(Notification, $"{UserToNotify.Name}_PostNotification");
             //SendRequestToUser(UserToNotify);
             //CooperatingPeer = UserToNotify;
             //OpenNotifier = false;
