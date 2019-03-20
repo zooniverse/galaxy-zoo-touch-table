@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private ILocalDBService _localDBService;
         private double RaRange { get; set; }
         private double DecRange { get; set; }
-        private SpaceNavigation CurrentLocation { get; set; }
+        public SpaceNavigation CurrentLocation { get; set; }
 
         public ICommand MoveViewNorth { get; private set; }
         public ICommand MoveViewEast { get; private set; }

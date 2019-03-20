@@ -73,7 +73,7 @@
                 <DataTemplate>
                     <Image Style="{StaticResource UserAvatar}" Width="26" Height="26" Source="{Binding UserAvatar}">
                         <Image.RenderTransform>
-                            <TranslateTransform X="{Binding AvatarX}" Y="{Binding AvatarY}"/>
+                            <TranslateTransform x:Name="TransformAvatar" X="{Binding AvatarX}" Y="{Binding AvatarY}"/>
                         </Image.RenderTransform>
                     </Image>
                 </DataTemplate>
