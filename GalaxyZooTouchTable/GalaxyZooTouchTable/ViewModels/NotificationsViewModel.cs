@@ -1,8 +1,9 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
+using PanoptesNetClient.Models;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -18,11 +19,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public event Action<string> GetSubjectById = delegate { };
         public event Action<ClassifierViewEnum> ChangeView = delegate { };
         public event Action<TableUser> SendRequestToUser = delegate { };
-        string SubjectIdToExamine { get; set; }
+        string CurrentSubjectId { get; set; }
         public TableUser User { get; private set; }
         private bool CurrentlyClassifying { get; set; }
 
-        public ObservableCollection<TableUser> AvailableUsers { get; private set; }
+        public List<NotificationAvatar> AvailableUsers { get; private set; } = new List<NotificationAvatar>();
 
         private NotificationOverlay _overlay;
         public NotificationOverlay Overlay
@@ -83,7 +84,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CooperatingPeer = Request.User;
             OpenNotifier = true;
-            SubjectIdToExamine = Request.SubjectID;
+            CurrentSubjectId = Request.SubjectID;
             User.Status = NotificationStatus.HelpRequestReceived;
         }
 
@@ -96,16 +97,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void FilterCurrentUser()
         {
-            ObservableCollection<TableUser> allUsersCopy = new ObservableCollection<TableUser>(GlobalData.GetInstance().AllUsers);
-            foreach (TableUser tableUser in allUsersCopy)
+            foreach (TableUser tableUser in GlobalData.GetInstance().AllUsers)
             {
-                if (User == tableUser)
+                if (User != tableUser)
                 {
-                    allUsersCopy.Remove(User);
-                    break;
+                    AvailableUsers.Add(new NotificationAvatar(tableUser));
                 }
             }
-            AvailableUsers = allUsersCopy;
         }
 
         private void LoadCommands()
@@ -121,7 +119,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnAcceptGalaxy(object sender)
         {
             ChangeView(ClassifierViewEnum.SubjectView);
-            GetSubjectById(SubjectIdToExamine);
+            GetSubjectById(CurrentSubjectId);
             CooperatingPeer.Status = NotificationStatus.AcceptedHelp;
             OpenNotifier = false;
             User.Status = NotificationStatus.HelpingUser;
@@ -132,15 +130,18 @@ namespace GalaxyZooTouchTable.ViewModels
             CooperatingPeer.Status = NotificationStatus.DeclinedHelp;
             CooperatingPeer = null;
             OpenNotifier = false;
-            SubjectIdToExamine = null;
+            CurrentSubjectId = null;
             User.Status = NotificationStatus.Idle;
         }
 
         private void OnNotifyUser(object sender)
         {
-            if (CannotAskForHelp()) return;
+            TableUser UserToNotify = sender as TableUser;
 
-            //TableUser UserToNotify = sender as TableUser;
+            if (CannotAskForHelp()) return;
+            if (UserIsUnavailable(UserToNotify)) return;
+            if (UserHasAlreadySeen(UserToNotify)) return;
+
             //SendRequestToUser(UserToNotify);
             //CooperatingPeer = UserToNotify;
             //OpenNotifier = false;
@@ -157,6 +158,33 @@ namespace GalaxyZooTouchTable.ViewModels
             return !CurrentlyClassifying;
         }
 
+        private bool UserIsUnavailable(TableUser userToNotify)
+        {
+            if (!userToNotify.Active)
+            {
+                string firstMessage = "Sorry,";
+                string secondMessage = "is not at the table. Ask someone else?";
+                Overlay = new NotificationOverlay(firstMessage, secondMessage, userToNotify.Avatar);
+            }
+            return !userToNotify.Active;
+        }
+
+        private bool UserHasAlreadySeen(TableUser userToNotify)
+        {
+            NotificationAvatar UserInQuestion = AvailableUsers.Find(x => x.User == userToNotify);
+            bool HasAlreadySeen = UserInQuestion.HasAlreadySeen(CurrentSubjectId);
+
+            if (HasAlreadySeen)
+            {
+                string firstMessage = "Sorry,";
+                string secondMessage = "has already classified that galaxy";
+                Overlay = new NotificationOverlay(firstMessage, secondMessage, userToNotify.Avatar);
+                //NotificationPanel = new NotificationPanelInfo(NotificationPanelEnum.ShowAnswer, avatar, Classification.Answer);
+            }
+
+            return HasAlreadySeen;
+        }
+
         private void OnClearOverlay(object sender)
         {
             Overlay = null;
@@ -171,7 +199,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (UserLeaving && CooperatingPeer != null && User.Status != NotificationStatus.PeerHasLeft)
             {
-                Messenger.Default.Send<TableUser>(User, $"{CooperatingPeer.Name}_PeerLeaving");
+                Messenger.Default.Send(User, $"{CooperatingPeer.Name}_PeerLeaving");
             }
 
             CooperatingPeer = null;
@@ -187,8 +215,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void SendAnswerToUser(AnswerButton SelectedItem)
         {
-            Messenger.Default.Send<AnswerButton>(SelectedItem, $"{CooperatingPeer.Name}_ReceivedAnswer");
+            Messenger.Default.Send(SelectedItem, $"{CooperatingPeer.Name}_ReceivedAnswer");
             User.Status = NotificationStatus.Idle;
+        }
+
+        public void ReceivedNewSubject(TableSubject subject)
+        {
+            CurrentSubjectId = subject.Id;
         }
     }
 }
