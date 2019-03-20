@@ -20,7 +20,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public void ShouldInitializeWithDefaultValues()
         {
             Assert.False(_viewModel.HideButtonNotification);
-            Assert.False(_viewModel.OpenNotifier);
+            Assert.False(_viewModel.NotifierIsOpen);
             Assert.Null(_viewModel.SuggestedAnswer);
             Assert.Null(_viewModel.CooperatingPeer);
         }
@@ -46,7 +46,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
             Assert.True(ChangeViewCalled);
             Assert.True(GetSubjectByIdCalled);
-            Assert.False(_viewModel.OpenNotifier);
+            Assert.False(_viewModel.NotifierIsOpen);
             Assert.Equal(NotificationStatus.HelpingUser, _viewModel.User.Status);
             Assert.Equal(NotificationStatus.AcceptedHelp, HeartUser.Status);
         }
@@ -59,7 +59,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
             _viewModel.DeclineGalaxy.Execute(null);
             Assert.Null(_viewModel.CooperatingPeer);
-            Assert.False(_viewModel.OpenNotifier);
+            Assert.False(_viewModel.NotifierIsOpen);
             Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
 
@@ -73,7 +73,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
             Assert.True(SendRequestToUserCalled);
             Assert.Equal(HeartUser, _viewModel.CooperatingPeer);
-            Assert.False(_viewModel.OpenNotifier);
+            Assert.False(_viewModel.NotifierIsOpen);
             Assert.Equal(NotificationStatus.HelpRequestSent, _viewModel.User.Status);
         }
 
@@ -83,7 +83,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.ClearNotifications();
 
             Assert.Null(_viewModel.CooperatingPeer);
-            Assert.False(_viewModel.OpenNotifier);
+            Assert.False(_viewModel.NotifierIsOpen);
             Assert.Null(_viewModel.SuggestedAnswer);
             Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
         }
@@ -109,9 +109,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         public void ShouldToggleNotifier()
         {
-            Assert.False(_viewModel.OpenNotifier);
+            Assert.False(_viewModel.NotifierIsOpen);
             _viewModel.ToggleNotifier.Execute(null);
-            Assert.True(_viewModel.OpenNotifier);
+            Assert.True(_viewModel.NotifierIsOpen);
         }
 
         [Fact]

@@ -25,6 +25,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public List<NotificationAvatar> AvailableUsers { get; private set; } = new List<NotificationAvatar>();
 
+        private NotificationPanel _notificationPanel;
+        public NotificationPanel NotificationPanel
+        {
+            get => _notificationPanel;
+            set => SetProperty(ref _notificationPanel, value);
+        }
+
         private NotificationOverlay _overlay;
         public NotificationOverlay Overlay
         {
@@ -39,11 +46,11 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _cooperatingPeer, value);
         }
 
-        private bool _openNotifier = false;
-        public bool OpenNotifier
+        private bool _notifierIsOpen = true;
+        public bool NotifierIsOpen
         {
-            get => _openNotifier;
-            set => SetProperty(ref _openNotifier, value);
+            get => _notifierIsOpen;
+            set => SetProperty(ref _notifierIsOpen, value);
         }
 
         private string _suggestedAnswer;
@@ -77,20 +84,20 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnPeerLeaving(TableUser user = null)
         {
             User.Status = NotificationStatus.PeerHasLeft;
-            OpenNotifier = false;
+            NotifierIsOpen = false;
         }
 
         private void OnNotificationReceived(NotificationRequest Request)
         {
             CooperatingPeer = Request.User;
-            OpenNotifier = true;
+            NotifierIsOpen = true;
             CurrentSubjectId = Request.SubjectID;
             User.Status = NotificationStatus.HelpRequestReceived;
         }
 
         private void OnAnswerReceived(AnswerButton Answer)
         {
-            OpenNotifier = true;
+            NotifierIsOpen = true;
             SuggestedAnswer = Answer.Label;
             User.Status = NotificationStatus.AnswerGiven;
         }
@@ -121,7 +128,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ChangeView(ClassifierViewEnum.SubjectView);
             GetSubjectById(CurrentSubjectId);
             CooperatingPeer.Status = NotificationStatus.AcceptedHelp;
-            OpenNotifier = false;
+            NotifierIsOpen = false;
             User.Status = NotificationStatus.HelpingUser;
         }
 
@@ -129,7 +136,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CooperatingPeer.Status = NotificationStatus.DeclinedHelp;
             CooperatingPeer = null;
-            OpenNotifier = false;
+            NotifierIsOpen = false;
             CurrentSubjectId = null;
             User.Status = NotificationStatus.Idle;
         }
@@ -172,17 +179,17 @@ namespace GalaxyZooTouchTable.ViewModels
         private bool UserHasAlreadySeen(TableUser userToNotify)
         {
             NotificationAvatar UserInQuestion = AvailableUsers.Find(x => x.User == userToNotify);
-            bool HasAlreadySeen = UserInQuestion.HasAlreadySeen(CurrentSubjectId);
+            CompletedClassification FinishedClassification = UserInQuestion.HasAlreadySeen(CurrentSubjectId);
 
-            if (HasAlreadySeen)
+            if (FinishedClassification != null)
             {
                 string firstMessage = "Sorry,";
                 string secondMessage = "has already classified that galaxy";
                 Overlay = new NotificationOverlay(firstMessage, secondMessage, userToNotify.Avatar);
-                //NotificationPanel = new NotificationPanelInfo(NotificationPanelEnum.ShowAnswer, avatar, Classification.Answer);
+                NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer, userToNotify.Avatar, FinishedClassification.Answer);
             }
 
-            return HasAlreadySeen;
+            return FinishedClassification != null;
         }
 
         private void OnClearOverlay(object sender)
@@ -203,14 +210,14 @@ namespace GalaxyZooTouchTable.ViewModels
             }
 
             CooperatingPeer = null;
-            OpenNotifier = false;
+            NotifierIsOpen = false;
             SuggestedAnswer = null;
             User.Status = NotificationStatus.Idle;
         }
 
         private void OnToggleNotifier(object sender)
         {
-            OpenNotifier = !OpenNotifier;
+            NotifierIsOpen = !NotifierIsOpen;
         }
 
         public void SendAnswerToUser(AnswerButton SelectedItem)

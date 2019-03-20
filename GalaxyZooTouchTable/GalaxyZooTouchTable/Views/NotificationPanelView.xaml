@@ -12,7 +12,23 @@
     <UserControl.Resources>
         <Style x:Key="ContentPanelBorder" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=OpenNotifier}" Value="True">
+                <DataTrigger Binding="{Binding Path=NotificationPanel}" Value="{x:Null}">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+                <!--<DataTrigger Binding="{Binding Path=NotifierIsOpen}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -27,7 +43,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
-                </DataTrigger>
+                </DataTrigger>-->
             </Style.Triggers>
         </Style>
 
@@ -45,27 +61,29 @@
             <Setter Property="Visibility" Value="Collapsed"/>
 
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.Idle}">
+                <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowAnswer}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="BellNotification" TargetType="{x:Type Border}">
-            <Setter Property="IsHitTestVisible" Value="False"/>
-            <Setter Property="Opacity" Value="0.5"/>
-
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
-                    <Setter Property="IsHitTestVisible" Value="True"/>
-                    <Setter Property="Opacity" Value="1"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
-                    <Setter Property="IsHitTestVisible" Value="True"/>
-                    <Setter Property="Opacity" Value="1"/>
+                <DataTrigger Binding="{Binding Path=NotificationPanel}" Value="{x:Null}">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -84,6 +102,9 @@
             BorderThickness="3.5"
             BorderBrush="{StaticResource MedGrayColor}"
             CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="33.6" Height="30">
+            <Border.RenderTransform>
+                <TranslateTransform X="26"/>
+            </Border.RenderTransform>
             <i:Interaction.Behaviors>
                 <Behaviors:TapBehavior Command="{Binding ToggleNotifier}"/>
             </i:Interaction.Behaviors>

@@ -35,10 +35,9 @@ namespace GalaxyZooTouchTable.Models
             }
         }
 
-        internal bool HasAlreadySeen(string currentSubjectId)
+        internal CompletedClassification HasAlreadySeen(string currentSubjectId)
         {
-            bool test = CompletedClassifications.Any(x => x.SubjectId == currentSubjectId);
-            return test;
+            return CompletedClassifications.Find(x => x.SubjectId == currentSubjectId);
         }
     }
 }

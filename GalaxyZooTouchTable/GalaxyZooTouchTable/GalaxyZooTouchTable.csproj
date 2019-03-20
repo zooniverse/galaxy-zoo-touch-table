@@ -208,6 +208,7 @@
     <Compile Include="Lib\ContainerHelper.cs" />
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
+    <Compile Include="Lib\NotificationPanelStatus.cs" />
     <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationAvatar.cs" />
     <Compile Include="Models\NotificationOverlay.cs" />
+    <Compile Include="Models\NotificationPanel.cs" />
     <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Models\SpaceNavigation.cs" />
     <Compile Include="Models\SpacePoint.cs" />
