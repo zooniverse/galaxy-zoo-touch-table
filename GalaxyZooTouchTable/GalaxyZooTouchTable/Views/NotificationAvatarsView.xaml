@@ -142,48 +142,10 @@
             <Setter Property="Background" Value="#F2000000"/>
             <Setter Property="Panel.ZIndex" Value="1"/>
             <Setter Property="CornerRadius" Value="3"/>
-        </Style>
 
-        <Style x:Key="RequestDenied" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
-            <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.DeclinedHelp}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="RequestAccepted" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AcceptedHelp}"/>
-                        <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="AnswerReceived" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}"/>
-                        <Condition Binding="{Binding Path=HideButtonNotification}" Value="False"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="PeerLeft" TargetType="{x:Type Border}" BasedOn="{StaticResource Overlay}">
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.PeerHasLeft}">
-                    <Setter Property="Visibility" Value="Visible"/>
+                <DataTrigger Binding="{Binding Path=Overlay}" Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -239,7 +201,6 @@
         </Style>
 
         <Style x:Key="UserGrid" TargetType="{x:Type Grid}">
-            <Setter Property="IsHitTestVisible" Value="False"/>
             <Style.Triggers>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
@@ -271,112 +232,28 @@
     <Viewbox>
         <Border Width="287" CornerRadius="3" Height="31" Background="#191A21">
             <Grid>
-                <Border Style="{StaticResource RequestDenied}">
+                <Border Style="{StaticResource Overlay}">
                     <Grid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock
                                 Style="{StaticResource BoldWhiteFont}"
                                 FontSize="9"
-                                Text="Sorry"
+                                Text="{Binding Overlay.MessageOne}"
                                 VerticalAlignment="Center"/>
                             <Image
                                 Margin="2,0"
                                 HorizontalAlignment="Left"
-                                Source="{Binding CooperatingPeer.Avatar}"
+                                Source="{Binding Overlay.Avatar}"
                                 Height="24"/>
                             <TextBlock
                                 Style="{StaticResource BoldWhiteFont}"
                                 VerticalAlignment="Center"
                                 FontSize="9"
-                                Text="declined your invitation. Ask someone else?"/>
+                                Text="{Binding Overlay.MessageTwo}"/>
                         </StackPanel>
                         <StackPanel Style="{StaticResource ClosingStackPanel}">
                             <i:Interaction.Behaviors>
-                                <Behaviors:TapBehavior Command="{Binding ResetNotifications}"/>
-                            </i:Interaction.Behaviors>
-                            <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <Border Style="{StaticResource RequestAccepted}">
-                    <Grid>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock
-                                Style="{StaticResource BoldWhiteFont}"
-                                FontSize="9"
-                                Text="Horray"
-                                VerticalAlignment="Center"/>
-                            <Image
-                                Margin="2,0"
-                                HorizontalAlignment="Left"
-                                Source="{Binding CooperatingPeer.Avatar}"
-                                Height="24"/>
-                            <TextBlock
-                                Style="{StaticResource BoldWhiteFont}"
-                                VerticalAlignment="Center"
-                                FontSize="9"
-                                Text="accepted your invitation!"/>
-                        </StackPanel>
-                        <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Behaviors>
-                                <Behaviors:TapBehavior Command="{Binding ToggleButtonNotification}"/>
-                            </i:Interaction.Behaviors>
-                            <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <Border Style="{StaticResource AnswerReceived}">
-                    <Grid>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock
-                                Style="{StaticResource BoldWhiteFont}"
-                                FontSize="9"
-                                Text="Check it out,"
-                                VerticalAlignment="Center"/>
-                            <Image
-                                Margin="2,0"
-                                HorizontalAlignment="Left"
-                                Source="{Binding CooperatingPeer.Avatar}"
-                                Height="24"/>
-                            <TextBlock
-                                Style="{StaticResource BoldWhiteFont}"
-                                VerticalAlignment="Center"
-                                FontSize="9"
-                                Text="made a classification!"/>
-                        </StackPanel>
-                        <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Behaviors>
-                                <Behaviors:TapBehavior Command="{Binding ToggleButtonNotification}"/>
-                            </i:Interaction.Behaviors>
-                            <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <Border Style="{StaticResource PeerLeft}">
-                    <Grid>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock
-                                Style="{StaticResource BoldWhiteFont}"
-                                FontSize="9"
-                                Text="Sorry,"
-                                VerticalAlignment="Center"/>
-                            <Image
-                                Margin="2,0"
-                                HorizontalAlignment="Left"
-                                Source="{Binding CooperatingPeer.Avatar}"
-                                Height="24"/>
-                            <TextBlock
-                                Style="{StaticResource BoldWhiteFont}"
-                                VerticalAlignment="Center"
-                                FontSize="9"
-                                Text="has left the table."/>
-                        </StackPanel>
-                        <StackPanel Style="{StaticResource ClosingStackPanel}">
-                            <i:Interaction.Behaviors>
-                                <Behaviors:TapBehavior Command="{Binding ToggleButtonNotification}"/>
+                                <Behaviors:TapBehavior Command="{Binding ClearOverlay}"/>
                             </i:Interaction.Behaviors>
                             <fa:ImageAwesome Style="{StaticResource CloseIcon}"/>
                         </StackPanel>

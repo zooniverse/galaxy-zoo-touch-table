@@ -10,31 +10,32 @@ namespace GalaxyZooTouchTable.ViewModels
     public class NotificationsViewModel : ViewModelBase
     {
         public ICommand AcceptGalaxy { get; private set; }
+        public ICommand ClearOverlay { get; private set; }
         public ICommand DeclineGalaxy { get; private set; }
         public ICommand NotifyUser { get; private set; }
         public ICommand ResetNotifications { get; private set; }
-        public ICommand ToggleButtonNotification { get; private set; }
         public ICommand ToggleNotifier { get; private set; }
         public event Action<string> GetSubjectById = delegate { };
         public event Action<ClassifierViewEnum> ChangeView = delegate { };
         public event Action<TableUser> SendRequestToUser = delegate { };
         string SubjectIdToExamine { get; set; }
         public TableUser User { get; private set; }
+        private bool CurrentlyClassifying { get; set; }
 
         public ObservableCollection<TableUser> AvailableUsers { get; private set; }
+
+        private NotificationOverlay _overlay;
+        public NotificationOverlay Overlay
+        {
+            get => _overlay;
+            set => SetProperty(ref _overlay, value);
+        }
 
         private TableUser _cooperatingPeer;
         public TableUser CooperatingPeer
         {
             get => _cooperatingPeer;
             set => SetProperty(ref _cooperatingPeer, value);
-        }
-
-        private bool _hideButtonNotification = false;
-        public bool HideButtonNotification
-        {
-            get => _hideButtonNotification;
-            set => SetProperty(ref _hideButtonNotification, value);
         }
 
         private bool _openNotifier = false;
@@ -49,13 +50,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _suggestedAnswer;
             set => SetProperty(ref _suggestedAnswer, value);
-        }
-
-        private SubjectViewEnum _subjectView = SubjectViewEnum.DragSubject;
-        public SubjectViewEnum SubjectView
-        {
-            get => _subjectView;
-            set => SetProperty(ref _subjectView, value);
         }
 
         public NotificationsViewModel(TableUser user)
@@ -76,7 +70,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnSubjectStatusChange(SubjectViewEnum status)
         {
-            SubjectView = status;
+            CurrentlyClassifying = status == SubjectViewEnum.MatchedSubject;
         }
 
         private void OnPeerLeaving(TableUser user = null)
@@ -95,7 +89,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAnswerReceived(AnswerButton Answer)
         {
-            HideButtonNotification = false;
             OpenNotifier = true;
             SuggestedAnswer = Answer.Label;
             User.Status = NotificationStatus.AnswerGiven;
@@ -118,10 +111,10 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadCommands()
         {
             AcceptGalaxy = new CustomCommand(OnAcceptGalaxy);
+            ClearOverlay = new CustomCommand(OnClearOverlay);
             DeclineGalaxy = new CustomCommand(OnDeclineGalaxy);
             NotifyUser = new CustomCommand(OnNotifyUser);
             ResetNotifications = new CustomCommand(OnResetNotifications);
-            ToggleButtonNotification = new CustomCommand(OnToggleButtonNotification);
             ToggleNotifier = new CustomCommand(OnToggleNotifier);
         }
 
@@ -145,11 +138,28 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnNotifyUser(object sender)
         {
-            TableUser UserToNotify = sender as TableUser;
-            SendRequestToUser(UserToNotify);
-            CooperatingPeer = UserToNotify;
-            OpenNotifier = false;
-            User.Status = NotificationStatus.HelpRequestSent;
+            if (CannotAskForHelp()) return;
+
+            //TableUser UserToNotify = sender as TableUser;
+            //SendRequestToUser(UserToNotify);
+            //CooperatingPeer = UserToNotify;
+            //OpenNotifier = false;
+            //User.Status = NotificationStatus.HelpRequestSent;
+        }
+
+        private bool CannotAskForHelp()
+        {
+            if (!CurrentlyClassifying)
+            {
+                string message = "Drag a galaxy above into your classifier to begin!";
+                Overlay = new NotificationOverlay(message);
+            }
+            return !CurrentlyClassifying;
+        }
+
+        private void OnClearOverlay(object sender)
+        {
+            Overlay = null;
         }
 
         private void OnResetNotifications(object sender = null)
@@ -168,20 +178,6 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenNotifier = false;
             SuggestedAnswer = null;
             User.Status = NotificationStatus.Idle;
-        }
-
-        private void OnToggleButtonNotification(object sender)
-        {
-            HideButtonNotification = !HideButtonNotification;
-            if (User.Status == NotificationStatus.AnswerGiven)
-            {
-                User.Status = NotificationStatus.Idle;
-                HideButtonNotification = false;
-            }
-            if (User.Status == NotificationStatus.PeerHasLeft)
-            {
-                ClearNotifications();
-            }
         }
 
         private void OnToggleNotifier(object sender)
