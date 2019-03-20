@@ -125,7 +125,7 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint GetRandomPoint()
         {
-            return GetPoint(RandomSubjectQuery);
+            return GetPoint(RandomSubjectQuery) ?? new SpacePoint(0,0);
         }
 
         public SpacePoint FindNextAscendingRa(double bounds)
