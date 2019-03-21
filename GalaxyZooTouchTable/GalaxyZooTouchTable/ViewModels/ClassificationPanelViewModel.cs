@@ -179,7 +179,6 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
-            Notifications.SendRequestToUser += OnSendRequestToUser;
             StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
             StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
@@ -188,12 +187,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             await GetWorkflow();
             PrepareForNewClassification();
-        }
-
-        private void OnSendRequestToUser(TableUser UserToNotify)
-        {
-            NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
-            Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
         public async Task GetWorkflow()

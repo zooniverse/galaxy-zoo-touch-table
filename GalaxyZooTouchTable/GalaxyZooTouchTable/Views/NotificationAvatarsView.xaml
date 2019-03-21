@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="31" d:DesignWidth="287">
@@ -29,101 +28,21 @@
         </Style>
         
         <Style x:Key="BusyCircle" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
-            <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Background" Value="#FFAF26"/>
-
             <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="Hourglass" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
-            <Setter Property="Visibility" Value="Visible"/>
-            <Setter Property="Background" Value="#FFAF26"/>
-            
-            <!--<Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                </MultiDataTrigger>
-                <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.Idle}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
+                <DataTrigger Binding="{Binding Path=Disabled}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
-            </Style.Triggers>-->
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="QuestionMark" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                        <Condition Binding="{Binding Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
-                        <Condition Binding="{Binding Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style x:Key="ExclamationPoint" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Collapsed"/>
-            <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Visibility" Value="Visible"/>
-                </MultiDataTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style x:Key="Overlay" TargetType="{x:Type Border}">
@@ -144,61 +63,13 @@
                 <DataTrigger Binding="{Binding Path=User.Active}" Value="true">
                     <Setter Property="Opacity" Value="1"/>
                 </DataTrigger>
-                <!--<MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Opacity" Value="1"/>
-                </MultiDataTrigger>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Opacity" Value="1"/>
-                </MultiDataTrigger>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.SubjectView}" Value="{x:Static Lib:SubjectViewEnum.DragSubject}">
-                    <Setter Property="Opacity" Value="0.25"/>
-                </DataTrigger>-->
             </Style.Triggers>
         </Style>
 
         <Style x:Key="AttentionBorder" TargetType="{x:Type Border}">
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
-                <!--<MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Value="True">
-                            <Condition.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityConverter}">
-                                    <Binding Path="." />
-                                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AskAFriendButtons}" Path="DataContext.CooperatingPeer"/>
-                                </MultiBinding>
-                            </Condition.Binding>
-                        </Condition>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="BorderThickness" Value="2"/>
-                </MultiDataTrigger>-->
             </Style.Triggers>
-        </Style>
-
-        <Style x:Key="UserGrid" TargetType="{x:Type Grid}">
-            <!--<Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=Active}" Value="True"/>
-                        <Condition Binding="{Binding Path=Status}" Value="{x:Static Lib:NotificationStatus.Idle}"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="IsHitTestVisible" Value="True"/>
-                </MultiDataTrigger>
-            </Style.Triggers>-->
         </Style>
 
         <Style x:Key="CloseIcon" TargetType="{x:Type fa:ImageAwesome}">
@@ -273,7 +144,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="5,0,0,0" Width="24" Height="24" Style="{StaticResource UserGrid}">
+                                <Grid Margin="5,0,0,0" Width="24" Height="24">
                                     <i:Interaction.Behaviors>
                                         <Behaviors:TapBehavior Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:AskAFriendButtons}}, Path=DataContext.NotifyUser}" CommandParameter="{Binding User}"/>
                                     </i:Interaction.Behaviors>
@@ -292,13 +163,6 @@
                                             Foreground="{StaticResource SuccessColor}"
                                             Icon="QuestionCircle"
                                             Width="8"/>
-                                    </Border>
-
-                                    <Border Style="{StaticResource Hourglass}">
-                                        <fa:ImageAwesome
-                                            Foreground="Black"
-                                            Icon="HourglassStart"
-                                            Width="4.5"/>
                                     </Border>
 
                                     <Border Style="{StaticResource ExclamationPoint}">

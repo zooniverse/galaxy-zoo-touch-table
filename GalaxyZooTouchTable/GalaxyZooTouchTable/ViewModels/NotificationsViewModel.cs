@@ -18,11 +18,9 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ToggleNotifier { get; private set; }
         public event Action<string> GetSubjectById = delegate { };
         public event Action<ClassifierViewEnum> ChangeView = delegate { };
-        public event Action<TableUser> SendRequestToUser = delegate { };
         string CurrentSubjectId { get; set; }
         public TableUser User { get; private set; }
         private bool CurrentlyClassifying { get; set; }
-        private HelpNotification CurrentNotification { get; set; }
         private List<TableUser> UsersAlreadyAsked { get; set; } = new List<TableUser>();
         private List<PendingRequest> PendingRequests { get; set; } = new List<PendingRequest>(); 
 
@@ -53,13 +51,6 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _notifierIsOpen, value);
         }
 
-        private string _suggestedAnswer;
-        public string SuggestedAnswer
-        {
-            get => _suggestedAnswer;
-            set => SetProperty(ref _suggestedAnswer, value);
-        }
-
         public NotificationsViewModel(TableUser user)
         {
             User = user;
@@ -77,8 +68,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnReceiveNotification(HelpNotification notification)
         {
-            CurrentNotification = notification;
-
             switch (notification.Status)
             {
                 case HelpNotificationStatus.AskForHelp:
@@ -99,9 +88,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        /// <summary>
-        /// Notification that the peer you are working with is leaving the table
-        /// </summary>
         void OnUserLeaving(HelpNotification notification)
         {
             PendingRequest Request = PendingRequests.Find(x => x.CooperatingPeer == notification.SentBy);
@@ -183,6 +169,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnSubjectStatusChange(SubjectViewEnum status)
         {
+            Overlay = null;
             CurrentlyClassifying = status == SubjectViewEnum.MatchedSubject;
         }
 
@@ -206,12 +193,13 @@ namespace GalaxyZooTouchTable.ViewModels
             ToggleNotifier = new CustomCommand(OnToggleNotifier);
         }
 
-        private void ResetNotifications()
+        private void ResetNotifications(bool resetNotifications = true)
         {
             User.Busy = false;
             NotificationPanel = null;
             Overlay = null;
-            PendingRequests.Clear();
+            if (resetNotifications) PendingRequests.Clear();
+            UsersAlreadyAsked.Clear();
         }
 
         private void OnAcceptGalaxy(object sender)
@@ -227,14 +215,14 @@ namespace GalaxyZooTouchTable.ViewModels
             NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
             GetSubjectById(Request.SubjectId);
-            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted, Request.SubjectId);
+            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
+            Console.WriteLine(PendingRequests);
         }
 
         private void OnDeclineGalaxy(object sender)
         {
             PendingRequest Request = PendingRequests.First();
-            PendingRequests.Clear();
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Decline);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             ResetNotifications();
@@ -356,7 +344,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void ReceivedNewSubject(TableSubject subject)
         {
-            UsersAlreadyAsked.Clear();
+            bool ClearRequests = false;
+            ResetNotifications(ClearRequests);
             CurrentSubjectId = subject.Id;
         }
 

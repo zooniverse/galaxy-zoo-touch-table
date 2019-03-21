@@ -1,18 +1,27 @@
 ﻿using GalaxyZooTouchTable.Lib;
-using System;
+using GalaxyZooTouchTable.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class NotificationAvatar
+    public class NotificationAvatar : ViewModelBase
     {
         public TableUser User { get; set; }
+
         public bool ShowCircle { get; set; } 
+
         public bool ShowExclamationPoint { get; set; } 
-        public bool ShowQuestion { get; set; } 
-        public bool ShowDisable { get; set; }
+
+        public bool ShowQuestion { get; set; }
+
+        private bool _disabled;
+        public bool Disabled
+        {
+            get => _disabled;
+            set => SetProperty(ref _disabled, value);
+        }
+
         private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
 
         public NotificationAvatar(TableUser user)
@@ -33,6 +42,7 @@ namespace GalaxyZooTouchTable.Models
             {
                 CompletedClassifications.Clear();
             }
+            Disabled = User.Busy;
         }
 
         internal CompletedClassification HasAlreadySeen(string currentSubjectId)
