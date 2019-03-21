@@ -291,10 +291,10 @@ namespace GalaxyZooTouchTable.ViewModels
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
                 OnChangeView(ClassifierViewEnum.SummaryView);
-                HandleNotificationsOnSubmit();
                 CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
                 CompletedClassifications.Add(FinishedClassification);
                 Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
+                Notifications.HandleAnswer(FinishedClassification);
             }
             else
             {
@@ -306,21 +306,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentSubject, User, Status);
             Messenger.Default.Send<ClassificationRingNotifier>(Notification);
-        }
-
-        private void HandleNotificationsOnSubmit()
-        {
-            if (User.Status == NotificationStatus.HelpingUser)
-            {
-                Notifications.SendAnswerToUser(SelectedAnswer);
-            }
-
-            if (User.Status != NotificationStatus.HelpRequestReceived &&
-                User.Status != NotificationStatus.HelpRequestSent &&
-                User.Status != NotificationStatus.AcceptedHelp)
-            {
-                Notifications.ClearNotifications();
-            }
         }
 
         private void SetTimer()
