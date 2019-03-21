@@ -23,8 +23,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public TableUser User { get; private set; }
         private bool CurrentlyClassifying { get; set; }
         private HelpNotification CurrentNotification { get; set; }
-        private bool WaitingForAnswer { get; set; } = false;
         private List<TableUser> UsersAlreadyAsked { get; set; } = new List<TableUser>();
+        private List<PendingRequest> PendingRequests { get; set; } = new List<PendingRequest>(); 
 
         public List<NotificationAvatar> AvailableUsers { get; private set; } = new List<NotificationAvatar>();
 
@@ -44,13 +44,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _overlay;
             set => SetProperty(ref _overlay, value);
-        }
-
-        private TableUser _cooperatingPeer;
-        public TableUser CooperatingPeer
-        {
-            get => _cooperatingPeer;
-            set => SetProperty(ref _cooperatingPeer, value);
         }
 
         private bool _notifierIsOpen = false;
@@ -98,7 +91,7 @@ namespace GalaxyZooTouchTable.ViewModels
                     OnAcceptedHelp(notification);
                     return;
                 case HelpNotificationStatus.SendAnswer:
-                    if (WaitingForAnswer) OnReceiveAnswer(notification);
+                    OnReceiveAnswer(notification);
                     return;
                 case HelpNotificationStatus.Leaving:
                     OnUserLeaving(notification);
@@ -106,39 +99,75 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private void OnUserLeaving(HelpNotification notification)
+        /// <summary>
+        /// Notification that the peer you are working with is leaving the table
+        /// </summary>
+        void OnUserLeaving(HelpNotification notification)
         {
-            UsersAlreadyAsked.Remove(notification.SentBy);
+            PendingRequest Request = PendingRequests.Find(x => x.CooperatingPeer == notification.SentBy);
 
-            if (notification.SentBy == CooperatingPeer)
+            if (Request != null)
             {
-                ResetNotifications();
                 string firstMessage = "Sorry,";
                 string secondMessage = "has left the table";
                 Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
+                PendingRequests.Remove(Request);
+                User.Busy = PendingRequests.Count > 0;
+                if (!User.Busy) NotificationPanel = null;
             }
+            UsersAlreadyAsked.Remove(notification.SentBy);
         }
 
-        private void OnAcceptedHelp(HelpNotification notification)
+        bool IsWaitingForResponse(HelpNotification notification, bool IsWaitingForAnswer = false)
         {
-            WaitingForAnswer = true;
+            PendingRequest Request = PendingRequests.Find(x => x.CooperatingPeer == notification.SentBy);
+            bool MatchingRequest = Request != null && Request.SubjectId == notification.SubjectId;
+
+            if (IsWaitingForAnswer) return MatchingRequest && !Request.Assisting;
+            return MatchingRequest;
+        }
+
+        bool IsWaitingForResponse(CompletedClassification classification, bool IsWaitingForAnswer = false)
+        {
+            PendingRequest Request = PendingRequests.Find(x => x.CooperatingPeer == classification.User);
+            bool MatchingRequest = Request != null && Request.SubjectId == classification.SubjectId;
+
+            if (IsWaitingForAnswer) return MatchingRequest && !Request.Assisting;
+            return MatchingRequest;
+        }
+
+        TableUser FindPendingRequest(CompletedClassification classification)
+        {
+            PendingRequest Request = PendingRequests.Find(x => x.SubjectId == classification.SubjectId);
+            return Request.CooperatingPeer;
+        }
+
+        void OnAcceptedHelp(HelpNotification notification)
+        {
             string firstMessage = "Hooray";
             string secondMessage = "accepted your invitation!";
             Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
+            User.Busy = PendingRequests.Count > 0;
         }
 
         private void OnReceiveAnswer(HelpNotification notification)
         {
-            string firstMessage = "Check it out,";
-            string secondMessage = "made a classification!";
-            Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
-            NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer, notification.SentBy.Avatar, notification.Classification.Answer);
+            bool IsWaitingForAnswer = true;
+            if (IsWaitingForResponse(notification.Classification, IsWaitingForAnswer))
+            {
+                string firstMessage = "Check it out,";
+                string secondMessage = "made a classification!";
+                Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
+                NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer, notification.SentBy.Avatar, notification.Classification.Answer);
+            }
+            PendingRequests.RemoveAll(x => x.CooperatingPeer == notification.SentBy);
+            User.Busy = PendingRequests.Count > 0;
         }
 
         private void OnDeclinedHelp(HelpNotification notification)
         {
-            User.Busy = false;
-            ResetNotifications();
+            PendingRequests.RemoveAll(x => x.CooperatingPeer == notification.SentBy);
+            User.Busy = PendingRequests.Count > 0;
             string firstMessage = "Sorry,";
             string secondMessage = "declined your invitation. Ask someone else?";
             Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
@@ -146,8 +175,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAskForHelp(HelpNotification notification)
         {
-            User.Busy = true;
-            CooperatingPeer = notification.SentBy;
+            PendingRequest Request = new PendingRequest(notification.SentBy, true, notification.SubjectId);
+            PendingRequests.Add(Request);
+            User.Busy = PendingRequests.Count > 0;
             NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowRequest, notification.SentBy.Avatar);
         }
 
@@ -179,10 +209,9 @@ namespace GalaxyZooTouchTable.ViewModels
         private void ResetNotifications()
         {
             User.Busy = false;
-            CooperatingPeer = null;
             NotificationPanel = null;
             Overlay = null;
-            WaitingForAnswer = false;
+            PendingRequests.Clear();
         }
 
         private void OnAcceptGalaxy(object sender)
@@ -193,18 +222,21 @@ namespace GalaxyZooTouchTable.ViewModels
                 return;
             }
 
+            PendingRequest Request = PendingRequests.First();
             Overlay = null;
             NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
-            GetSubjectById(CurrentNotification.SubjectId);
-            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
-            Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
+            GetSubjectById(Request.SubjectId);
+            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted, Request.SubjectId);
+            Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
         }
 
         private void OnDeclineGalaxy(object sender)
         {
+            PendingRequest Request = PendingRequests.First();
+            PendingRequests.Clear();
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Decline);
-            Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
+            Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             ResetNotifications();
         }
 
@@ -212,17 +244,42 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             TableUser UserToNotify = sender as TableUser;
 
+            if (IsCurrentlyWorkingWith(UserToNotify)) return;
             if (CannotAskForHelp()) return;
             if (UserIsUnavailable(UserToNotify)) return;
+            if (AlreadyAskedUser(UserToNotify)) return;
             if (UserHasAlreadySeen(UserToNotify)) return;
             if (UserIsBusy(UserToNotify)) return;
-            if (AlreadyAskedUser(UserToNotify)) return;
+            if (PendingRequest()) return;
 
-            User.Busy = true;
             UsersAlreadyAsked.Add(UserToNotify);
-            CooperatingPeer = UserToNotify;
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.AskForHelp, CurrentSubjectId);
             Messenger.Default.Send(Notification, $"{UserToNotify.Name}_PostNotification");
+            PendingRequest Request = new PendingRequest(UserToNotify, false, CurrentSubjectId);
+            PendingRequests.Add(Request);
+            User.Busy = PendingRequests.Count > 0;
+        }
+
+        private bool IsCurrentlyWorkingWith(TableUser UserToNotify)
+        {
+            bool AlreadyWorkingWith = PendingRequests.Any(x => x.CooperatingPeer == UserToNotify);
+            if (AlreadyWorkingWith)
+            {
+                string firstMessage = "You are already working with";
+                Overlay = new NotificationOverlay(firstMessage, null, UserToNotify.Avatar);
+            }
+            return AlreadyWorkingWith;
+        }
+
+        private bool PendingRequest()
+        {
+            bool RequestIsPending = NotificationPanel != null && NotificationPanel.Status == NotificationPanelStatus.ShowRequest;
+            if (RequestIsPending)
+            {
+                string firstMessage = "You must respond to your current help request";
+                Overlay = new NotificationOverlay(firstMessage);
+            }
+            return RequestIsPending;
         }
 
         private bool UserIsBusy(TableUser userToNotify)
@@ -305,10 +362,11 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void HandleAnswer(CompletedClassification classification)
         {
-            if (CooperatingPeer != null)
+            TableUser UserAwaitingHelp = FindPendingRequest(classification);
+            if (UserAwaitingHelp != null)
             {
                 HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.SendAnswer, classification);
-                Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
+                Messenger.Default.Send(Notification, $"{UserAwaitingHelp.Name}_PostNotification");
             }
             ResetNotifications();
         }
