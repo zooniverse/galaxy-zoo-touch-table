@@ -43,9 +43,17 @@
 
         <Style x:Key="AnswerReceived" TargetType="{x:Type Grid}">
             <Setter Property="Visibility" Value="Collapsed"/>
-
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowAnswer}">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Warning" TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowWarning}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -142,6 +150,56 @@
                             <Run>made this choice!</Run>
                         </TextBlock>
                     </Grid>
+                </Grid>
+
+                <Grid Margin="7.6,20,19.5,0" Style="{StaticResource Warning}">
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontWeight="Bold"
+                        FontSize="9"
+                        Text="Warning!"/>
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontSize="7.5"
+                        HorizontalAlignment="Left"
+                        Margin="2.5,18,0,0"
+                        Text="accepting this invitation will clear the galaxy you're currently working on."
+                        TextWrapping="Wrap"
+                        Width="80"/>
+                    <Button
+                        Style="{StaticResource SubmitWithDownstate}"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="1"
+                        Margin="0,0,0,34"
+                        Height="19">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding AcceptGalaxy}"/>
+                        </i:Interaction.Behaviors>
+                        <TextBlock
+                            Text="Continue"
+                            FontSize="8"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    </Button>
+
+                    <Button
+                        Style="{StaticResource TransparentWithDownstate}"
+                        Margin="0,0,0,10.5"
+                        VerticalAlignment="Bottom"
+                        Height="19">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding DeclineGalaxy}"/>
+                        </i:Interaction.Behaviors>
+                        <TextBlock
+                            Style="{StaticResource WhiteFont}"
+                            Text="Decline galaxy"
+                            FontSize="8"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Button>
                 </Grid>
 
                 <Grid Margin="7.6,20,19.5,0" Style="{StaticResource HelpRequested}">

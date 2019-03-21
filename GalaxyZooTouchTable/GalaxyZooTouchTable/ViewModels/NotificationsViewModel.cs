@@ -122,7 +122,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnAcceptedHelp(HelpNotification notification)
         {
             WaitingForAnswer = true;
-            string firstMessage = "Horray";
+            string firstMessage = "Hooray";
             string secondMessage = "accepted your invitation!";
             Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
         }
@@ -187,6 +187,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAcceptGalaxy(object sender)
         {
+            if (CurrentlyClassifying && NotificationPanel.Status != NotificationPanelStatus.ShowWarning)
+            {
+                NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowWarning);
+                return;
+            }
+
             Overlay = null;
             NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
