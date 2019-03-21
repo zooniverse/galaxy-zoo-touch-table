@@ -77,9 +77,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void RegisterMessengerActions(TableUser user)
         {
-            Messenger.Default.Register<AnswerButton>(this, OnAnswerReceived, $"{user.Name}_ReceivedAnswer");
-            Messenger.Default.Register<NotificationRequest>(this, OnNotificationReceived, $"{user.Name}_ReceivedNotification");
-            Messenger.Default.Register<TableUser>(this, OnPeerLeaving, $"{user.Name}_PeerLeaving");
             Messenger.Default.Register<SubjectViewEnum>(this, OnSubjectStatusChange, $"{user.Name}_SubjectStatus");
             Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"{user.Name}_PostNotification");
             Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"UserLeaving");
@@ -140,6 +137,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnDeclinedHelp(HelpNotification notification)
         {
+            User.Busy = false;
             ResetNotifications();
             string firstMessage = "Sorry,";
             string secondMessage = "declined your invitation. Ask someone else?";
@@ -148,6 +146,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAskForHelp(HelpNotification notification)
         {
+            User.Busy = true;
             CooperatingPeer = notification.SentBy;
             NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowRequest, notification.SentBy.Avatar);
         }
@@ -155,27 +154,6 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnSubjectStatusChange(SubjectViewEnum status)
         {
             CurrentlyClassifying = status == SubjectViewEnum.MatchedSubject;
-        }
-
-        private void OnPeerLeaving(TableUser user = null)
-        {
-            User.Status = NotificationStatus.PeerHasLeft;
-            NotifierIsOpen = false;
-        }
-
-        private void OnNotificationReceived(NotificationRequest Request)
-        {
-            CooperatingPeer = Request.User;
-            NotifierIsOpen = true;
-            CurrentSubjectId = Request.SubjectID;
-            User.Status = NotificationStatus.HelpRequestReceived;
-        }
-
-        private void OnAnswerReceived(AnswerButton Answer)
-        {
-            NotifierIsOpen = true;
-            SuggestedAnswer = Answer.Label;
-            User.Status = NotificationStatus.AnswerGiven;
         }
 
         private void FilterCurrentUser()
@@ -200,6 +178,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ResetNotifications()
         {
+            User.Busy = false;
             CooperatingPeer = null;
             NotificationPanel = null;
             Overlay = null;
@@ -230,12 +209,25 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CannotAskForHelp()) return;
             if (UserIsUnavailable(UserToNotify)) return;
             if (UserHasAlreadySeen(UserToNotify)) return;
+            if (UserIsBusy(UserToNotify)) return;
             if (AlreadyAskedUser(UserToNotify)) return;
 
+            User.Busy = true;
             UsersAlreadyAsked.Add(UserToNotify);
             CooperatingPeer = UserToNotify;
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.AskForHelp, CurrentSubjectId);
             Messenger.Default.Send(Notification, $"{UserToNotify.Name}_PostNotification");
+        }
+
+        private bool UserIsBusy(TableUser userToNotify)
+        {
+            if (userToNotify.Busy)
+            {
+                string firstMessage = "Sorry,";
+                string secondMessage = "is busy working with another user";
+                Overlay = new NotificationOverlay(firstMessage, secondMessage, userToNotify.Avatar);
+            }
+            return userToNotify.Busy;
         }
 
         private bool AlreadyAskedUser(TableUser userToNotify)
@@ -294,28 +286,9 @@ namespace GalaxyZooTouchTable.ViewModels
             Overlay = null;
         }
 
-        public void ClearNotifications(bool UserLeaving = false)
-        {
-            if (UserLeaving && CooperatingPeer != null && User.Status != NotificationStatus.PeerHasLeft)
-            {
-                Messenger.Default.Send(User, $"{CooperatingPeer.Name}_PeerLeaving");
-            }
-
-            CooperatingPeer = null;
-            NotifierIsOpen = false;
-            SuggestedAnswer = null;
-            User.Status = NotificationStatus.Idle;
-        }
-
         private void OnToggleNotifier(object sender)
         {
             NotifierIsOpen = !NotifierIsOpen;
-        }
-
-        public void SendAnswerToUser(AnswerButton SelectedItem)
-        {
-            Messenger.Default.Send(SelectedItem, $"{CooperatingPeer.Name}_ReceivedAnswer");
-            User.Status = NotificationStatus.Idle;
         }
 
         public void ReceivedNewSubject(TableSubject subject)

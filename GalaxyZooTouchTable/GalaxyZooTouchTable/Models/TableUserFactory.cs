@@ -1,6 +1,5 @@
-﻿using GalaxyZooTouchTable.Lib;
+﻿using GalaxyZooTouchTable.ViewModels;
 using System;
-using System.ComponentModel;
 using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
@@ -15,41 +14,25 @@ namespace GalaxyZooTouchTable.Models
         Heart
     }
 
-    public abstract class TableUser : INotifyPropertyChanged
+    public abstract class TableUser : ViewModelBase
     {
         abstract public string Name { get; }
         abstract public string ThemeColor { get; }
         abstract public BitmapImage StartButton { get; }
         abstract public BitmapImage Avatar { get; }
 
-        private NotificationStatus _status = NotificationStatus.Idle;
-        public NotificationStatus Status
+        private bool _busy = false;
+        public bool Busy
         {
-            get { return _status; }
-            set
-            {
-                _status = value;
-                OnPropertyRaised("Status");
-            }
+            get => _busy;
+            set => SetProperty(ref _busy, value);
         }
 
         private bool _active = false;
         public bool Active
         {
-            get { return _active; }
-            set
-            {
-                _active = value;
-                OnPropertyRaised("Active");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            get => _active;
+            set => SetProperty(ref _active, value);
         }
     }
 
