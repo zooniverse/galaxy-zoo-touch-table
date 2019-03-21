@@ -29,6 +29,7 @@ namespace GalaxyZooTouchTable.Models
         Accepted,
         AskForHelp,
         SendAnswer,
-        Decline
+        Decline,
+        Leaving
     }
 }

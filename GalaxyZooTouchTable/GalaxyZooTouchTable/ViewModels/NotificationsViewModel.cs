@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -23,6 +24,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private bool CurrentlyClassifying { get; set; }
         private HelpNotification CurrentNotification { get; set; }
         private bool WaitingForAnswer { get; set; } = false;
+        private List<TableUser> UsersAlreadyAsked { get; set; } = new List<TableUser>();
 
         public List<NotificationAvatar> AvailableUsers { get; private set; } = new List<NotificationAvatar>();
 
@@ -80,6 +82,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Register<TableUser>(this, OnPeerLeaving, $"{user.Name}_PeerLeaving");
             Messenger.Default.Register<SubjectViewEnum>(this, OnSubjectStatusChange, $"{user.Name}_SubjectStatus");
             Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"{user.Name}_PostNotification");
+            Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"UserLeaving");
         }
 
         private void OnReceiveNotification(HelpNotification notification)
@@ -100,6 +103,22 @@ namespace GalaxyZooTouchTable.ViewModels
                 case HelpNotificationStatus.SendAnswer:
                     if (WaitingForAnswer) OnReceiveAnswer(notification);
                     return;
+                case HelpNotificationStatus.Leaving:
+                    OnUserLeaving(notification);
+                    return;
+            }
+        }
+
+        private void OnUserLeaving(HelpNotification notification)
+        {
+            UsersAlreadyAsked.Remove(notification.SentBy);
+
+            if (notification.SentBy == CooperatingPeer)
+            {
+                ResetNotifications();
+                string firstMessage = "Sorry,";
+                string secondMessage = "has left the table";
+                Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
             }
         }
 
@@ -122,10 +141,9 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnDeclinedHelp(HelpNotification notification)
         {
             ResetNotifications();
-            CooperatingPeer = null;
             string firstMessage = "Sorry,";
             string secondMessage = "declined your invitation. Ask someone else?";
-            Overlay = new NotificationOverlay(firstMessage, secondMessage, CooperatingPeer.Avatar);
+            Overlay = new NotificationOverlay(firstMessage, secondMessage, notification.SentBy.Avatar);
         }
 
         private void OnAskForHelp(HelpNotification notification)
@@ -182,6 +200,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ResetNotifications()
         {
+            CooperatingPeer = null;
             NotificationPanel = null;
             Overlay = null;
             WaitingForAnswer = false;
@@ -189,26 +208,19 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnAcceptGalaxy(object sender)
         {
+            Overlay = null;
+            NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
             GetSubjectById(CurrentNotification.SubjectId);
-            ResetNotifications();
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
             Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
-            //CooperatingPeer.Status = NotificationStatus.AcceptedHelp;
-            //NotifierIsOpen = false;
-            //User.Status = NotificationStatus.HelpingUser;
         }
 
         private void OnDeclineGalaxy(object sender)
         {
-            HelpNotification Notification = new HelpNotification(CooperatingPeer, HelpNotificationStatus.Decline);
+            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Decline);
             Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
-            NotificationPanel = null;
-            //CooperatingPeer.Status = NotificationStatus.DeclinedHelp;
-            //CooperatingPeer = null;
-            //NotifierIsOpen = false;
-            //CurrentSubjectId = null;
-            //User.Status = NotificationStatus.Idle;
+            ResetNotifications();
         }
 
         private void OnNotifyUser(object sender)
@@ -218,14 +230,26 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CannotAskForHelp()) return;
             if (UserIsUnavailable(UserToNotify)) return;
             if (UserHasAlreadySeen(UserToNotify)) return;
+            if (AlreadyAskedUser(UserToNotify)) return;
 
+            UsersAlreadyAsked.Add(UserToNotify);
             CooperatingPeer = UserToNotify;
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.AskForHelp, CurrentSubjectId);
             Messenger.Default.Send(Notification, $"{UserToNotify.Name}_PostNotification");
-            //SendRequestToUser(UserToNotify);
-            //CooperatingPeer = UserToNotify;
-            //OpenNotifier = false;
-            //User.Status = NotificationStatus.HelpRequestSent;
+        }
+
+        private bool AlreadyAskedUser(TableUser userToNotify)
+        {
+            bool AlreadyAsked = UsersAlreadyAsked.Any(x => x == userToNotify);
+
+            if (AlreadyAsked)
+            {
+                string firstMessage = "Sorry, you have already asked";
+                string secondMessage = "for help";
+                Overlay = new NotificationOverlay(firstMessage, secondMessage, userToNotify.Avatar);
+            }
+
+            return AlreadyAsked;
         }
 
         private bool CannotAskForHelp()
@@ -296,18 +320,25 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void ReceivedNewSubject(TableSubject subject)
         {
+            UsersAlreadyAsked.Clear();
             CurrentSubjectId = subject.Id;
         }
 
         public void HandleAnswer(CompletedClassification classification)
         {
-            ResetNotifications();
-
             if (CooperatingPeer != null)
             {
                 HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.SendAnswer, classification);
                 Messenger.Default.Send(Notification, $"{CooperatingPeer.Name}_PostNotification");
             }
+            ResetNotifications();
+        }
+
+        public void NotifyLeaving()
+        {
+            HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Leaving);
+            Messenger.Default.Send(Notification, $"UserLeaving");
+            ResetNotifications();
         }
     }
 }

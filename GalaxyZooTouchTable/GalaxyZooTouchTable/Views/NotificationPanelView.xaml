@@ -136,7 +136,7 @@
                             Margin="2,17,0,0">
                             <Run>galaxy you requested</Run><LineBreak/>
                             <Run>help with. They voted</Run><LineBreak/>
-                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding SuggestedAnswer}"/><LineBreak/>
+                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding NotificationPanel.Answer, Mode=OneWay}"/><LineBreak/>
                             <Run>Still not sure?</Run><LineBreak/>
                             <Run>Ask them why they</Run><LineBreak/>
                             <Run>made this choice!</Run>

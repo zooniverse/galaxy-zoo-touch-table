@@ -252,7 +252,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();
             PrepareForNewClassification();
-            Notifications.ClearNotifications(UserIsLeaving);
+            Notifications.NotifyLeaving();
 
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
