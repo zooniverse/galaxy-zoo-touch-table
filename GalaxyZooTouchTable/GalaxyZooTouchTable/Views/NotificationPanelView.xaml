@@ -33,7 +33,6 @@
 
         <Style x:Key="HelpRequested" TargetType="{x:Type Grid}">
             <Setter Property="Visibility" Value="Collapsed"/>
-
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowRequest}">
                     <Setter Property="Visibility" Value="Visible"/>

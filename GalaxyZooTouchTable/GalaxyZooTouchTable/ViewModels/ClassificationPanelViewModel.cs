@@ -241,7 +241,6 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             SubjectView = SubjectViewEnum.DragSubject;
-            bool UserIsLeaving = true;
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();
             PrepareForNewClassification();

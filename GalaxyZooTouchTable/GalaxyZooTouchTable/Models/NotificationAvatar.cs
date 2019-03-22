@@ -1,12 +1,9 @@
 ﻿using GalaxyZooTouchTable.ViewModels;
-using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
 {
     public class NotificationAvatar : ViewModelBase
     {
-        public BitmapImage Avatar { get; private set; }
-
         private bool _showCircle = false;
         public bool ShowCircle
         {
@@ -33,11 +30,6 @@ namespace GalaxyZooTouchTable.Models
         {
             get => _disabled;
             set => SetProperty(ref _disabled, value);
-        }
-
-        public NotificationAvatar(TableUser user)
-        {
-            Avatar = user.Avatar;
         }
     }
 }

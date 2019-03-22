@@ -209,7 +209,6 @@
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
     <Compile Include="Lib\NotificationPanelStatus.cs" />
-    <Compile Include="Lib\NotificationStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />

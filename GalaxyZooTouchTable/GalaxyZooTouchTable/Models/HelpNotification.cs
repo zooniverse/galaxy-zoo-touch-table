@@ -1,6 +1,4 @@
-﻿using PanoptesNetClient.Models;
-
-namespace GalaxyZooTouchTable.Models
+﻿namespace GalaxyZooTouchTable.Models
 {
     public class HelpNotification
     {

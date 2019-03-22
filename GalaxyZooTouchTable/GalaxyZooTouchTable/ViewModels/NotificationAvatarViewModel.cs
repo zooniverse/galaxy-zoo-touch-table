@@ -8,14 +8,13 @@ namespace GalaxyZooTouchTable.ViewModels
     public class NotificationAvatarViewModel : ViewModelBase
     {
         public TableUser User { get; set; }
-        public NotificationAvatar NotificationAvatar { get; private set; }
+        public NotificationAvatar NotificationAvatar { get; set; } = new NotificationAvatar();
         private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
 
         public NotificationAvatarViewModel(TableUser user)
         {
             User = user;
             User.PropertyChanged += UpdateUserProperties;
-            NotificationAvatar = new NotificationAvatar(user);
             Messenger.Default.Register<CompletedClassification>(this, OnCompletedClassification, $"{user.Name}_AddCompletedClassification");
         }
 
@@ -27,7 +26,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void ResetIcons()
         {
-            System.Console.WriteLine(User);
             NotificationAvatar.ShowCircle = false;
             NotificationAvatar.ShowQuestion = false;
             NotificationAvatar.ShowExclamationPoint = false;
@@ -59,21 +57,9 @@ namespace GalaxyZooTouchTable.ViewModels
             CompletedClassifications.Add(Classification);
         }
 
-        internal CompletedClassification HasAlreadySeen(string currentSubjectId)
+        internal CompletedClassification HasAlreadyClassified(string currentSubjectId)
         {
             return CompletedClassifications.Find(x => x.SubjectId == currentSubjectId);
-        }
-
-        internal void RespondToRequest(PendingRequest request)
-        {
-            if (request.Assisting == true)
-            {
-                NotificationAvatar.ShowExclamationPoint = true;
-            }
-            else
-            {
-                NotificationAvatar.ShowQuestion = true;
-            }
         }
     }
 }
