@@ -23,10 +23,17 @@ namespace GalaxyZooTouchTable.ViewModels
         string CurrentSubjectId { get; set; }
         public TableUser User { get; private set; }
         private bool CurrentlyClassifying { get; set; }
-        private List<TableUser> UsersAlreadyAsked { get; set; } = new List<TableUser>();
+        private ObservableCollection<TableUser> UsersAlreadyAsked { get; set; } = new ObservableCollection<TableUser>();
         private ObservableCollection<PendingRequest> PendingRequests { get; set; } = new ObservableCollection<PendingRequest>(); 
 
-        public List<NotificationAvatar> AvailableUsers { get; private set; } = new List<NotificationAvatar>();
+        public List<NotificationAvatarViewModel> AvailableUsers { get; private set; } = new List<NotificationAvatarViewModel>();
+
+        private TableUser _userHelping;
+        public TableUser UserHelping
+        {
+            get => _userHelping;
+            set => SetProperty(ref _userHelping, value);
+        }
 
         private NotificationPanel _notificationPanel;
         public NotificationPanel NotificationPanel
@@ -60,11 +67,44 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
             FilterCurrentUser();
             PendingRequests.CollectionChanged += CheckIfUserBusy;
+            UsersAlreadyAsked.CollectionChanged += CheckIfAlreadyAsked;
+        }
+
+        private void CheckIfAlreadyAsked(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            foreach (NotificationAvatarViewModel Avatar in AvailableUsers)
+            {
+                bool AlreadyAsked = UsersAlreadyAsked.Any(x => x == Avatar.User);
+                if (AlreadyAsked)
+                {
+                    Avatar.ShowDisabled();
+                } else
+                {
+                    Avatar.ShowEnabled();
+                }
+            }
         }
 
         private void CheckIfUserBusy(object sender, NotifyCollectionChangedEventArgs e)
         {
             User.Busy = PendingRequests.Count > 0;
+            UpdateAvatars();
+        }
+
+        private void UpdateAvatars()
+        {
+            foreach (PendingRequest Request in PendingRequests)
+            {
+                NotificationAvatarViewModel Avatar = AvailableUsers.SingleOrDefault(x => x.User == Request.CooperatingPeer);
+                if (!Request.Assisting)
+                {
+                    Avatar.ShowQuestionMark();
+                }
+                else
+                {
+                    Avatar.ShowExclamationPoint(UserHelping);
+                }
+            }
         }
 
         private void RegisterMessengerActions(TableUser user)
@@ -163,7 +203,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 if (User != tableUser)
                 {
-                    AvailableUsers.Add(new NotificationAvatar(tableUser));
+                    AvailableUsers.Add(new NotificationAvatarViewModel(tableUser));
                 }
             }
         }
@@ -174,6 +214,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Overlay = null;
             if (resetRequests) PendingRequests.Clear();
             UsersAlreadyAsked.Clear();
+            UserHelping = null;
         }
 
         private void OnNotifyUser(object sender)
@@ -181,6 +222,7 @@ namespace GalaxyZooTouchTable.ViewModels
             TableUser UserToNotify = sender as TableUser;
 
             if (IsCurrentlyWorkingWith(UserToNotify)) return;
+            if (CannotAskForHelp()) return;
             if (CannotAskForHelp()) return;
             if (UserIsUnavailable(UserToNotify)) return;
             if (AlreadyAskedUser(UserToNotify)) return;
@@ -241,7 +283,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private bool UserHasAlreadySeen(TableUser userToNotify)
         {
-            NotificationAvatar UserInQuestion = AvailableUsers.Find(x => x.User == userToNotify);
+            NotificationAvatarViewModel UserInQuestion = AvailableUsers.Find(x => x.User == userToNotify);
             CompletedClassification FinishedClassification = UserInQuestion.HasAlreadySeen(CurrentSubjectId);
 
             if (FinishedClassification != null)
@@ -283,7 +325,10 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowWarning);
                 return;
             }
+
             PendingRequest Request = PendingRequests.First();
+            UserHelping = Request.CooperatingPeer;
+            UpdateAvatars();
             Overlay = null;
             NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
@@ -322,6 +367,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PendingRequest AwaitingRequest = PendingRequests.SingleOrDefault(x => x.SubjectId == classification.SubjectId);
             if (AwaitingRequest != null && AwaitingRequest.Assisting)
             {
+                PendingRequests.Remove(AwaitingRequest);
                 HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.SendAnswer, classification);
                 Messenger.Default.Send(Notification, $"{AwaitingRequest.CooperatingPeer.Name}_PostNotification");
             }

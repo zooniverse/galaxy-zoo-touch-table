@@ -1,53 +1,43 @@
-﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.ViewModels;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using GalaxyZooTouchTable.ViewModels;
+using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
 {
     public class NotificationAvatar : ViewModelBase
     {
-        public TableUser User { get; set; }
+        public BitmapImage Avatar { get; private set; }
 
-        public bool ShowCircle { get; set; } 
+        private bool _showCircle = false;
+        public bool ShowCircle
+        {
+            get => _showCircle;
+            set => SetProperty(ref _showCircle, value);
+        }
 
-        public bool ShowExclamationPoint { get; set; } 
+        private bool _showExclamationPoint = false;
+        public bool ShowExclamationPoint
+        {
+            get => _showExclamationPoint;
+            set => SetProperty(ref _showExclamationPoint, value);
+        }
 
-        public bool ShowQuestion { get; set; }
+        private bool _showQuestion = false;
+        public bool ShowQuestion
+        {
+            get => _showQuestion;
+            set => SetProperty(ref _showQuestion, value);
+        }
 
-        private bool _disabled;
+        private bool _disabled = false;
         public bool Disabled
         {
             get => _disabled;
             set => SetProperty(ref _disabled, value);
         }
 
-        private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
-
         public NotificationAvatar(TableUser user)
         {
-            User = user;
-            User.PropertyChanged += ShouldClearClassifications;
-            Messenger.Default.Register<CompletedClassification>(this, OnCompletedClassification, $"{User.Name}_AddCompletedClassification");
-        }
-
-        private void OnCompletedClassification(CompletedClassification Classification)
-        {
-            CompletedClassifications.Add(Classification);
-        }
-
-        private void ShouldClearClassifications(object sender, PropertyChangedEventArgs e)
-        {
-            if (!User.Active)
-            {
-                CompletedClassifications.Clear();
-            }
-            Disabled = User.Busy;
-        }
-
-        internal CompletedClassification HasAlreadySeen(string currentSubjectId)
-        {
-            return CompletedClassifications.Find(x => x.SubjectId == currentSubjectId);
+            Avatar = user.Avatar;
         }
     }
 }

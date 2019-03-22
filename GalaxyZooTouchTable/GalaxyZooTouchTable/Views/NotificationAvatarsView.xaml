@@ -31,18 +31,34 @@
             <Setter Property="Visibility" Value="Collapsed"/>
             <Setter Property="Background" Value="#FFAF26"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Disabled}" Value="true">
+                <DataTrigger Binding="{Binding Path=User.Busy}" Value="true">
                     <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=NotificationAvatar.Disabled}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=NotificationAvatar.ShowCircle}" Value="true">
+                    <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="QuestionMark" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationAvatar.ShowQuestion}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="ExclamationPoint" TargetType="{x:Type Border}" BasedOn="{StaticResource IndicatorBorder}">
             <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationAvatar.ShowExclamationPoint}" Value="true">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="Overlay" TargetType="{x:Type Border}">
@@ -69,6 +85,9 @@
         <Style x:Key="AttentionBorder" TargetType="{x:Type Border}">
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationAvatar.ShowCircle}" Value="true">
+                    <Setter Property="BorderThickness" Value="2"/>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
 

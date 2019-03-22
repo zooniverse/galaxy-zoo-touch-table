@@ -140,7 +140,7 @@
             Margin="123,155,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Source="{Binding Notifications.CooperatingPeer.Avatar}"/>
+            Source="{Binding Notifications.UserHelping.Avatar}"/>
 
         <ItemsControl
             Height="136"
