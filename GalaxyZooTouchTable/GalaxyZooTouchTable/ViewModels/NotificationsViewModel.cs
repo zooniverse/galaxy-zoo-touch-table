@@ -182,12 +182,6 @@ namespace GalaxyZooTouchTable.ViewModels
             UsersAlreadyAsked.Remove(notification.SentBy);
         }
 
-        void OnSubjectStatusChange(SubjectViewEnum status)
-        {
-            Overlay = null;
-            CurrentlyClassifying = status == SubjectViewEnum.MatchedSubject;
-        }
-
         void FilterCurrentUser()
         {
             foreach (TableUser tableUser in GlobalData.GetInstance().AllUsers)
@@ -210,7 +204,6 @@ namespace GalaxyZooTouchTable.ViewModels
             TableUser UserToNotify = sender as TableUser;
 
             if (IsCurrentlyWorkingWith(UserToNotify)) return;
-            if (CannotAskForHelp()) return;
             if (CannotAskForHelp()) return;
             if (UserIsUnavailable(UserToNotify)) return;
             if (AlreadyAskedUser(UserToNotify)) return;
@@ -265,7 +258,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         bool UserHasAlreadySeen(TableUser userToNotify)
         {
-            NotificationAvatarViewModel UserToQuestion = AvailableUsers.Find(x => x.User == userToNotify);
+            NotificationAvatarViewModel UserToQuestion = AvailableUsers.Find(x => x.User.Name == userToNotify.Name);
             CompletedClassification FinishedClassification = UserToQuestion.HasAlreadyClassified(CurrentSubjectId);
             if (FinishedClassification != null)
             {
@@ -355,6 +348,12 @@ namespace GalaxyZooTouchTable.ViewModels
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Leaving);
             Messenger.Default.Send(Notification, $"UserLeaving");
             ResetNotifications();
+        }
+
+        public void OnSubjectStatusChange(SubjectViewEnum status)
+        {
+            Overlay = null;
+            CurrentlyClassifying = status == SubjectViewEnum.MatchedSubject;
         }
     }
 }

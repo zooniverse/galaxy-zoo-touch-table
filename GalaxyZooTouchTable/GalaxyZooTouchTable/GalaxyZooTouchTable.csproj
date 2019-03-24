@@ -221,7 +221,6 @@
     <Compile Include="Models\NotificationAvatar.cs" />
     <Compile Include="Models\NotificationOverlay.cs" />
     <Compile Include="Models\NotificationPanel.cs" />
-    <Compile Include="Models\NotificationRequest.cs" />
     <Compile Include="Models\SpaceNavigation.cs" />
     <Compile Include="Models\SpacePoint.cs" />
     <Compile Include="Models\PendingRequest.cs" />

@@ -57,7 +57,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CompletedClassifications.Add(Classification);
         }
 
-        internal CompletedClassification HasAlreadyClassified(string currentSubjectId)
+        public CompletedClassification HasAlreadyClassified(string currentSubjectId)
         {
             return CompletedClassifications.Find(x => x.SubjectId == currentSubjectId);
         }
