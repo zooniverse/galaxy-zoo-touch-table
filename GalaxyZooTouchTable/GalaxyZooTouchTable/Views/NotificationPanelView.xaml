@@ -156,13 +156,14 @@
                         Style="{StaticResource WhiteFont}"
                         FontWeight="Bold"
                         FontSize="9"
+                        Margin="2.5,0,0,0"
                         Text="Warning!"/>
                     <TextBlock
                         Style="{StaticResource WhiteFont}"
                         FontSize="7.5"
                         HorizontalAlignment="Left"
-                        Margin="2.5,18,0,0"
-                        Text="accepting this invitation will clear the galaxy you're currently working on."
+                        Margin="2.5,12,0,0"
+                        Text="Accepting this invitation will clear the galaxy you're currently working on."
                         TextWrapping="Wrap"
                         Width="80"/>
                     <Button

@@ -66,7 +66,7 @@ namespace GalaxyZooTouchTable.ViewModels
             User = user;
             RegisterMessengerActions(user);
             LoadCommands();
-            FilterCurrentUser();
+            FilterCurrentUserAndOrganize();
             PendingRequests.CollectionChanged += UpdateAvatarsOnHelpRequest;
             UsersAlreadyAsked.CollectionChanged += UpdateIconsWhenAsked;
         }
@@ -182,11 +182,23 @@ namespace GalaxyZooTouchTable.ViewModels
             UsersAlreadyAsked.Remove(notification.SentBy);
         }
 
-        void FilterCurrentUser()
+        /// <summary>
+        /// This method serves two functions, filter the current user from notification avatars
+        /// and reorganize the remaining avatars for how they would appear clockwise around the table
+        /// for the current user.
+        /// </summary>
+        void FilterCurrentUserAndOrganize()
         {
-            foreach (TableUser tableUser in GlobalData.GetInstance().AllUsers)
+            int IndexOfUser = GlobalData.GetInstance().AllUsers.IndexOf(User);
+            for (int i = IndexOfUser; i < GlobalData.GetInstance().AllUsers.Count - 1; i ++)
             {
-                if (User != tableUser) AvailableUsers.Add(new NotificationAvatarViewModel(tableUser));
+                TableUser CurrentUser = GlobalData.GetInstance().AllUsers[i + 1];
+                AvailableUsers.Add(new NotificationAvatarViewModel(CurrentUser));
+            }
+            for (int i = 0; i < IndexOfUser; i++)
+            {
+                TableUser CurrentUser = GlobalData.GetInstance().AllUsers[i];
+                AvailableUsers.Add(new NotificationAvatarViewModel(CurrentUser));
             }
         }
 
