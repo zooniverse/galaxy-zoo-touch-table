@@ -16,6 +16,9 @@ namespace GalaxyZooTouchTable.Lib
             _container.RegisterType<IGraphQLService, GraphQLService>(
                 new ContainerControlledLifetimeManager());
 
+            _container.RegisterType<ILocalDBService, LocalDBService>(
+                new ContainerControlledLifetimeManager());
+
             _container.RegisterType<IClassificationPanelViewModelFactory, ClassificationPanelViewModelFactory>(
                 new ContainerControlledLifetimeManager());
         }

@@ -5,41 +5,42 @@ namespace GalaxyZooTouchTable.Models
 {
     public class TableSubject
     {
+        SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public double RightAscension { get; set; }
         public double Declination { get; set; }
         public string SubjectLocation { get; set; }
-        private readonly double PlateScale = 1.5;
-        private readonly double Offset = 0.03;
+        private readonly double WidenedPlateScale = 1.75;
         public Subject Subject { get; set; }
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
+        public string Location { get; set; }
+        public string Id { get; set; }
 
-        public TableSubject(Subject subject, double TableRA = 0, double TableDEC = 0)
+        public TableSubject(string id, string location, double ra, double dec, SpaceNavigation currentLocation = null)
         {
-            if (subject.Metadata != null)
-            {
-                RightAscension = System.Convert.ToDouble(subject.Metadata.ra);
-                Declination = System.Convert.ToDouble(subject.Metadata.dec);
-            }
-            Subject = subject;
-            SubjectLocation = subject.GetSubjectLocation();
-            XYConvert(TableRA, TableDEC);
-
+            CurrentLocation = currentLocation;
             GalaxyRings.Add(new GalaxyRing());
+
+            Id = id;
+            Location = location;
+            RightAscension = ra;
+            Declination = dec;
+            SubjectLocation = location;
+            if (currentLocation != null) XYConvert();
         }
 
-        private void XYConvert(double CenterRightAscension, double CenterDeclination)
+        private void XYConvert()
         {
             int CutoutWidth = 1248; 
             int CutoutHeight = 432;
             const int ArcDegreeInSeconds = 3600;
 
-            double DecRange = CutoutHeight * PlateScale / ArcDegreeInSeconds;
-            double RaRange = System.Math.Abs(CutoutWidth * PlateScale / ArcDegreeInSeconds / System.Math.Cos(CenterDeclination));
+            double DecRange = CutoutHeight * WidenedPlateScale / ArcDegreeInSeconds;
+            double RaRange = (CutoutWidth * WidenedPlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos(ToRadians(CurrentLocation.Center.Declination)));
 
-            double StartY = ((CenterDeclination - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
-            double StartX = ((CenterRightAscension - RightAscension) / (RaRange + Offset) * CutoutWidth) + (CutoutWidth / 2);
+            double StartY = ((CurrentLocation.Center.Declination - Declination) / DecRange * CutoutHeight) + (CutoutHeight / 2);
+            double StartX = System.Math.Abs(((CurrentLocation.Center.RightAscension - RightAscension) / RaRange * CutoutWidth) + (CutoutWidth / 2));
 
             Y = System.Convert.ToInt32(StartY);
             X = System.Convert.ToInt32(StartX);

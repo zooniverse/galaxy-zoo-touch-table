@@ -17,29 +17,22 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private ClassificationPanelViewModel _viewModel { get; set; }
         private Mock<IPanoptesService> _panoptesServiceMock = new Mock<IPanoptesService>();
         private Mock<IGraphQLService> _graphQLServiceMock = new Mock<IGraphQLService>();
+        private Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
 
         public ClassificationPanelViewModelTests()
         {
             _panoptesServiceMock.Setup(dp => dp.GetWorkflowAsync("1"))
                 .ReturnsAsync(PanoptesServiceMockData.Workflow("1"));
-
-            _panoptesServiceMock.Setup(dp => dp.GetSubjectAsync("1"))
-                .ReturnsAsync(PanoptesServiceMockData.Subject());
-
-            NameValueCollection query = new NameValueCollection
-                {
-                    { "workflow_id", "1" }
-                };
-            _panoptesServiceMock.Setup(dp => dp.GetSubjectsAsync("queued", query))
-                .ReturnsAsync(PanoptesServiceMockData.Subjects());
-
             _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(new Classification()))
                 .Returns(Task.CompletedTask);
 
-            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), new Subject()))
+            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), PanoptesServiceMockData.TableSubject()))
                 .ReturnsAsync(GraphQLServiceMockData.GraphQLResponse());
 
-            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, new StarUser());
+            _localDBServiceMock.Setup(dp => dp.GetLocalSubject("1")).Returns(PanoptesServiceMockData.TableSubject());
+            _localDBServiceMock.Setup(dp => dp.GetQueuedSubjects()).Returns(PanoptesServiceMockData.TableSubjects());
+
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, _localDBServiceMock.Object, new StarUser());
         }
 
         [Fact]
@@ -72,7 +65,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
             _viewModel.OnGetSubjectById("1");
-            _panoptesServiceMock.Verify(vm => vm.GetSubjectAsync("1"), Times.Once);
+            _localDBServiceMock.Verify(vm => vm.GetLocalSubject("1"), Times.Once);
             _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
@@ -123,7 +116,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 {
                     { "workflow_id", "1" }
                 };
-            _panoptesServiceMock.Verify(vm => vm.GetSubjectsAsync("queued", query), Times.Once);
+            _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Once);
             _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
@@ -157,7 +150,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 {
                     { "workflow_id", "1" }
                 };
-            _panoptesServiceMock.Verify(vm => vm.GetSubjectsAsync("queued", query), Times.Exactly(2));
+            _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Exactly(2));
         }
 
         [Fact]
@@ -185,16 +178,16 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private async void ShouldCreateANewClassification()
         {
             await _viewModel.GetWorkflow();
-            var TestSubject = PanoptesServiceMockData.Subject();
+            var Subject = PanoptesServiceMockData.TableSubject();
 
-            _viewModel.StartNewClassification(TestSubject);
+            _viewModel.StartNewClassification(Subject);
             Assert.Null(_viewModel.CurrentAnnotation);
             Assert.Null(_viewModel.SelectedAnswer);
             Assert.NotNull(_viewModel.CurrentClassification);
         }
 
         [Fact]
-        private void ShouldTheResetAnswerCount()
+        private void ShouldResetAnswerCount()
         {
             List<TaskAnswer> Answers = PanoptesServiceMockData.TaskAnswerList();
             _viewModel.CurrentAnswers = _viewModel.ParseTaskAnswers(Answers);

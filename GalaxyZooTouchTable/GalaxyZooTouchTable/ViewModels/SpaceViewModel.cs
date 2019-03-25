@@ -1,25 +1,48 @@
-﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
-using PanoptesNetClient.Models;
+using GalaxyZooTouchTable.Utility;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : ViewModelBase
     {
-        private IPanoptesService _panoptesService;
-        public double RA { get; set; } = 250.3035;
-        public double DEC { get; set; } = 35.09;
-        public double SCALE { get; set; } = 1.5;
+        private ILocalDBService _localDBService;
+        private double RaRange { get; set; }
+        private double DecRange { get; set; }
+        public SpaceNavigation CurrentLocation { get; set; }
+
+        public ICommand MoveViewNorth { get; private set; }
+        public ICommand MoveViewEast { get; private set; }
+        public ICommand MoveViewSouth { get; private set; }
+        public ICommand MoveViewWest { get; private set; }
+        public ICommand HideError { get; private set; }
+
+        private bool _showError = false;
+        public bool ShowError
+        {
+            get => _showError;
+            set => SetProperty(ref _showError, value);
+        }
+
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
 
         private List<TableSubject> _currentGalaxies = new List<TableSubject>();
         public List<TableSubject> CurrentGalaxies
         {
             get => _currentGalaxies;
-            set => SetProperty(ref _currentGalaxies, value);
+            set 
+            {
+                SpaceCutoutUrl = UpdateSpaceCutout();
+                SetProperty(ref _currentGalaxies, value);
+            }
         }
 
         private string _spaceCutoutUrl;
@@ -29,18 +52,24 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _spaceCutoutUrl, value);
         }
 
-        public SpaceViewModel(IPanoptesService panoptesService)
+        public SpaceViewModel(ILocalDBService localDBService)
         {
-            _panoptesService = panoptesService;
-            PrepareForNewPosition();
+            _localDBService = localDBService;
+
+            SpacePoint StartingLocation = _localDBService.GetRandomPoint();
+            CurrentLocation = new SpaceNavigation(StartingLocation);
+
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
+            Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
         }
 
         private void OnGalaxyInteraction(ClassificationRingNotifier RingNotifier)
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                if (RingNotifier.SubjectId == SpaceViewGalaxy.Subject.Id)
+                if (RingNotifier.SubjectId == SpaceViewGalaxy.Id)
                 {
                     switch (RingNotifier.Status)
                     {
@@ -56,36 +85,91 @@ namespace GalaxyZooTouchTable.ViewModels
                         default:
                             break;
                     }
-                } else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
+                }
+                else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
                 {
                     SpaceViewGalaxy.RemoveRing(RingNotifier.User);
                 }
             }
         }
-        
-        private void GetSpaceCutout()
+
+        private void LoadCommands()
         {
-            SpaceCutoutUrl = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={RA}&dec={DEC}&width=1248&height=432&scale={SCALE}";
+            MoveViewNorth = new CustomCommand(OnMoveViewNorth);
+            MoveViewEast = new CustomCommand(OnMoveViewEast);
+            MoveViewSouth = new CustomCommand(OnMoveViewSouth);
+            MoveViewWest = new CustomCommand(OnMoveViewWest);
+            HideError = new CustomCommand(OnHideError);
         }
 
-        private async void PrepareForNewPosition()
+        private void OnHideError(object obj)
         {
-            GetSpaceCutout();
-            await GetSubjectsAsync();
+            ShowError = false;
         }
 
-        private async Task GetSubjectsAsync()
+        private void OnShowError(string message)
         {
-            NameValueCollection query = new NameValueCollection();
-            query.Add("workflow_id", Config.WorkflowId);
-            query.Add("page_size", "25");
+            ShowError = true;
+            ErrorMessage = message;
+        }
 
-            var GalaxyList = await _panoptesService.GetSubjectsAsync("queued", query);
-            foreach (Subject subject in GalaxyList)
+        private void OnMoveViewWest(object obj)
+        {
+            CurrentLocation.MoveWest();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
+
+            if (CurrentGalaxies.Count == 0)
             {
-                TableSubject Galaxy = new TableSubject(subject, RA, DEC);
-                CurrentGalaxies.Add(Galaxy);
+                CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
+        }
+
+        private void OnMoveViewSouth(object obj)
+        {
+            CurrentLocation.MoveSouth();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
+            }
+        }
+
+        private void OnMoveViewEast(object obj)
+        {
+            CurrentLocation.MoveEast();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
+            }
+        }
+
+        private void OnMoveViewNorth(object obj)
+        {
+            CurrentLocation.MoveNorth();
+            CurrentGalaxies = FindGalaxiesAtNewBounds();
+
+            if (CurrentGalaxies.Count == 0)
+            {
+                CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
+                CurrentGalaxies = FindGalaxiesAtNewBounds();
+            }
+        }
+
+        private string UpdateSpaceCutout()
+        {
+            double WidenedPlateScale = 1.75;
+            return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&width=1248&height=432&scale={WidenedPlateScale}";
+        }
+
+        private List<TableSubject> FindGalaxiesAtNewBounds()
+        {
+            return _localDBService.GetLocalSubjects(CurrentLocation);
         }
     }
 }

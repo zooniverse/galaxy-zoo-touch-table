@@ -18,11 +18,13 @@ namespace GalaxyZooTouchTable.ViewModels
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
         private TableSubject CurrentGalaxy { get; set; }
+        private ILocalDBService _localDBService;
+
         private string CurrentTaskIndex { get; set; }
         private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
 
         public Classification CurrentClassification { get; set; } = new Classification();
-        public Subject CurrentSubject { get; set; }
+        public TableSubject CurrentSubject { get; set; }
         public Workflow Workflow { get; set; }
         public TableUser User { get; set; }
 
@@ -33,7 +35,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
-        public List<Subject> Subjects { get; set; } = new List<Subject>();
+        public List<TableSubject> Subjects { get; set; } = new List<TableSubject>();
 
         public NotificationsViewModel Notifications { get; private set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
@@ -139,10 +141,11 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _allowSelection, value);
         }
 
-        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, ILocalDBService localDBService, TableUser user)
         {
             _panoptesService = panoptesService;
             _graphQLService = graphQLService;
+            _localDBService = localDBService;
             User = user;
 
             ExamplesViewModel = new ExamplesPanelViewModel();
@@ -208,11 +211,11 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectedAnswer = Button;
         }
 
-        public async void OnGetSubjectById(string subjectID)
+        public void OnGetSubjectById(string subjectID)
         {
             NotifySpaceView(RingNotifierStatus.IsHelping);
             TotalVotes = 0;
-            Subject newSubject = await _panoptesService.GetSubjectAsync(subjectID);
+            TableSubject newSubject = _localDBService.GetLocalSubject(subjectID);
             Subjects.Insert(0, newSubject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
@@ -343,7 +346,7 @@ namespace GalaxyZooTouchTable.ViewModels
             return renderedAnswers;
         }
 
-        public void StartNewClassification(Subject subject)
+        public void StartNewClassification(TableSubject subject)
         {
             CurrentClassification = new Classification();
             CurrentClassification.Metadata.WorkflowVersion = Workflow.Version;
@@ -359,7 +362,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        public async void GetSubjectQueue()
+        public void GetSubjectQueue()
         {
             if (Subjects.Count <= 0)
             {
@@ -367,7 +370,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     { "workflow_id", Config.WorkflowId }
                 };
-                Subjects = await _panoptesService.GetSubjectsAsync("queued", query);
+                Subjects = _localDBService.GetQueuedSubjects();
             }
             if (Subjects.Count > 0)
             {
@@ -375,9 +378,9 @@ namespace GalaxyZooTouchTable.ViewModels
                 StartNewClassification(CurrentSubject);
                 Subjects.RemoveAt(0);
 
-                if (CurrentSubject != null && CurrentSubject.Locations != null)
+                if (CurrentSubject != null && CurrentSubject.Location != null)
                 {
-                    SubjectImageSource = CurrentSubject.GetSubjectLocation();
+                    SubjectImageSource = CurrentSubject.Location;
                     GetSubjectReductions();
                 }
             }
@@ -386,7 +389,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void DropSubject(TableSubject subject)
         {
             TotalVotes = 0;
-            Subjects.Insert(0, subject.Subject);
+            Subjects.Insert(0, subject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
             NotifySpaceView(RingNotifierStatus.IsCreating);

@@ -1,5 +1,4 @@
 ﻿using GalaxyZooTouchTable.Models;
-using Newtonsoft.Json.Linq;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 
@@ -25,6 +24,11 @@ namespace GalaxyZooTouchTable.Tests.Mock
             return TaskAnswers;
         }
 
+        public static TableSubject TableSubject()
+        {
+            return new TableSubject("1", "www.fakewebsite.com", 22.22, 33.33);
+        }
+
         public static Workflow Workflow(string id = null)
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>()
@@ -47,19 +51,6 @@ namespace GalaxyZooTouchTable.Tests.Mock
             };
         }
 
-        public static Subject Subject()
-        {
-            List<dynamic> mockLocation = new List<dynamic>()
-                {
-                    new JArray()
-                };
-            return new Subject()
-            {
-                Id = "1",
-                Locations = mockLocation
-            };
-        }
-
         public static AnswerButton AnswerButton()
         {
             TaskAnswer Answer = new TaskAnswer();
@@ -68,10 +59,10 @@ namespace GalaxyZooTouchTable.Tests.Mock
             return new AnswerButton(Answer, 1);
         }
 
-        public static List<Subject> Subjects()
+        public static List<TableSubject> TableSubjects()
         {
-            List<Subject> subjectList = new List<Subject>();
-            subjectList.Add(Subject());
+            List<TableSubject> subjectList = new List<TableSubject>();
+            subjectList.Add(TableSubject());
             return subjectList;
         }
     }

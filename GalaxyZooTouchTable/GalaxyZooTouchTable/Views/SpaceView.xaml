@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:views="clr-namespace:GalaxyZooTouchTable.Views"
              mc:Ignorable="d" 
              Height="432"
@@ -27,6 +29,15 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Text" Value="Move map"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="ErrorPanel" TargetType="{x:Type StackPanel}">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ShowError}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
@@ -53,6 +64,9 @@
         </ItemsControl>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewNorth}"/>
+            </i:Interaction.Behaviors>
             <Border.LayoutTransform>
                 <RotateTransform Angle="180"/>
             </Border.LayoutTransform>
@@ -60,6 +74,9 @@
         </Border>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewEast}"/>
+            </i:Interaction.Behaviors>
             <Border.LayoutTransform>
                 <RotateTransform Angle="-90"/>
             </Border.LayoutTransform>
@@ -67,6 +84,9 @@
         </Border>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewWest}"/>
+            </i:Interaction.Behaviors>
             <Border.LayoutTransform>
                 <RotateTransform Angle="90"/>
             </Border.LayoutTransform>
@@ -74,7 +94,14 @@
         </Border>
 
         <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <i:Interaction.Behaviors>
+                <Behaviors:TapBehavior Command="{Binding MoveViewSouth}"/>
+            </i:Interaction.Behaviors>
             <TextBlock Style="{StaticResource MoveMapText}"/>
         </Border>
+        <StackPanel Style="{StaticResource ErrorPanel}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
+            <Button Content="X" Command="{Binding HideError}" Foreground="White" Background="Transparent" Margin="5,0" BorderThickness="0"/>
+        </StackPanel>
     </Grid>
 </UserControl>

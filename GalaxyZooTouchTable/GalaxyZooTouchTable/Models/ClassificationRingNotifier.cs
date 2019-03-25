@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.Models
         public string SubjectId { get; private set; }
         public RingNotifierStatus Status { get; set; }
 
-        public ClassificationRingNotifier(Subject subject, TableUser user, RingNotifierStatus status)
+        public ClassificationRingNotifier(TableSubject subject, TableUser user, RingNotifierStatus status)
         {
             SubjectId = subject != null ? subject.Id : null;
             Status = status;

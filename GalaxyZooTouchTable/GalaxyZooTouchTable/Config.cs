@@ -8,6 +8,7 @@ namespace GalaxyZooTouchTable
         public static string WorkflowId;
         public static string ProjectId;
         public static string CaesarHost;
+        public static string DatabaseName;
 
         static Config()
         {
@@ -15,6 +16,7 @@ namespace GalaxyZooTouchTable
             WorkflowId = appSettings["WorkflowId"];
             ProjectId = appSettings["ProjectId"];
             CaesarHost = appSettings["CaesarHost"];
+            DatabaseName = appSettings["DatabaseName"];
         }
     }
 }
