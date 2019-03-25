@@ -19,7 +19,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldInitializeWithDefaultValues()
+        void ShouldInitializeWithDefaultValues()
         {
             Assert.False(_viewModel.NotifierIsOpen);
             Assert.False(_viewModel.NotifierIsOpen);
@@ -63,7 +63,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.NotifyUser.Execute(HeartUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
-            Assert.Equal("has already classified that galaxy", _viewModel.Overlay.MessageTwo);
+            Assert.Equal("has already classified that galaxy.", _viewModel.Overlay.MessageTwo);
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.NotifyUser.Execute(HeartUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
-            Assert.Equal("is busy working with another user", _viewModel.Overlay.MessageTwo);
+            Assert.Equal("is busy working with another user.", _viewModel.Overlay.MessageTwo);
         }
 
         [Fact]
@@ -97,7 +97,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
             _viewModel.NotifyUser.Execute(PersonUser);
             Assert.NotNull(_viewModel.Overlay);
-            Assert.Equal("You must respond to your current help request", _viewModel.Overlay.MessageOne);
+            Assert.Equal("You must respond to your current help request.", _viewModel.Overlay.MessageOne);
         }
 
         [Fact]
@@ -112,78 +112,101 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.NotifyUser.Execute(HeartUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry, you have already asked", _viewModel.Overlay.MessageOne);
-            Assert.Equal("for help", _viewModel.Overlay.MessageTwo);
+            Assert.Equal("for help.", _viewModel.Overlay.MessageTwo);
         }
 
-        //[Fact]
-        //public void ShouldDeclineNotifications()
-        //{
-        //    TableUser HeartUser = new HeartUser();
-        //    _viewModel.CooperatingPeer = HeartUser;
+        [Fact]
+        void ShouldClearRequestsWhenDecliningGalaxies()
+        {
+            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp);
+            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Assert.NotNull(_viewModel.NotificationPanel);
+            _viewModel.DeclineGalaxy.Execute(null);
+            Assert.Empty(_viewModel.PendingRequests);
+            Assert.Null(_viewModel.NotificationPanel);
+        }
 
-        //    _viewModel.DeclineGalaxy.Execute(null);
-        //    Assert.Null(_viewModel.CooperatingPeer);
-        //    Assert.False(_viewModel.NotifierIsOpen);
-        //    Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
-        //}
+        [Fact]
+        void ShouldClearOverlay()
+        {
+            NotificationOverlay TestOverlay = new NotificationOverlay("Message One", "Message Two");
+            _viewModel.Overlay = TestOverlay;
+            _viewModel.ClearOverlay.Execute(null);
+        }
 
-        //[Fact]
-        //public void ShouldNotifyUser()
-        //{
-        //    TableUser HeartUser = new HeartUser();
-        //    var SendRequestToUserCalled = false;
-        //    _viewModel.SendRequestToUser += (s) => SendRequestToUserCalled = true;
-        //    _viewModel.NotifyUser.Execute(HeartUser);
+        [Fact]
+        void ShouldAcceptRequestForHelp()
+        {
+            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp, "1");
+            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Assert.NotNull(_viewModel.NotificationPanel);
+            _viewModel.AcceptGalaxy.Execute(null);
+            Assert.Equal(_viewModel.UserHelping, HeartUser);
+            Assert.Null(_viewModel.NotificationPanel);
+        }
 
-        //    Assert.True(SendRequestToUserCalled);
-        //    Assert.Equal(HeartUser, _viewModel.CooperatingPeer);
-        //    Assert.False(_viewModel.NotifierIsOpen);
-        //    Assert.Equal(NotificationStatus.HelpRequestSent, _viewModel.User.Status);
-        //}
+        [Fact]
+        void ShouldWarnAcceptingInviteClearsGalaxy()
+        {
+            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp, "1");
+            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Assert.NotNull(_viewModel.NotificationPanel);
+            _viewModel.AcceptGalaxy.Execute(null);
+            Assert.NotNull(_viewModel.NotificationPanel);
+            Assert.Equal(NotificationPanelStatus.ShowWarning, _viewModel.NotificationPanel.Status);
+            _viewModel.AcceptGalaxy.Execute(null);
+            Assert.Null(_viewModel.NotificationPanel);
+        }
 
-        //[Fact]
-        //public void ShouldClearNotifications()
-        //{
-        //    _viewModel.ClearNotifications();
+        [Fact]
+        void ShouldToggleNotification()
+        {
+            _viewModel.NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowRequest);
+            Assert.True(_viewModel.NotifierIsOpen);
+            _viewModel.ToggleNotifier.Execute(null);
+            Assert.False(_viewModel.NotifierIsOpen);
+        }
 
-        //    Assert.Null(_viewModel.CooperatingPeer);
-        //    Assert.False(_viewModel.NotifierIsOpen);
-        //    Assert.Null(_viewModel.SuggestedAnswer);
-        //    Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
-        //}
+        [Fact]
+        void ShouldSetNotificationsWhenNewSubjectReceived()
+        {
+            _viewModel.Overlay = new NotificationOverlay("This is a new overlay");
+            _viewModel.NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer);
+            _viewModel.UserHelping = HeartUser;
+            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.Subject());
+            Assert.Null(_viewModel.UserHelping);
+            Assert.Null(_viewModel.Overlay);
+            Assert.Null(_viewModel.NotificationPanel);
+        }
 
-        //[Fact]
-        //public void ShouldToggleNotificationWhenAnswerGiven()
-        //{
-        //    GlobalData.GetInstance().StarUser.Status = NotificationStatus.AnswerGiven;
-        //    _viewModel.ToggleButtonNotification.Execute(null);
-        //    Assert.False(_viewModel.HideButtonNotification);
-        //    Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
-        //}
+        [Fact]
+        void ShouldNotifyWhenUserIsLeaving()
+        {
+            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp);
+            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            HelpNotification LeavingNotification = new HelpNotification(HeartUser, HelpNotificationStatus.Leaving);
+            Messenger.Default.Send(LeavingNotification, "UserLeaving");
+            Assert.NotNull(_viewModel.Overlay);
+            Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
+            Assert.Equal("has left the table.", _viewModel.Overlay.MessageTwo);
+        }
 
-        //[Fact]
-        //public void ShouldToggleNotificationWhenPeerHasLeft()
-        //{
-        //    Assert.False(_viewModel.HideButtonNotification);
-        //    GlobalData.GetInstance().StarUser.Status = NotificationStatus.PeerHasLeft;
-        //    _viewModel.ToggleButtonNotification.Execute(null);
-        //    Assert.True(_viewModel.HideButtonNotification);
-        //}
-
-        //[Fact]
-        //public void ShouldToggleNotifier()
-        //{
-        //    Assert.False(_viewModel.NotifierIsOpen);
-        //    _viewModel.ToggleNotifier.Execute(null);
-        //    Assert.True(_viewModel.NotifierIsOpen);
-        //}
-
-        //[Fact]
-        //public void ShouldSendAnswerToUser()
-        //{
-        //    _viewModel.CooperatingPeer = new HeartUser();
-        //    _viewModel.SendAnswerToUser(null);
-        //    Assert.Equal(NotificationStatus.Idle, _viewModel.User.Status);
-        //}
+        [Fact]
+        void NotifyWhenUserHasAnswered()
+        {
+            NotificationsViewModel HeartNotifier = new NotificationsViewModel(HeartUser);
+            HeartUser.Active = true;
+            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.Subject());
+            _viewModel.NotifyUser.Execute(HeartUser);
+            HeartNotifier.AcceptGalaxy.Execute(null);
+            HeartNotifier.HandleAnswer(PanoptesServiceMockData.CompletedClassification());
+            Assert.NotNull(_viewModel.Overlay);
+            Assert.Equal("Check it out,", _viewModel.Overlay.MessageOne);
+            Assert.Equal("made a classification!", _viewModel.Overlay.MessageTwo);
+            Assert.NotNull(_viewModel.NotificationPanel);
+            Assert.Equal(NotificationPanelStatus.ShowAnswer, _viewModel.NotificationPanel.Status);
+        }
     }
 }

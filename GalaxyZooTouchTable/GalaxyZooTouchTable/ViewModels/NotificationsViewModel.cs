@@ -22,11 +22,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<NotificationAvatarViewModel> AvailableUsers { get; private set; } = new List<NotificationAvatarViewModel>();
         public event Action<ClassifierViewEnum> ChangeView = delegate { };
         public event Action<string> GetSubjectById = delegate { };
+        public ObservableCollection<PendingRequest> PendingRequests { get; set; } = new ObservableCollection<PendingRequest>(); 
         public TableUser User { get; set; }
 
         string CurrentSubjectId { get; set; }
         bool CurrentlyClassifying { get; set; }
-        ObservableCollection<PendingRequest> PendingRequests { get; set; } = new ObservableCollection<PendingRequest>(); 
         ObservableCollection<TableUser> UsersAlreadyAsked { get; set; } = new ObservableCollection<TableUser>();
 
         private TableUser _userHelping;
@@ -176,7 +176,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PendingRequest Request = PendingRequests.SingleOrDefault(x => x.CooperatingPeer == notification.SentBy);
             if (Request != null)
             {
-                Overlay = new NotificationOverlay("Sorry,", "has left the table", notification.SentBy.Avatar);
+                Overlay = new NotificationOverlay("Sorry,", "has left the table.", notification.SentBy.Avatar);
                 PendingRequests.Remove(Request);
             }
             UsersAlreadyAsked.Remove(notification.SentBy);
@@ -190,11 +190,12 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        void ResetNotifications(bool resetRequests = true)
+        void ResetNotifications(bool hardReset = true)
         {
-            NotificationPanel = null;
+            if (hardReset || !(NotificationPanel != null && NotificationPanel.Status == NotificationPanelStatus.ShowRequest))
+                NotificationPanel = null;
             Overlay = null;
-            if (resetRequests) PendingRequests.Clear();
+            if (hardReset) PendingRequests.Clear();
             UsersAlreadyAsked.Clear();
             UserHelping = null;
         }
@@ -251,7 +252,7 @@ namespace GalaxyZooTouchTable.ViewModels
             bool AlreadyAsked = UsersAlreadyAsked.Any(x => x == userToNotify);
             if (AlreadyAsked)
             {
-                Overlay = new NotificationOverlay("Sorry, you have already asked", "for help", userToNotify.Avatar);
+                Overlay = new NotificationOverlay("Sorry, you have already asked", "for help.", userToNotify.Avatar);
             }
             return AlreadyAsked;
         }
@@ -262,7 +263,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CompletedClassification FinishedClassification = UserToQuestion.HasAlreadyClassified(CurrentSubjectId);
             if (FinishedClassification != null)
             {
-                Overlay = new NotificationOverlay("Sorry,", "has already classified that galaxy", userToNotify.Avatar);
+                Overlay = new NotificationOverlay("Sorry,", "has already classified that galaxy.", userToNotify.Avatar);
                 NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer, userToNotify.Avatar, FinishedClassification.Answer);
             }
             return FinishedClassification != null;
@@ -272,7 +273,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (userToNotify.Busy)
             {
-                Overlay = new NotificationOverlay("Sorry,", "is busy working with another user", userToNotify.Avatar);
+                Overlay = new NotificationOverlay("Sorry,", "is busy working with another user.", userToNotify.Avatar);
             }
             return userToNotify.Busy;
         }
@@ -282,7 +283,7 @@ namespace GalaxyZooTouchTable.ViewModels
             bool RequestIsPending = NotificationPanel != null && NotificationPanel.Status == NotificationPanelStatus.ShowRequest;
             if (RequestIsPending)
             {
-                Overlay = new NotificationOverlay("You must respond to your current help request");
+                Overlay = new NotificationOverlay("You must respond to your current help request.");
             }
             return RequestIsPending;
         }
@@ -326,8 +327,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void ReceivedNewSubject(TableSubject subject)
         {
-            bool ClearRequests = false;
-            ResetNotifications(ClearRequests);
+            bool HardReset = false;
+            ResetNotifications(HardReset);
             CurrentSubjectId = subject.Id;
         }
 
@@ -340,7 +341,8 @@ namespace GalaxyZooTouchTable.ViewModels
                 Messenger.Default.Send(Notification, $"{AwaitingRequest.CooperatingPeer.Name}_PostNotification");
                 PendingRequests.Remove(AwaitingRequest);
             }
-            ResetNotifications(false);
+            bool HardReset = false;
+            ResetNotifications(HardReset);
         }
 
         public void NotifyLeaving()
