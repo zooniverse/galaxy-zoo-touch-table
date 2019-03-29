@@ -57,7 +57,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             Messenger.Default.Send(PanoptesServiceMockData.CompletedClassification(), "HeartUser_AddCompletedClassification");
             HeartUser.Active = true;
-            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.Subject());
+            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
             NotificationAvatarViewModel HeartAvatar = _viewModel.AvailableUsers.Find(x => x.User.Name == "HeartUser");
             _viewModel.NotifyUser.Execute(HeartUser);
@@ -174,7 +174,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.Overlay = new NotificationOverlay("This is a new overlay");
             _viewModel.NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer);
             _viewModel.UserHelping = HeartUser;
-            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.Subject());
+            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
             Assert.Null(_viewModel.UserHelping);
             Assert.Null(_viewModel.Overlay);
             Assert.Null(_viewModel.NotificationPanel);
@@ -198,7 +198,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             NotificationsViewModel HeartNotifier = new NotificationsViewModel(HeartUser);
             HeartUser.Active = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.Subject());
+            _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
             _viewModel.NotifyUser.Execute(HeartUser);
             HeartNotifier.AcceptGalaxy.Execute(null);
             HeartNotifier.HandleAnswer(PanoptesServiceMockData.CompletedClassification());
