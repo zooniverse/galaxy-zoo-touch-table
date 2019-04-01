@@ -2,6 +2,7 @@ using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 
@@ -69,28 +70,31 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             foreach (TableSubject SpaceViewGalaxy in CurrentGalaxies)
             {
-                if (RingNotifier.SubjectId == SpaceViewGalaxy.Id)
+                if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
+                {
+                    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
+                } else if (RingNotifier.SubjectId == SpaceViewGalaxy.Id)
                 {
                     switch (RingNotifier.Status)
                     {
                         case RingNotifierStatus.IsCreating:
+                            RemoveAllActiveRingsByUser(RingNotifier.User);
                             SpaceViewGalaxy.AddRing(RingNotifier.User);
                             break;
                         case RingNotifierStatus.IsSubmitting:
                             SpaceViewGalaxy.DimRing(RingNotifier.User);
                             break;
-                        case RingNotifierStatus.IsHelping:
-                            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
-                            break;
                         default:
                             break;
                     }
                 }
-                else if (RingNotifier.Status == RingNotifierStatus.IsLeaving)
-                {
-                    SpaceViewGalaxy.RemoveRing(RingNotifier.User);
-                }
             }
+        }
+
+        void RemoveAllActiveRingsByUser(TableUser user)
+        {
+            TableSubject Galaxy = CurrentGalaxies.Find(x => x.IsWorkingWithUser(user));
+            if (Galaxy != null) Galaxy.RemoveRing(user);
         }
 
         private void LoadCommands()

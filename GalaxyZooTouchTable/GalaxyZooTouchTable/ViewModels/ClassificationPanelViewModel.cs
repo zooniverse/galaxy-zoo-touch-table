@@ -222,7 +222,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void OnGetSubjectById(string subjectID)
         {
-            NotifySpaceView(RingNotifierStatus.IsHelping);
             TotalVotes = 0;
             TableSubject newSubject = _localDBService.GetLocalSubject(subjectID);
             Subjects.Insert(0, newSubject);
@@ -278,7 +277,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                //await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -298,7 +297,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void NotifySpaceView(RingNotifierStatus Status)
         {
             ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentSubject, User, Status);
-            Messenger.Default.Send<ClassificationRingNotifier>(Notification);
+            Messenger.Default.Send(Notification);
         }
 
         private void SetTimer()
@@ -385,6 +384,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void DropSubject(TableSubject subject)
         {
+            if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             TotalVotes = 0;
             Subjects.Insert(0, subject);
             GetSubjectQueue();
