@@ -1,13 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Input;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.Utility;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Models;
-using GalaxyZooTouchTable.Utility;
-using PanoptesNetClient.Models;
+using System.Linq;
+using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -178,6 +177,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 Overlay = new NotificationOverlay("Sorry,", "has left the table.", notification.SentBy.Avatar);
                 PendingRequests.Remove(Request);
+                NotificationPanel = null;
             }
             UsersAlreadyAsked.Remove(notification.SentBy);
         }
