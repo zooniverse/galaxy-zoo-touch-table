@@ -177,6 +177,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
+            Notifications.PropertyChanged += ResetStillThereModalTimer;
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
