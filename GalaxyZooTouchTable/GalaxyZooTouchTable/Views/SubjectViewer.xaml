@@ -113,12 +113,6 @@
 
         <Style x:Key="PeerAvatar" TargetType="{x:Type Image}">
             <Setter Property="Visibility" Value="Collapsed"/>
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpingUser}">
-                    <Setter Property="Visibility" Value="Visible"/>
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     
@@ -146,7 +140,7 @@
             Margin="123,155,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Source="{Binding Notifications.CooperatingPeer.Avatar}"/>
+            Source="{Binding Notifications.UserHelping.Avatar}"/>
 
         <ItemsControl
             Height="136"

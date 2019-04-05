@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <Style x:Key="ContentPanelBorder" TargetType="{x:Type Border}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=OpenNotifier}" Value="True">
+                <DataTrigger Binding="{Binding Path=NotifierIsOpen}" Value="True">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -33,9 +33,8 @@
 
         <Style x:Key="HelpRequested" TargetType="{x:Type Grid}">
             <Setter Property="Visibility" Value="Collapsed"/>
-
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
+                <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowRequest}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -43,29 +42,39 @@
 
         <Style x:Key="AnswerReceived" TargetType="{x:Type Grid}">
             <Setter Property="Visibility" Value="Collapsed"/>
-
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
+                <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowAnswer}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.Idle}">
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Warning" TargetType="{x:Type Grid}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=NotificationPanel.Status}" Value="{x:Static Lib:NotificationPanelStatus.ShowWarning}">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
 
         <Style x:Key="BellNotification" TargetType="{x:Type Border}">
-            <Setter Property="IsHitTestVisible" Value="False"/>
-            <Setter Property="Opacity" Value="0.5"/>
-
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.HelpRequestReceived}">
-                    <Setter Property="IsHitTestVisible" Value="True"/>
-                    <Setter Property="Opacity" Value="1"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=User.Status}" Value="{x:Static Lib:NotificationStatus.AnswerGiven}">
-                    <Setter Property="IsHitTestVisible" Value="True"/>
-                    <Setter Property="Opacity" Value="1"/>
+                <DataTrigger Binding="{Binding Path=NotificationPanel}" Value="{x:Null}">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation BeginTime="0:0:0.3" Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -84,6 +93,9 @@
             BorderThickness="3.5"
             BorderBrush="{StaticResource MedGrayColor}"
             CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="33.6" Height="30">
+            <Border.RenderTransform>
+                <TranslateTransform X="26"/>
+            </Border.RenderTransform>
             <i:Interaction.Behaviors>
                 <Behaviors:TapBehavior Command="{Binding ToggleNotifier}"/>
             </i:Interaction.Behaviors>
@@ -118,7 +130,7 @@
                         Margin="9.5,22.9,0,0"
                         Text="Good news!"/>
                     <Grid Margin="10.3,39,0,0" HorizontalAlignment="Left">
-                        <Image Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <Image Source="{Binding NotificationPanel.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             FontSize="8"
@@ -131,12 +143,63 @@
                             Margin="2,17,0,0">
                             <Run>galaxy you requested</Run><LineBreak/>
                             <Run>help with. They voted</Run><LineBreak/>
-                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding SuggestedAnswer}"/><LineBreak/>
+                            <Run Foreground="{StaticResource AttentionColor}" FontWeight="Bold" FontSize="10" Text="{Binding NotificationPanel.Answer, Mode=OneWay}"/><LineBreak/>
                             <Run>Still not sure?</Run><LineBreak/>
                             <Run>Ask them why they</Run><LineBreak/>
                             <Run>made this choice!</Run>
                         </TextBlock>
                     </Grid>
+                </Grid>
+
+                <Grid Margin="7.6,20,19.5,0" Style="{StaticResource Warning}">
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontWeight="Bold"
+                        FontSize="9"
+                        Margin="2.5,0,0,0"
+                        Text="Warning!"/>
+                    <TextBlock
+                        Style="{StaticResource WhiteFont}"
+                        FontSize="7.5"
+                        HorizontalAlignment="Left"
+                        Margin="2.5,12,0,0"
+                        Text="Accepting this invitation will clear the galaxy you're currently working on."
+                        TextWrapping="Wrap"
+                        Width="80"/>
+                    <Button
+                        Style="{StaticResource SubmitWithDownstate}"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="1"
+                        Margin="0,0,0,34"
+                        Height="19">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding AcceptGalaxy}"/>
+                        </i:Interaction.Behaviors>
+                        <TextBlock
+                            Text="Continue"
+                            FontSize="8"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
+                    </Button>
+
+                    <Button
+                        Style="{StaticResource TransparentWithDownstate}"
+                        Margin="0,0,0,10.5"
+                        VerticalAlignment="Bottom"
+                        Height="19">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:TapBehavior Command="{Binding DeclineGalaxy}"/>
+                        </i:Interaction.Behaviors>
+                        <TextBlock
+                            Style="{StaticResource WhiteFont}"
+                            Text="Decline galaxy"
+                            FontSize="8"
+                            FontWeight="Bold"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                    </Button>
                 </Grid>
 
                 <Grid Margin="7.6,20,19.5,0" Style="{StaticResource HelpRequested}">
@@ -145,7 +208,7 @@
                         FontWeight="Bold"
                         FontSize="9"
                         Text="Your help is needed!"/>
-                    <Image Margin="0,12,0,0" Source="{Binding CooperatingPeer.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Image Margin="0,12,0,0" Source="{Binding NotificationPanel.Avatar}" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBlock
                         Style="{StaticResource WhiteFont}"
                         FontSize="7.5"

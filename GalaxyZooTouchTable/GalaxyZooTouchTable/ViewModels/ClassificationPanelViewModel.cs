@@ -24,9 +24,9 @@ namespace GalaxyZooTouchTable.ViewModels
         private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
 
         public Classification CurrentClassification { get; set; } = new Classification();
-        public TableSubject CurrentSubject { get; set; }
         public Workflow Workflow { get; set; }
         public TableUser User { get; set; }
+        private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
 
         public int ClassificationsThisSession { get; set; } = 0;
         public ICommand ChooseAnotherGalaxy { get; set; }
@@ -36,6 +36,21 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
         public List<TableSubject> Subjects { get; set; } = new List<TableSubject>();
+
+        private TableSubject _currentSubject;
+        public TableSubject CurrentSubject
+        {
+            get => _currentSubject;
+            set
+            {
+                if (CurrentSubject != null)
+                {
+                    TableSubject NewSubject = value as TableSubject;
+                    Notifications.ReceivedNewSubject(NewSubject);
+                }
+                _currentSubject = value;
+            }
+        }
 
         public NotificationsViewModel Notifications { get; private set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
@@ -162,9 +177,9 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
+            Notifications.PropertyChanged += ResetStillThereModalTimer;
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
-            Notifications.SendRequestToUser += OnSendRequestToUser;
             StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
             StillThere.CloseClassificationPanel += OnCloseClassifier;
         }
@@ -173,12 +188,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             await GetWorkflow();
             PrepareForNewClassification();
-        }
-
-        private void OnSendRequestToUser(TableUser UserToNotify)
-        {
-            NotificationRequest Request = new NotificationRequest(User, CurrentSubject.Id);
-            Messenger.Default.Send<NotificationRequest>(Request, $"{UserToNotify.Name}_ReceivedNotification");
         }
 
         public async Task GetWorkflow()
@@ -233,16 +242,16 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             SubjectView = SubjectViewEnum.DragSubject;
-            bool UserIsLeaving = true;
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();
             PrepareForNewClassification();
-            Notifications.ClearNotifications(UserIsLeaving);
+            Notifications.NotifyLeaving();
 
             ClassifierOpen = false;
             CloseConfirmationVisible = false;
             User.Active = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
+            CompletedClassifications.Clear();
         }
 
         private void PrepareForNewClassification()
@@ -275,7 +284,10 @@ namespace GalaxyZooTouchTable.ViewModels
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
                 OnChangeView(ClassifierViewEnum.SummaryView);
-                HandleNotificationsOnSubmit();
+                CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
+                CompletedClassifications.Add(FinishedClassification);
+                Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
+                Notifications.HandleAnswer(FinishedClassification);
             }
             else
             {
@@ -287,21 +299,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentSubject, User, Status);
             Messenger.Default.Send<ClassificationRingNotifier>(Notification);
-        }
-
-        private void HandleNotificationsOnSubmit()
-        {
-            if (User.Status == NotificationStatus.HelpingUser)
-            {
-                Notifications.SendAnswerToUser(SelectedAnswer);
-            }
-
-            if (User.Status != NotificationStatus.HelpRequestReceived &&
-                User.Status != NotificationStatus.HelpRequestSent &&
-                User.Status != NotificationStatus.AcceptedHelp)
-            {
-                Notifications.ClearNotifications();
-            }
         }
 
         private void SetTimer()

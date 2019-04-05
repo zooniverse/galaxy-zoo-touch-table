@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>23</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -208,17 +208,22 @@
     <Compile Include="Lib\ContainerHelper.cs" />
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
-    <Compile Include="Lib\NotificationStatus.cs" />
+    <Compile Include="Lib\NotificationPanelStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\ClassificationRingNotifier.cs" />
+    <Compile Include="Models\CompletedClassification.cs" />
     <Compile Include="Models\GalaxyRing.cs" />
+    <Compile Include="Models\HelpNotification.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
     <Compile Include="Lib\SubjectViewEnum.cs" />
-    <Compile Include="Models\NotificationRequest.cs" />
+    <Compile Include="Models\NotificationAvatar.cs" />
+    <Compile Include="Models\NotificationOverlay.cs" />
+    <Compile Include="Models\NotificationPanel.cs" />
     <Compile Include="Models\SpaceNavigation.cs" />
     <Compile Include="Models\SpacePoint.cs" />
+    <Compile Include="Models\PendingRequest.cs" />
     <Compile Include="Services\GraphQLService.cs" />
     <Compile Include="Services\IGraphQLService.cs" />
     <Compile Include="Services\ILocalDBService.cs" />
@@ -226,14 +231,15 @@
     <Compile Include="Services\LocalDBService.cs" />
     <Compile Include="Services\PanoptesService.cs" />
     <Compile Include="ViewModels\CenterpieceViewModel.cs" />
+    <Compile Include="ViewModels\NotificationAvatarViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="Models\CircularProgress.cs" />
     <Compile Include="ViewModels\LevelerViewModel.cs" />
-    <Compile Include="Views\AskAFriendButtons.xaml.cs">
-      <DependentUpon>AskAFriendButtons.xaml</DependentUpon>
+    <Compile Include="Views\NotificationAvatarsView.xaml.cs">
+      <DependentUpon>NotificationAvatarsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AskAFriendNotifier.xaml.cs">
-      <DependentUpon>AskAFriendNotifier.xaml</DependentUpon>
+    <Compile Include="Views\NotificationPanelView.xaml.cs">
+      <DependentUpon>NotificationPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\StillThereViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
@@ -358,11 +364,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\AskAFriendButtons.xaml">
+    <Page Include="Views\NotificationAvatarsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AskAFriendNotifier.xaml">
+    <Page Include="Views\NotificationPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

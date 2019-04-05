@@ -1,4 +1,6 @@
 ﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using Newtonsoft.Json.Linq;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 
@@ -64,6 +66,11 @@ namespace GalaxyZooTouchTable.Tests.Mock
             List<TableSubject> subjectList = new List<TableSubject>();
             subjectList.Add(TableSubject());
             return subjectList;
+        }
+
+        public static CompletedClassification CompletedClassification()
+        {
+            return new CompletedClassification(AnswerButton(), GlobalData.GetInstance().HeartUser, "1");
         }
     }
 }

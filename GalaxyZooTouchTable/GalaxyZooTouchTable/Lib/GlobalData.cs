@@ -32,10 +32,10 @@ namespace GalaxyZooTouchTable.Lib
         private void PopulateUsers()
         {
             AllUsers.Add(PersonUser);
+            AllUsers.Add(FaceUser);
             AllUsers.Add(LightUser);
             AllUsers.Add(StarUser);
             AllUsers.Add(HeartUser);
-            AllUsers.Add(FaceUser);
             AllUsers.Add(EarthUser);
         }
 
