@@ -4,9 +4,11 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using GraphQL.Common.Response;
 using PanoptesNetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -277,7 +279,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                //await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
@@ -384,12 +386,20 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void DropSubject(TableSubject subject)
         {
+            if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             TotalVotes = 0;
             Subjects.Insert(0, subject);
             GetSubjectQueue();
             SubjectView = SubjectViewEnum.MatchedSubject;
             NotifySpaceView(RingNotifierStatus.IsCreating);
+        }
+
+        private bool CheckAlreadyCompleted(TableSubject subject)
+        {
+            bool AlreadyCompleted = CompletedClassifications.Any(x => x.SubjectId == subject.Id);
+            if (AlreadyCompleted) Notifications.AlreadySeen();
+            return AlreadyCompleted;
         }
 
         public void ResetAnswerCount()

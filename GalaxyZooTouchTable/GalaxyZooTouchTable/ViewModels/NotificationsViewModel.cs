@@ -337,6 +337,11 @@ namespace GalaxyZooTouchTable.ViewModels
             NotifierIsOpen = !NotifierIsOpen;
         }
 
+        public void AlreadySeen()
+        {
+            Overlay = new NotificationOverlay("You have already classified this galaxy.");
+        }
+
         public void ReceivedNewSubject(TableSubject subject)
         {
             bool HardReset = false;
