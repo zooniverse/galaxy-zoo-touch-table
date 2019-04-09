@@ -41,7 +41,7 @@
         BorderThickness="0"
         Style="{StaticResource StartButtonStyle}">
         <i:Interaction.Behaviors>
-            <Behaviors:TapBehavior Command="{Binding OpenClassifier}" Handle="False"/>
+            <Behaviors:TapBehavior Command="{Binding OpenClassifier}"/>
         </i:Interaction.Behaviors>
         <Button.RenderTransform>
             <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource HidePanelConverter}, ConverterParameter='1'}"/>
