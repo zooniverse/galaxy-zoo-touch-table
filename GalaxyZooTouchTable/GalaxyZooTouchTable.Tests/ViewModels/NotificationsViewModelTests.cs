@@ -208,5 +208,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.NotNull(_viewModel.NotificationPanel);
             Assert.Equal(NotificationPanelStatus.ShowAnswer, _viewModel.NotificationPanel.Status);
         }
+
+        [Fact]
+        void ShouldNotifyAlreadyAnswered()
+        {
+            _viewModel.AlreadySeen();
+            Assert.NotNull(_viewModel.Overlay);
+            Assert.Equal("You have already classified this galaxy.", _viewModel.Overlay.MessageOne);
+        }
     }
 }
