@@ -17,5 +17,7 @@ namespace GalaxyZooTouchTable.Services
         SpacePoint FindNextDescendingDec(double decUpperBounds);
         SpacePoint GetPoint(string query);
         SpacePoint GetRandomPoint();
+
+        int IncrementClassificationCount(string subjectId);
     }
 }

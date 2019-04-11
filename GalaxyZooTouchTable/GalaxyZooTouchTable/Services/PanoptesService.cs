@@ -1,6 +1,5 @@
 ﻿using PanoptesNetClient;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
@@ -12,6 +11,12 @@ namespace GalaxyZooTouchTable.Services
     {
         ApiClient _panoptesClient = new ApiClient();
         List<Classification> QueuedClassifications { get; set; } = new List<Classification>();
+        LocalDBService _localDBService { get; set; }
+
+        public PanoptesService(LocalDBService dbService)
+        {
+            _localDBService = dbService;
+        }
 
         public async Task CreateClassificationAsync(Classification classification)
         {
@@ -26,8 +31,9 @@ namespace GalaxyZooTouchTable.Services
             {
                 try
                 {
-                    HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
-                    if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
+                    //HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
+                    //if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
+                    int newCount = _localDBService.IncrementClassificationCount(classification.Links.Subjects[0]);
                 }
                 catch (HttpRequestException error)
                 {

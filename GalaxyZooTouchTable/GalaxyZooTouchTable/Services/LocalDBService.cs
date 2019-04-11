@@ -18,6 +18,7 @@ namespace GalaxyZooTouchTable.Services
         string NextDescendingRaQuery(double bounds) { return $"select * from Subjects where ra < {bounds} order by ra desc limit 1"; }
         string NextAscendingDecQuery(double bounds) { return $"select * from Subjects where dec > {bounds} order by dec asc limit 1"; }
         string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
+        string IncrementClassificationCountQuery(int count, string id) { return $"update Subjects set classifications_count = {count} where subject_id = {id}"; }
 
         string SubjectsWithinBoundsQuery(SpaceNavigation location)
         {
@@ -123,6 +124,55 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
+        public int GetClassificationCount(string subjectId)
+        {
+            string query = SubjectByIdQuery(subjectId);
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
+            {
+                int count = 0;
+                try
+                {
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        count = reader.GetInt16(1); ;
+                    }
+
+                    connection.Close();
+                }
+                catch (SQLiteException exception)
+                {
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
+                }
+                return count;
+            }
+        }
+
+        public int IncrementClassificationCount(int count, string subjectId)
+        {
+            int newCount = count += 1;
+            string query = IncrementClassificationCountQuery(newCount, subjectId);
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
+            {
+                try
+                {
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                }
+                catch (SQLiteException exception)
+                {
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
+                }
+                return newCount;
+            }
+        }
+
         public SpacePoint GetRandomPoint()
         {
             return GetPoint(RandomSubjectQuery) ?? new SpacePoint(0,0);
@@ -146,6 +196,12 @@ namespace GalaxyZooTouchTable.Services
         public SpacePoint FindNextDescendingDec(double bounds)
         {
             return GetPoint(NextDescendingDecQuery(bounds)) ?? GetPoint(HighestDecQuery);
+        }
+
+        public int IncrementClassificationCount(string subjectId)
+        {
+            int count = GetClassificationCount(subjectId);
+            return IncrementClassificationCount(count, subjectId);
         }
     }
 }
