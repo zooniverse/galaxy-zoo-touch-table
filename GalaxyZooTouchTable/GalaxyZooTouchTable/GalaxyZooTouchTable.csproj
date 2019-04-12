@@ -335,6 +335,7 @@
     <Resource Include="Images\GalaxyExamples\star4.jpg" />
     <Resource Include="Images\GalaxyExamples\star5.jpg" />
     <Resource Include="Images\GalaxyExamples\star6.jpg" />
+    <Resource Include="Images\General\background.jpg" />
     <Resource Include="Images\General\zooniverse-logo.png" />
     <Resource Include="zooniverse_icon.ico" />
     <Resource Include="Images\General\Uwhite.png" />
