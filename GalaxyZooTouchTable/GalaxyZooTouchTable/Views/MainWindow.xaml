@@ -18,6 +18,14 @@
             <Grid Width="1920" Height="1080">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
             </Grid>
+
+            <Image Margin="40" Height="52" Width="124" Source="../Images/General/logo-badge.png">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.LayoutTransform>
+            </Image>
+            <Image Canvas.Right="40" Canvas.Bottom="40" HorizontalAlignment="Right" Height="52" Width="124" Source="../Images/General/logo-badge.png"/>
+
             <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="330"/>
 
             <local:UserConsole
@@ -25,24 +33,21 @@
                 DataContext="{Binding PersonUserVM}"
                 Style="{StaticResource PersonUser}"
                 Canvas.Left="333"
-                Canvas.Bottom="10"
-                VerticalAlignment="Bottom"/>
+                Canvas.Bottom="10"/>
 
             <local:UserConsole
                 x:Name="FaceUser"
                 DataContext="{Binding FaceUserVM}"
                 Style="{StaticResource FaceUser}"
                 Canvas.Left="1059"
-                Canvas.Bottom="10"
-                VerticalAlignment="Bottom"/>
+                Canvas.Bottom="10"/>
 
             <local:UserConsole
                 x:Name="HeartUser"
                 DataContext="{Binding HeartUserVM}"
                 Style="{StaticResource HeartUser}"
                 Canvas.Left="313"
-                Canvas.Top="10"
-                VerticalAlignment="Top">
+                Canvas.Top="10">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -53,8 +58,7 @@
                 DataContext="{Binding StarUserVM}"
                 Style="{StaticResource StarUser}"
                 Canvas.Left="1039"
-                Canvas.Top="10"
-                VerticalAlignment="Top">
+                Canvas.Top="10">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -65,8 +69,7 @@
                 DataContext="{Binding EarthUserVM}"
                 Style="{StaticResource EarthUser}"
                 Canvas.Left="10"
-                Canvas.Top="266"
-                HorizontalAlignment="Left">
+                Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </local:UserConsole.LayoutTransform>
