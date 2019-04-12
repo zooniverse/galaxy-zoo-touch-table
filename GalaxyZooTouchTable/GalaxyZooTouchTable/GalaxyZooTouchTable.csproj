@@ -362,6 +362,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Data\OfflineWorkflow.xml" />
     <Content Include="Fonts\Karla-Bold.ttf" />
     <Content Include="Fonts\Karla-BoldItalic.ttf" />
     <Content Include="Fonts\Karla-Italic.ttf" />

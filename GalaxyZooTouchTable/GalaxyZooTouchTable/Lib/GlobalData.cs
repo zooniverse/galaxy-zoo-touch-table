@@ -1,11 +1,12 @@
 ﻿using GalaxyZooTouchTable.Models;
-using System;
+using PanoptesNetClient.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace GalaxyZooTouchTable.Lib
 {
-    public class GlobalData : INotifyPropertyChanged
+    public class GlobalData
     {
         private static GlobalData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
@@ -15,10 +16,30 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser PinkUser = new PinkUser();
         public TableUser PeachUser = new PeachUser();
         public TableUser GreenUser = new GreenUser();
+        public Workflow OfflineWorkflow = new Workflow();
 
         protected GlobalData()
         {
             PopulateUsers();
+            PopulateOfflineWorkflow();
+        }
+
+        private void PopulateOfflineWorkflow()
+        {
+            OfflineWorkflow = new Workflow();
+            foreach (XElement element in XElement.Load("../../Data/OfflineWorkflow.xml").Elements("Workflow"))
+            {
+                List<TaskAnswer> answers = new List<TaskAnswer>();
+                OfflineWorkflow.Version = element.Element("version").Value;
+                OfflineWorkflow.FirstTask = element.Element("firstTask").Value;
+                var task = element.Element("tasks").Element("task");
+                foreach (XElement answer in task.Elements())
+                {
+                    answers.Add(new TaskAnswer(answer.Value));
+                }
+                WorkflowTask offlineTask = new WorkflowTask("Choose an Answer", answers);
+                OfflineWorkflow.Tasks.Add("T0", offlineTask);
+            }
         }
 
         public static GlobalData GetInstance()
@@ -37,14 +58,6 @@ namespace GalaxyZooTouchTable.Lib
             AllUsers.Add(BlueUser);
             AllUsers.Add(PinkUser);
             AllUsers.Add(GreenUser);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }
