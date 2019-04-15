@@ -14,9 +14,10 @@ namespace GalaxyZooTouchTable.ViewModels
         private double RaRange { get; set; }
         private double DecRange { get; set; }
         public SpaceNavigation CurrentLocation { get; set; }
+        public event Action<string> AnimateMovement = delegate { };
 
         public ICommand MoveViewNorth { get; private set; }
-        public ICommand MoveViewEast { get; private set; }
+        public ICommand MoveViewEast { get; set; }
         public ICommand MoveViewSouth { get; private set; }
         public ICommand MoveViewWest { get; private set; }
         public ICommand HideError { get; private set; }
@@ -46,11 +47,22 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private string _previousSpaceCutoutUrl;
+        public string PreviousSpaceCutoutUrl
+        {
+            get => _previousSpaceCutoutUrl;
+            set => SetProperty(ref _previousSpaceCutoutUrl, value);
+        }
+
         private string _spaceCutoutUrl;
         public string SpaceCutoutUrl
         {
             get => _spaceCutoutUrl;
-            set => SetProperty(ref _spaceCutoutUrl, value);
+            set
+            {
+                PreviousSpaceCutoutUrl = _spaceCutoutUrl;
+                SetProperty(ref _spaceCutoutUrl, value);
+            }
         }
 
         public SpaceViewModel(ILocalDBService localDBService)
@@ -119,6 +131,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
+            AnimateMovement("West");
             CurrentLocation.MoveWest();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -131,6 +144,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewSouth(object obj)
         {
+            AnimateMovement("South");
             CurrentLocation.MoveSouth();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -143,6 +157,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewEast(object obj)
         {
+            AnimateMovement("East");
             CurrentLocation.MoveEast();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -155,6 +170,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewNorth(object obj)
         {
+            AnimateMovement("North");
             CurrentLocation.MoveNorth();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
