@@ -13,11 +13,15 @@ namespace GalaxyZooTouchTable.ViewModels
         public DispatcherTimer Timer = new DispatcherTimer();
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
 
-        private bool _showJoinMessage = true;
-        public bool ShowJoinMessage
+        private bool _dormant = true;
+        public bool Dormant
         {
-            get => _showJoinMessage;
-            set => SetProperty(ref _showJoinMessage, value);
+            get => _dormant;
+            set
+            {
+                Messenger.Default.Send(value, "TableStateChanged");
+                SetProperty(ref _dormant, value);
+            }
         }
 
         private bool _centerpieceIsFlipped = false;
@@ -62,7 +66,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
         {
-            ShowJoinMessage = !AllUsers.Any(user => user.Active == true);
+            Dormant = !AllUsers.Any(user => user.Active == true);
         }
 
         private void CreateTimer()

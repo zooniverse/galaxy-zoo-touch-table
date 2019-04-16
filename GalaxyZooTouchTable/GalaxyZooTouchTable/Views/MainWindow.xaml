@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
-        xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
@@ -12,33 +11,53 @@
         Stylus.IsPressAndHoldEnabled="False"
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
+    <Window.Resources>
+        <Style x:Key="Centerpiece" TargetType="{x:Type local:Centerpiece}">
+            <Setter Property="Panel.ZIndex" Value="1"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Dormant}" Value ="False">
+                    <Setter Property="Panel.ZIndex" Value="0"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Background" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Dormant}" Value="False">
+                    <Setter Property="OpacityMask">
+                        <Setter.Value>
+                            <DrawingBrush>
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing>
+                                        <GeometryDrawing.Brush>
+                                            <RadialGradientBrush>
+                                                <RadialGradientBrush.GradientStops>
+                                                    <GradientStop Color="Transparent"/>
+                                                </RadialGradientBrush.GradientStops>
+                                            </RadialGradientBrush>
+                                        </GeometryDrawing.Brush>
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0 0.475,0.235" />
+                                        </GeometryDrawing.Geometry>
+                                        <GeometryDrawing.Pen>
+                                            <Pen Thickness="0.1" Brush="Black" />
+                                        </GeometryDrawing.Pen>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
 
-            <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="325"/>
+            <local:Centerpiece Style="{StaticResource Centerpiece}" x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="325"/>
             
-            <Grid x:Name="Background" Width="1920" Height="1080" IsHitTestVisible="False">
-                <Grid.OpacityMask>
-                    <DrawingBrush>
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing>
-                                <GeometryDrawing.Brush>
-                                    <RadialGradientBrush>
-                                        <RadialGradientBrush.GradientStops>
-                                            <GradientStop Color="Transparent"/>
-                                        </RadialGradientBrush.GradientStops>
-                                    </RadialGradientBrush>
-                                </GeometryDrawing.Brush>
-                                <GeometryDrawing.Geometry>
-                                    <RectangleGeometry Rect="0,0 0.475,0.235" />
-                                </GeometryDrawing.Geometry>
-                                <GeometryDrawing.Pen>
-                                    <Pen Thickness="0.1" Brush="Black" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Grid.OpacityMask>
+            <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource Background}">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
             </Grid>
 
