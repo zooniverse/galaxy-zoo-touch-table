@@ -37,7 +37,7 @@
                                             </RadialGradientBrush>
                                         </GeometryDrawing.Brush>
                                         <GeometryDrawing.Geometry>
-                                            <RectangleGeometry Rect="0,0 0.475,0.235" />
+                                            <RectangleGeometry Rect="0,0 0.472,0.233" />
                                         </GeometryDrawing.Geometry>
                                         <GeometryDrawing.Pen>
                                             <Pen Thickness="0.1" Brush="Black" />
@@ -55,7 +55,7 @@
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
 
-            <local:Centerpiece Style="{StaticResource Centerpiece}" x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="325"/>
+            <local:Centerpiece Style="{StaticResource Centerpiece}" x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="324"/>
             
             <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource Background}">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>

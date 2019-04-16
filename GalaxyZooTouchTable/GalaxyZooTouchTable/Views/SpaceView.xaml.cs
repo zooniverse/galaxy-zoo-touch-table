@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.ViewModels;
 using System;
 using System.Drawing;
 using System.Windows.Controls;
@@ -21,31 +22,30 @@ namespace GalaxyZooTouchTable.Views
             ViewModel.AnimateMovement += AnimateCutoutMovement;
         }
 
-        private void AnimateCutoutMovement(string direction)
+        private void AnimateCutoutMovement(CardinalDirectionEnum direction)
         {
             Point startingPoint = new Point();
             Point endingPoint = new Point();
 
             switch (direction) {
-                case "North":
+                case CardinalDirectionEnum.North:
                     startingPoint = new Point(0, (int)CurrentCutout.Height * -1);
                     endingPoint = new Point(0, (int)CurrentCutout.Height);
                     break;
-                case "South":
+                case CardinalDirectionEnum.South:
                     startingPoint = new Point(0, (int)CurrentCutout.Height);
                     endingPoint = new Point(0, (int)CurrentCutout.Height * -1);
                     break;
-                case "East":
+                case CardinalDirectionEnum.East:
                     startingPoint = new Point((int)CurrentCutout.Width, 0);
                     endingPoint = new Point((int)CurrentCutout.Width * -1, 0);
                     break;
-                case "West":
+                case CardinalDirectionEnum.West:
                     startingPoint = new Point((int)CurrentCutout.Width * -1, 0);
                     endingPoint = new Point((int)CurrentCutout.Width, 0);
                     break;
                 default:
-                    Console.WriteLine("Unknown Direction");
-                    break;
+                    return;
             }
             TransformGroup previousCutoutImageGroup = new TransformGroup();
             TransformGroup previousCutoutBorderGroup = new TransformGroup();
