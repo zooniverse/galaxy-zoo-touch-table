@@ -131,7 +131,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
-            AnimateMovement("West");
             CurrentLocation.MoveWest();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -140,11 +139,11 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
+            AnimateMovement("West");
         }
 
         private void OnMoveViewSouth(object obj)
         {
-            AnimateMovement("South");
             CurrentLocation.MoveSouth();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -153,11 +152,11 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
+            AnimateMovement("South");
         }
 
         private void OnMoveViewEast(object obj)
         {
-            AnimateMovement("East");
             CurrentLocation.MoveEast();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -166,11 +165,11 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
+            AnimateMovement("East");
         }
 
         private void OnMoveViewNorth(object obj)
         {
-            AnimateMovement("North");
             CurrentLocation.MoveNorth();
             CurrentGalaxies = FindGalaxiesAtNewBounds();
 
@@ -179,6 +178,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
                 CurrentGalaxies = FindGalaxiesAtNewBounds();
             }
+            AnimateMovement("North");
         }
 
         private string UpdateSpaceCutout()
