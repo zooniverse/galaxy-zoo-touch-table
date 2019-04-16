@@ -15,7 +15,30 @@
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
 
-            <Grid Width="1920" Height="1080">
+            <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="325"/>
+            
+            <Grid x:Name="Background" Width="1920" Height="1080" IsHitTestVisible="False">
+                <Grid.OpacityMask>
+                    <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                            <GeometryDrawing>
+                                <GeometryDrawing.Brush>
+                                    <RadialGradientBrush>
+                                        <RadialGradientBrush.GradientStops>
+                                            <GradientStop Color="Transparent"/>
+                                        </RadialGradientBrush.GradientStops>
+                                    </RadialGradientBrush>
+                                </GeometryDrawing.Brush>
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry Rect="0,0 0.475,0.235" />
+                                </GeometryDrawing.Geometry>
+                                <GeometryDrawing.Pen>
+                                    <Pen Thickness="0.1" Brush="Black" />
+                                </GeometryDrawing.Pen>
+                            </GeometryDrawing>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Grid.OpacityMask>
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
             </Grid>
 
@@ -25,8 +48,6 @@
                 </Image.LayoutTransform>
             </Image>
             <Image Canvas.Right="40" Canvas.Bottom="40" HorizontalAlignment="Right" Height="52" Width="124" Source="../Images/General/logo-badge.png"/>
-
-            <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="330"/>
 
             <local:UserConsole
                 x:Name="PersonUser"
