@@ -192,6 +192,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\TempDisableBorder.cs" />
     <Compile Include="Behaviors\UIElementDragBehavior.cs" />
     <Compile Include="Behaviors\UIElementDropBehavior.cs" />
     <Compile Include="Behaviors\DisableOpacityMaskOnEndScroll.cs" />

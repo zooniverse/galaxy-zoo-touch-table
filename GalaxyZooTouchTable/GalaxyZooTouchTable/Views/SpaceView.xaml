@@ -71,6 +71,7 @@
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <i:Interaction.Behaviors>
+                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewNorth}"/>
                 </i:Interaction.Behaviors>
                 <Border.LayoutTransform>
@@ -81,6 +82,7 @@
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <i:Interaction.Behaviors>
+                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewEast}"/>
                 </i:Interaction.Behaviors>
                 <Border.LayoutTransform>
@@ -91,6 +93,7 @@
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <i:Interaction.Behaviors>
+                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewWest}"/>
                 </i:Interaction.Behaviors>
                 <Border.LayoutTransform>
@@ -101,6 +104,7 @@
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <i:Interaction.Behaviors>
+                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewSouth}"/>
                 </i:Interaction.Behaviors>
                 <TextBlock Style="{StaticResource MoveMapText}"/>
