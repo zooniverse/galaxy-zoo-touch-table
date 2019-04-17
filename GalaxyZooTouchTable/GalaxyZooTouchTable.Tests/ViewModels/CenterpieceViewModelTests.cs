@@ -17,16 +17,16 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldInstantiateWithDefaultValues()
         {
             Assert.True(_viewModel.AllUsers.Count > 0);
-            Assert.True(_viewModel.Dormant);
+            Assert.True(_viewModel.IsDormant);
             Assert.False(_viewModel.CenterpieceIsFlipped);
         }
 
         [Fact]
         private void ShouldHideJoinMessageWithActiveUser()
         {
-            Assert.True(_viewModel.Dormant);
+            Assert.True(_viewModel.IsDormant);
             GlobalData.GetInstance().StarUser.Active = true;
-            Assert.False(_viewModel.Dormant);
+            Assert.False(_viewModel.IsDormant);
         }
     }
 }

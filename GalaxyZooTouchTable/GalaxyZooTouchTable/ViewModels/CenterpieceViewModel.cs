@@ -13,14 +13,14 @@ namespace GalaxyZooTouchTable.ViewModels
         public DispatcherTimer Timer = new DispatcherTimer();
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
 
-        private bool _dormant = true;
-        public bool Dormant
+        private bool _isDormant = true;
+        public bool IsDormant
         {
-            get => _dormant;
+            get => _isDormant;
             set
             {
                 Messenger.Default.Send(value, "TableStateChanged");
-                SetProperty(ref _dormant, value);
+                SetProperty(ref _isDormant, value);
             }
         }
 
@@ -66,7 +66,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs changedEventArgs)
         {
-            Dormant = !AllUsers.Any(user => user.Active == true);
+            IsDormant = !AllUsers.Any(user => user.Active == true);
         }
 
         private void CreateTimer()

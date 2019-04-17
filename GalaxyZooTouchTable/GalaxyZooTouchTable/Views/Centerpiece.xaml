@@ -16,7 +16,7 @@
     <UserControl.Resources>
         <Style x:Key="JoinMessageStyle" TargetType="{x:Type Grid}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Dormant}" Value="False">
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value="False">
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
@@ -71,7 +71,7 @@
                 <Trigger Property="Opacity" Value="0">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </Trigger>
-                <DataTrigger Binding="{Binding Path=Dormant}" Value="False">
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value="False">
                     <Setter Property="Visibility" Value="Visible"/>
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>

@@ -15,7 +15,7 @@
         <Style x:Key="Centerpiece" TargetType="{x:Type local:Centerpiece}">
             <Setter Property="Panel.ZIndex" Value="1"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Dormant}" Value ="False">
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value ="False">
                     <Setter Property="Panel.ZIndex" Value="0"/>
                 </DataTrigger>
             </Style.Triggers>
@@ -23,7 +23,7 @@
 
         <Style x:Key="Background" TargetType="{x:Type Grid}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Dormant}" Value="False">
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value="False">
                     <Setter Property="OpacityMask">
                         <Setter.Value>
                             <DrawingBrush>
@@ -55,7 +55,7 @@
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
 
-            <local:Centerpiece Style="{StaticResource Centerpiece}" x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="324"/>
+            <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324"/>
             
             <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource Background}">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>

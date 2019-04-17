@@ -1,5 +1,4 @@
-﻿using System;
-using GalaxyZooTouchTable.Lib;
+﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using Unity;
 
@@ -14,11 +13,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel HeartUserVM { get; private set; }
         public ClassificationPanelViewModel EarthUserVM { get; private set; }
 
-        private bool _dormant = true;
-        public bool Dormant
+        private bool _isDormant = true;
+        public bool IsDormant
         {
-            get => _dormant;
-            set => SetProperty(ref _dormant, value);
+            get => _isDormant;
+            set => SetProperty(ref _isDormant, value);
         }
 
         public MainWindowViewModel()
@@ -37,10 +36,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Register<bool>(this, OnTableActivity, "TableStateChanged");
         }
 
-        private void OnTableActivity(bool dormant)
-        {
-            Dormant = dormant;
-        }
+        void OnTableActivity(bool dormant) => IsDormant = dormant;
 
         public void Load()
         {

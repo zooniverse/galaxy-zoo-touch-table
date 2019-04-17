@@ -22,82 +22,90 @@ namespace GalaxyZooTouchTable.Views
             ViewModel.AnimateMovement += AnimateCutoutMovement;
         }
 
-        private void AnimateCutoutMovement(CardinalDirectionEnum direction)
+        void AnimateCutoutMovement(CardinalDirectionEnum direction)
         {
-            Point startingPoint = new Point();
-            Point endingPoint = new Point();
+            Point transitionPoint;
 
             switch (direction) {
                 case CardinalDirectionEnum.North:
-                    startingPoint = new Point(0, (int)CurrentCutout.Height * -1);
-                    endingPoint = new Point(0, (int)CurrentCutout.Height);
+                    transitionPoint = new Point(0, (int)CurrentCutout.Height);
                     break;
                 case CardinalDirectionEnum.South:
-                    startingPoint = new Point(0, (int)CurrentCutout.Height);
-                    endingPoint = new Point(0, (int)CurrentCutout.Height * -1);
+                    transitionPoint = new Point(0, (int)CurrentCutout.Height * -1);
                     break;
                 case CardinalDirectionEnum.East:
-                    startingPoint = new Point((int)CurrentCutout.Width, 0);
-                    endingPoint = new Point((int)CurrentCutout.Width * -1, 0);
+                    transitionPoint = new Point((int)CurrentCutout.Width * -1, 0);
                     break;
                 case CardinalDirectionEnum.West:
-                    startingPoint = new Point((int)CurrentCutout.Width * -1, 0);
-                    endingPoint = new Point((int)CurrentCutout.Width, 0);
+                    transitionPoint = new Point((int)CurrentCutout.Width, 0);
                     break;
                 default:
                     return;
             }
-            TransformGroup previousCutoutImageGroup = new TransformGroup();
-            TransformGroup previousCutoutBorderGroup = new TransformGroup();
-            ScaleTransform scaleDown = new ScaleTransform();
-            DoubleAnimation animateScaleDown = new DoubleAnimation(1, 0.5, TimeSpan.FromSeconds(0.25));
-            animateScaleDown.BeginTime = TimeSpan.FromSeconds(0.25);
-            scaleDown.BeginAnimation(ScaleTransform.ScaleXProperty, animateScaleDown);
-            scaleDown.BeginAnimation(ScaleTransform.ScaleYProperty, animateScaleDown);
 
-            ScaleTransform scaleUp = new ScaleTransform();
-            DoubleAnimation animateScaleUp = new DoubleAnimation(1, 2, TimeSpan.FromSeconds(0.25));
-            animateScaleUp.BeginTime = TimeSpan.FromSeconds(1);
-            scaleUp.BeginAnimation(ScaleTransform.ScaleXProperty, animateScaleUp);
-            scaleUp.BeginAnimation(ScaleTransform.ScaleYProperty, animateScaleUp);
+            PerformScaleTransforms();
+            PerformTranslateTransforms(transitionPoint);
+            PerformGalaxyFade();
+        }
+
+        void PerformTranslateTransforms(Point transitionPoint)
+        {
+            TransformGroup previousCutoutBorderGroup = new TransformGroup();
+            TransformGroup currentCutoutBorderGroup = new TransformGroup();
 
             TranslateTransform moveAside = new TranslateTransform();
-            DoubleAnimation animateToX = new DoubleAnimation(endingPoint.X, TimeSpan.FromSeconds(0.25));
-            DoubleAnimation animateToY = new DoubleAnimation(endingPoint.Y, TimeSpan.FromSeconds(0.25));
-            animateToX.BeginTime = TimeSpan.FromSeconds(0.5);
-            animateToY.BeginTime = TimeSpan.FromSeconds(0.5);
-            moveAside.BeginAnimation(TranslateTransform.XProperty, animateToX);
-            moveAside.BeginAnimation(TranslateTransform.YProperty, animateToY);
+            DoubleAnimation animateAsideX = new DoubleAnimation(transitionPoint.X, TimeSpan.FromSeconds(0.25));
+            DoubleAnimation animateAsideY = new DoubleAnimation(transitionPoint.Y, TimeSpan.FromSeconds(0.25));
+            animateAsideX.BeginTime = TimeSpan.FromSeconds(0.5);
+            animateAsideY.BeginTime = TimeSpan.FromSeconds(0.5);
+            moveAside.BeginAnimation(TranslateTransform.XProperty, animateAsideX);
+            moveAside.BeginAnimation(TranslateTransform.YProperty, animateAsideY);
 
-            previousCutoutImageGroup.Children.Add(scaleDown);
-            previousCutoutImageGroup.Children.Add(scaleUp);
-            previousCutoutBorderGroup.Children.Add(moveAside);
-
-            PreviousCutoutImage.RenderTransform = previousCutoutImageGroup;
-            PreviousCutout.RenderTransform = previousCutoutBorderGroup;
-
-            TransformGroup currentCutoutBorderGroup = new TransformGroup();
-            TransformGroup currentCutoutImageGroup = new TransformGroup();
-            TranslateTransform startAside = new TranslateTransform(startingPoint.X, startingPoint.Y);
+            TranslateTransform startAside = new TranslateTransform(transitionPoint.X * -1, transitionPoint.Y * -1);
             TranslateTransform moveInto = new TranslateTransform();
-            DoubleAnimation animateIntoX = new DoubleAnimation(endingPoint.X, TimeSpan.FromSeconds(0.25));
-            DoubleAnimation animateIntoY = new DoubleAnimation(endingPoint.Y, TimeSpan.FromSeconds(0.25));
+            DoubleAnimation animateIntoX = new DoubleAnimation(transitionPoint.X, TimeSpan.FromSeconds(0.25));
+            DoubleAnimation animateIntoY = new DoubleAnimation(transitionPoint.Y, TimeSpan.FromSeconds(0.25));
             animateIntoX.BeginTime = TimeSpan.FromSeconds(0.75);
             animateIntoY.BeginTime = TimeSpan.FromSeconds(0.75);
             moveInto.BeginAnimation(TranslateTransform.XProperty, animateIntoX);
             moveInto.BeginAnimation(TranslateTransform.YProperty, animateIntoY);
 
+            previousCutoutBorderGroup.Children.Add(moveAside);
             currentCutoutBorderGroup.Children.Add(startAside);
             currentCutoutBorderGroup.Children.Add(moveInto);
-            currentCutoutImageGroup.Children.Add(scaleDown);
-            currentCutoutImageGroup.Children.Add(scaleUp);
-            CurrentCutoutImage.RenderTransform = currentCutoutImageGroup;
-            CurrentCutout.RenderTransform = currentCutoutBorderGroup;
 
-            FadeOutGalaxies();
+            PreviousCutout.RenderTransform = previousCutoutBorderGroup;
+            CurrentCutout.RenderTransform = currentCutoutBorderGroup;
         }
 
-        private void FadeOutGalaxies()
+        void PerformScaleTransforms()
+        {
+            TransformGroup previousCutoutImageGroup = new TransformGroup();
+            TransformGroup currentCutoutImageGroup = new TransformGroup();
+
+            ScaleTransform scaleSmall = new ScaleTransform();
+            DoubleAnimation animateScaleSmall = new DoubleAnimation(1, 0.5, TimeSpan.FromSeconds(0.25));
+            animateScaleSmall.BeginTime = TimeSpan.FromSeconds(0.25);
+            scaleSmall.BeginAnimation(ScaleTransform.ScaleXProperty, animateScaleSmall);
+            scaleSmall.BeginAnimation(ScaleTransform.ScaleYProperty, animateScaleSmall);
+
+            ScaleTransform scaleLarge = new ScaleTransform();
+            DoubleAnimation animateScaleLarge = new DoubleAnimation(1, 2, TimeSpan.FromSeconds(0.25));
+            animateScaleLarge.BeginTime = TimeSpan.FromSeconds(1);
+            scaleLarge.BeginAnimation(ScaleTransform.ScaleXProperty, animateScaleLarge);
+            scaleLarge.BeginAnimation(ScaleTransform.ScaleYProperty, animateScaleLarge);
+
+            currentCutoutImageGroup.Children.Add(scaleSmall);
+            currentCutoutImageGroup.Children.Add(scaleLarge);
+
+            previousCutoutImageGroup.Children.Add(scaleSmall);
+            previousCutoutImageGroup.Children.Add(scaleLarge);
+
+            CurrentCutoutImage.RenderTransform = currentCutoutImageGroup;
+            PreviousCutoutImage.RenderTransform = previousCutoutImageGroup;
+        }
+
+        void PerformGalaxyFade()
         {
             DoubleAnimation animateOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0));
             DoubleAnimation animateIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
