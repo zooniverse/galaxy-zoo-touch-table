@@ -7,7 +7,7 @@ namespace GalaxyZooTouchTable.Services
 {
     public interface IPanoptesService
     {
-        Task CreateClassificationAsync(Classification classification);
+        Task<int> CreateClassificationAsync(Classification classification);
         Task<Subject> GetSubjectAsync(string id);
         Task<List<Subject>> GetSubjectsAsync(string route, NameValueCollection query);
         Task<Workflow> GetWorkflowAsync(string id);

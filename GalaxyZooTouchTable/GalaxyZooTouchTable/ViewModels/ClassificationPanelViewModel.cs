@@ -238,6 +238,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void OnGetSubjectById(string subjectID)
         {
             TotalVotes = 0;
+            NotifySpaceView(RingNotifierStatus.IsHelping);
             TableSubject newSubject = _localDBService.GetLocalSubject(subjectID);
             Subjects.Insert(0, newSubject);
             GetSubjectQueue();
@@ -272,7 +273,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             GetSubjectQueue();
             OnChangeView(ClassifierViewEnum.SubjectView);
-            TotalVotes = 0;
         }
 
         public void OnChangeView(ClassifierViewEnum view)
@@ -287,9 +287,8 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                TotalVotes = await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
-                TotalVotes += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
                 OnChangeView(ClassifierViewEnum.SummaryView);
@@ -370,6 +369,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void GetSubjectQueue()
         {
+            TotalVotes = 0;
             if (Subjects.Count <= 0)
             {
                 NameValueCollection query = new NameValueCollection
@@ -436,8 +436,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
                         int answerCount = (int)count.Value;
                         Answer.AnswerCount = answerCount;
-
-                        TotalVotes += answerCount;
                     }
                 }
             }

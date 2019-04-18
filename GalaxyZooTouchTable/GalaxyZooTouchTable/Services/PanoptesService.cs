@@ -18,22 +18,24 @@ namespace GalaxyZooTouchTable.Services
             _localDBService = dbService;
         }
 
-        public async Task CreateClassificationAsync(Classification classification)
+        public async Task<int> CreateClassificationAsync(Classification classification)
         {
             QueuedClassifications.Add(classification);
             await SaveAllQueuedClassifications();
+            return _localDBService.GetClassificationCount(classification.Links.Subjects[0]);
         }
 
         private async Task SaveAllQueuedClassifications()
         {
+            int newCount = 0;
             List<Classification> newQueue = new List<Classification>();
             foreach (Classification classification in QueuedClassifications)
             {
                 try
                 {
-                    //HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
-                    //if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
-                    int newCount = _localDBService.IncrementClassificationCount(classification.Links.Subjects[0]);
+                    HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
+                    if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
+                    newCount = _localDBService.IncrementClassificationCount(classification.Links.Subjects[0]);
                 }
                 catch (HttpRequestException error)
                 {
