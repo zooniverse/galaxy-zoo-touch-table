@@ -1,5 +1,5 @@
 # Galaxy Zoo Touch Table
-The Galaxy Zoo touch table experience at the Adler Planetarium.
+The Galaxy Zoo touch table experience at the Adler Planetarium. Please visit the [wiki](https://github.com/zooniverse/galaxy-zoo-touch-table/wiki) for more information.
 
 ## Prerequisites
 - [Local Database](#using-a-local-database)
