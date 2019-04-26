@@ -7,7 +7,6 @@ using Moq;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -23,8 +22,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             _panoptesServiceMock.Setup(dp => dp.GetWorkflowAsync("1"))
                 .ReturnsAsync(PanoptesServiceMockData.Workflow("1"));
-            _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(new Classification()))
-                .Returns(Task.CompletedTask);
+            _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(It.IsAny<Classification>()))
+                .ReturnsAsync(1);
 
             _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), PanoptesServiceMockData.TableSubject()))
                 .ReturnsAsync(GraphQLServiceMockData.GraphQLResponse());
@@ -34,7 +33,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
             _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
         }
-
+    
         [Fact]
         private void ShouldInitializeWithDefaultValues()
         {
@@ -47,7 +46,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private async void ShouldLoadAWorkflow()
         {
             await _viewModel.GetWorkflow();
-            _panoptesServiceMock.Verify(vm=>vm.GetWorkflowAsync("1"), Times.Once);
+            _panoptesServiceMock.Verify(vm => vm.GetWorkflowAsync("1"), Times.Once);
             Assert.NotNull(_viewModel.Workflow);
         }
 

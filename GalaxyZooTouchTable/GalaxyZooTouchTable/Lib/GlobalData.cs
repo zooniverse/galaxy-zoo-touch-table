@@ -1,12 +1,14 @@
 ﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Xml.Linq;
 
 namespace GalaxyZooTouchTable.Lib
 {
-    public class GlobalData
+    public class GlobalData : INotifyPropertyChanged
     {
         private static GlobalData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
@@ -35,9 +37,14 @@ namespace GalaxyZooTouchTable.Lib
                 var task = element.Element("tasks").Element("task");
                 foreach (XElement answer in task.Elements())
                 {
-                    answers.Add(new TaskAnswer(answer.Value));
+                    TaskAnswer test = new TaskAnswer();
+                    test.Label = answer.Value;
+                    answers.Add(test);
                 }
-                WorkflowTask offlineTask = new WorkflowTask("Choose an Answer", answers);
+                WorkflowTask offlineTask = new WorkflowTask();
+                offlineTask.Question = "Choose an Answer";
+                offlineTask.Answers = answers;
+                OfflineWorkflow.Tasks = new Dictionary<string, WorkflowTask>();
                 OfflineWorkflow.Tasks.Add("T0", offlineTask);
             }
         }
@@ -58,6 +65,14 @@ namespace GalaxyZooTouchTable.Lib
             AllUsers.Add(BlueUser);
             AllUsers.Add(PinkUser);
             AllUsers.Add(GreenUser);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyRaised(string propertyname)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
         }
     }
 }
