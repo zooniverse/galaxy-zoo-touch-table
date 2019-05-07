@@ -72,9 +72,9 @@
                 Canvas.Bottom="10"/>
 
             <local:UserConsole
-                x:Name="HeartUser"
-                DataContext="{Binding HeartUserVM}"
-                Style="{StaticResource HeartUser}"
+                x:Name="PinkUser"
+                DataContext="{Binding PinkUserVM}"
+                Style="{StaticResource PinkUser}"
                 Canvas.Left="313"
                 Canvas.Top="10">
                 <local:UserConsole.RenderTransform>

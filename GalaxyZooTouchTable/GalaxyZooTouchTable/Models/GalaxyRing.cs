@@ -70,7 +70,7 @@ namespace GalaxyZooTouchTable.Models
             {
                 switch (UserName)
                 {
-                    case "HeartUser":
+                    case "PinkUser":
                         AvatarY *= -1;
                         AvatarX *= -1;
                         break;

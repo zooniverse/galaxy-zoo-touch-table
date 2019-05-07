@@ -40,7 +40,7 @@ namespace GalaxyZooTouchTable.ViewModels
             AllUsers.Add(GlobalData.GetInstance().PersonUser);
             AllUsers.Add(GlobalData.GetInstance().LightUser);
             AllUsers.Add(GlobalData.GetInstance().StarUser);
-            AllUsers.Add(GlobalData.GetInstance().HeartUser);
+            AllUsers.Add(GlobalData.GetInstance().PinkUser);
             AllUsers.Add(GlobalData.GetInstance().FaceUser);
             AllUsers.Add(GlobalData.GetInstance().EarthUser);
         }

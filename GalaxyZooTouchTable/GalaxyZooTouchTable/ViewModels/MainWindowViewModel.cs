@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel FaceUserVM { get; private set; }
         public ClassificationPanelViewModel LightUserVM { get; private set; }
         public ClassificationPanelViewModel StarUserVM { get; private set; }
-        public ClassificationPanelViewModel HeartUserVM { get; private set; }
+        public ClassificationPanelViewModel PinkUserVM { get; private set; }
         public ClassificationPanelViewModel EarthUserVM { get; private set; }
 
         private bool _isDormant = true;
@@ -26,7 +26,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PersonUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Person);
             LightUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Light);
             StarUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Star);
-            HeartUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Heart);
+            PinkUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Pink);
             FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
             EarthUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Earth);
         }
@@ -44,7 +44,7 @@ namespace GalaxyZooTouchTable.ViewModels
             FaceUserVM.Load();
             LightUserVM.Load();
             StarUserVM.Load();
-            HeartUserVM.Load();
+            PinkUserVM.Load();
             EarthUserVM.Load();
         }
     }

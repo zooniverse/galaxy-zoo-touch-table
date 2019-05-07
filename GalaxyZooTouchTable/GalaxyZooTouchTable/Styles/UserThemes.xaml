@@ -150,7 +150,7 @@
         </Style.Resources>
     </Style>
 
-    <Style x:Key="HeartUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
+    <Style x:Key="PinkUser" TargetType="{x:Type local:UserConsole}" BasedOn="{StaticResource BaseUserStyle}">
         <Style.Resources>
             <Style TargetType="{x:Type local:StartButton}">
                 <Style.Resources>

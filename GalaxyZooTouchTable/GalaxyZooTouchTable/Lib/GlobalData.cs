@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser PersonUser = new PersonUser();
         public TableUser LightUser = new LightUser();
         public TableUser StarUser = new StarUser();
-        public TableUser HeartUser = new HeartUser();
+        public TableUser PinkUser = new PinkUser();
         public TableUser FaceUser = new FaceUser();
         public TableUser EarthUser = new EarthUser();
 
@@ -35,7 +35,7 @@ namespace GalaxyZooTouchTable.Lib
             AllUsers.Add(FaceUser);
             AllUsers.Add(LightUser);
             AllUsers.Add(StarUser);
-            AllUsers.Add(HeartUser);
+            AllUsers.Add(PinkUser);
             AllUsers.Add(EarthUser);
         }
 

@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
     {
         private NotificationsViewModel _viewModel;
         TableUser StarUser = new StarUser();
-        TableUser HeartUser = new HeartUser();
+        TableUser PinkUser = new PinkUser();
         TableUser PersonUser = new PersonUser();
 
         public NotificationsViewModelTests()
@@ -36,7 +36,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyDragToStart()
         {
-            _viewModel.NotifyUser.Execute(HeartUser);
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Drag a galaxy above into your classifier to begin!", _viewModel.Overlay.MessageOne);
         }
@@ -45,8 +45,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldntNotifyIfUserInactive()
         {
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            HeartUser.Busy = true;
-            _viewModel.NotifyUser.Execute(HeartUser);
+            PinkUser.Busy = true;
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
             Assert.Equal("is not at the table. Ask someone else?", _viewModel.Overlay.MessageTwo);
@@ -55,12 +55,12 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyIfUserAlreadySeen()
         {
-            Messenger.Default.Send(PanoptesServiceMockData.CompletedClassification(), "HeartUser_AddCompletedClassification");
-            HeartUser.Active = true;
+            Messenger.Default.Send(PanoptesServiceMockData.CompletedClassification(), "PinkUser_AddCompletedClassification");
+            PinkUser.Active = true;
             _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            NotificationAvatarViewModel HeartAvatar = _viewModel.AvailableUsers.Find(x => x.User.Name == "HeartUser");
-            _viewModel.NotifyUser.Execute(HeartUser);
+            NotificationAvatarViewModel PinkAvatar = _viewModel.AvailableUsers.Find(x => x.User.Name == "PinkUser");
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
             Assert.Equal("has already classified that galaxy.", _viewModel.Overlay.MessageTwo);
@@ -69,10 +69,10 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyIfUserBusy()
         {
-            HeartUser.Active = true;
-            HeartUser.Busy = true;
+            PinkUser.Active = true;
+            PinkUser.Busy = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            _viewModel.NotifyUser.Execute(HeartUser);
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
             Assert.Equal("is busy working with another user.", _viewModel.Overlay.MessageTwo);
@@ -81,9 +81,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyIfAlreadyWorkingWith()
         {
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp, "1");
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
-            _viewModel.NotifyUser.Execute(HeartUser);
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("You are already working with", _viewModel.Overlay.MessageOne);
         }
@@ -93,7 +93,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             PersonUser.Active = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp, "1");
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
             _viewModel.NotifyUser.Execute(PersonUser);
             Assert.NotNull(_viewModel.Overlay);
@@ -103,13 +103,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyIfAlreadyAsked()
         {
-            HeartUser.Active = true;
+            PinkUser.Active = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            _viewModel.NotifyUser.Execute(HeartUser);
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.Null(_viewModel.Overlay);
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.Decline);
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.Decline);
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
-            _viewModel.NotifyUser.Execute(HeartUser);
+            _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry, you have already asked", _viewModel.Overlay.MessageOne);
             Assert.Equal("for help.", _viewModel.Overlay.MessageTwo);
@@ -118,7 +118,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldClearRequestsWhenDecliningGalaxies()
         {
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp);
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp);
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
             _viewModel.DeclineGalaxy.Execute(null);
@@ -137,11 +137,11 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldAcceptRequestForHelp()
         {
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp, "1");
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
             _viewModel.AcceptGalaxy.Execute(null);
-            Assert.Equal(_viewModel.UserHelping, HeartUser);
+            Assert.Equal(_viewModel.UserHelping, PinkUser);
             Assert.Null(_viewModel.NotificationPanel);
         }
 
@@ -149,7 +149,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldWarnAcceptingInviteClearsGalaxy()
         {
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp, "1");
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
             _viewModel.AcceptGalaxy.Execute(null);
@@ -173,7 +173,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             _viewModel.Overlay = new NotificationOverlay("This is a new overlay");
             _viewModel.NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer);
-            _viewModel.UserHelping = HeartUser;
+            _viewModel.UserHelping = PinkUser;
             _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
             Assert.Null(_viewModel.UserHelping);
             Assert.Null(_viewModel.Overlay);
@@ -183,9 +183,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyWhenUserIsLeaving()
         {
-            HelpNotification Notification = new HelpNotification(HeartUser, HelpNotificationStatus.AskForHelp);
+            HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp);
             Messenger.Default.Send(Notification, "StarUser_PostNotification");
-            HelpNotification LeavingNotification = new HelpNotification(HeartUser, HelpNotificationStatus.Leaving);
+            HelpNotification LeavingNotification = new HelpNotification(PinkUser, HelpNotificationStatus.Leaving);
             Messenger.Default.Send(LeavingNotification, "UserLeaving");
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
@@ -195,13 +195,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void NotifyWhenUserHasAnswered()
         {
-            NotificationsViewModel HeartNotifier = new NotificationsViewModel(HeartUser);
-            HeartUser.Active = true;
+            NotificationsViewModel PinkNotifier = new NotificationsViewModel(PinkUser);
+            PinkUser.Active = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
             _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
-            _viewModel.NotifyUser.Execute(HeartUser);
-            HeartNotifier.AcceptGalaxy.Execute(null);
-            HeartNotifier.HandleAnswer(PanoptesServiceMockData.CompletedClassification());
+            _viewModel.NotifyUser.Execute(PinkUser);
+            PinkNotifier.AcceptGalaxy.Execute(null);
+            PinkNotifier.HandleAnswer(PanoptesServiceMockData.CompletedClassification());
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Check it out,", _viewModel.Overlay.MessageOne);
             Assert.Equal("made a classification!", _viewModel.Overlay.MessageTwo);

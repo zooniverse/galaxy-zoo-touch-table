@@ -1,6 +1,5 @@
 ﻿using GalaxyZooTouchTable.ViewModels;
 using System;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
@@ -12,7 +11,7 @@ namespace GalaxyZooTouchTable.Models
         Earth,
         Light,
         Face,
-        Heart
+        Pink
     }
 
     public abstract class TableUser : ViewModelBase
@@ -77,9 +76,9 @@ namespace GalaxyZooTouchTable.Models
         public override string DashArray => "0.05 1.35";
     }
 
-    public class HeartUser : TableUser
+    public class PinkUser : TableUser
     {
-        public override string Name => "HeartUser";
+        public override string Name => "PinkUser";
         public override string ThemeColor => "#F3588B";
         public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/pink.png", UriKind.Relative));
         public override string DashArray => "0.15 2.25";

@@ -38,8 +38,8 @@ namespace GalaxyZooTouchTable.Models
                 case UserType.Earth: return GlobalData.GetInstance().EarthUser;
                 case UserType.Light: return GlobalData.GetInstance().LightUser;
                 case UserType.Face: return GlobalData.GetInstance().FaceUser;
-                case UserType.Heart: return GlobalData.GetInstance().HeartUser;
-                default: return GlobalData.GetInstance().HeartUser;
+                case UserType.Pink: return GlobalData.GetInstance().PinkUser;
+                default: return GlobalData.GetInstance().PinkUser;
             }
         }
     }

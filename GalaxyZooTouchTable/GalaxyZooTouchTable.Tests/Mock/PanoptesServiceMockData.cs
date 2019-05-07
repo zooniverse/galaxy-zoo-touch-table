@@ -70,7 +70,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
 
         public static CompletedClassification CompletedClassification()
         {
-            return new CompletedClassification(AnswerButton(), GlobalData.GetInstance().HeartUser, "1");
+            return new CompletedClassification(AnswerButton(), GlobalData.GetInstance().PinkUser, "1");
         }
     }
 }
