@@ -57,6 +57,7 @@
                 <Path
                     x:Name="ButtonArc"
                     StrokeThickness="30"
+                    StrokeDashArray="{Binding User.DashArray}"
                     StrokeDashCap="Round"
                     Data="M 10,400 A 200,200 45 1 1 700,400"
                     HorizontalAlignment="Center"

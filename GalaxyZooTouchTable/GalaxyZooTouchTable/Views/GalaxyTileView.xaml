@@ -52,13 +52,27 @@
                 <DataTemplate>
                     <Border
                         Style="{StaticResource ColoredRing}"
-                        BorderBrush="{Binding UserColor}"
                         BorderThickness="3"
                         CornerRadius="100"
                         Width="{Binding Diameter}"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Height="{Binding Diameter}">
+                        <Border.BorderBrush>
+                            <VisualBrush>
+                                <VisualBrush.Visual>
+                                    <Rectangle
+                                        StrokeDashArray="{Binding UserDash}"
+                                        StrokeDashCap="Round"
+                                        StrokeThickness="5"    
+                                        Stroke="{Binding UserColor}"
+                                        RadiusX="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.TopRight}"
+                                        RadiusY="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.BottomLeft}"
+                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Border.BorderBrush>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

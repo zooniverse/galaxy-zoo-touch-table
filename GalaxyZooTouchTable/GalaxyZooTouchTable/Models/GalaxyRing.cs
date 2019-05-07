@@ -13,6 +13,7 @@ namespace GalaxyZooTouchTable.Models
         public BitmapImage UserAvatar { get; set; }
         public string UserColor { get; set; } = "#E5FF4D";
         public string UserName { get; set; }
+        public string UserDash { get; set; } = "1 0";
 
         private int _avatarX = 0;
         public int AvatarX
@@ -49,6 +50,7 @@ namespace GalaxyZooTouchTable.Models
                 UserName = user.Name;
                 UserColor = user.ThemeColor;
                 UserAvatar = user.Avatar;
+                UserDash = user.DashArray;
             }
             SetProperties(index);
         }
