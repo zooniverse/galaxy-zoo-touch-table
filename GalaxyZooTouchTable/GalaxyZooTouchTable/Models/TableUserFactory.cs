@@ -19,7 +19,6 @@ namespace GalaxyZooTouchTable.Models
     {
         abstract public string Name { get; }
         abstract public string ThemeColor { get; }
-        abstract public BitmapImage StartButton { get; }
         abstract public BitmapImage Avatar { get; }
         abstract public string DashArray { get; }
 
@@ -42,8 +41,7 @@ namespace GalaxyZooTouchTable.Models
     {
         public override string Name => "PersonUser";
         public override string ThemeColor => "#A5A2FB";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Person.png", UriKind.Relative));
-        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Person.png", UriKind.Relative));
+        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/purple.png", UriKind.Relative));
         public override string DashArray => "0.25 1.5 2 1.5";
     }
 
@@ -51,8 +49,7 @@ namespace GalaxyZooTouchTable.Models
     {
         public override string Name => "StarUser";
         public override string ThemeColor => "#29A1FA";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Star.png", UriKind.Relative));
-        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Star.png", UriKind.Relative));
+        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/blue.png", UriKind.Relative));
         public override string DashArray => "0.25 0.8";
     }
 
@@ -60,8 +57,7 @@ namespace GalaxyZooTouchTable.Models
     {
         public override string Name => "EarthUser";
         public override string ThemeColor => "#6ADCA3";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Earth.png", UriKind.Relative));
-        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Earth.png", UriKind.Relative));
+        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/green.png", UriKind.Relative));
         public override string DashArray => "3 2";
     }
 
@@ -69,8 +65,7 @@ namespace GalaxyZooTouchTable.Models
     {
         public override string Name => "LightUser";
         public override string ThemeColor => "#A3DDEE";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Light.png", UriKind.Relative));
-        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Light.png", UriKind.Relative));
+        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/aqua.png", UriKind.Relative));
         public override string DashArray => "0.5 2";
     }
 
@@ -78,8 +73,7 @@ namespace GalaxyZooTouchTable.Models
     {
         public override string Name => "FaceUser";
         public override string ThemeColor => "#F3AB91";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Face.png", UriKind.Relative));
-        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Face.png", UriKind.Relative));
+        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/peach.png", UriKind.Relative));
         public override string DashArray => "0.05 1.35";
     }
 
@@ -87,8 +81,7 @@ namespace GalaxyZooTouchTable.Models
     {
         public override string Name => "HeartUser";
         public override string ThemeColor => "#F3588B";
-        public override BitmapImage StartButton => new BitmapImage(new Uri("../Images/StartIcon/Heart.png", UriKind.Relative));
-        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/Heart.png", UriKind.Relative));
+        public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/pink.png", UriKind.Relative));
         public override string DashArray => "0.15 2.25";
     }
 }

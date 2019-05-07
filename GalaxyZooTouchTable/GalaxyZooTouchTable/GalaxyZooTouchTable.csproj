@@ -329,17 +329,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Resource Include="Images\GalaxyExamples\features4.jpg" />
-    <Resource Include="Images\GalaxyExamples\features5.jpg" />
-    <Resource Include="Images\GalaxyExamples\features6.jpg" />
-    <Resource Include="Images\GalaxyExamples\smooth4.jpg" />
-    <Resource Include="Images\GalaxyExamples\smooth5.jpg" />
-    <Resource Include="Images\GalaxyExamples\smooth6.jpg" />
-    <Resource Include="Images\GalaxyExamples\star4.jpg" />
-    <Resource Include="Images\GalaxyExamples\star5.jpg" />
-    <Resource Include="Images\GalaxyExamples\star6.jpg" />
     <Resource Include="Images\General\background.jpg" />
     <Resource Include="Images\General\logo-badge.png" />
+    <Resource Include="Images\Avatars\peach.png" />
+    <Resource Include="Images\Avatars\aqua.png" />
+    <Resource Include="Images\Avatars\blue.png" />
+    <Resource Include="Images\Avatars\green.png" />
+    <Resource Include="Images\Avatars\pink.png" />
+    <Resource Include="Images\Avatars\purple.png" />
     <Resource Include="Images\General\zooniverse-logo.png" />
     <Resource Include="zooniverse_icon.ico" />
     <Resource Include="Images\General\Uwhite.png" />
@@ -353,6 +350,15 @@
     <Resource Include="Images\GalaxyExamples\smooth3.jpg" />
     <Resource Include="Images\GalaxyExamples\star2.jpg" />
     <Resource Include="Images\GalaxyExamples\star3.jpg" />
+    <Resource Include="Images\GalaxyExamples\features4.jpg" />
+    <Resource Include="Images\GalaxyExamples\features5.jpg" />
+    <Resource Include="Images\GalaxyExamples\features6.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth4.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth5.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth6.jpg" />
+    <Resource Include="Images\GalaxyExamples\star4.jpg" />
+    <Resource Include="Images\GalaxyExamples\star5.jpg" />
+    <Resource Include="Images\GalaxyExamples\star6.jpg" />
     <Resource Include="Images\General\NSF.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -471,12 +477,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Avatars\Earth.png" />
-    <Resource Include="Images\Avatars\Face.png" />
-    <Resource Include="Images\Avatars\Heart.png" />
-    <Resource Include="Images\Avatars\Light.png" />
-    <Resource Include="Images\Avatars\Person.png" />
-    <Resource Include="Images\Avatars\Star.png" />
     <Resource Include="Images\StartIcon\Heart.png" />
     <Resource Include="Images\StartIcon\Earth.png" />
     <Resource Include="Images\StartIcon\Face.png" />
