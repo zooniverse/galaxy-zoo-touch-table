@@ -83,9 +83,9 @@
             </local:UserConsole>
 
             <local:UserConsole
-                x:Name="StarUser"
-                DataContext="{Binding StarUserVM}"
-                Style="{StaticResource StarUser}"
+                x:Name="BlueUser"
+                DataContext="{Binding BlueUserVM}"
+                Style="{StaticResource BlueUser}"
                 Canvas.Left="1039"
                 Canvas.Top="10">
                 <local:UserConsole.RenderTransform>

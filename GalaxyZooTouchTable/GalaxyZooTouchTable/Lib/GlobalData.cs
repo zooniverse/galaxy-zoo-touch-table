@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.Lib
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
         public TableUser PersonUser = new PersonUser();
         public TableUser AquaUser = new AquaUser();
-        public TableUser StarUser = new StarUser();
+        public TableUser BlueUser = new BlueUser();
         public TableUser PinkUser = new PinkUser();
         public TableUser FaceUser = new FaceUser();
         public TableUser GreenUser = new GreenUser();
@@ -34,7 +34,7 @@ namespace GalaxyZooTouchTable.Lib
             AllUsers.Add(PersonUser);
             AllUsers.Add(FaceUser);
             AllUsers.Add(AquaUser);
-            AllUsers.Add(StarUser);
+            AllUsers.Add(BlueUser);
             AllUsers.Add(PinkUser);
             AllUsers.Add(GreenUser);
         }

@@ -74,7 +74,7 @@ namespace GalaxyZooTouchTable.Models
                         AvatarY *= -1;
                         AvatarX *= -1;
                         break;
-                    case "StarUser":
+                    case "BlueUser":
                         AvatarY *= -1;
                         break;
                     case "AquaUser":

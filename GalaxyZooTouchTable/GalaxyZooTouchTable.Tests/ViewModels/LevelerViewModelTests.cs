@@ -10,14 +10,14 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
         public LevelerViewModelTests()
         {
-            var User = GlobalData.GetInstance().StarUser;
+            var User = GlobalData.GetInstance().BlueUser;
             _viewModel = new LevelerViewModel(User);
         }
 
         [Fact]
         public void ShouldInitializeWithDefaultValues()
         {
-            var ExpectedUser = GlobalData.GetInstance().StarUser;
+            var ExpectedUser = GlobalData.GetInstance().BlueUser;
             Assert.Equal(5, _viewModel.ClassificationsUntilUpgrade);
             Assert.Equal(0, _viewModel.ClassificationsThisSession);
             Assert.Equal(ExpectedUser, _viewModel.User);

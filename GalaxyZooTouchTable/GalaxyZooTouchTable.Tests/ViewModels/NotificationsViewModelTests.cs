@@ -9,13 +9,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
     public class NotificationsViewModelTests
     {
         private NotificationsViewModel _viewModel;
-        TableUser StarUser = new StarUser();
+        TableUser BlueUser = new BlueUser();
         TableUser PinkUser = new PinkUser();
         TableUser PersonUser = new PersonUser();
 
         public NotificationsViewModelTests()
         {
-            _viewModel = new NotificationsViewModel(StarUser);
+            _viewModel = new NotificationsViewModel(BlueUser);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldFilterUserFromAvailableUsers()
         {
-            NotificationAvatarViewModel Avatar = new NotificationAvatarViewModel(StarUser);
+            NotificationAvatarViewModel Avatar = new NotificationAvatarViewModel(BlueUser);
             Assert.DoesNotContain(Avatar, _viewModel.AvailableUsers);
         }
 
@@ -82,7 +82,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldNotifyIfAlreadyWorkingWith()
         {
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("You are already working with", _viewModel.Overlay.MessageOne);
@@ -94,7 +94,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             PersonUser.Active = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             _viewModel.NotifyUser.Execute(PersonUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("You must respond to your current help request.", _viewModel.Overlay.MessageOne);
@@ -108,7 +108,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.Null(_viewModel.Overlay);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.Decline);
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry, you have already asked", _viewModel.Overlay.MessageOne);
@@ -119,7 +119,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldClearRequestsWhenDecliningGalaxies()
         {
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp);
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
             _viewModel.DeclineGalaxy.Execute(null);
             Assert.Empty(_viewModel.PendingRequests);
@@ -138,7 +138,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldAcceptRequestForHelp()
         {
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
             _viewModel.AcceptGalaxy.Execute(null);
             Assert.Equal(_viewModel.UserHelping, PinkUser);
@@ -150,7 +150,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
             _viewModel.AcceptGalaxy.Execute(null);
             Assert.NotNull(_viewModel.NotificationPanel);
@@ -184,7 +184,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldNotifyWhenUserIsLeaving()
         {
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp);
-            Messenger.Default.Send(Notification, "StarUser_PostNotification");
+            Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             HelpNotification LeavingNotification = new HelpNotification(PinkUser, HelpNotificationStatus.Leaving);
             Messenger.Default.Send(LeavingNotification, "UserLeaving");
             Assert.NotNull(_viewModel.Overlay);

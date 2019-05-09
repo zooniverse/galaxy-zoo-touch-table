@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel PersonUserVM { get; private set; }
         public ClassificationPanelViewModel FaceUserVM { get; private set; }
         public ClassificationPanelViewModel AquaUserVM { get; private set; }
-        public ClassificationPanelViewModel StarUserVM { get; private set; }
+        public ClassificationPanelViewModel BlueUserVM { get; private set; }
         public ClassificationPanelViewModel PinkUserVM { get; private set; }
         public ClassificationPanelViewModel GreenUserVM { get; private set; }
 
@@ -25,7 +25,7 @@ namespace GalaxyZooTouchTable.ViewModels
             RegisterMessengerActions();
             PersonUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Person);
             AquaUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Aqua);
-            StarUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Star);
+            BlueUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Blue);
             PinkUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Pink);
             FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
             GreenUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Green);
@@ -43,7 +43,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PersonUserVM.Load();
             FaceUserVM.Load();
             AquaUserVM.Load();
-            StarUserVM.Load();
+            BlueUserVM.Load();
             PinkUserVM.Load();
             GreenUserVM.Load();
         }

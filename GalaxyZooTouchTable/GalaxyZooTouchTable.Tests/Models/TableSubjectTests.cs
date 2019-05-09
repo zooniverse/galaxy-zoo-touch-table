@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.Tests.Models
 
         public TableSubjectTests()
         {
-            _tableSubject.GalaxyRings.Add(new GalaxyRing(1, GlobalData.GetInstance().StarUser));
+            _tableSubject.GalaxyRings.Add(new GalaxyRing(1, GlobalData.GetInstance().BlueUser));
             _tableSubject.GalaxyRings.Add(new GalaxyRing(2, GlobalData.GetInstance().GreenUser));
         }
 
@@ -19,7 +19,7 @@ namespace GalaxyZooTouchTable.Tests.Models
         private void ShouldRemoveRing()
         {
             Assert.Equal(3, _tableSubject.GalaxyRings.Count);
-            _tableSubject.RemoveRing(GlobalData.GetInstance().StarUser);
+            _tableSubject.RemoveRing(GlobalData.GetInstance().BlueUser);
             Assert.Equal(2, _tableSubject.GalaxyRings.Count);
         }
 

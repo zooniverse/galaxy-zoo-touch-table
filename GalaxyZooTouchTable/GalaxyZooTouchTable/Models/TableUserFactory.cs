@@ -7,7 +7,7 @@ namespace GalaxyZooTouchTable.Models
     public enum UserType
     {
         Person,
-        Star,
+        Blue,
         Green,
         Aqua,
         Face,
@@ -44,9 +44,9 @@ namespace GalaxyZooTouchTable.Models
         public override string DashArray => "0.25 1.5 2 1.5";
     }
 
-    public class StarUser : TableUser
+    public class BlueUser : TableUser
     {
-        public override string Name => "StarUser";
+        public override string Name => "BlueUser";
         public override string ThemeColor => "#29A1FA";
         public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/blue.png", UriKind.Relative));
         public override string DashArray => "0.25 0.8";
