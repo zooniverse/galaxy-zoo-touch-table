@@ -58,9 +58,9 @@
             <Image Canvas.Right="40" Canvas.Bottom="40" HorizontalAlignment="Right" Height="52" Width="124" Source="../Images/General/logo-badge.png"/>
 
             <local:UserConsole
-                x:Name="PersonUser"
-                DataContext="{Binding PersonUserVM}"
-                Style="{StaticResource PersonUser}"
+                x:Name="PurpleUser"
+                DataContext="{Binding PurpleUserVM}"
+                Style="{StaticResource PurpleUser}"
                 Canvas.Left="333"
                 Canvas.Bottom="10"/>
 

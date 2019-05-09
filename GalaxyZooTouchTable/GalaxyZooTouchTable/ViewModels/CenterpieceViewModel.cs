@@ -37,7 +37,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
             AllUsers.CollectionChanged += AllUsersCollectionChanged;
 
-            AllUsers.Add(GlobalData.GetInstance().PersonUser);
+            AllUsers.Add(GlobalData.GetInstance().PurpleUser);
             AllUsers.Add(GlobalData.GetInstance().AquaUser);
             AllUsers.Add(GlobalData.GetInstance().BlueUser);
             AllUsers.Add(GlobalData.GetInstance().PinkUser);

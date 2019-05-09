@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private NotificationsViewModel _viewModel;
         TableUser BlueUser = new BlueUser();
         TableUser PinkUser = new PinkUser();
-        TableUser PersonUser = new PersonUser();
+        TableUser PurpleUser = new PurpleUser();
 
         public NotificationsViewModelTests()
         {
@@ -91,11 +91,11 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldNotifyIfPendingRequest()
         {
-            PersonUser.Active = true;
+            PurpleUser.Active = true;
             _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "BlueUser_PostNotification");
-            _viewModel.NotifyUser.Execute(PersonUser);
+            _viewModel.NotifyUser.Execute(PurpleUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("You must respond to your current help request.", _viewModel.Overlay.MessageOne);
         }

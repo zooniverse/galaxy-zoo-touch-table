@@ -81,7 +81,7 @@ namespace GalaxyZooTouchTable.Models
                         AvatarY = 0;
                         AvatarX = Diameter / 2;
                         break;
-                    case "PersonUser":
+                    case "PurpleUser":
                         AvatarX *= -1;
                         break;
                     case "GreenUser":

@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.Lib
     {
         private static GlobalData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
-        public TableUser PersonUser = new PersonUser();
+        public TableUser PurpleUser = new PurpleUser();
         public TableUser AquaUser = new AquaUser();
         public TableUser BlueUser = new BlueUser();
         public TableUser PinkUser = new PinkUser();
@@ -31,7 +31,7 @@ namespace GalaxyZooTouchTable.Lib
 
         private void PopulateUsers()
         {
-            AllUsers.Add(PersonUser);
+            AllUsers.Add(PurpleUser);
             AllUsers.Add(FaceUser);
             AllUsers.Add(AquaUser);
             AllUsers.Add(BlueUser);

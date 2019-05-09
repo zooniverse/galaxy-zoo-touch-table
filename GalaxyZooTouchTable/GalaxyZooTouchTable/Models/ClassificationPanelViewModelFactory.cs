@@ -33,7 +33,7 @@ namespace GalaxyZooTouchTable.Models
         {
             switch (type)
             {
-                case UserType.Person: return GlobalData.GetInstance().PersonUser;
+                case UserType.Purple: return GlobalData.GetInstance().PurpleUser;
                 case UserType.Blue: return GlobalData.GetInstance().BlueUser;
                 case UserType.Green: return GlobalData.GetInstance().GreenUser;
                 case UserType.Aqua: return GlobalData.GetInstance().AquaUser;
