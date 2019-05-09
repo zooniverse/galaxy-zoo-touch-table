@@ -37,7 +37,7 @@ namespace GalaxyZooTouchTable.Models
                 case UserType.Blue: return GlobalData.GetInstance().BlueUser;
                 case UserType.Green: return GlobalData.GetInstance().GreenUser;
                 case UserType.Aqua: return GlobalData.GetInstance().AquaUser;
-                case UserType.Face: return GlobalData.GetInstance().FaceUser;
+                case UserType.Peach: return GlobalData.GetInstance().PeachUser;
                 case UserType.Pink: return GlobalData.GetInstance().PinkUser;
                 default: return GlobalData.GetInstance().PinkUser;
             }

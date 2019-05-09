@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
         Blue,
         Green,
         Aqua,
-        Face,
+        Peach,
         Pink
     }
 
@@ -68,9 +68,9 @@ namespace GalaxyZooTouchTable.Models
         public override string DashArray => "0.5 2";
     }
 
-    public class FaceUser : TableUser
+    public class PeachUser : TableUser
     {
-        public override string Name => "FaceUser";
+        public override string Name => "PeachUser";
         public override string ThemeColor => "#F3AB91";
         public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/peach.png", UriKind.Relative));
         public override string DashArray => "0.05 1.35";

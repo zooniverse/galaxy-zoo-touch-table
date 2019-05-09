@@ -13,7 +13,7 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser AquaUser = new AquaUser();
         public TableUser BlueUser = new BlueUser();
         public TableUser PinkUser = new PinkUser();
-        public TableUser FaceUser = new FaceUser();
+        public TableUser PeachUser = new PeachUser();
         public TableUser GreenUser = new GreenUser();
 
         protected GlobalData()
@@ -32,7 +32,7 @@ namespace GalaxyZooTouchTable.Lib
         private void PopulateUsers()
         {
             AllUsers.Add(PurpleUser);
-            AllUsers.Add(FaceUser);
+            AllUsers.Add(PeachUser);
             AllUsers.Add(AquaUser);
             AllUsers.Add(BlueUser);
             AllUsers.Add(PinkUser);

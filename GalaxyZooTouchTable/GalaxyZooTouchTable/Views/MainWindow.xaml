@@ -65,9 +65,9 @@
                 Canvas.Bottom="10"/>
 
             <local:UserConsole
-                x:Name="FaceUser"
-                DataContext="{Binding FaceUserVM}"
-                Style="{StaticResource FaceUser}"
+                x:Name="PeachUser"
+                DataContext="{Binding PeachUserVM}"
+                Style="{StaticResource PeachUser}"
                 Canvas.Left="1059"
                 Canvas.Bottom="10"/>
 

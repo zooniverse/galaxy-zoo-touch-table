@@ -7,7 +7,7 @@ namespace GalaxyZooTouchTable.ViewModels
     public class MainWindowViewModel : ViewModelBase
     {
         public ClassificationPanelViewModel PurpleUserVM { get; private set; }
-        public ClassificationPanelViewModel FaceUserVM { get; private set; }
+        public ClassificationPanelViewModel PeachUserVM { get; private set; }
         public ClassificationPanelViewModel AquaUserVM { get; private set; }
         public ClassificationPanelViewModel BlueUserVM { get; private set; }
         public ClassificationPanelViewModel PinkUserVM { get; private set; }
@@ -27,7 +27,7 @@ namespace GalaxyZooTouchTable.ViewModels
             AquaUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Aqua);
             BlueUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Blue);
             PinkUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Pink);
-            FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
+            PeachUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Peach);
             GreenUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Green);
         }
 
@@ -41,7 +41,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void Load()
         {
             PurpleUserVM.Load();
-            FaceUserVM.Load();
+            PeachUserVM.Load();
             AquaUserVM.Load();
             BlueUserVM.Load();
             PinkUserVM.Load();
