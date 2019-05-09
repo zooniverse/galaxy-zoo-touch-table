@@ -94,9 +94,9 @@
             </local:UserConsole>
 
             <local:UserConsole
-                x:Name="EarthUser"
-                DataContext="{Binding EarthUserVM}"
-                Style="{StaticResource EarthUser}"
+                x:Name="GreenUser"
+                DataContext="{Binding GreenUserVM}"
+                Style="{StaticResource GreenUser}"
                 Canvas.Left="10"
                 Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>

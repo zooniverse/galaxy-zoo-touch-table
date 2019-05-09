@@ -14,7 +14,7 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser StarUser = new StarUser();
         public TableUser PinkUser = new PinkUser();
         public TableUser FaceUser = new FaceUser();
-        public TableUser EarthUser = new EarthUser();
+        public TableUser GreenUser = new GreenUser();
 
         protected GlobalData()
         {
@@ -36,7 +36,7 @@ namespace GalaxyZooTouchTable.Lib
             AllUsers.Add(AquaUser);
             AllUsers.Add(StarUser);
             AllUsers.Add(PinkUser);
-            AllUsers.Add(EarthUser);
+            AllUsers.Add(GreenUser);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

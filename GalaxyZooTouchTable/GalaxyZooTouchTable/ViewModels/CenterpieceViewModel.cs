@@ -42,7 +42,7 @@ namespace GalaxyZooTouchTable.ViewModels
             AllUsers.Add(GlobalData.GetInstance().StarUser);
             AllUsers.Add(GlobalData.GetInstance().PinkUser);
             AllUsers.Add(GlobalData.GetInstance().FaceUser);
-            AllUsers.Add(GlobalData.GetInstance().EarthUser);
+            AllUsers.Add(GlobalData.GetInstance().GreenUser);
         }
 
         private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)
