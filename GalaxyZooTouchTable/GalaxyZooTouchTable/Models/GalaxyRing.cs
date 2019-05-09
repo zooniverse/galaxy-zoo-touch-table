@@ -77,7 +77,7 @@ namespace GalaxyZooTouchTable.Models
                     case "StarUser":
                         AvatarY *= -1;
                         break;
-                    case "LightUser":
+                    case "AquaUser":
                         AvatarY = 0;
                         AvatarX = Diameter / 2;
                         break;

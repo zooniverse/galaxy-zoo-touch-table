@@ -42,7 +42,7 @@ namespace GalaxyZooTouchTable.Tests.Models
         [Fact]
         private void ShouldAddARing()
         {
-            _tableSubject.AddRing(GlobalData.GetInstance().LightUser);
+            _tableSubject.AddRing(GlobalData.GetInstance().AquaUser);
             Assert.Equal(4, _tableSubject.GalaxyRings.Count);
         }
     }

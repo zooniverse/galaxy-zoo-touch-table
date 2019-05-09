@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.Models
         Person,
         Star,
         Earth,
-        Light,
+        Aqua,
         Face,
         Pink
     }
@@ -60,9 +60,9 @@ namespace GalaxyZooTouchTable.Models
         public override string DashArray => "3 2";
     }
 
-    public class LightUser : TableUser
+    public class AquaUser : TableUser
     {
-        public override string Name => "LightUser";
+        public override string Name => "AquaUser";
         public override string ThemeColor => "#A3DDEE";
         public override BitmapImage Avatar => new BitmapImage(new Uri("../Images/Avatars/aqua.png", UriKind.Relative));
         public override string DashArray => "0.5 2";

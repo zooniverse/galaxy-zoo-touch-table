@@ -105,9 +105,9 @@
             </local:UserConsole>
 
             <local:UserConsole
-                x:Name="LightUser"
-                DataContext="{Binding LightUserVM}"
-                Style="{StaticResource LightUser}"
+                x:Name="AquaUser"
+                DataContext="{Binding AquaUserVM}"
+                Style="{StaticResource AquaUser}"
                 Canvas.Right="10"
                 Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>

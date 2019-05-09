@@ -8,7 +8,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public ClassificationPanelViewModel PersonUserVM { get; private set; }
         public ClassificationPanelViewModel FaceUserVM { get; private set; }
-        public ClassificationPanelViewModel LightUserVM { get; private set; }
+        public ClassificationPanelViewModel AquaUserVM { get; private set; }
         public ClassificationPanelViewModel StarUserVM { get; private set; }
         public ClassificationPanelViewModel PinkUserVM { get; private set; }
         public ClassificationPanelViewModel EarthUserVM { get; private set; }
@@ -24,7 +24,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             RegisterMessengerActions();
             PersonUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Person);
-            LightUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Light);
+            AquaUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Aqua);
             StarUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Star);
             PinkUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Pink);
             FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
@@ -42,7 +42,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             PersonUserVM.Load();
             FaceUserVM.Load();
-            LightUserVM.Load();
+            AquaUserVM.Load();
             StarUserVM.Load();
             PinkUserVM.Load();
             EarthUserVM.Load();
