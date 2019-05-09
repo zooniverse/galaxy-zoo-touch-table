@@ -64,7 +64,9 @@
     </UserControl.Resources>
     
     <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
-        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" Text="Nice work! You just science'd." FontSize="19"/>
+        <Viewbox Margin="14,0" VerticalAlignment="Top" StretchDirection="DownOnly" HorizontalAlignment="Left">
+            <TextBlock Style="{StaticResource CommonBoldFont}" Text="{Binding SummaryString}" FontSize="19"/>
+        </Viewbox>
         <TextBlock 
             Foreground="White"
             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"

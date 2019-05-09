@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
-             xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters">
+             xmlns:Models="clr-namespace:GalaxyZooTouchTable.Models"
+             xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -23,9 +25,16 @@
             <Converters:FontSizeConverter x:Key="FontSizeConverter"/>
             <Converters:ObjectEqualityStringConverter x:Key="ObjectEqualityStringConverter"/>
             <Converters:ObjectToTypeStringConverter x:Key="ObjectToTypeStringConverter"/>
-            <local:ProgressWidthConverter x:Key="ProgressWidthConverter"/> 
+            <local:ProgressWidthConverter x:Key="ProgressWidthConverter"/>
             <FontFamily x:Key="Karla"/>
             <FontFamily x:Key="Poppins"/>
+            <Models:StringCollection x:Key="SummaryStrings">
+                <sys:String>Nice work! You just science'd.</sys:String>
+                <sys:String>Thanks for your help!</sys:String>
+                <sys:String>You're a real scientist!</sys:String>
+                <sys:String>Don't stop now!</sys:String>
+                <sys:String>You can do this at home on zooniverse.org.</sys:String>
+            </Models:StringCollection>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
