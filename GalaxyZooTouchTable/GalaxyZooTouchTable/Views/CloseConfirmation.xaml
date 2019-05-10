@@ -23,9 +23,19 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="CloseConfirmation" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     
-    <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
+    <Border Style="{StaticResource CloseConfirmation}" CornerRadius="5" Background="{StaticResource MedGrayColor}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
@@ -33,7 +43,7 @@
         <Grid Width="243" Height="199">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
+                    <Behaviors:TapBehavior Command="{Binding ToggleCloseConfirmation}"/>
                 </i:Interaction.Behaviors>
                 <TextBlock
                     Style="{StaticResource CommonType}"
@@ -113,7 +123,7 @@
                 Margin="15,0,0,14"
                 VerticalAlignment="Bottom"
                 Width="104"
-                PressCommand="{Binding ShowCloseConfirmation}">
+                PressCommand="{Binding ToggleCloseConfirmation}">
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"

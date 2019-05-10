@@ -105,13 +105,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private bool _closeConfirmationVisible = false;
-        public bool CloseConfirmationVisible
-        {
-            get => _closeConfirmationVisible;
-            set => SetProperty(ref _closeConfirmationVisible, value);
-        }
-
         private bool _classifierOpen = false;
         public bool ClassifierOpen
         {
@@ -185,6 +178,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void AddSubscribers()
         {
+            CloseConfirmationViewModel.EndSession += OnCloseClassifier;
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             Notifications.PropertyChanged += ResetStillThereModalTimer;
@@ -215,7 +209,12 @@ namespace GalaxyZooTouchTable.ViewModels
             ContinueClassification = new CustomCommand(OnContinueClassification);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
-            ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
+            ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
+        }
+
+        private void OnShowCloseConfirmation(object obj)
+        {
+            CloseConfirmationViewModel.OnToggleCloseConfirmation();
         }
 
         private void OnChooseAnotherGalaxy(object sender)
@@ -257,7 +256,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Notifications.NotifyLeaving();
 
             ClassifierOpen = false;
-            CloseConfirmationVisible = false;
+            CloseConfirmationViewModel.OnToggleCloseConfirmation();
             User.Active = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
@@ -268,11 +267,6 @@ namespace GalaxyZooTouchTable.ViewModels
             GetSubjectQueue();
             OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
-        }
-
-        private void ToggleCloseConfirmation(object sender)
-        {
-            CloseConfirmationVisible = !CloseConfirmationVisible;
         }
 
         public void OnChangeView(ClassifierViewEnum view)
