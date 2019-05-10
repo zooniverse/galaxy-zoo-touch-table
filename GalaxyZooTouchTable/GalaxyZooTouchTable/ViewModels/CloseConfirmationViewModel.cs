@@ -38,9 +38,10 @@ namespace GalaxyZooTouchTable.ViewModels
             EndSession(null);
         }
 
-        public void OnToggleCloseConfirmation(object sender = null)
+        public void OnToggleCloseConfirmation(object visible = null)
         {
-            IsVisible = !IsVisible;
+            bool? show = visible as bool?;
+            IsVisible = show ?? !IsVisible;
         }
 
         private bool CanCheckIntent(object obj)

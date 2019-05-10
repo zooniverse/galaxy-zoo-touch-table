@@ -256,7 +256,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Notifications.NotifyLeaving();
 
             ClassifierOpen = false;
-            CloseConfirmationViewModel.OnToggleCloseConfirmation();
+            CloseConfirmationViewModel.OnToggleCloseConfirmation(false);
             User.Active = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
@@ -307,7 +307,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void SetTimer()
         {
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
+            StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
             StartStillThereModalTimer();
         }
 

@@ -46,11 +46,16 @@
 
         <Views:StillThereModal
             DataContext="{Binding StillThere}"
-            Margin="108,2,0,0"
+            Margin="108,20,128,0"
             Visibility="{Binding Visible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Panel.ZIndex="1"/>
+            Panel.ZIndex="2"/>
+
+        <local:CloseConfirmation
+            Panel.ZIndex="1"
+            Margin="108,20,128,0"
+            Width="243"
+            Height="200"
+            DataContext="{Binding CloseConfirmationViewModel}"/>
 
         <Border
             Background="{StaticResource DarkGrayColor}"
@@ -113,15 +118,6 @@
             </Grid>
         </Border>
 
-        <Grid
-            Margin="108,20,128,0"
-            Panel.ZIndex="1">
-            <!--<Grid.Background>
-                <SolidColorBrush Color="#343438" Opacity="0.9"/>
-            </Grid.Background>-->
-            <local:CloseConfirmation Width="243" Height="200" DataContext="{Binding CloseConfirmationViewModel}"/>
-        </Grid>
-        
         <local:ExamplesPanel
             Panel.ZIndex="-1"
             DataContext="{Binding ExamplesViewModel}"
