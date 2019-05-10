@@ -56,6 +56,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public NotificationsViewModel Notifications { get; private set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
+        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; }
 
         private LevelerViewModel _levelerViewModel;
         public LevelerViewModel LevelerViewModel
@@ -175,6 +176,7 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel = new LevelerViewModel(User);
             Notifications = new NotificationsViewModel(User);
             StillThere = new StillThereViewModel();
+            CloseConfirmationViewModel = new CloseConfirmationViewModel();
 
             LoadCommands();
             AddSubscribers();

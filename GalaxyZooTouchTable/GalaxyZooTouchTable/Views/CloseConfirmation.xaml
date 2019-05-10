@@ -15,6 +15,14 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+
+        <Style x:Key="CheckBox" TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Intent}" Value="True">
+                    <Setter Property="Background" Value="#E5FF4D" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     
     <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
@@ -83,7 +91,10 @@
                 Width="57"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,42">
-                <Border BorderBrush="#171718" Width="12" Height="12" CornerRadius="2" BorderThickness="1"/>
+                <i:Interaction.Behaviors>
+                    <Behaviors:TapBehavior Command="{Binding CheckIntent}"/>
+                </i:Interaction.Behaviors>
+                <Border Style="{StaticResource CheckBox}" BorderBrush="#171718" Width="12" Height="12" CornerRadius="2" BorderThickness="1"/>
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                     VerticalAlignment="Center"

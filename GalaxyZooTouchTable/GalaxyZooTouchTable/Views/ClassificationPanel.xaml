@@ -120,7 +120,7 @@
             <Grid.Background>
                 <SolidColorBrush Color="#343438" Opacity="0.9"/>
             </Grid.Background>
-            <local:CloseConfirmation Width="243" Height="200"/>
+            <local:CloseConfirmation Width="243" Height="200" DataContext="{Binding CloseConfirmationViewModel}"/>
         </Grid>
         
         <local:ExamplesPanel
