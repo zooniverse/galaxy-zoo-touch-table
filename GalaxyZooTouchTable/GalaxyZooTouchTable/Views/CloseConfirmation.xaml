@@ -82,6 +82,19 @@
                 VerticalAlignment="Bottom"
                 Width="57"/>
 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,42">
+                <Border BorderBrush="#171718" Width="12" Height="12" CornerRadius="2" BorderThickness="1"/>
+                <TextBlock
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                    VerticalAlignment="Center"
+                    Margin="4,0,0,0"
+                    FontStyle="Italic"
+                    FontSize="7"
+                    Foreground="#FFFFFF">
+                    Yes, I'll check it out online
+                </TextBlock>
+            </StackPanel> 
+            
             <local:MultiTouchButton
                 Style="{StaticResource TransparentWithDownstate}"
                 Height="20"
