@@ -27,7 +27,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Border Style="{StaticResource MainBorder}" Height="199" Width="243" Background="#55565A" CornerRadius="3">
+    <Border Style="{StaticResource MainBorder}" Height="199" Width="243" CornerRadius="3" Background="{StaticResource MedGrayColor}">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
+        </Border.Effect>
+
         <Grid>
             <Image Source="../Images/General/Logo.png" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0"/>
 

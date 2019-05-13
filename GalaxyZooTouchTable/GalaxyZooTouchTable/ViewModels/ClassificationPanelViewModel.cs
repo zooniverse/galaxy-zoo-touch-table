@@ -4,7 +4,6 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using GraphQL.Common.Response;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -323,7 +322,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void SetTimer()
         {
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
+            StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
             StartStillThereModalTimer();
         }
 
@@ -443,7 +442,6 @@ namespace GalaxyZooTouchTable.ViewModels
                     {
                         var index = System.Convert.ToInt32(count.Name);
                         AnswerButton Answer = CurrentAnswers[index];
-
 
                         int answerCount = (int)count.Value;
                         Answer.AnswerCount = answerCount;

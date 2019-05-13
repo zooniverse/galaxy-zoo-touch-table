@@ -17,7 +17,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public void ShouldInitializeWithDefaultValues()
         {
             Assert.Equal(30, _viewModel.CurrentSeconds);
-            Assert.False(_viewModel.Visible);
+            Assert.False(_viewModel.IsVisible);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             var resetFiveMinuteTimerFired = false;
             _viewModel.ResetFiveMinuteTimer += () => resetFiveMinuteTimerFired = true;
             _viewModel.CloseModal.Execute(null);
-            Assert.False(_viewModel.Visible);
+            Assert.False(_viewModel.IsVisible);
             Assert.True(resetFiveMinuteTimerFired);
         }
     }

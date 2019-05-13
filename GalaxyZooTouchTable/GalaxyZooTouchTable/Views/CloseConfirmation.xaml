@@ -34,13 +34,13 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
-    <Border Style="{StaticResource CloseConfirmation}" CornerRadius="5" Background="{StaticResource MedGrayColor}">
+
+    <Border Style="{StaticResource CloseConfirmation}" Height="199" Width="243" CornerRadius="3" Background="{StaticResource MedGrayColor}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
 
-        <Grid Width="243" Height="199">
+        <Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
                 <i:Interaction.Behaviors>
                     <Behaviors:TapBehavior Command="{Binding ToggleCloseConfirmation}"/>
