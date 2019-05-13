@@ -1,5 +1,4 @@
 ﻿using GalaxyZooTouchTable.ViewModels;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels

@@ -12,14 +12,14 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ToggleCloseConfirmation { get; private set; }
         public event Action CheckOverlay = delegate { };
 
-        private bool _intent = false;
+        private bool _intent;
         public bool Intent
         {
             get => _intent;
             set => SetProperty(ref _intent, value);
         }
 
-        private bool _isVisible = false;
+        private bool _isVisible;
         public bool IsVisible
         {
             get => _isVisible;
