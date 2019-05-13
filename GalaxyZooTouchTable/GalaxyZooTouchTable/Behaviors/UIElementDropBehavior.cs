@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
@@ -13,11 +14,22 @@ namespace GalaxyZooTouchTable.Behaviors
         {
             base.OnAttached();
 
+            AssociatedObject.TouchDown += AssociatedObject_TouchDown;
             AssociatedObject.TouchEnter += AssociatedObject_TouchEnter;
             AssociatedObject.TouchLeave += AssociatedObject_TouchLeave;
         }
 
+        private void AssociatedObject_TouchDown(object sender, TouchEventArgs e)
+        {
+            ResetView(sender);
+        }
+
         private void AssociatedObject_TouchLeave(object sender, TouchEventArgs e)
+        {
+            ResetView(sender);
+        }
+
+        private void ResetView(object sender)
         {
             Border element = sender as Border;
             element.Background = Brushes.Transparent;
