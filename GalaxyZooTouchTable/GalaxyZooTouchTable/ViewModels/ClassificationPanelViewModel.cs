@@ -53,9 +53,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; } = new CloseConfirmationViewModel();
+        public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
         public NotificationsViewModel Notifications { get; private set; }
-        public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
-        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; }
+        public StillThereViewModel StillThere { get; private set; } = new StillThereViewModel();
 
         private LevelerViewModel _levelerViewModel;
         public LevelerViewModel LevelerViewModel
@@ -69,13 +70,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _currentAnswers;
             set => SetProperty(ref _currentAnswers, value);
-        }
-
-        private StillThereViewModel _stillThere;
-        public StillThereViewModel StillThere
-        {
-            get => _stillThere;
-            set => SetProperty(ref _stillThere, value);
         }
 
         private int _totalVotes = 0;
@@ -170,12 +164,9 @@ namespace GalaxyZooTouchTable.ViewModels
             _graphQLService = graphQLService;
             _localDBService = localDBService;
             User = user;
-
-            ExamplesViewModel = new ExamplesPanelViewModel();
+            
             LevelerViewModel = new LevelerViewModel(User);
             Notifications = new NotificationsViewModel(User);
-            StillThere = new StillThereViewModel();
-            CloseConfirmationViewModel = new CloseConfirmationViewModel();
 
             LoadCommands();
             AddSubscribers();

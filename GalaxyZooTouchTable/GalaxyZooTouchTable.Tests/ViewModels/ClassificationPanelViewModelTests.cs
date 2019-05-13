@@ -40,6 +40,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             Assert.False(_viewModel.ClassifierOpen);
             Assert.False(_viewModel.CanSendClassification);
+            Assert.False(_viewModel.ShowOverlay);
         }
 
         [Fact]
@@ -187,6 +188,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.ResetAnswerCount();
             Assert.Equal(0, _viewModel.CurrentAnswers[0].AnswerCount);
             Assert.Equal(0, _viewModel.CurrentAnswers[1].AnswerCount);
+        }
+
+        [Fact]
+        private void ShouldShowOverlay()
+        {
+            _viewModel.ShowCloseConfirmation.Execute(null);
+            Assert.True(_viewModel.ShowOverlay);
         }
     }
 }

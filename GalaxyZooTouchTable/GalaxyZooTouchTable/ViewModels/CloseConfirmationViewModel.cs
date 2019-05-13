@@ -6,11 +6,12 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class CloseConfirmationViewModel : ViewModelBase
     {
+        public event Action CheckOverlay = delegate { };
         public event Action<object> EndSession = delegate { };
+
         public ICommand CloseClassifier { get; private set; }
         public ICommand CheckIntent { get; private set; }
         public ICommand ToggleCloseConfirmation { get; private set; }
-        public event Action CheckOverlay = delegate { };
 
         private bool _intent;
         public bool Intent
