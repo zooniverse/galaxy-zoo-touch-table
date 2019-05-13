@@ -54,7 +54,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public NotificationsViewModel Notifications { get; private set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
-        public LevelerViewModel LevelerViewModel { get; private set; }
+
+        private LevelerViewModel _levelerViewModel;
+        public LevelerViewModel LevelerViewModel
+        {
+            get => _levelerViewModel;
+            set => SetProperty(ref _levelerViewModel, value);
+        }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers
@@ -278,7 +284,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                //await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 TotalVotes += 1;
                 ClassificationsThisSession += 1;
