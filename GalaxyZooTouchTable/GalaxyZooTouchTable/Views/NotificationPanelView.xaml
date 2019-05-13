@@ -88,19 +88,22 @@
     <Grid Height="136.6" Width="115.15">
         <Border
             Style="{StaticResource BellNotification}"
-            Background="{Binding User.ThemeColor}"
             HorizontalAlignment="Right"
-            BorderThickness="3.5"
+            Background="{StaticResource MedGrayColor}"
+            BorderThickness="2.5"
             BorderBrush="{StaticResource MedGrayColor}"
-            CornerRadius="3,0,0,3" VerticalAlignment="Top" Width="33.6" Height="30">
+            CornerRadius="3,0,0,3"
+            VerticalAlignment="Top"
+            Width="33.6"
+            Height="30">
             <Border.RenderTransform>
                 <TranslateTransform X="26"/>
             </Border.RenderTransform>
             <i:Interaction.Behaviors>
                 <Behaviors:TapBehavior Command="{Binding ToggleNotifier}"/>
             </i:Interaction.Behaviors>
-            <Border BorderThickness="1" BorderBrush="Black">
-                <fa:ImageAwesome Icon="BellOutline" HorizontalAlignment="Left" Margin="5,0,0,0" Height="10"/>    
+            <Border CornerRadius="3" Background="{Binding User.ThemeColor}" Width="20" Height="24" HorizontalAlignment="Left" BorderThickness="1.75" BorderBrush="Black">
+                <fa:ImageAwesome Icon="BellOutline" HorizontalAlignment="Center" Height="10"/>    
             </Border>
         </Border>
 
