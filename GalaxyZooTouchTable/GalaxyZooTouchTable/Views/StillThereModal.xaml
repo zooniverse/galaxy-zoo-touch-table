@@ -16,9 +16,18 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+
+        <Style x:Key="MainBorder" TargetType="Border">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
-    <Border Height="199" Width="243" Background="#55565A" CornerRadius="3">
+    <Border Style="{StaticResource MainBorder}" Height="199" Width="243" Background="#55565A" CornerRadius="3">
         <Grid>
             <Image Source="../Images/General/Logo.png" Height="14" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,10,0,0"/>
 

@@ -10,6 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand CloseClassifier { get; private set; }
         public ICommand CheckIntent { get; private set; }
         public ICommand ToggleCloseConfirmation { get; private set; }
+        public event Action CheckOverlay = delegate { };
 
         private bool _intent = false;
         public bool Intent
@@ -22,7 +23,11 @@ namespace GalaxyZooTouchTable.ViewModels
         public bool IsVisible
         {
             get => _isVisible;
-            set => SetProperty(ref _isVisible, value);
+            set
+            {
+                SetProperty(ref _isVisible, value);
+                CheckOverlay();
+            }
         }
 
         public CloseConfirmationViewModel()

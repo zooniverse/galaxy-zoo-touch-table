@@ -13,6 +13,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public event Action<object> CloseClassificationPanel = delegate { };
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
+        public event Action CheckOverlay = delegate { };
 
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseModal { get; set; }
@@ -31,10 +32,10 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _currentSeconds, value);
         }
 
-        private bool _visible = false;
-        public bool Visible
+        private bool _isVisible = false;
+        public bool IsVisible
         {
-            get => _visible;
+            get => _isVisible;
             set
             {
                 if (value == true)
@@ -44,7 +45,8 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     SecondTimer.Stop();
                 }
-                SetProperty(ref _visible, value);
+                SetProperty(ref _isVisible, value);
+                CheckOverlay();
             }
         }
 
@@ -76,7 +78,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseModal(object sender)
         {
-            Visible = false;
+            IsVisible = false;
             ResetFiveMinuteTimer();
         }
 
@@ -107,7 +109,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentSeconds == 0)
             {
                 CloseClassificationPanel(null);
-                Visible = false;
+                IsVisible = false;
             }
         }
     }

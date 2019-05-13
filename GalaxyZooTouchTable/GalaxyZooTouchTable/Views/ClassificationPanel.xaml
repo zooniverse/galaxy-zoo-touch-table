@@ -47,7 +47,6 @@
         <Views:StillThereModal
             DataContext="{Binding StillThere}"
             Margin="108,20,128,0"
-            Visibility="{Binding Visible, Converter={StaticResource BoolToVis}, FallbackValue=Hidden}"
             Panel.ZIndex="2"/>
 
         <local:CloseConfirmation
@@ -68,8 +67,16 @@
             <Border.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="20" ShadowDepth="0"/>
             </Border.Effect>
-
+            
             <Grid Background="Transparent">
+                <Border
+                    Background="#F2343438"
+                    CornerRadius="{Binding Path=CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                    Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                    Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                    Visibility="{Binding ShowOverlay, Converter={StaticResource BoolToVis}, FallbackValue=Collapsed}"
+                    Panel.ZIndex="1"/>
+                
                 <StackPanel
                     Background="{StaticResource DarkGrayColor}"
                     HorizontalAlignment="Right"

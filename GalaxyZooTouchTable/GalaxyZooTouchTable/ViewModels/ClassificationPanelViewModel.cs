@@ -91,7 +91,14 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _currentView;
             set => SetProperty(ref _currentView, value);
-        } 
+        }
+
+        private bool _showOverlay = false;
+        public bool ShowOverlay
+        {
+            get => _showOverlay;
+            set => SetProperty(ref _showOverlay, value);
+        }
 
         private SubjectViewEnum _subjectView = SubjectViewEnum.DragSubject;
         public SubjectViewEnum SubjectView
@@ -99,7 +106,7 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _subjectView;
             set
             {
-                Messenger.Default.Send<SubjectViewEnum>(value, $"{User.Name}_SubjectStatus");
+                Messenger.Default.Send(value, $"{User.Name}_SubjectStatus");
                 AllowSelection = value == SubjectViewEnum.MatchedSubject;
                 SetProperty(ref _subjectView, value);
             }
@@ -182,10 +189,19 @@ namespace GalaxyZooTouchTable.ViewModels
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             Notifications.PropertyChanged += ResetStillThereModalTimer;
+
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
             StillThere.CloseClassificationPanel += OnCloseClassifier;
+
+            CloseConfirmationViewModel.CheckOverlay += OnShouldShowOverlay;
+            StillThere.CheckOverlay += OnShouldShowOverlay;
+        }
+
+        private void OnShouldShowOverlay()
+        {
+            ShowOverlay = CloseConfirmationViewModel.IsVisible || StillThere.IsVisible;
         }
 
         public async void Load()
@@ -307,7 +323,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void SetTimer()
         {
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
+            StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
             StartStillThereModalTimer();
         }
 
@@ -315,13 +331,13 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             StillThereTimer.Stop();
             StillThereTimer.Start();
-            if (StillThere.Visible) { StillThere.Visible = false; }
+            if (StillThere.IsVisible) { StillThere.IsVisible = false; }
         }
 
         private void ShowStillThereModal(object sender, System.EventArgs e)
         {
             StillThereTimer.Stop();
-            StillThere.Visible = true;
+            StillThere.IsVisible = true;
         }
 
         public void ChooseAnswer(AnswerButton button)
