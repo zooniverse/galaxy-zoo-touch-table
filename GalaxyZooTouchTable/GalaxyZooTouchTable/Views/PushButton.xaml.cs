@@ -4,32 +4,30 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.Views
 {
-    public delegate void PressedChangedEventHandler(object sender, bool isPressed);
-
     public partial class PushButton : Button
     {
-        public event PressedChangedEventHandler PressedChanged;
+        bool IsDeliberate { get; set; } = false;
 
-        public static readonly DependencyProperty PressChangedCommandProperty = DependencyProperty.Register(
-            "PressChangedCommand", typeof(ICommand), typeof(PushButton), new PropertyMetadata(default(ICommand)));
-        public static readonly DependencyProperty PressChangedCommandParameterProperty = DependencyProperty.Register(
-            "PressChangedCommandParameter", typeof(object), typeof(PushButton), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty PressCommandProperty = DependencyProperty.Register(
+            "PressCommand", typeof(ICommand), typeof(PushButton), new PropertyMetadata(default(ICommand)));
+        public static readonly DependencyProperty PressCommandParameterProperty = DependencyProperty.Register(
+            "PressCommandParameter", typeof(object), typeof(PushButton), new PropertyMetadata(default(object)));
         public static readonly DependencyProperty IsTouchedProperty = DependencyProperty.Register(
             "IsTouched", typeof(bool), typeof(PushButton), new PropertyMetadata(default(bool)));
 
-        public ICommand PressChangedCommand
+        public ICommand PressCommand
         {
-            get { return (ICommand)GetValue(PressChangedCommandProperty); }
-            set { SetValue(PressChangedCommandProperty, value); }
+            get { return (ICommand)GetValue(PressCommandProperty); }
+            set { SetValue(PressCommandProperty, value); }
         }
 
         /// <summary>
-        /// Parameter for <see cref="PressChangedCommand"/>
+        /// Parameter for <see cref="PressCommand"/>
         /// </summary>
-        public object PressChangedCommandParameter
+        public object PressCommandParameter
         {
-            get { return (object)GetValue(PressChangedCommandParameterProperty); }
-            set { SetValue(PressChangedCommandParameterProperty, value); }
+            get { return (object)GetValue(PressCommandParameterProperty); }
+            set { SetValue(PressCommandParameterProperty, value); }
         }
 
         public bool IsTouched
@@ -42,44 +40,47 @@ namespace GalaxyZooTouchTable.Views
         {
             InitializeComponent();
 
-            TouchDown += AssociatedObject_TouchOn;
-            TouchEnter += AssociatedObject_TouchOn;
+            TouchDown += PushButton_TouchDown;
+            TouchEnter += PushButton_TouchEnter;
 
-            TouchUp += AssociatedObject_TouchOff;
-            TouchLeave += AssociatedObject_TouchOff;
+            TouchUp += PushButton_TouchUp;
+            TouchLeave += PushButton_TouchLeave;
         }
 
-        private void AssociatedObject_TouchOff(object sender, TouchEventArgs e)
+        private void PushButton_TouchDown(object sender, TouchEventArgs e)
         {
-            IsTouched = false;
+            SetTouchState(true);
         }
 
-        private void AssociatedObject_TouchOn(object sender, TouchEventArgs e)
+        private void PushButton_TouchLeave(object sender, TouchEventArgs e)
+        {
+            SetTouchState(false);
+        }
+
+        private void PushButton_TouchUp(object sender, TouchEventArgs e)
+        {
+            if (IsTouched && IsDeliberate)
+            {
+                FireCommand();
+            }
+            SetTouchState(false);
+        }
+
+        private void PushButton_TouchEnter(object sender, TouchEventArgs e)
         {
             IsTouched = true;
         }
 
-        protected override void OnIsPressedChanged(DependencyPropertyChangedEventArgs e)
+        private void SetTouchState(bool state)
         {
-            OnPressedChanged();
-            base.OnIsPressedChanged(e);
-        }
-
-        private void OnPressedChanged()
-        {
-            PressedChanged?.Invoke(this, IsPressed);
-
-            if (IsPressed)
-            {
-                FireCommand();
-            }
+            IsDeliberate = IsTouched = state;
         }
 
         void FireCommand()
         {
-            if (PressChangedCommand != null && PressChangedCommand.CanExecute(PressChangedCommandParameter))
+            if (PressCommand != null && PressCommand.CanExecute(PressCommandParameter))
             {
-                PressChangedCommand.Execute(PressChangedCommandParameter);
+                PressCommand.Execute(PressCommandParameter);
             }
         }
     }
