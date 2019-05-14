@@ -273,6 +273,9 @@
     <Compile Include="Views\Leveler.xaml.cs">
       <DependentUpon>Leveler.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PushButton.xaml.cs">
+      <DependentUpon>PushButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SpaceView.xaml.cs">
       <DependentUpon>SpaceView.xaml</DependentUpon>
     </Compile>
@@ -409,6 +412,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PushButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -91,7 +91,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </MultiDataTrigger>
-                            <Trigger Property="Button.IsPressed" Value="True">
+                            <Trigger Property="Views:PushButton.IsTouched" Value="True">
                                 <Setter TargetName="DropShadowBorder" Property="BorderThickness" Value="0"/>
                                 <Setter TargetName="OuterBorder" Property="Background" Value="#4D015F7B"/>
                                 <Setter TargetName="OuterBorder" Property="Clip">
@@ -152,11 +152,12 @@
             Width="165">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource AnswerButton}" Height="34" Width="144" Margin="0,0,0,9">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:TapBehavior Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" CommandParameter="{Binding}"/>
-                        </i:Interaction.Behaviors>
-                    </Button>
+                    <Views:PushButton
+                        Style="{StaticResource AnswerButton}"
+                        Height="34"
+                        Width="144"
+                        Margin="0,0,0,9"
+                        PressChangedCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SubjectViewer}}, Path=DataContext.SelectAnswer}" PressChangedCommandParameter="{Binding}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
