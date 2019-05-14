@@ -7,6 +7,7 @@
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              mc:Ignorable="d" 
              Height="136.6" Width="115.15">
     <UserControl.Resources>
@@ -169,15 +170,13 @@
                         Text="Accepting this invitation will clear the galaxy you're currently working on."
                         TextWrapping="Wrap"
                         Width="80"/>
-                    <Button
+                    <local:PushButton
                         Style="{StaticResource SubmitWithDownstate}"
                         VerticalAlignment="Bottom"
                         BorderThickness="1"
                         Margin="0,0,0,34"
-                        Height="19">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:TapBehavior Command="{Binding AcceptGalaxy}"/>
-                        </i:Interaction.Behaviors>
+                        Height="19"
+                        PressCommand="{Binding AcceptGalaxy}">
                         <TextBlock
                             Text="Continue"
                             FontSize="8"
@@ -185,16 +184,14 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </Button>
+                    </local:PushButton>
 
-                    <Button
+                    <local:PushButton
                         Style="{StaticResource TransparentWithDownstate}"
                         Margin="0,0,0,10.5"
                         VerticalAlignment="Bottom"
-                        Height="19">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:TapBehavior Command="{Binding DeclineGalaxy}"/>
-                        </i:Interaction.Behaviors>
+                        Height="19"
+                        PressCommand="{Binding DeclineGalaxy}">
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             Text="Decline galaxy"
@@ -202,7 +199,7 @@
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
-                    </Button>
+                    </local:PushButton>
                 </Grid>
 
                 <Grid Margin="7.6,20,19.5,0" Style="{StaticResource HelpRequested}">
@@ -225,15 +222,13 @@
                         VerticalAlignment="Bottom"
                         Margin="2.5,0,0,61.64"
                         Text="you think about a galaxy they're working on. Do you want to help?"/>
-                    <Button
+                    <local:PushButton
                         Style="{StaticResource SubmitWithDownstate}"
                         VerticalAlignment="Bottom"
                         BorderThickness="1"
                         Margin="0,0,0,34"
-                        Height="19">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:TapBehavior Command="{Binding AcceptGalaxy}"/>
-                        </i:Interaction.Behaviors>
+                        Height="19"
+                        PressCommand="{Binding AcceptGalaxy}">
                         <TextBlock
                             Text="Accept galaxy"
                             FontSize="8"
@@ -241,16 +236,14 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </Button>
+                    </local:PushButton>
 
-                    <Button
+                    <local:PushButton
                         Style="{StaticResource TransparentWithDownstate}"
                         Margin="0,0,0,10.5"
                         VerticalAlignment="Bottom"
-                        Height="19">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:TapBehavior Command="{Binding DeclineGalaxy}"/>
-                        </i:Interaction.Behaviors>
+                        Height="19"
+                        PressCommand="{Binding DeclineGalaxy}">
                         <TextBlock
                             Style="{StaticResource WhiteFont}"
                             Text="Decline galaxy"
@@ -258,7 +251,7 @@
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
-                    </Button>
+                    </local:PushButton>
                 </Grid>
             </Grid>
         </Border>

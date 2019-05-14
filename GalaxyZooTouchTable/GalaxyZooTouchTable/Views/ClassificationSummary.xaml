@@ -219,16 +219,14 @@
             </StackPanel>
         </Views:PushButton>
 
-        <Button
+        <Views:PushButton
             Height="23"
             HorizontalAlignment="Right"
             Margin="0,0,14,0"
             Width="137"
             VerticalAlignment="Bottom"
-            Style="{StaticResource SubmitWithDownstate}">
-            <i:Interaction.Behaviors>
-                <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
-            </i:Interaction.Behaviors>
+            Style="{StaticResource SubmitWithDownstate}"
+            PressCommand="{Binding ContinueClassification}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
@@ -237,6 +235,6 @@
                     Text="Random galaxy"/>
                 <fa:ImageAwesome Icon="ChevronRight" Height="8" Margin="5,0,0,0"/>
             </StackPanel>
-        </Button>
+        </Views:PushButton>
     </Grid>
 </UserControl>

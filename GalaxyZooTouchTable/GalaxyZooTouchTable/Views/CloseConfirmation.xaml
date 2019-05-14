@@ -7,7 +7,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="199" d:DesignWidth="243">
+             d:DesignHeight="199" d:DesignWidth="243"
+             xmlns:local="clr-namespace:GalaxyZooTouchTable.Views">
     <UserControl.Resources>
         <Style x:Key="CommonType" TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
@@ -81,34 +82,30 @@
                 VerticalAlignment="Bottom"
                 Width="57"/>
 
-            <Button
+            <local:PushButton
                 Style="{StaticResource TransparentWithDownstate}"
                 Height="20"
                 HorizontalAlignment="Left"
                 Margin="15,0,0,14"
                 VerticalAlignment="Bottom"
-                Width="104">
-                <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
-                </i:Interaction.Behaviors>
+                Width="104"
+                PressCommand="{Binding ShowCloseConfirmation}">
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
                     HorizontalAlignment="Center"
                     Text="Keep classifying"
                     VerticalAlignment="Center"/>
-            </Button>
+            </local:PushButton>
 
-            <Button
+            <local:PushButton
                 Style="{StaticResource SubmitWithDownstate}"
                 Height="20"
                 HorizontalAlignment="Right"
                 Margin="0,0,15.3,14.59"
                 VerticalAlignment="Bottom"
-                Width="104">
-                <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding CloseClassifier}"/>
-                </i:Interaction.Behaviors>
+                Width="104"
+                PressCommand="{Binding CloseClassifier}">
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
@@ -116,7 +113,7 @@
                     HorizontalAlignment="Center"
                     Text="Close &amp; end"
                     VerticalAlignment="Center"/>
-            </Button>
+            </local:PushButton>
         </Grid>
     </Border>
 </UserControl>

@@ -6,6 +6,7 @@
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
+             xmlns:local="clr-namespace:GalaxyZooTouchTable.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -91,34 +92,30 @@
                     <Run Text="{Binding CurrentSeconds, Mode=OneWay}"/>
                 </TextBlock>
 
-                <Button
+                <local:PushButton
                     Style="{StaticResource TransparentWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Left"
                     Margin="15,0,0,14"
                     VerticalAlignment="Bottom"
-                    Width="104">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:TapBehavior Command="{Binding CloseClassifier}"/>
-                    </i:Interaction.Behaviors>
+                    Width="104"
+                    PressCommand="{Binding CloseClassifier}">
                     <TextBlock
                         Style="{StaticResource CommonType}"
                         FontSize="10"
                         HorizontalAlignment="Center"
                         Text="Close now"
                         VerticalAlignment="Center"/>
-                </Button>
+                </local:PushButton>
 
-                <Button
+                <local:PushButton
                     Style="{StaticResource SubmitWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Right"
                     Margin="0,0,15.3,14.59"
                     VerticalAlignment="Bottom"
-                    Width="104">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:TapBehavior Command="{Binding CloseModal}"/>
-                    </i:Interaction.Behaviors>
+                    Width="104"
+                    PressCommand="{Binding CloseModal}">
                     <TextBlock
                         Style="{StaticResource CommonType}"
                         FontSize="10"
@@ -126,7 +123,7 @@
                         HorizontalAlignment="Center"
                         Text="Still working"
                         VerticalAlignment="Center"/>
-                </Button>
+                </local:PushButton>
             </Grid>
         </Border>
     </Border>

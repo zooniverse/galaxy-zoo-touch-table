@@ -169,22 +169,19 @@
             VerticalAlignment="Bottom"
             Width="287"/>
 
-        <Button
+        <Views:PushButton
             Style="{StaticResource SubmitWithDownstate}"
             Height="23"
             Width="285"
             VerticalAlignment="Bottom"
-            IsEnabled="{Binding CanSendClassification}">
-            <i:Interaction.Behaviors>
-                <Behaviors:TapBehavior Command="{Binding ContinueClassification}"/>
-            </i:Interaction.Behaviors>
-
+            IsEnabled="{Binding CanSendClassification}"
+            PressCommand="{Binding ContinueClassification}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                     FontWeight="Bold"
                     Text="Submit Classification"/>
             </StackPanel>
-        </Button>
+        </Views:PushButton>
     </Grid>
 </UserControl>
