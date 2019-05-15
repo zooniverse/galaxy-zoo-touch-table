@@ -41,8 +41,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Border BorderBrush="#3C3C3C" BorderThickness="1">
-        <Grid>
+    <Border BorderBrush="#3C3C3C" BorderThickness="2" Background="Black">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0" BlurRadius="25"/>
+        </Border.Effect>
+        <Grid ClipToBounds="True">
             <Border x:Name="CurrentCutout" RenderTransformOrigin="0.5,0.5" Width="1248" Height="432">
                 <Image x:Name="CurrentCutoutImage" RenderTransformOrigin="0.5,0.5" Source="{Binding SpaceCutoutUrl}"/>
             </Border>

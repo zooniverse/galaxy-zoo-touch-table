@@ -20,46 +20,14 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-
-        <Style x:Key="Background" TargetType="{x:Type Grid}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsDormant}" Value="False">
-                    <Setter Property="OpacityMask">
-                        <Setter.Value>
-                            <DrawingBrush>
-                                <DrawingBrush.Drawing>
-                                    <GeometryDrawing>
-                                        <GeometryDrawing.Brush>
-                                            <RadialGradientBrush>
-                                                <RadialGradientBrush.GradientStops>
-                                                    <GradientStop Color="Transparent"/>
-                                                </RadialGradientBrush.GradientStops>
-                                            </RadialGradientBrush>
-                                        </GeometryDrawing.Brush>
-                                        <GeometryDrawing.Geometry>
-                                            <RectangleGeometry Rect="0,0 0.472,0.233" />
-                                        </GeometryDrawing.Geometry>
-                                        <GeometryDrawing.Pen>
-                                            <Pen Thickness="0.1" Brush="Black" />
-                                        </GeometryDrawing.Pen>
-                                    </GeometryDrawing>
-                                </DrawingBrush.Drawing>
-                            </DrawingBrush>
-                        </Setter.Value>
-                    </Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </Window.Resources>
     
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
-
-            <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324"/>
-            
-            <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource Background}">
+            <Grid Width="1920" Height="1080" IsHitTestVisible="False">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
             </Grid>
+            <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324"/>
 
             <Image Margin="40" Height="52" Width="124" Source="../Images/General/logo-badge.png">
                 <Image.LayoutTransform>
