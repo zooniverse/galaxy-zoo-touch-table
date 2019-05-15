@@ -35,9 +35,9 @@ namespace GalaxyZooTouchTable.Behaviors
             background.StartPoint = new Point(0, 0.5);
             background.EndPoint = new Point(1, 0.5);
 
-            GradientStop firstStop = new GradientStop(successColor, 0.0);
-            GradientStop middleStop = new GradientStop(Colors.Gray, 0.0);
-            GradientStop lastStop = new GradientStop(Colors.Gray, 1.0);
+            GradientStop firstStop = new GradientStop(successColor, 0);
+            GradientStop middleStop = new GradientStop(Colors.Gray, 0);
+            GradientStop lastStop = new GradientStop(Colors.Gray, 1);
 
             background.GradientStops.Add(firstStop);
             background.GradientStops.Add(middleStop);
@@ -45,9 +45,8 @@ namespace GalaxyZooTouchTable.Behaviors
             borderItem.Background = background;
 
             DoubleAnimation animate = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(SECONDS_DISABLED));
-            ColorAnimation colorAnimation = new ColorAnimation(successColor, TimeSpan.FromSeconds(SECONDS_DISABLED));
+            firstStop.BeginAnimation(GradientStop.OffsetProperty, animate);
             middleStop.BeginAnimation(GradientStop.OffsetProperty, animate);
-            middleStop.BeginAnimation(GradientStop.ColorProperty, colorAnimation);
 
             borderItem.IsHitTestVisible = false;
             await Task.Delay(TimeSpan.FromSeconds(SECONDS_DISABLED));
