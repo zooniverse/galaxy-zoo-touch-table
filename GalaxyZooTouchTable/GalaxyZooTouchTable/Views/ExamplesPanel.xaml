@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
@@ -33,6 +32,16 @@
             <DoubleAnimation Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)" Duration="0:0:0.1"/>
         </Storyboard>
 
+        <Storyboard x:Key="ExpandImageStoryboard">
+            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Border.Width)" To="70" Duration="0:0:0.15"/>
+            <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Border.Height)" To="70" Duration="0:0:0.15"/>
+        </Storyboard>
+
+        <Storyboard x:Key="ContractImageStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(Border.Width)" Duration="0:0:0.15"/>
+            <DoubleAnimation Storyboard.TargetProperty="(Border.Height)" Duration="0:0:0.15"/>
+        </Storyboard>
+
         <Storyboard x:Key="MoveArrowLeftStoryboard">
             <DoubleAnimation BeginTime="0:0:0.1" Storyboard.TargetProperty="(fa:ImageAwesome.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.X)" To="-18" Duration="0:0:0.1"/>
         </Storyboard>        
@@ -56,7 +65,7 @@
             <Setter Property="Margin" Value="4,1,0,0"/>
             <Setter Property="Height" Value="5"/>
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-            
+
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
@@ -247,20 +256,27 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Border.Width)" To="70" Duration="0:0:0.15"/>
-                                <DoubleAnimation BeginTime="0:0:0.18" Storyboard.TargetProperty="(Border.Height)" To="70" Duration="0:0:0.15"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource ExpandImageStoryboard}"/>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.Width)" Duration="0:0:0.15"/>
-                                <DoubleAnimation Storyboard.TargetProperty="(Border.Height)" Duration="0:0:0.15"/>
-                            </Storyboard>
-                        </BeginStoryboard>
+                        <BeginStoryboard Storyboard="{StaticResource ContractImageStoryboard}"/>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="HiddenImage" BasedOn="{StaticResource ExampleImage}" TargetType="{x:Type Border}">
+            <Setter Property="Opacity" Value="0"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
+                        <BeginStoryboard Storyboard="{StaticResource ExpandImageStoryboard}"/>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
+                        <BeginStoryboard Storyboard="{StaticResource ContractImageStoryboard}"/>
                     </DataTrigger.ExitActions>
                 </DataTrigger>
             </Style.Triggers>
@@ -484,6 +500,21 @@
                                     <ImageBrush ImageSource="{Binding Smooth.ImageThree}"/>
                                 </Border.Background>
                             </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Smooth.ImageFour}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Smooth.ImageFive}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Smooth.ImageSix}"/>
+                                </Border.Background>
+                            </Border>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -542,6 +573,21 @@
                                     <ImageBrush ImageSource="{Binding Features.ImageThree}"/>
                                 </Border.Background>
                             </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Features.ImageFour}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Features.ImageFive}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding Features.ImageSix}"/>
+                                </Border.Background>
+                            </Border>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
@@ -598,6 +644,21 @@
                             <Border Style="{StaticResource ExampleImage}">
                                 <Border.Background>
                                     <ImageBrush ImageSource="{Binding NotAGalaxy.ImageThree}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding NotAGalaxy.ImageFour}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding NotAGalaxy.ImageFive}"/>
+                                </Border.Background>
+                            </Border>
+                            <Border Style="{StaticResource HiddenImage}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{Binding NotAGalaxy.ImageSix}"/>
                                 </Border.Background>
                             </Border>
                         </StackPanel>

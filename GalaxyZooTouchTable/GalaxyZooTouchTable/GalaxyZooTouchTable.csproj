@@ -326,6 +326,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\GalaxyExamples\features4.jpg" />
+    <Resource Include="Images\GalaxyExamples\features5.jpg" />
+    <Resource Include="Images\GalaxyExamples\features6.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth4.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth5.jpg" />
+    <Resource Include="Images\GalaxyExamples\smooth6.jpg" />
+    <Resource Include="Images\GalaxyExamples\star4.jpg" />
+    <Resource Include="Images\GalaxyExamples\star5.jpg" />
+    <Resource Include="Images\GalaxyExamples\star6.jpg" />
     <Resource Include="Images\General\zooniverse-logo.png" />
     <Resource Include="zooniverse_icon.ico" />
     <Resource Include="Images\General\Uwhite.png" />
