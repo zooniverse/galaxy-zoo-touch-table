@@ -20,11 +20,32 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="BackgroundImage" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.25" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.25" To="1" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
-            <Grid Width="1920" Height="1080" IsHitTestVisible="False">
+            <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource BackgroundImage}">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
             </Grid>
             <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324"/>
