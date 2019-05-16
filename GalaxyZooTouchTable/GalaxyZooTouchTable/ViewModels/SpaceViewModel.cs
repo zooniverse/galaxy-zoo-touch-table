@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -186,7 +187,11 @@ namespace GalaxyZooTouchTable.ViewModels
         private string UpdateSpaceCutout()
         {
             double WidenedPlateScale = 1.75;
-            return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&width=1248&height=432&scale={WidenedPlateScale}";
+
+            CutoutService service = new CutoutService();
+            service.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination, WidenedPlateScale);
+
+            return $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&pixscale=1.75&layer=decals-dr7&size=432";
         }
 
         private List<TableSubject> FindGalaxiesAtNewBounds(CardinalDirectionEnum direction = CardinalDirectionEnum.None)
