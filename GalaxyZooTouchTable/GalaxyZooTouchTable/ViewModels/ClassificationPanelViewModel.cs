@@ -287,7 +287,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                TotalVotes = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                //TotalVotes = await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
@@ -420,25 +420,25 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void GetSubjectReductions()
         {
-            GraphQLResponse response = await _graphQLService.GetReductionAsync(CurrentSubject.Id);
+            //GraphQLResponse response = await _graphQLService.GetReductionAsync(CurrentSubject.Id, Workflow);
 
-            if (response != null && response.Data != null)
-            {
-                var reductions = response.Data.workflow.subject_reductions;
+            //if (response != null && response.Data != null)
+            //{
+            //    var reductions = response.Data.workflow.subject_reductions;
 
-                if (reductions.Count > 0)
-                {
-                    var data = reductions.First.data;
-                    foreach (var count in data)
-                    {
-                        var index = System.Convert.ToInt32(count.Name);
-                        AnswerButton Answer = CurrentAnswers[index];
+            //    if (reductions.Count > 0)
+            //    {
+            //        var data = reductions.First.data;
+            //        foreach (var count in data)
+            //        {
+            //            var index = System.Convert.ToInt32(count.Name);
+            //            AnswerButton Answer = CurrentAnswers[index];
 
-                        int answerCount = (int)count.Value;
-                        Answer.AnswerCount = answerCount;
-                    }
-                }
-            }
+            //            int answerCount = (int)count.Value;
+            //            Answer.AnswerCount = answerCount;
+            //        }
+            //    }
+            //}
         }
     }
 }

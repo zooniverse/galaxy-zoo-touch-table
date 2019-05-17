@@ -2,6 +2,7 @@
 using GalaxyZooTouchTable.Models;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
@@ -20,7 +21,12 @@ namespace GalaxyZooTouchTable.Services
         string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
         string IncrementClassificationCountQuery(int count, string id) { return $"update Subjects set classifications_count = {count} where subject_id = {id}"; }
 
-        public IGraphQLService _graphQLService { get; private set; }
+        IGraphQLService _graphQLService { get; set; }
+
+        public LocalDBService(IGraphQLService graphQLService)
+        {
+            _graphQLService = graphQLService;
+        }
 
         string SubjectsWithinBoundsQuery(SpaceNavigation location)
         {
@@ -45,7 +51,6 @@ namespace GalaxyZooTouchTable.Services
                         double dec = (double)reader["dec"];
                         RetrievedSubject = new TableSubject(id, image, ra, dec);
                     }
-
                     connection.Close();
                 } catch (SQLiteException exception)
                 {
@@ -204,6 +209,11 @@ namespace GalaxyZooTouchTable.Services
         {
             int count = GetClassificationCount(subjectId);
             return IncrementClassificationCount(count, subjectId);
+        }
+
+        async Task UpdateDBFromGraphQL(string id)
+        {
+            ClassificationCounts previousAnswers = await _graphQLService.GetReductionAsync(id);
         }
     }
 }

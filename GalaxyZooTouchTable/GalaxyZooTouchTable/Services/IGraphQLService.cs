@@ -1,10 +1,10 @@
-﻿using GraphQL.Common.Response;
+﻿using GalaxyZooTouchTable.Models;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
     public interface IGraphQLService
     {
-        Task<GraphQLResponse> GetReductionAsync(string subjectId);
+        Task<ClassificationCounts> GetReductionAsync(string subjectId);
     }
 }

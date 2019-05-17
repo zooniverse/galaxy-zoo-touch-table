@@ -1,6 +1,8 @@
-﻿using GraphQL.Client.Http;
+﻿using GalaxyZooTouchTable.Models;
+using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using GraphQL.Common.Response;
+using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
@@ -9,7 +11,7 @@ namespace GalaxyZooTouchTable.Services
     {
         private GraphQLHttpClient GraphQLClient = new GraphQLHttpClient(Config.CaesarHost);
 
-        public async Task<GraphQLResponse> GetReductionAsync(string subjectId)
+        public async Task<ClassificationCounts> GetReductionAsync(string subjectId)
         {
             GraphQLResponse response = new GraphQLResponse();
             var answersRequest = new GraphQLRequest
@@ -38,7 +40,41 @@ namespace GalaxyZooTouchTable.Services
             {
                 System.Console.WriteLine("Graph QL Error: {0}", e.Message);
             }
-            return response;
+            return ParseGraphQLResponse(response);
+        }
+
+        public ClassificationCounts ParseGraphQLResponse(GraphQLResponse response)
+        {
+            int total, smooth, features, star;
+            total = smooth = features = star = 0;
+
+            if (response != null && response.Data != null)
+            {
+                var reductions = response.Data.workflow.subject_reductions;
+
+                if (reductions.Count > 0)
+                {
+                    JObject data = reductions.First.data;
+                    foreach (var count in data)
+                    {
+                        var index = count.Key;
+                        switch (index)
+                        {
+                            case "0":
+                                smooth = (int)count.Value;
+                                break;
+                            case "1":
+                                features = (int)count.Value;
+                                break;
+                            case "2":
+                                star = (int)count.Value;
+                                break;
+                        }
+                    }
+                }
+            }
+            total = smooth + features + star;
+            return new ClassificationCounts(total, smooth, features, star);
         }
     }
 }
