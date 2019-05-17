@@ -37,13 +37,10 @@ namespace GalaxyZooTouchTable.Lib
                 var task = element.Element("tasks").Element("task");
                 foreach (XElement answer in task.Elements())
                 {
-                    TaskAnswer test = new TaskAnswer();
-                    test.Label = answer.Value;
-                    answers.Add(test);
+                    TaskAnswer taskAnswer = new TaskAnswer(answer.Value);
+                    answers.Add(taskAnswer);
                 }
-                WorkflowTask offlineTask = new WorkflowTask();
-                offlineTask.Question = "Choose an Answer";
-                offlineTask.Answers = answers;
+                WorkflowTask offlineTask = new WorkflowTask("Choose an Answer", answers);
                 OfflineWorkflow.Tasks = new Dictionary<string, WorkflowTask>();
                 OfflineWorkflow.Tasks.Add("T0", offlineTask);
             }

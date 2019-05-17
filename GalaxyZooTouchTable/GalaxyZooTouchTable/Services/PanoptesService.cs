@@ -11,9 +11,9 @@ namespace GalaxyZooTouchTable.Services
     {
         ApiClient _panoptesClient = new ApiClient();
         List<Classification> QueuedClassifications { get; set; } = new List<Classification>();
-        LocalDBService _localDBService { get; set; }
+        ILocalDBService _localDBService { get; set; }
 
-        public PanoptesService(LocalDBService dbService)
+        public PanoptesService(ILocalDBService dbService)
         {
             _localDBService = dbService;
         }

@@ -25,7 +25,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(It.IsAny<Classification>()))
                 .ReturnsAsync(1);
 
-            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(new Workflow(), PanoptesServiceMockData.TableSubject()))
+            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(PanoptesServiceMockData.TableSubject().Id))
                 .ReturnsAsync(GraphQLServiceMockData.GraphQLResponse());
 
             _localDBServiceMock.Setup(dp => dp.GetLocalSubject("1")).Returns(PanoptesServiceMockData.TableSubject());
@@ -65,7 +65,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
             _viewModel.OnGetSubjectById("1");
             _localDBServiceMock.Verify(vm => vm.GetLocalSubject("1"), Times.Once);
-            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
+            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.CurrentSubject.Id), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
 
@@ -107,7 +107,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                     { "workflow_id", "1" }
                 };
             _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Once);
-            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.Workflow, _viewModel.CurrentSubject), Times.Once);
+            _graphQLServiceMock.Verify(vm => vm.GetReductionAsync(_viewModel.CurrentSubject.Id), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
 

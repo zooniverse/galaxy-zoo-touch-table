@@ -1,8 +1,6 @@
-﻿using GalaxyZooTouchTable.Models;
-using GraphQL.Client.Http;
+﻿using GraphQL.Client.Http;
 using GraphQL.Common.Request;
 using GraphQL.Common.Response;
-using PanoptesNetClient.Models;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
@@ -11,7 +9,7 @@ namespace GalaxyZooTouchTable.Services
     {
         private GraphQLHttpClient GraphQLClient = new GraphQLHttpClient(Config.CaesarHost);
 
-        public async Task<GraphQLResponse> GetReductionAsync(Workflow workflow, TableSubject currentSubject)
+        public async Task<GraphQLResponse> GetReductionAsync(string subjectId)
         {
             GraphQLResponse response = new GraphQLResponse();
             var answersRequest = new GraphQLRequest
@@ -27,8 +25,8 @@ namespace GalaxyZooTouchTable.Services
                 OperationName = "AnswerCount",
                 Variables = new
                 {
-                    workflowId = workflow.Id,
-                    subjectId = currentSubject.Id
+                    workflowId = Config.WorkflowId,
+                    subjectId
                 }
             };
 

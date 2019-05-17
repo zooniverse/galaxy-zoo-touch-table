@@ -20,6 +20,8 @@ namespace GalaxyZooTouchTable.Services
         string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
         string IncrementClassificationCountQuery(int count, string id) { return $"update Subjects set classifications_count = {count} where subject_id = {id}"; }
 
+        public IGraphQLService _graphQLService { get; private set; }
+
         string SubjectsWithinBoundsQuery(SpaceNavigation location)
         {
             return $"select * from Subjects where dec > {location.MinDec} and dec < {location.MaxDec} and ra > {location.MinRa} and ra < {location.MaxRa}";

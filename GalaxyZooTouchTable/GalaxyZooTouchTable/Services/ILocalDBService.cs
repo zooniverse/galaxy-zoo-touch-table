@@ -19,5 +19,6 @@ namespace GalaxyZooTouchTable.Services
         SpacePoint GetRandomPoint();
 
         int IncrementClassificationCount(string subjectId);
+        int GetClassificationCount(string SubjectId);
     }
 }

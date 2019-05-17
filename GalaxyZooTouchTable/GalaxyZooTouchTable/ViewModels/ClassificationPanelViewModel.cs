@@ -420,7 +420,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void GetSubjectReductions()
         {
-            GraphQLResponse response = await _graphQLService.GetReductionAsync(Workflow, CurrentSubject);
+            GraphQLResponse response = await _graphQLService.GetReductionAsync(CurrentSubject.Id);
 
             if (response != null && response.Data != null)
             {

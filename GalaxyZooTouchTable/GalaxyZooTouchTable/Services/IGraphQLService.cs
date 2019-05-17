@@ -1,12 +1,10 @@
-﻿using GalaxyZooTouchTable.Models;
-using GraphQL.Common.Response;
-using PanoptesNetClient.Models;
+﻿using GraphQL.Common.Response;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
     public interface IGraphQLService
     {
-        Task<GraphQLResponse> GetReductionAsync(Workflow workflow, TableSubject currentSubject);
+        Task<GraphQLResponse> GetReductionAsync(string subjectId);
     }
 }
