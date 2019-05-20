@@ -98,6 +98,7 @@ namespace GalaxyZooTouchTable.ViewModels
                             SpaceViewGalaxy.DimRing(RingNotifier.User);
                             break;
                         default:
+                            SpaceViewGalaxy.RemoveRing(RingNotifier.User);
                             break;
                     }
                 }
