@@ -25,7 +25,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(It.IsAny<Classification>()))
                 .ReturnsAsync(1);
 
-            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(PanoptesServiceMockData.TableSubject().Id, PanoptesServiceMockData.Workflow("1")))
+            _graphQLServiceMock.Setup(dp => dp.GetReductionAsync(PanoptesServiceMockData.TableSubject().Id))
                 .ReturnsAsync(new ClassificationCounts(1,1,1,1));
 
             //_localDBServiceMock.Setup(dp => dp.GetLocalSubject("1")).ReturnsAsync(PanoptesServiceMockData.TableSubject());

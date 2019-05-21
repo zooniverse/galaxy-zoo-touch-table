@@ -42,7 +42,7 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _currentSubject;
             set
             {
-                if (CurrentSubject != null)
+                if (value != null)
                 {
                     TableSubject NewSubject = value as TableSubject;
                     Notifications.ReceivedNewSubject(NewSubject);
@@ -286,7 +286,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                //TotalVotes = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                TotalVotes = await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
