@@ -142,34 +142,6 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        public int GetClassificationCount(string subjectId)
-        {
-            string query = SubjectByIdQuery(subjectId);
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
-            {
-                int count = 0;
-                try
-                {
-                    connection.Open();
-                    SQLiteCommand command = new SQLiteCommand(query, connection);
-                    SQLiteDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        count = reader.GetInt16(1); ;
-                    }
-
-                    connection.Close();
-                }
-                catch (SQLiteException exception)
-                {
-                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
-                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
-                }
-                return count;
-            }
-        }
-
         public SpacePoint GetRandomPoint()
         {
             return GetPoint(RandomSubjectQuery) ?? new SpacePoint(0,0);
@@ -201,7 +173,7 @@ namespace GalaxyZooTouchTable.Services
             return IncrementAndUpdateCounts(classification, counts);
         }
 
-        private ClassificationCounts IncrementAndUpdateCounts(Classification classification, ClassificationCounts counts)
+        public ClassificationCounts IncrementAndUpdateCounts(Classification classification, ClassificationCounts counts)
         {
             switch (classification.Annotations[0].Value)
             {
@@ -220,7 +192,7 @@ namespace GalaxyZooTouchTable.Services
             return counts;
         }
 
-        private ClassificationCounts GetCountsBySubjectId(string id)
+        public ClassificationCounts GetCountsBySubjectId(string id)
         {
             string query = GetCurrentClassificationCount(id);
             ClassificationCounts counts = new ClassificationCounts();
@@ -249,7 +221,7 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        async Task UpdateDBFromGraphQL(string id)
+        public async Task UpdateDBFromGraphQL(string id)
         {
             ClassificationCounts counts = await _graphQLService.GetReductionAsync(id);
 
@@ -257,7 +229,7 @@ namespace GalaxyZooTouchTable.Services
                 UpdateSubject(id, counts);
         }
 
-        private void UpdateSubject(string id, ClassificationCounts counts)
+        public void UpdateSubject(string id, ClassificationCounts counts)
         {
             string query = UpdateSubjectCounts(id, counts);
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))

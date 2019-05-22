@@ -1,6 +1,7 @@
 ﻿using GalaxyZooTouchTable.Models;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
@@ -20,6 +21,11 @@ namespace GalaxyZooTouchTable.Services
         SpacePoint GetRandomPoint();
 
         ClassificationCounts IncrementClassificationCount(Classification classification);
-        int GetClassificationCount(string SubjectId);
+        ClassificationCounts IncrementAndUpdateCounts(Classification classification, ClassificationCounts counts);
+        ClassificationCounts GetCountsBySubjectId(string id);
+
+        Task UpdateDBFromGraphQL(string id);
+
+        void UpdateSubject(string id, ClassificationCounts counts);
     }
 }
