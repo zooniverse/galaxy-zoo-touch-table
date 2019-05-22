@@ -284,10 +284,9 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
-                CurrentClassification.Metadata.FinishedAt = System.DateTime.Now.ToString();
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                //TotalVotes = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                TotalVotes = counts.Total;
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
@@ -356,9 +355,10 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CurrentClassification = new Classification();
             CurrentClassification.Metadata.WorkflowVersion = Workflow.Version;
-            CurrentClassification.Metadata.StartedAt = System.DateTime.Now.ToString();
-            CurrentClassification.Metadata.UserAgent = "Galaxy Zoo Touch Table";
+            CurrentClassification.Metadata.StartedAt = System.DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+            CurrentClassification.Metadata.UserAgent = "Galaxy_Zoo_Touch_Table";
             CurrentClassification.Metadata.UserLanguage = "en";
+            CurrentClassification.Metadata.UtcOffset = System.Math.Abs(System.TimeZoneInfo.Local.GetUtcOffset(System.DateTime.UtcNow).TotalSeconds).ToString();
 
             CurrentClassification.Links = new ClassificationLinks(Config.ProjectId, Config.WorkflowId);
             CurrentClassification.Links.Subjects.Add(subject.Id);

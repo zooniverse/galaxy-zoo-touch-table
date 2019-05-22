@@ -21,8 +21,9 @@ namespace GalaxyZooTouchTable.Services
 
         public async Task<ClassificationCounts> CreateClassificationAsync(Classification classification)
         {
+            classification.Metadata.FinishedAt = System.DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
             QueuedClassifications.Add(classification);
-            //await SaveAllQueuedClassifications();
+            await SaveAllQueuedClassifications();
             return _localDBService.IncrementClassificationCount(classification);
         }
 
@@ -33,8 +34,8 @@ namespace GalaxyZooTouchTable.Services
             {
                 try
                 {
-                    //HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
-                    //if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
+                    HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
+                    if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
                 }
                 catch (HttpRequestException error)
                 {
