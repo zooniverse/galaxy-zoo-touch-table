@@ -7,7 +7,7 @@
         public int Features { get; set; }
         public int Star { get; set; }
 
-        public ClassificationCounts(int total, int smooth, int features, int star)
+        public ClassificationCounts(int total = 0, int smooth = 0, int features = 0, int star = 0)
         {
             Total = total;
             Smooth = smooth;

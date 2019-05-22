@@ -1,5 +1,6 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
+using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -20,7 +21,7 @@ namespace GalaxyZooTouchTable.Services
         string NextDescendingRaQuery(double bounds) { return $"select * from Subjects where ra < {bounds} order by ra desc limit 1"; }
         string NextAscendingDecQuery(double bounds) { return $"select * from Subjects where dec > {bounds} order by dec asc limit 1"; }
         string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
-        string IncrementClassificationCountQuery(int count, string id) { return $"update Subjects set classifications_count = {count} where subject_id = {id}"; }
+        string GetCurrentClassificationCount(string id) { return $"select * from Subjects where subject_id = {id}"; }
         string UpdateSubjectCounts(string id, ClassificationCounts counts) { return $"update Subjects set classifications_count = {counts.Total}, smooth = {counts.Smooth}, features = {counts.Features}, star = {counts.Star} where subject_id = {id}"; } 
 
         IGraphQLService _graphQLService { get; set; }
@@ -169,27 +170,6 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        public int IncrementClassificationCount(int count, string subjectId)
-        {
-            int newCount = count += 1;
-            string query = IncrementClassificationCountQuery(newCount, subjectId);
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
-            {
-                try
-                {
-                    connection.Open();
-                    SQLiteCommand command = new SQLiteCommand(query, connection);
-                    SQLiteDataReader reader = command.ExecuteReader();
-                }
-                catch (SQLiteException exception)
-                {
-                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
-                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
-                }
-                return newCount;
-            }
-        }
-
         public SpacePoint GetRandomPoint()
         {
             return GetPoint(RandomSubjectQuery) ?? new SpacePoint(0,0);
@@ -215,10 +195,58 @@ namespace GalaxyZooTouchTable.Services
             return GetPoint(NextDescendingDecQuery(bounds)) ?? GetPoint(HighestDecQuery);
         }
 
-        public int IncrementClassificationCount(string subjectId)
+        public ClassificationCounts IncrementClassificationCount(Classification classification)
         {
-            int count = GetClassificationCount(subjectId);
-            return IncrementClassificationCount(count, subjectId);
+            ClassificationCounts counts = GetCountsBySubjectId(classification.Links.Subjects[0]);
+            return IncrementAndUpdateCounts(classification, counts);
+        }
+
+        private ClassificationCounts IncrementAndUpdateCounts(Classification classification, ClassificationCounts counts)
+        {
+            switch (classification.Annotations[0].Value)
+            {
+                case 0:
+                    counts.Smooth += 1;
+                    break;
+                case 1:
+                    counts.Features += 1;
+                    break;
+                case 2:
+                    counts.Star += 1;
+                    break;
+            }
+            counts.Total += 1;
+            UpdateSubject(classification.Links.Subjects[0], counts);
+            return counts;
+        }
+
+        private ClassificationCounts GetCountsBySubjectId(string id)
+        {
+            string query = GetCurrentClassificationCount(id);
+            ClassificationCounts counts = new ClassificationCounts();
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
+            {
+                try
+                {
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int total = Convert.ToInt32(reader["classifications_count"]);
+                        int smooth = Convert.ToInt32(reader["smooth"]);
+                        int features = Convert.ToInt32(reader["features"]);
+                        int star = Convert.ToInt32(reader["star"]);
+                        counts = new ClassificationCounts(total, smooth, features, star);
+                    }
+                }
+                catch (SQLiteException exception)
+                {
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
+                }
+                return counts;
+            }
         }
 
         async Task UpdateDBFromGraphQL(string id)
