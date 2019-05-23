@@ -33,7 +33,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
-        public List<TableSubject> Subjects { get; set; } = new List<TableSubject>();
+        public List<TableSubject> Subjects = new List<TableSubject>();
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -46,7 +46,7 @@ namespace GalaxyZooTouchTable.ViewModels
                     TableSubject NewSubject = value as TableSubject;
                     Notifications.ReceivedNewSubject(NewSubject);
                 }
-                _currentSubject = value;
+                SetProperty(ref _currentSubject, value);
             }
         }
 
@@ -283,8 +283,8 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                //ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                //TotalVotes = counts.Total;
+                ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                TotalVotes = counts.Total;
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
@@ -375,11 +375,12 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
-            CurrentSubject = Subjects[0];
-            StartNewClassification(CurrentSubject);
+            LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
-            SubjectImageSource = CurrentSubject.Location;
-            PrepareForNewClassification();
+            TotalVotes = 0;
+            OnChangeView(ClassifierViewEnum.SubjectView);
+            CurrentAnnotation = null;
+            SelectedAnswer = null;
         }
 
         public void DropSubject(TableSubject subject)

@@ -113,12 +113,12 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
             _viewModel.SelectAnswer.Execute(PanoptesServiceMockData.AnswerButton());
             _viewModel.ContinueClassification.Execute(null);
-            //_panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
+            _panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(It.IsAny<Classification>()), Times.Once);
 
-            //Assert.Equal(1, _viewModel.SelectedAnswer.AnswerCount);
-            //Assert.Equal(1, _viewModel.TotalVotes);
-            //Assert.Equal(1, _viewModel.ClassificationsThisSession);
-            //Assert.Single(_viewModel.CurrentClassification.Annotations);
+            Assert.Equal(1, _viewModel.SelectedAnswer.AnswerCount);
+            Assert.Equal(1, _viewModel.TotalVotes);
+            Assert.Equal(1, _viewModel.ClassificationsThisSession);
+            Assert.Single(_viewModel.CurrentClassification.Annotations);
         }
 
         [Fact]
