@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <root>
   <Workflow name="GalaxyZoo">
-    <version>0.0</version>
+    <version>0.4</version>
     <firstTask>T0</firstTask>
     <tasks>
       <task name="FirstTask">

@@ -15,7 +15,6 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ClassificationPanelViewModel : ViewModelBase
     {
         private IPanoptesService _panoptesService;
-        private TableSubject CurrentGalaxy { get; set; }
         private ILocalDBService _localDBService;
 
         private string CurrentTaskIndex { get; set; }
@@ -271,8 +270,8 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                TotalVotes = counts.Total;
+                //ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                //TotalVotes = counts.Total;
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
