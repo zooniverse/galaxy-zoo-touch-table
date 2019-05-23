@@ -124,13 +124,6 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _canSendClassification, value);
         }
 
-        private string _subjectImageSource;
-        public string SubjectImageSource
-        {
-            get => _subjectImageSource;
-            set => SetProperty(ref _subjectImageSource, value);
-        }
-
         private AnswerButton _selectedAnswer;
         public AnswerButton SelectedAnswer
         {
@@ -361,9 +354,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CurrentSubject = subject;
             StartNewClassification(subject);
-
-            if (CurrentSubject.Location != null)
-                SubjectImageSource = CurrentSubject.Location;
         }
 
         public void GetSubjectQueue()
