@@ -123,7 +123,7 @@
                 <Style TargetType="{x:Type ContentControl}">
                     <Setter Property="ContentTemplate" Value="{StaticResource SubjectTemplate}" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SubjectView}" Value="{x:Static Lib:SubjectViewEnum.DragSubject}">
+                        <DataTrigger Binding="{Binding CurrentSubject}" Value="{x:Null}">
                             <Setter Property="ContentTemplate" Value="{StaticResource DropTemplate}" />
                         </DataTrigger>
                     </Style.Triggers>

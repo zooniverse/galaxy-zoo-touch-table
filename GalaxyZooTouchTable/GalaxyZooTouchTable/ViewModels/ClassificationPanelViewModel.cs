@@ -46,6 +46,8 @@ namespace GalaxyZooTouchTable.ViewModels
                     TableSubject NewSubject = value as TableSubject;
                     Notifications.ReceivedNewSubject(NewSubject);
                 }
+                Messenger.Default.Send(value != null, $"{User.Name}_SubjectStatus");
+                AllowSelection = value != null;
                 SetProperty(ref _currentSubject, value);
             }
         }
@@ -90,16 +92,11 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _showOverlay, value);
         }
 
-        private SubjectViewEnum _subjectView = SubjectViewEnum.DragSubject;
-        public SubjectViewEnum SubjectView
+        private bool _closeConfirmationVisible = false;
+        public bool CloseConfirmationVisible
         {
-            get => _subjectView;
-            set
-            {
-                Messenger.Default.Send(value, $"{User.Name}_SubjectStatus");
-                AllowSelection = value == SubjectViewEnum.MatchedSubject;
-                SetProperty(ref _subjectView, value);
-            }
+            get => _closeConfirmationVisible;
+            set => SetProperty(ref _closeConfirmationVisible, value);
         }
 
         private bool _classifierOpen = false;
@@ -221,7 +218,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void PrepareForNewClassification(object sender = null)
         {
             TotalVotes = 0;
-            SubjectView = SubjectViewEnum.DragSubject;
+            CurrentSubject = null;
             OnChangeView(ClassifierViewEnum.SubjectView);
             CurrentAnnotation = null;
             SelectedAnswer = null;
@@ -239,7 +236,6 @@ namespace GalaxyZooTouchTable.ViewModels
             NotifySpaceView(RingNotifierStatus.IsHelping);
             TableSubject subject = _localDBService.GetLocalSubject(subjectID);
             LoadSubject(subject);
-            SubjectView = SubjectViewEnum.MatchedSubject;
             NotifySpaceView(RingNotifierStatus.IsCreating);
         }
 
@@ -253,10 +249,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
-            SubjectView = SubjectViewEnum.DragSubject;
+            PrepareForNewClassification();
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();
-            OnChangeView(ClassifierViewEnum.SubjectView);
             Notifications.NotifyLeaving();
 
             ClassifierOpen = false;
@@ -373,14 +368,11 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void GetSubjectQueue()
         {
+            PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
             LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
-            TotalVotes = 0;
-            OnChangeView(ClassifierViewEnum.SubjectView);
-            CurrentAnnotation = null;
-            SelectedAnswer = null;
         }
 
         public void DropSubject(TableSubject subject)
@@ -391,7 +383,6 @@ namespace GalaxyZooTouchTable.ViewModels
             Subjects.Insert(0, subject);
             GetSubjectQueue();
             LoadSubject(subject);
-            SubjectView = SubjectViewEnum.MatchedSubject;
             NotifySpaceView(RingNotifierStatus.IsCreating);
         }
 

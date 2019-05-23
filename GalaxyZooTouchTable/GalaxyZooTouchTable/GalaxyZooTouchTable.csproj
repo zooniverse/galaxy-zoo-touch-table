@@ -218,7 +218,6 @@
     <Compile Include="Models\GalaxyRing.cs" />
     <Compile Include="Models\HelpNotification.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
-    <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationAvatar.cs" />
     <Compile Include="Models\NotificationOverlay.cs" />
     <Compile Include="Models\NotificationPanel.cs" />
