@@ -1,5 +1,4 @@
 ﻿using GalaxyZooTouchTable.Models;
-using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

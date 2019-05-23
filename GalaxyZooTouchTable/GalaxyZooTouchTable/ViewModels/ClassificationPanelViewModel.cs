@@ -270,8 +270,8 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                //ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                //TotalVotes = counts.Total;
+                ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                TotalVotes = counts.Total;
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);

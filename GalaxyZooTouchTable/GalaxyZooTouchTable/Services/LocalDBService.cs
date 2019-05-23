@@ -238,7 +238,7 @@ namespace GalaxyZooTouchTable.Services
                 {
                     connection.Open();
                     SQLiteCommand command = new SQLiteCommand(query, connection);
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    command.ExecuteNonQuery();
                 }
                 catch (SQLiteException exception)
                 {
