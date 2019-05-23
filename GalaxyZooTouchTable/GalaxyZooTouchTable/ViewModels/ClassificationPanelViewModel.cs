@@ -14,7 +14,6 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
         private TableSubject CurrentGalaxy { get; set; }
         private ILocalDBService _localDBService;
@@ -156,10 +155,9 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _allowSelection, value);
         }
 
-        public ClassificationPanelViewModel(IPanoptesService panoptesService, IGraphQLService graphQLService, ILocalDBService localDBService, TableUser user)
+        public ClassificationPanelViewModel(IPanoptesService panoptesService, ILocalDBService localDBService, TableUser user)
         {
             _panoptesService = panoptesService;
-            _graphQLService = graphQLService;
             _localDBService = localDBService;
             User = user;
             
@@ -285,8 +283,8 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-                ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                TotalVotes = counts.Total;
+                //ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+                //TotalVotes = counts.Total;
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
@@ -299,7 +297,6 @@ namespace GalaxyZooTouchTable.ViewModels
             else
             {
                 GetSubjectQueue();
-                PrepareForNewClassification();
             }
         }
 
@@ -377,14 +374,12 @@ namespace GalaxyZooTouchTable.ViewModels
         public void GetSubjectQueue()
         {
             if (Subjects.Count == 0)
-            {
                 Subjects = _localDBService.GetQueuedSubjects();
-            } else {
-                CurrentSubject = Subjects[0];
-                StartNewClassification(CurrentSubject);
-                Subjects.RemoveAt(0);
-                SubjectImageSource = CurrentSubject.Location;
-            }
+            CurrentSubject = Subjects[0];
+            StartNewClassification(CurrentSubject);
+            Subjects.RemoveAt(0);
+            SubjectImageSource = CurrentSubject.Location;
+            PrepareForNewClassification();
         }
 
         public void DropSubject(TableSubject subject)

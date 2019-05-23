@@ -11,7 +11,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
     {
         private ClassificationPanelViewModel _viewModel { get; set; }
         private Mock<IPanoptesService> _panoptesServiceMock = new Mock<IPanoptesService>();
-        private Mock<IGraphQLService> _graphQLServiceMock = new Mock<IGraphQLService>();
         private Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
 
         public ClassificationPanelOfflineTests()
@@ -19,7 +18,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _panoptesServiceMock.Setup(dp => dp.GetWorkflowAsync(It.IsAny<string>()))
                 .ReturnsAsync((Workflow)null);
 
-            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, _localDBServiceMock.Object, new StarUser());
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new StarUser());
         }
 
         [Fact]
