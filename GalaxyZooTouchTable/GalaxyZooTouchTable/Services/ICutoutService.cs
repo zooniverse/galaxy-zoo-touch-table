@@ -1,7 +1,9 @@
-﻿namespace GalaxyZooTouchTable.Services
+﻿using System.Threading.Tasks;
+
+namespace GalaxyZooTouchTable.Services
 {
     public interface ICutoutService
     {
-        bool GetSpaceCutout(double ra, double dec, double plateScale);
+        Task<string> GetSpaceCutout(double ra, double dec, double plateScale);
     }
 }

@@ -4,7 +4,6 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -16,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private double DecRange { get; set; }
         public SpaceNavigation CurrentLocation { get; set; }
         public event Action<CardinalDirectionEnum> AnimateMovement = delegate { };
+        CutoutService CutoutService = new CutoutService();
 
         public ICommand MoveViewNorth { get; private set; }
         public ICommand MoveViewEast { get; set; }
@@ -43,8 +43,7 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _currentGalaxies;
             set 
             {
-                if (value.Count > 0)
-                    SpaceCutoutUrl = UpdateSpaceCutout();
+                UpdateSpaceCutout();
                 SetProperty(ref _currentGalaxies, value);
             }
         }
@@ -184,14 +183,10 @@ namespace GalaxyZooTouchTable.ViewModels
             GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "North");
         }
 
-        private string UpdateSpaceCutout()
+        private async void UpdateSpaceCutout()
         {
             double WidenedPlateScale = 1.75;
-
-            CutoutService service = new CutoutService();
-            service.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination, WidenedPlateScale);
-
-            return $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&pixscale=1.75&layer=decals-dr7&size=432";
+            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination, WidenedPlateScale);
         }
 
         private List<TableSubject> FindGalaxiesAtNewBounds(CardinalDirectionEnum direction = CardinalDirectionEnum.None)
