@@ -1,17 +1,53 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.Services
 {
     public class CutoutService : ICutoutService
     {
+        readonly TimeSpan TimeUntilReset = new TimeSpan(0, 10, 0);
         bool SDSSIsResponding { get; set; } = true;
         bool DECALSIsResponding { get; set; } = true;
+        DispatcherTimer SDSSTimer { get; set; } = new DispatcherTimer();
+        DispatcherTimer DECALSTimer { get; set; } = new DispatcherTimer();
+
+        public CutoutService()
+        {
+            SDSSTimer.Tick += new EventHandler(ResetSDSS);
+            DECALSTimer.Tick += new EventHandler(ResetDECALS);
+            SDSSTimer.Interval = TimeUntilReset;
+            DECALSTimer.Interval = TimeUntilReset;
+        }
+
+        public void TemporarilyDisableSDSS()
+        {
+            SDSSIsResponding = false;
+            SDSSTimer.Start();
+        }
+
+        public void TemporarilyDisableDECALS()
+        {
+            SDSSIsResponding = false;
+            SDSSTimer.Start();
+        }
+
+        private void ResetSDSS(object sender, EventArgs e)
+        {
+            SDSSIsResponding = true;
+            SDSSTimer.Stop();
+        }
+
+        private void ResetDECALS(object sender, EventArgs e)
+        {
+            DECALSIsResponding = true;
+            DECALSTimer.Stop();
+        }
 
         async Task<WebResponse> FetchDECALSCutout(double ra, double dec, double plateScale)
         {
-            WebResponse response;
+            WebResponse response = null;
             try
             {
                 string url = $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={dec}&pixscale={plateScale}&layer=decals-dr7&size=432";
@@ -21,8 +57,7 @@ namespace GalaxyZooTouchTable.Services
             }
             catch (WebException e)
             {
-                Console.WriteLine(e);
-                response = (HttpWebResponse)e.Response;
+                Console.WriteLine($"Unable to Connect to DECALS: {e.Message}");
                 DECALSIsResponding = false;
             }
             return response;
@@ -30,7 +65,7 @@ namespace GalaxyZooTouchTable.Services
 
         async Task<WebResponse> FetchSDSSCutout(double ra, double dec, double plateScale)
         {
-            WebResponse response;
+            WebResponse response = null;
             try
             {
                 string url = $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={ra}&dec={dec}&width=1248&height=432&scale={plateScale}";
@@ -40,9 +75,8 @@ namespace GalaxyZooTouchTable.Services
             }
             catch (WebException e)
             {
-                Console.WriteLine(e);
-                response = (HttpWebResponse)e.Response;
-                SDSSIsResponding = false;
+                Console.WriteLine($"Unable to Connect to SDSS: {e.Message}");
+                TemporarilyDisableSDSS();
             }
             return response;
         }
