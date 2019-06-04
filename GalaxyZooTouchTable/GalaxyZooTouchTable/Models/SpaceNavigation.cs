@@ -7,6 +7,7 @@
         const int CutoutHeight = 432;
         const int ArcDegreeInSeconds = 3600;
         public double DecRange { get; set; } = CutoutHeight * PlateScale / ArcDegreeInSeconds;
+        public double RaRange { get; set; }
         public double MinRa { get; set; }
         public double MaxRa { get; set; }
         public double MinDec { get; set; }
@@ -29,15 +30,16 @@
             UpdateBounds();
         }
 
-        public double RaRange()
+        public double RaRangeFunc()
         {
-            return (CutoutWidth * PlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(Center.Declination))));
+            RaRange = (CutoutWidth * PlateScale / ArcDegreeInSeconds) / System.Math.Abs(System.Math.Cos((ToRadians(Center.Declination))));
+            return RaRange;
         }
 
         private void UpdateBounds()
         {
-            MinRa = Center.RightAscension - (RaRange() / 2);
-            MaxRa = Center.RightAscension + (RaRange() / 2);
+            MinRa = Center.RightAscension - (RaRangeFunc() / 2);
+            MaxRa = Center.RightAscension + (RaRangeFunc() / 2);
             MinDec = Center.Declination - (DecRange / 2);
             MaxDec = Center.Declination + (DecRange / 2);
         }
@@ -61,13 +63,13 @@
 
         public void MoveEast()
         {
-            Center.RightAscension -= RaRange();
+            Center.RightAscension -= RaRangeFunc();
             UpdateBounds();
         }
 
         public void MoveWest()
         {
-            Center.RightAscension += RaRange();
+            Center.RightAscension += RaRangeFunc();
             UpdateBounds();
         }
     }

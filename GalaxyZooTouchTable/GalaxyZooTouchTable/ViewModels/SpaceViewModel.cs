@@ -5,14 +5,13 @@ using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : ViewModelBase
     {
         private ILocalDBService _localDBService;
-        private double RaRange { get; set; }
-        private double DecRange { get; set; }
         public SpaceNavigation CurrentLocation { get; set; }
         public event Action<CardinalDirectionEnum> AnimateMovement = delegate { };
         CutoutService CutoutService = new CutoutService();
@@ -48,15 +47,15 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private string _previousSpaceCutoutUrl;
-        public string PreviousSpaceCutoutUrl
+        private BitmapImage _previousSpaceCutoutUrl;
+        public BitmapImage PreviousSpaceCutoutUrl
         {
             get => _previousSpaceCutoutUrl;
             set => SetProperty(ref _previousSpaceCutoutUrl, value);
         }
 
-        private string _spaceCutoutUrl;
-        public string SpaceCutoutUrl
+        private BitmapImage _spaceCutoutUrl;
+        public BitmapImage SpaceCutoutUrl
         {
             get => _spaceCutoutUrl;
             set
@@ -186,7 +185,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private async void UpdateSpaceCutout()
         {
             double WidenedPlateScale = 1.75;
-            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination, WidenedPlateScale);
+            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination, WidenedPlateScale, CurrentLocation);
         }
 
         private List<TableSubject> FindGalaxiesAtNewBounds(CardinalDirectionEnum direction = CardinalDirectionEnum.None)
