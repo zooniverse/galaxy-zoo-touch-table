@@ -92,7 +92,7 @@
                     <Run Text="{Binding CurrentSeconds, Mode=OneWay}"/>
                 </TextBlock>
 
-                <local:PushButton
+                <local:MultiTouchButton
                     Style="{StaticResource TransparentWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Left"
@@ -106,9 +106,9 @@
                         HorizontalAlignment="Center"
                         Text="Close now"
                         VerticalAlignment="Center"/>
-                </local:PushButton>
+                </local:MultiTouchButton>
 
-                <local:PushButton
+                <local:MultiTouchButton
                     Style="{StaticResource SubmitWithDownstate}"
                     Height="20"
                     HorizontalAlignment="Right"
@@ -123,7 +123,7 @@
                         HorizontalAlignment="Center"
                         Text="Still working"
                         VerticalAlignment="Center"/>
-                </local:PushButton>
+                </local:MultiTouchButton>
             </Grid>
         </Border>
     </Border>

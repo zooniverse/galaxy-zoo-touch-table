@@ -273,8 +273,8 @@
     <Compile Include="Views\Leveler.xaml.cs">
       <DependentUpon>Leveler.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PushButton.xaml.cs">
-      <DependentUpon>PushButton.xaml</DependentUpon>
+    <Compile Include="Views\MultiTouchButton.xaml.cs">
+      <DependentUpon>MultiTouchButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SpaceView.xaml.cs">
       <DependentUpon>SpaceView.xaml</DependentUpon>
@@ -424,7 +424,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PushButton.xaml">
+    <Page Include="Views\MultiTouchButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

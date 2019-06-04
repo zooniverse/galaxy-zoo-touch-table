@@ -170,7 +170,7 @@
                         Text="Accepting this invitation will clear the galaxy you're currently working on."
                         TextWrapping="Wrap"
                         Width="80"/>
-                    <local:PushButton
+                    <local:MultiTouchButton
                         Style="{StaticResource SubmitWithDownstate}"
                         VerticalAlignment="Bottom"
                         BorderThickness="1"
@@ -184,9 +184,9 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </local:PushButton>
+                    </local:MultiTouchButton>
 
-                    <local:PushButton
+                    <local:MultiTouchButton
                         Style="{StaticResource TransparentWithDownstate}"
                         Margin="0,0,0,10.5"
                         VerticalAlignment="Bottom"
@@ -199,7 +199,7 @@
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
-                    </local:PushButton>
+                    </local:MultiTouchButton>
                 </Grid>
 
                 <Grid Margin="7.6,20,19.5,0" Style="{StaticResource HelpRequested}">
@@ -222,7 +222,7 @@
                         VerticalAlignment="Bottom"
                         Margin="2.5,0,0,61.64"
                         Text="you think about a galaxy they're working on. Do you want to help?"/>
-                    <local:PushButton
+                    <local:MultiTouchButton
                         Style="{StaticResource SubmitWithDownstate}"
                         VerticalAlignment="Bottom"
                         BorderThickness="1"
@@ -236,9 +236,9 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
-                    </local:PushButton>
+                    </local:MultiTouchButton>
 
-                    <local:PushButton
+                    <local:MultiTouchButton
                         Style="{StaticResource TransparentWithDownstate}"
                         Margin="0,0,0,10.5"
                         VerticalAlignment="Bottom"
@@ -251,7 +251,7 @@
                             FontWeight="Bold"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
-                    </local:PushButton>
+                    </local:MultiTouchButton>
                 </Grid>
             </Grid>
         </Border>

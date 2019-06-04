@@ -32,7 +32,7 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Views:PushButton.IsTouched" Value="True">
+                        <Trigger Property="Views:MultiTouchButton.IsTouched" Value="True">
                             <Setter TargetName="OuterBorder" Property="Background" Value="#171718"/>
                             <Setter TargetName="InnerBorder" Property="Effect">
                                 <Setter.Value>
@@ -71,7 +71,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="Views:PushButton.IsTouched" Value="True">
+                        <Trigger Property="Views:MultiTouchButton.IsTouched" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="#000000"/>
                             <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
                             <Setter TargetName="Border" Property="Effect">

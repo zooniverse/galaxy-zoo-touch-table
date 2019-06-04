@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
-             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
@@ -91,7 +89,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </MultiDataTrigger>
-                            <Trigger Property="Views:PushButton.IsTouched" Value="True">
+                            <Trigger Property="Views:MultiTouchButton.IsTouched" Value="True">
                                 <Setter TargetName="DropShadowBorder" Property="BorderThickness" Value="0"/>
                                 <Setter TargetName="OuterBorder" Property="Background" Value="#4D015F7B"/>
                                 <Setter TargetName="OuterBorder" Property="Clip">
@@ -152,7 +150,7 @@
             Width="165">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Views:PushButton
+                    <Views:MultiTouchButton
                         Style="{StaticResource AnswerButton}"
                         Height="34"
                         Width="144"
@@ -169,7 +167,7 @@
             VerticalAlignment="Bottom"
             Width="287"/>
 
-        <Views:PushButton
+        <Views:MultiTouchButton
             Style="{StaticResource SubmitWithDownstate}"
             Height="23"
             Width="285"
@@ -182,6 +180,6 @@
                     FontWeight="Bold"
                     Text="Submit Classification"/>
             </StackPanel>
-        </Views:PushButton>
+        </Views:MultiTouchButton>
     </Grid>
 </UserControl>

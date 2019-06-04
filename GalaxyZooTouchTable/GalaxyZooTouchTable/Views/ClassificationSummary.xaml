@@ -202,7 +202,7 @@
             Margin="14,208,14,0"
             Background="{StaticResource MedGrayColor}"/>
 
-        <Views:PushButton
+        <Views:MultiTouchButton
             Height="23"
             HorizontalAlignment="Left"
             Margin="14,0,0,0"
@@ -217,9 +217,9 @@
                     Text="Choose another galaxy"/>
                 <fa:ImageAwesome Icon="ChevronRight" Foreground="White" Height="8" Margin="5,0,0,0"/>
             </StackPanel>
-        </Views:PushButton>
+        </Views:MultiTouchButton>
 
-        <Views:PushButton
+        <Views:MultiTouchButton
             Height="23"
             HorizontalAlignment="Right"
             Margin="0,0,14,0"
@@ -235,6 +235,6 @@
                     Text="Random galaxy"/>
                 <fa:ImageAwesome Icon="ChevronRight" Height="8" Margin="5,0,0,0"/>
             </StackPanel>
-        </Views:PushButton>
+        </Views:MultiTouchButton>
     </Grid>
 </UserControl>

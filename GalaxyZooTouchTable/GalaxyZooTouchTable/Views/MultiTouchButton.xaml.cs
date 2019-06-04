@@ -4,16 +4,16 @@ using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.Views
 {
-    public partial class PushButton : Button
+    public partial class MultiTouchButton : Button
     {
         bool IsDeliberate { get; set; } = false;
 
         public static readonly DependencyProperty PressCommandProperty = DependencyProperty.Register(
-            "PressCommand", typeof(ICommand), typeof(PushButton), new PropertyMetadata(default(ICommand)));
+            "PressCommand", typeof(ICommand), typeof(MultiTouchButton), new PropertyMetadata(default(ICommand)));
         public static readonly DependencyProperty PressCommandParameterProperty = DependencyProperty.Register(
-            "PressCommandParameter", typeof(object), typeof(PushButton), new PropertyMetadata(default(object)));
+            "PressCommandParameter", typeof(object), typeof(MultiTouchButton), new PropertyMetadata(default(object)));
         public static readonly DependencyProperty IsTouchedProperty = DependencyProperty.Register(
-            "IsTouched", typeof(bool), typeof(PushButton), new PropertyMetadata(default(bool)));
+            "IsTouched", typeof(bool), typeof(MultiTouchButton), new PropertyMetadata(default(bool)));
 
         public ICommand PressCommand
         {
@@ -36,28 +36,28 @@ namespace GalaxyZooTouchTable.Views
             set { SetValue(IsTouchedProperty, value); }
         }
 
-        public PushButton()
+        public MultiTouchButton()
         {
             InitializeComponent();
 
-            TouchDown += PushButton_TouchDown;
-            TouchEnter += PushButton_TouchEnter;
+            TouchDown += MultiTouchButton_TouchDown;
+            TouchEnter += MultiTouchButton_TouchEnter;
 
-            TouchUp += PushButton_TouchUp;
-            TouchLeave += PushButton_TouchLeave;
+            TouchUp += MultiTouchButton_TouchUp;
+            TouchLeave += MultiTouchButton_TouchLeave;
         }
 
-        private void PushButton_TouchDown(object sender, TouchEventArgs e)
+        private void MultiTouchButton_TouchDown(object sender, TouchEventArgs e)
         {
             SetTouchState(true);
         }
 
-        private void PushButton_TouchLeave(object sender, TouchEventArgs e)
+        private void MultiTouchButton_TouchLeave(object sender, TouchEventArgs e)
         {
             SetTouchState(false);
         }
 
-        private void PushButton_TouchUp(object sender, TouchEventArgs e)
+        private void MultiTouchButton_TouchUp(object sender, TouchEventArgs e)
         {
             if (IsTouched && IsDeliberate)
             {
@@ -66,7 +66,7 @@ namespace GalaxyZooTouchTable.Views
             SetTouchState(false);
         }
 
-        private void PushButton_TouchEnter(object sender, TouchEventArgs e)
+        private void MultiTouchButton_TouchEnter(object sender, TouchEventArgs e)
         {
             IsTouched = true;
         }
