@@ -45,6 +45,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PanoptesNetClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PanoptesNetClient.1.1.2\lib\net461\PanoptesNetClient.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -119,10 +122,6 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\panoptes-net-client\PanoptesNetClient\PanoptesNetClient\PanoptesNetClient.csproj">
-      <Project>{b68a3599-51b8-40e1-9006-d6d4601c42fa}</Project>
-      <Name>PanoptesNetClient</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GalaxyZooTouchTable\GalaxyZooTouchTable.csproj">
       <Project>{5c767b76-0d94-4520-b639-6ff05eff077d}</Project>
       <Name>GalaxyZooTouchTable</Name>
