@@ -1,6 +1,8 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using PanoptesNetClient;
 using PanoptesNetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Net.Http;
@@ -58,7 +60,14 @@ namespace GalaxyZooTouchTable.Services
 
         public async Task<Workflow> GetWorkflowAsync(string id)
         {
-            return await _panoptesClient.Workflows.Get(id);
+            try
+            {
+                return await _panoptesClient.Workflows.Get(id);
+            } catch(Exception e)
+            {
+                Console.WriteLine($"Error retrieving workflow: {e.Message}");
+                return GlobalData.GetInstance().OfflineWorkflow;
+            }
         }
     }
 }

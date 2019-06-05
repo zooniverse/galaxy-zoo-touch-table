@@ -186,7 +186,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public async Task GetWorkflow()
         {
-            Workflow = await _panoptesService.GetWorkflowAsync(Config.WorkflowId) ?? GlobalData.GetInstance().OfflineWorkflow;
+            Workflow = await _panoptesService.GetWorkflowAsync(Config.WorkflowId);
             WorkflowTask CurrentTask = Workflow.Tasks[Workflow.FirstTask];
             CurrentTaskIndex = Workflow.FirstTask;
             CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
