@@ -9,6 +9,8 @@
         WindowState="Maximized"
         x:Name="Root"
         Stylus.IsPressAndHoldEnabled="False"
+        Loaded="MainWindow_Loaded"
+        Closed="Root_Closed"
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
     <Window.Resources>
