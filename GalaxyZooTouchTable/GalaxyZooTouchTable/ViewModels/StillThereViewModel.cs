@@ -114,7 +114,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (CurrentSeconds == 0)
             {
-                Console.WriteLine(User);
                 CloseClassificationPanel(null);
                 IsVisible = false;
                 GlobalData.GetInstance().Logger.AddEntry("Close_Timeout");

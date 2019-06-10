@@ -216,6 +216,7 @@
     <Compile Include="Lib\RingNotifierStatus.cs" />
     <Compile Include="Lib\WorkspacePositions.cs" />
     <Compile Include="Models\ClassificationCounts.cs" />
+    <Compile Include="Log\LogEntry.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\ClassificationRingNotifier.cs" />
     <Compile Include="Models\ClassificationSummary.cs" />

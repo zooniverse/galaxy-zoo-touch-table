@@ -215,7 +215,6 @@ namespace GalaxyZooTouchTable.ViewModels
         void OnNotifyUser(object sender)
         {
             TableUser UserToNotify = sender as TableUser;
-            GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name);
 
             if (IsCurrentlyWorkingWith(UserToNotify)) return;
             if (CannotAskForHelp()) return;
@@ -225,6 +224,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (UserIsBusy(UserToNotify)) return;
             if (PendingRequest()) return;
 
+            GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "Request_Sent");
             UsersAlreadyAsked.Add(UserToNotify);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.AskForHelp, CurrentSubjectId);
             Messenger.Default.Send(Notification, $"{UserToNotify.Name}_PostNotification");
@@ -238,6 +238,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (AlreadyWorkingWith)
             {
                 Overlay = new NotificationOverlay("You are already working with", null, UserToNotify.Avatar);
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "Already_Helping");
             }
             return AlreadyWorkingWith;
         }
@@ -247,6 +248,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (!CurrentlyClassifying)
             {
                 Overlay = new NotificationOverlay("Drag a galaxy above into your classifier to begin!");
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "Drag_To_Begin");
             }
             return !CurrentlyClassifying;
         }
@@ -256,6 +258,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (!userToNotify.Active)
             {
                 Overlay = new NotificationOverlay("Sorry,", "is not at the table. Ask someone else?", userToNotify.Avatar);
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "User_Unavailable");
             }
             return !userToNotify.Active;
         }
@@ -266,6 +269,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (AlreadyAsked)
             {
                 Overlay = new NotificationOverlay("Sorry, you have already asked", "for help.", userToNotify.Avatar);
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "Already_Asked");
             }
             return AlreadyAsked;
         }
@@ -278,6 +282,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 Overlay = new NotificationOverlay("Sorry,", "has already classified that galaxy.", userToNotify.Avatar);
                 NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer, userToNotify.Avatar, FinishedClassification.Answer);
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "Already_Seen");
             }
             return FinishedClassification != null;
         }
@@ -287,6 +292,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (userToNotify.Busy)
             {
                 Overlay = new NotificationOverlay("Sorry,", "is busy working with another user.", userToNotify.Avatar);
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "User_Busy");
             }
             return userToNotify.Busy;
         }
@@ -297,6 +303,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (RequestIsPending)
             {
                 Overlay = new NotificationOverlay("You must respond to your current help request.");
+                GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help", User.Name, "Pending_Request");
             }
             return RequestIsPending;
         }
