@@ -11,16 +11,8 @@ namespace GalaxyZooTouchTable.Tests.Mock
         public static List<TaskAnswer> TaskAnswerList()
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>();
-            TaskAnswer FirstTask = new TaskAnswer()
-            {
-                Label = "First Task",
-                Next = "T1"
-            };
-            TaskAnswer SecondTask = new TaskAnswer()
-            {
-                Label = "Second Task",
-                Next = "T2"
-            };
+            TaskAnswer FirstTask = new TaskAnswer("First Task", "T1");
+            TaskAnswer SecondTask = new TaskAnswer("Second Task", "T2");
             TaskAnswers.Add(FirstTask);
             TaskAnswers.Add(SecondTask);
             return TaskAnswers;
@@ -35,14 +27,11 @@ namespace GalaxyZooTouchTable.Tests.Mock
         {
             List<TaskAnswer> TaskAnswers = new List<TaskAnswer>()
             {
-                new TaskAnswer()
-                {
-                    Label="Hello", Next="T1"
-                }
+                new TaskAnswer("Hello", "T1")
             };
             Dictionary<string, WorkflowTask> WorkflowTasks = new Dictionary<string, WorkflowTask>()
             {
-                {"T0", new WorkflowTask(){ Question = "Choose an Answer", Answers = TaskAnswers } }
+                {"T0", new WorkflowTask("Choose an Answer", TaskAnswers ) }
             };
             return new Workflow()
             {
@@ -55,9 +44,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
 
         public static AnswerButton AnswerButton()
         {
-            TaskAnswer Answer = new TaskAnswer();
-            Answer.Label = "Smooth Galaxy";
-            Answer.Next = "T1";
+            TaskAnswer Answer = new TaskAnswer("Smooth Galaxy", "T1");
             return new AnswerButton(Answer, 1);
         }
 
