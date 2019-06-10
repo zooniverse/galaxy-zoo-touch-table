@@ -54,7 +54,13 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public NotificationsViewModel Notifications { get; private set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
-        public LevelerViewModel LevelerViewModel { get; private set; }
+
+        private LevelerViewModel _levelerViewModel;
+        public LevelerViewModel LevelerViewModel
+        {
+            get => _levelerViewModel;
+            set => SetProperty(ref _levelerViewModel, value);
+        }
 
         private List<AnswerButton> _currentAnswers;
         public List<AnswerButton> CurrentAnswers

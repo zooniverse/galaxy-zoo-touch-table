@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views">
     <Style x:Key="StandardBtn" TargetType="Button">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
@@ -31,7 +32,7 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Button.IsPressed" Value="True">
+                        <Trigger Property="Views:MultiTouchButton.IsTouched" Value="True">
                             <Setter TargetName="OuterBorder" Property="Background" Value="#171718"/>
                             <Setter TargetName="InnerBorder" Property="Effect">
                                 <Setter.Value>
@@ -70,7 +71,7 @@
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
-                        <Trigger Property="Button.IsPressed" Value="True">
+                        <Trigger Property="Views:MultiTouchButton.IsTouched" Value="True">
                             <Setter TargetName="Border" Property="Background" Value="#000000"/>
                             <Setter TargetName="Border" Property="ClipToBounds" Value="False"/>
                             <Setter TargetName="Border" Property="Effect">
