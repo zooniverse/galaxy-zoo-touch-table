@@ -216,6 +216,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel = new LevelerViewModel(User);
+            GlobalData.GetInstance().Logger.AddEntry("Open_Classifier");
         }
 
         private void OnCloseClassifier(object sender)

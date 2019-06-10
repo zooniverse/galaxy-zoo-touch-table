@@ -18,11 +18,15 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser PeachUser = new PeachUser();
         public TableUser GreenUser = new GreenUser();
         public Workflow OfflineWorkflow = new Workflow();
+        public Log Logger { get; private set; }
 
         protected GlobalData()
         {
             PopulateUsers();
             PopulateOfflineWorkflow();
+
+            string date = DateTime.Now.ToString("dd-MM-yyyy_HHmmss");
+            Logger = new Log($"log_{date}");
         }
 
         private void PopulateOfflineWorkflow()

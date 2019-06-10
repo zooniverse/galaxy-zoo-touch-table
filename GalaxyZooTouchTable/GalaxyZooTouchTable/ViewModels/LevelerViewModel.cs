@@ -67,7 +67,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            ToggleLeveler = new CustomCommand(SlideLeveler);
+            ToggleLeveler = new CustomCommand(OnToggleLeveler);
         }
 
         public void CloseLeveler()
@@ -75,9 +75,10 @@ namespace GalaxyZooTouchTable.ViewModels
             IsOpen = false;
         }
 
-        public void SlideLeveler(object sender)
+        public void OnToggleLevler(object sender)
         {
             IsOpen = !IsOpen;
+            GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler");
         }
 
         private void LevelUp()

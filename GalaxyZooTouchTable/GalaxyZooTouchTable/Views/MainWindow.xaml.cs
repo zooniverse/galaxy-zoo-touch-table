@@ -1,7 +1,8 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Input;
-using GalaxyZooTouchTable.Lib;
 
 namespace GalaxyZooTouchTable
 {
@@ -11,12 +12,12 @@ namespace GalaxyZooTouchTable
     public partial class MainWindow : Window
     {
         private MainWindowViewModel _viewModel;
-        private Log Logger;
 
         public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
+            Closed += MainWindow_Closed;
 
             _viewModel = viewModel;
             DataContext = viewModel;
@@ -27,14 +28,11 @@ namespace GalaxyZooTouchTable
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _viewModel.Load();
-
-            string date = DateTime.Now.ToString("dd-MM-yyyy_HHmmss");
-            Logger = new Log($"log_{date}");
         }
 
-        private void Root_Closed(object sender, EventArgs e)
+        private void MainWindow_Closed(object sender, EventArgs e)
         {
-            Logger.FinalizeLog();
+            GlobalData.GetInstance().Logger.FinalizeLog();
         }
     }
 }

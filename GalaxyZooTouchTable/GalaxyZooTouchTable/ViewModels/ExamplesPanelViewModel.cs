@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Windows.Input;
@@ -69,6 +70,7 @@ namespace GalaxyZooTouchTable.ViewModels
             } else
             {
                 SelectedExample = example;
+                GlobalData.GetInstance().Logger.AddEntry("Selected_Galaxy_Example");
             }
         }
 

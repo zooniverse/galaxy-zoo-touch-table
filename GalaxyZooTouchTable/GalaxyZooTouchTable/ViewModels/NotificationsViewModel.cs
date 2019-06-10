@@ -215,6 +215,7 @@ namespace GalaxyZooTouchTable.ViewModels
         void OnNotifyUser(object sender)
         {
             TableUser UserToNotify = sender as TableUser;
+            GlobalData.GetInstance().Logger.AddEntry("Ask_For_Help");
 
             if (IsCurrentlyWorkingWith(UserToNotify)) return;
             if (CannotAskForHelp()) return;
@@ -317,6 +318,7 @@ namespace GalaxyZooTouchTable.ViewModels
             GetSubjectById(Request.SubjectId);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
+            GlobalData.GetInstance().Logger.AddEntry("Accept_Galaxy");
         }
 
         void OnDeclineGalaxy(object sender)
@@ -325,6 +327,7 @@ namespace GalaxyZooTouchTable.ViewModels
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Decline);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             ResetNotifications();
+            GlobalData.GetInstance().Logger.AddEntry("Decline_Galaxy");
         }
 
         void OnClearOverlay(object sender)
@@ -357,6 +360,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.SendAnswer, classification);
                 Messenger.Default.Send(Notification, $"{AwaitingRequest.CooperatingPeer.Name}_PostNotification");
                 PendingRequests.Remove(AwaitingRequest);
+                GlobalData.GetInstance().Logger.AddEntry("Helped_User");
             }
             bool HardReset = false;
             ResetNotifications(HardReset);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Lib;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
@@ -26,7 +27,6 @@ namespace GalaxyZooTouchTable.Behaviors
             gradientCollection.Add(gradientStop1);
             gradientCollection.Add(gradientStop2);
             
-
             Point StartPoint = new Point();
             Point EndPoint = new Point();
             if (IsHorizontal)
@@ -67,6 +67,7 @@ namespace GalaxyZooTouchTable.Behaviors
             if (AssociatedObject.ScrollableHeight == AssociatedObject.VerticalOffset && !IsHorizontal)
             {
                 AssociatedObject.OpacityMask = null;
+                GlobalData.GetInstance().Logger.AddEntry("Scroll_To_Bottom");
             }
             else if (AssociatedObject.ScrollableWidth == AssociatedObject.HorizontalOffset && IsHorizontal)
             {

@@ -56,6 +56,7 @@ namespace GalaxyZooTouchTable.Behaviors
                 Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
                 FrameworkElement adornedElement = sender as FrameworkElement;
                 ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
+                GlobalData.GetInstance().Logger.AddEntry("Drag_Galaxy");
             }
             isTouchDown = false;
         }
@@ -120,6 +121,7 @@ namespace GalaxyZooTouchTable.Behaviors
                 {
                     IDroppableArea area = item as IDroppableArea;
                     area.Drop(adorner);
+                    GlobalData.GetInstance().Logger.AddEntry("Drop_Galaxy");
                 }
             }
             hitResultsList.Clear();

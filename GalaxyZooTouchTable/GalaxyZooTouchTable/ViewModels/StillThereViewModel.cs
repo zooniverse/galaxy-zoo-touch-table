@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Utility;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Threading;
+using GalaxyZooTouchTable.Lib;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -74,12 +75,14 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             CloseClassificationPanel(sender);
+            GlobalData.GetInstance().Logger.AddEntry("Close_From_Still_There");
         }
 
         private void OnCloseModal(object sender)
         {
             IsVisible = false;
             ResetFiveMinuteTimer();
+            GlobalData.GetInstance().Logger.AddEntry("Dismiss_Still_There");
         }
 
         private void SetTimer()
@@ -110,6 +113,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 CloseClassificationPanel(null);
                 IsVisible = false;
+                GlobalData.GetInstance().Logger.AddEntry("Close_Timeout");
             }
         }
     }
