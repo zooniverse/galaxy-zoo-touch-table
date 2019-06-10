@@ -45,7 +45,7 @@ namespace GalaxyZooTouchTable.Views
 
             PerformScaleTransforms();
             PerformTranslateTransforms(transitionPoint);
-            PerformGalaxyFade();
+            PerformFade();
         }
 
         void PerformTranslateTransforms(Point transitionPoint)
@@ -105,7 +105,7 @@ namespace GalaxyZooTouchTable.Views
             PreviousCutoutImage.RenderTransform = previousCutoutImageGroup;
         }
 
-        void PerformGalaxyFade()
+        void PerformFade()
         {
             DoubleAnimation animateOut = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(0));
             DoubleAnimation animateIn = new DoubleAnimation(0, 1, TimeSpan.FromSeconds(0.5));
