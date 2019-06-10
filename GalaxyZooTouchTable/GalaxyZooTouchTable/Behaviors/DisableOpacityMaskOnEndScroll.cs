@@ -53,6 +53,15 @@ namespace GalaxyZooTouchTable.Behaviors
             set { SetValue(IsHorizontalProperty, value); }
         }
 
+        private static readonly DependencyProperty UserNameProperty =
+            DependencyProperty.Register("UserName", typeof(string), typeof(DisableOpacityMaskOnEndScroll));
+
+        public string UserName
+        {
+            get { return (string)GetValue(UserNameProperty); }
+            set { SetValue(UserNameProperty, value); }
+        }
+
         private static readonly DependencyProperty StartPercentProperty =
             DependencyProperty.Register("StartPercent", typeof(double), typeof(DisableOpacityMaskOnEndScroll));
 
@@ -67,7 +76,9 @@ namespace GalaxyZooTouchTable.Behaviors
             if (AssociatedObject.ScrollableHeight == AssociatedObject.VerticalOffset && !IsHorizontal)
             {
                 AssociatedObject.OpacityMask = null;
-                GlobalData.GetInstance().Logger.AddEntry("Scroll_To_Bottom");
+
+                if (AssociatedObject.ScrollableHeight > 0)
+                    GlobalData.GetInstance().Logger.AddEntry("Scroll_To_Bottom", UserName);
             }
             else if (AssociatedObject.ScrollableWidth == AssociatedObject.HorizontalOffset && IsHorizontal)
             {

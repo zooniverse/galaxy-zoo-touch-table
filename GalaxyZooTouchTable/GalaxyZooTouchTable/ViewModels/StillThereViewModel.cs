@@ -15,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
         public event Action CheckOverlay = delegate { };
+        TableUser User { get; set; }
 
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseModal { get; set; }
@@ -51,8 +52,9 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public StillThereViewModel()
+        public StillThereViewModel(TableUser user)
         {
+            User = user;
             Circle = new CircularProgress(41);
             LoadCommands();
             Circle.RenderArc(Percentage);
@@ -75,14 +77,15 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             CloseClassificationPanel(sender);
-            GlobalData.GetInstance().Logger.AddEntry("Close_From_Still_There");
+            Visible = false;
+            GlobalData.GetInstance().Logger.AddEntry("Close_From_Still_There", User.Name);
         }
 
         private void OnCloseModal(object sender)
         {
             IsVisible = false;
             ResetFiveMinuteTimer();
-            GlobalData.GetInstance().Logger.AddEntry("Dismiss_Still_There");
+            GlobalData.GetInstance().Logger.AddEntry("Dismiss_Still_There", User.Name);
         }
 
         private void SetTimer()
@@ -111,6 +114,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (CurrentSeconds == 0)
             {
+                Console.WriteLine(User);
                 CloseClassificationPanel(null);
                 IsVisible = false;
                 GlobalData.GetInstance().Logger.AddEntry("Close_Timeout");

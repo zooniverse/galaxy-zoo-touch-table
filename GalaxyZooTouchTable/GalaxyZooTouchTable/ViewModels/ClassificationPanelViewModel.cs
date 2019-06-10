@@ -55,9 +55,9 @@ namespace GalaxyZooTouchTable.ViewModels
         }
 
         public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; } = new CloseConfirmationViewModel();
-        public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
+        public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
-        public StillThereViewModel StillThere { get; private set; } = new StillThereViewModel();
+        public StillThereViewModel StillThere { get; private set; }
 
         private LevelerViewModel _levelerViewModel;
         public LevelerViewModel LevelerViewModel
@@ -132,9 +132,11 @@ namespace GalaxyZooTouchTable.ViewModels
             _localDBService = localDBService;
             User = user;
             
+            ExamplesViewModel = new ExamplesPanelViewModel(User);
             LevelerViewModel = new LevelerViewModel(User);
             Notifications = new NotificationsViewModel(User);
             ClassificationSummaryViewModel = new ClassificationSummaryViewModel(Notifications);
+            StillThere = new StillThereViewModel(User);
 
             LoadCommands();
             AddSubscribers();
@@ -216,16 +218,17 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel = new LevelerViewModel(User);
-            GlobalData.GetInstance().Logger.AddEntry("Open_Classifier");
+            GlobalData.GetInstance().Logger.AddEntry("Open_Classifier", User.Name);
         }
 
-        private void OnCloseClassifier(object sender)
+        private void OnCloseClassifier(object sender = null)
         {
             PrepareForNewClassification();
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();
             Notifications.NotifyLeaving();
 
+            StillThereTimer.Stop();
             ClassifierOpen = false;
             CloseConfirmationViewModel.OnToggleCloseConfirmation(false);
             User.Active = false;
@@ -234,18 +237,6 @@ namespace GalaxyZooTouchTable.ViewModels
         }
 
         public void OnChangeView(ClassifierViewEnum view) { CurrentView = view; }
-
-        private async void OnSubmitClassification(object sender)
-        {
-            CurrentClassification.Annotations.Add(CurrentAnnotation);
-            ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-            ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
-
-            NotifySpaceView(RingNotifierStatus.IsSubmitting);
-            LevelerViewModel.OnIncrementCount();
-            OnChangeView(ClassifierViewEnum.SummaryView);
-            HandleCompletedClassification();
-        }
 
         void HandleCompletedClassification()
         {
@@ -263,8 +254,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void SetTimer()
         {
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
-            StartStillThereModalTimer();
+            StillThereTimer.Interval = new System.TimeSpan(0, 0, 10);
         }
 
         public void StartStillThereModalTimer()
@@ -333,6 +323,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             LoadSubject(subject);
             NotifySpaceView(RingNotifierStatus.IsCreating);
+            GlobalData.GetInstance().Logger.AddEntry("Drop_Galaxy", User.Name);
         }
 
         private bool CheckAlreadyCompleted(TableSubject subject)

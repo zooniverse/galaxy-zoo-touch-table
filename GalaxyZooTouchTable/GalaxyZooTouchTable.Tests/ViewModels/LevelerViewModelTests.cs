@@ -44,7 +44,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public void ShouldToggleLeveler()
         {
             Assert.False(_viewModel.IsOpen);
-            _viewModel.SlideLeveler(null);
+            _viewModel.ToggleLeveler.Execute(null);
             Assert.True(_viewModel.IsOpen);
         }
 

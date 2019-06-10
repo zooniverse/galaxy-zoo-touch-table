@@ -121,7 +121,6 @@ namespace GalaxyZooTouchTable.Behaviors
                 {
                     IDroppableArea area = item as IDroppableArea;
                     area.Drop(adorner);
-                    GlobalData.GetInstance().Logger.AddEntry("Drop_Galaxy");
                 }
             }
             hitResultsList.Clear();

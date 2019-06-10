@@ -30,7 +30,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
             };
             Dictionary<string, WorkflowTask> WorkflowTasks = new Dictionary<string, WorkflowTask>()
             {
-                {"T0", new WorkflowTask("Choose an Answer", TaskAnswers ) }
+                {"T0", new WorkflowTask("Choose an Answer", TaskAnswers) }
             };
             return new Workflow()
             {

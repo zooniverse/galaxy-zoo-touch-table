@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System.Windows.Input;
 
@@ -75,10 +76,10 @@ namespace GalaxyZooTouchTable.ViewModels
             IsOpen = false;
         }
 
-        public void OnToggleLevler(object sender)
+        public void OnToggleLeveler(object sender)
         {
             IsOpen = !IsOpen;
-            GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler");
+            GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler", User.Name);
         }
 
         private void LevelUp()
