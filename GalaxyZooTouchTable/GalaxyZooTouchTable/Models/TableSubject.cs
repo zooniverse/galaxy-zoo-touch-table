@@ -1,5 +1,6 @@
 ﻿using PanoptesNetClient.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace GalaxyZooTouchTable.Models
 {
@@ -91,6 +92,11 @@ namespace GalaxyZooTouchTable.Models
         private double ToRadians(double Degrees)
         {
             return (Degrees * System.Math.PI) / 180.0;
+        }
+
+        public bool IsWorkingWithUser(TableUser user)
+        {
+            return GalaxyRings.Any(X => X.UserName == user.Name && X.CurrentlyClassifying);
         }
     }
 }

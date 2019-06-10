@@ -1,5 +1,6 @@
 ﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
+using System;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -9,7 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenPanel { get; private set; }
         public ICommand TogglePanel { get; private set; }
         public ICommand SelectItem { get; private set; }
-        public ICommand UnselectItem { get; private set; }
+        public ICommand ToggleItem { get; private set; }
 
         public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
         public GalaxyExample Features { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Features);
@@ -56,7 +57,7 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenPanel = new CustomCommand(SlidePanel, CanOpen);
             TogglePanel = new CustomCommand(SlidePanel, CanToggle);
             SelectItem = new CustomCommand(OnToggleItem, CanSelectItem);
-            UnselectItem = new CustomCommand(OnToggleItem);
+            ToggleItem = new CustomCommand(OnToggleItem);
         }
 
         public void OnToggleItem(object sender)

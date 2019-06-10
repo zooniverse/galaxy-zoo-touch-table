@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 
@@ -19,6 +20,7 @@ namespace GalaxyZooTouchTable.Behaviors
 
             AssociatedObject.TouchDown += AssociatedObject_TouchDown;
             AssociatedObject.TouchUp += AssociatedObject_TouchUp;
+            AssociatedObject.TouchLeave += AssociatedObject_TouchLeave;
         }
 
         /// <summary>
@@ -40,8 +42,13 @@ namespace GalaxyZooTouchTable.Behaviors
             IsTouchDown = true;
         }
 
+        private void AssociatedObject_TouchLeave(object sender, TouchEventArgs e)
+        {
+            IsTouchDown = false;
+        }
+
         public static readonly DependencyProperty HandleProperty =
-            DependencyProperty.Register("Handle", typeof(bool), typeof(TapBehavior), new UIPropertyMetadata(true));
+            DependencyProperty.Register("Handle", typeof(bool), typeof(TapBehavior), new UIPropertyMetadata(false));
 
         public bool Handle
         {
