@@ -8,6 +8,8 @@ namespace GalaxyZooTouchTable.Views
     /// </summary>
     public partial class GalaxyTileView : UserControl
     {
+        readonly int INITIAL_RING_WIDTH = 56;
+
         public GalaxyTileView()
         {
             InitializeComponent();
@@ -19,8 +21,8 @@ namespace GalaxyZooTouchTable.Views
         /// </summary>
         private void RingCollection_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
-            var OffsetX = (RingCollection.ActualWidth - SubjectImage.ActualWidth) / 2;
-            var OffsetY = (RingCollection.ActualHeight - SubjectImage.ActualHeight) / 2;
+            var OffsetX = (RingCollection.ActualWidth - INITIAL_RING_WIDTH) / 2;
+            var OffsetY = (RingCollection.ActualHeight - INITIAL_RING_WIDTH) / 2;
 
             TranslateTransform Transform = new TranslateTransform();
             Transform.X = (OffsetX * -1) - 28;
