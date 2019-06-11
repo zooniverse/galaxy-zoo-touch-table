@@ -114,7 +114,7 @@
     </UserControl.Resources>
     
     <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
-        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help classify the galaxy below."/>
+        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help us classify these galaxies."/>
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="14,23,0,0" Text="Please consider only the object in the center of the image."/>
 
         <ContentControl Content="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,45,0,0">
