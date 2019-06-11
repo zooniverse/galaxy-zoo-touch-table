@@ -225,27 +225,6 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="MainBorderStyle" TargetType="{x:Type Border}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" To="0" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Panel.RenderTransform).(TranslateTransform.X)" Duration="0:0:0.1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
         <Style x:Key="ExampleImage" TargetType="{x:Type Border}">
             <Setter Property="Height" Value="30"/>
             <Setter Property="Width" Value="30"/>
@@ -346,26 +325,6 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="ToggleArrowStyle" TargetType="{x:Type fa:ImageAwesome}">
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Height" Value="10"/>
-            <Setter Property="Icon" Value="ChevronRight"/>
-            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard Storyboard="{StaticResource BeginRotateArrowStoryboard}"/>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard Storyboard="{StaticResource ReturnRotateArrowStoryboard}"/>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-
         <Style x:Key="ExampleText" TargetType="{x:Type TextBlock}">
             <Setter Property="Text" Value="Examples"/>
             <Setter Property="FontSize" Value="10"/>
@@ -417,40 +376,12 @@
     </UserControl.Resources>
 
     <Viewbox>
-        <Border x:Name="Panel" CornerRadius="0,2.85,2.85,0" Background="{StaticResource MedGrayColor}" Height="218.2" Width="130.9" Style="{StaticResource MainBorderStyle}">
-            <Border.RenderTransform>
-                <TranslateTransform X="{Binding Path=ActualWidth, ElementName=Panel, Converter={StaticResource HidePanelConverter}, ConverterParameter='-0.75'}"/>
-            </Border.RenderTransform>
-
+        <Border x:Name="Panel" CornerRadius="0,2.85,2.85,0" Background="{StaticResource MedGrayColor}" Height="218.2" Width="130.9">
             <Canvas>
-                <Grid Margin="0,37,0,0" Background="Transparent" Height="181.2" Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Canvas}}">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:TapBehavior Command="{Binding OpenPanel}"/>
-                    </i:Interaction.Behaviors>
-                </Grid>
-
                 <Grid Width="131" Height="37">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:TapBehavior Command="{Binding TogglePanel}"/>
-                    </i:Interaction.Behaviors>
-
                     <TextBlock Margin="18,10,0,0" Style="{StaticResource ExampleText}"/>
                     <TextBlock Margin="18,22,0,0" Text="Tap each item to learn more." FontSize="7" Foreground="White" FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla" FontStyle="Italic"/>
-                    <fa:ImageAwesome Margin="0,10,14,0" Style="{StaticResource ToggleArrowStyle}">
-                        <fa:ImageAwesome.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </fa:ImageAwesome.RenderTransform>
-                    </fa:ImageAwesome>
                 </Grid>
-
-                <TextBlock Style="{StaticResource OpenExampleText}">
-                    <TextBlock.RenderTransform>
-                        <RotateTransform Angle="90"/>
-                    </TextBlock.RenderTransform>
-                </TextBlock>
 
                 <Separator Canvas.Top="36.15" Style="{StaticResource GridSeparators}"/>
 

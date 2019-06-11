@@ -17,7 +17,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldInstantiateWithDefaultValues()
         {
             Assert.False(_viewModel.IsSelected);
-            Assert.True(_viewModel.IsOpen);
             Assert.Null(_viewModel.SelectedExample);
         }
 
@@ -30,21 +29,12 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        private void ShouldToggleSlidePanel()
-        {
-            _viewModel.SlidePanel(null);
-            Assert.False(_viewModel.IsOpen);
-        }
-
-        [Fact]
         private void ShouldResetItself()
         {
-            _viewModel.SlidePanel(null);
             GalaxyExample SmoothGalaxy = GalaxyExampleFactory.Create(GalaxyType.Smooth);
             _viewModel.OnToggleItem(SmoothGalaxy);
 
             _viewModel.ResetExamples();
-            Assert.True(_viewModel.IsOpen);
             Assert.Null(_viewModel.SelectedExample);
         }
     }
