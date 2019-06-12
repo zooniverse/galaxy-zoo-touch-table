@@ -4,7 +4,6 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using GraphQL.Common.Response;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -54,8 +53,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; } = new CloseConfirmationViewModel();
+        public ExamplesPanelViewModel ExamplesViewModel { get; private set; } = new ExamplesPanelViewModel();
         public NotificationsViewModel Notifications { get; private set; }
-        public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
+        public StillThereViewModel StillThere { get; private set; } = new StillThereViewModel();
 
         private LevelerViewModel _levelerViewModel;
         public LevelerViewModel LevelerViewModel
@@ -71,13 +72,6 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _currentAnswers, value);
         }
 
-        private StillThereViewModel _stillThere;
-        public StillThereViewModel StillThere
-        {
-            get => _stillThere;
-            set => SetProperty(ref _stillThere, value);
-        }
-
         private int _totalVotes = 0;
         public int TotalVotes
         {
@@ -90,7 +84,14 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _currentView;
             set => SetProperty(ref _currentView, value);
-        } 
+        }
+
+        private bool _showOverlay = false;
+        public bool ShowOverlay
+        {
+            get => _showOverlay;
+            set => SetProperty(ref _showOverlay, value);
+        }
 
         private SubjectViewEnum _subjectView = SubjectViewEnum.DragSubject;
         public SubjectViewEnum SubjectView
@@ -98,17 +99,10 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _subjectView;
             set
             {
-                Messenger.Default.Send<SubjectViewEnum>(value, $"{User.Name}_SubjectStatus");
+                Messenger.Default.Send(value, $"{User.Name}_SubjectStatus");
                 AllowSelection = value == SubjectViewEnum.MatchedSubject;
                 SetProperty(ref _subjectView, value);
             }
-        }
-
-        private bool _closeConfirmationVisible = false;
-        public bool CloseConfirmationVisible
-        {
-            get => _closeConfirmationVisible;
-            set => SetProperty(ref _closeConfirmationVisible, value);
         }
 
         private bool _classifierOpen = false;
@@ -170,11 +164,9 @@ namespace GalaxyZooTouchTable.ViewModels
             _graphQLService = graphQLService;
             _localDBService = localDBService;
             User = user;
-
-            ExamplesViewModel = new ExamplesPanelViewModel();
+            
             LevelerViewModel = new LevelerViewModel(User);
             Notifications = new NotificationsViewModel(User);
-            StillThere = new StillThereViewModel();
 
             LoadCommands();
             AddSubscribers();
@@ -183,13 +175,23 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void AddSubscribers()
         {
+            CloseConfirmationViewModel.EndSession += OnCloseClassifier;
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             Notifications.PropertyChanged += ResetStillThereModalTimer;
+
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
             StillThere.CloseClassificationPanel += OnCloseClassifier;
+
+            CloseConfirmationViewModel.CheckOverlay += OnShouldShowOverlay;
+            StillThere.CheckOverlay += OnShouldShowOverlay;
+        }
+
+        private void OnShouldShowOverlay()
+        {
+            ShowOverlay = CloseConfirmationViewModel.IsVisible || StillThere.IsVisible;
         }
 
         public async void Load()
@@ -213,7 +215,12 @@ namespace GalaxyZooTouchTable.ViewModels
             ContinueClassification = new CustomCommand(OnContinueClassification);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
-            ShowCloseConfirmation = new CustomCommand(ToggleCloseConfirmation);
+            ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
+        }
+
+        private void OnShowCloseConfirmation(object obj)
+        {
+            CloseConfirmationViewModel.OnToggleCloseConfirmation();
         }
 
         private void OnChooseAnotherGalaxy(object sender)
@@ -255,7 +262,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Notifications.NotifyLeaving();
 
             ClassifierOpen = false;
-            CloseConfirmationVisible = false;
+            CloseConfirmationViewModel.OnToggleCloseConfirmation(false);
             User.Active = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
@@ -266,11 +273,6 @@ namespace GalaxyZooTouchTable.ViewModels
             GetSubjectQueue();
             OnChangeView(ClassifierViewEnum.SubjectView);
             TotalVotes = 0;
-        }
-
-        private void ToggleCloseConfirmation(object sender)
-        {
-            CloseConfirmationVisible = !CloseConfirmationVisible;
         }
 
         public void OnChangeView(ClassifierViewEnum view)
@@ -319,13 +321,13 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             StillThereTimer.Stop();
             StillThereTimer.Start();
-            if (StillThere.Visible) { StillThere.Visible = false; }
+            if (StillThere.IsVisible) { StillThere.IsVisible = false; }
         }
 
         private void ShowStillThereModal(object sender, System.EventArgs e)
         {
             StillThereTimer.Stop();
-            StillThere.Visible = true;
+            StillThere.IsVisible = true;
         }
 
         public void ChooseAnswer(AnswerButton button)
@@ -431,7 +433,6 @@ namespace GalaxyZooTouchTable.ViewModels
                     {
                         var index = System.Convert.ToInt32(count.Name);
                         AnswerButton Answer = CurrentAnswers[index];
-
 
                         int answerCount = (int)count.Value;
                         Answer.AnswerCount = answerCount;

@@ -38,9 +38,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         private void ShouldInitializeWithDefaultValues()
         {
-            Assert.False(_viewModel.CloseConfirmationVisible);
             Assert.False(_viewModel.ClassifierOpen);
             Assert.False(_viewModel.CanSendClassification);
+            Assert.False(_viewModel.ShowOverlay);
         }
 
         [Fact]
@@ -87,16 +87,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.CloseClassifier.Execute(null);
 
             Assert.False(_viewModel.ClassifierOpen);
-            Assert.False(_viewModel.CloseConfirmationVisible);
             Assert.False(_viewModel.User.Active);
-        }
-
-        [Fact]
-        private void ShouldToggleCloseConfirmation()
-        {
-            Assert.False(_viewModel.CloseConfirmationVisible);
-            _viewModel.ShowCloseConfirmation.Execute(null);
-            Assert.True(_viewModel.CloseConfirmationVisible);
         }
 
         [Fact]
@@ -197,6 +188,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.ResetAnswerCount();
             Assert.Equal(0, _viewModel.CurrentAnswers[0].AnswerCount);
             Assert.Equal(0, _viewModel.CurrentAnswers[1].AnswerCount);
+        }
+
+        [Fact]
+        private void ShouldShowOverlay()
+        {
+            _viewModel.ShowCloseConfirmation.Execute(null);
+            Assert.True(_viewModel.ShowOverlay);
         }
     }
 }

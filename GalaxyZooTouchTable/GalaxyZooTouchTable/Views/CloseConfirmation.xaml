@@ -15,17 +15,35 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+
+        <Style x:Key="CheckBox" TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Intent}" Value="True">
+                    <Setter Property="Background" Value="#E5FF4D" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CloseConfirmation" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsVisible}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
-    
-    <Border CornerRadius="5" Background="{StaticResource MedGrayColor}">
+
+    <Border Style="{StaticResource CloseConfirmation}" Height="199" Width="243" CornerRadius="3" Background="{StaticResource MedGrayColor}">
         <Border.Effect>
             <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
 
-        <Grid Width="243" Height="199">
+        <Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
+                    <Behaviors:TapBehavior Command="{Binding ToggleCloseConfirmation}"/>
                 </i:Interaction.Behaviors>
                 <TextBlock
                     Style="{StaticResource CommonType}"
@@ -82,6 +100,22 @@
                 VerticalAlignment="Bottom"
                 Width="57"/>
 
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,42">
+                <i:Interaction.Behaviors>
+                    <Behaviors:TapBehavior Command="{Binding CheckIntent}"/>
+                </i:Interaction.Behaviors>
+                <Border Style="{StaticResource CheckBox}" BorderBrush="#171718" Width="12" Height="12" CornerRadius="2" BorderThickness="1"/>
+                <TextBlock
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                    VerticalAlignment="Center"
+                    Margin="4,0,0,0"
+                    FontStyle="Italic"
+                    FontSize="7"
+                    Foreground="#FFFFFF">
+                    Yes, I'll check it out online
+                </TextBlock>
+            </StackPanel> 
+            
             <local:MultiTouchButton
                 Style="{StaticResource TransparentWithDownstate}"
                 Height="20"
@@ -89,7 +123,7 @@
                 Margin="15,0,0,14"
                 VerticalAlignment="Bottom"
                 Width="104"
-                PressCommand="{Binding ShowCloseConfirmation}">
+                PressCommand="{Binding ToggleCloseConfirmation}">
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
