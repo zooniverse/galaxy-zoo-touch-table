@@ -9,12 +9,12 @@ namespace GalaxyZooTouchTable.Lib
     {
         private static GlobalData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
-        public TableUser PersonUser = new PersonUser();
-        public TableUser LightUser = new LightUser();
-        public TableUser StarUser = new StarUser();
-        public TableUser HeartUser = new HeartUser();
-        public TableUser FaceUser = new FaceUser();
-        public TableUser EarthUser = new EarthUser();
+        public TableUser PurpleUser = new PurpleUser();
+        public TableUser AquaUser = new AquaUser();
+        public TableUser BlueUser = new BlueUser();
+        public TableUser PinkUser = new PinkUser();
+        public TableUser PeachUser = new PeachUser();
+        public TableUser GreenUser = new GreenUser();
 
         protected GlobalData()
         {
@@ -31,12 +31,12 @@ namespace GalaxyZooTouchTable.Lib
 
         private void PopulateUsers()
         {
-            AllUsers.Add(PersonUser);
-            AllUsers.Add(FaceUser);
-            AllUsers.Add(LightUser);
-            AllUsers.Add(StarUser);
-            AllUsers.Add(HeartUser);
-            AllUsers.Add(EarthUser);
+            AllUsers.Add(PurpleUser);
+            AllUsers.Add(PeachUser);
+            AllUsers.Add(AquaUser);
+            AllUsers.Add(BlueUser);
+            AllUsers.Add(PinkUser);
+            AllUsers.Add(GreenUser);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

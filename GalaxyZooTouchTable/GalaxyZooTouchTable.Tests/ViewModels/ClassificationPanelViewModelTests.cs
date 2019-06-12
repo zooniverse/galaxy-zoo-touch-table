@@ -32,7 +32,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _localDBServiceMock.Setup(dp => dp.GetLocalSubject("1")).Returns(PanoptesServiceMockData.TableSubject());
             _localDBServiceMock.Setup(dp => dp.GetQueuedSubjects()).Returns(PanoptesServiceMockData.TableSubjects());
 
-            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, _localDBServiceMock.Object, new StarUser());
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _graphQLServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
         }
 
         [Fact]

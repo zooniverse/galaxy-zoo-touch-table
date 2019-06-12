@@ -58,23 +58,23 @@
             <Image Canvas.Right="40" Canvas.Bottom="40" HorizontalAlignment="Right" Height="52" Width="124" Source="../Images/General/logo-badge.png"/>
 
             <local:UserConsole
-                x:Name="PersonUser"
-                DataContext="{Binding PersonUserVM}"
-                Style="{StaticResource PersonUser}"
+                x:Name="PurpleUser"
+                DataContext="{Binding PurpleUserVM}"
+                Style="{StaticResource PurpleUser}"
                 Canvas.Left="333"
                 Canvas.Bottom="10"/>
 
             <local:UserConsole
-                x:Name="FaceUser"
-                DataContext="{Binding FaceUserVM}"
-                Style="{StaticResource FaceUser}"
+                x:Name="PeachUser"
+                DataContext="{Binding PeachUserVM}"
+                Style="{StaticResource PeachUser}"
                 Canvas.Left="1059"
                 Canvas.Bottom="10"/>
 
             <local:UserConsole
-                x:Name="HeartUser"
-                DataContext="{Binding HeartUserVM}"
-                Style="{StaticResource HeartUser}"
+                x:Name="PinkUser"
+                DataContext="{Binding PinkUserVM}"
+                Style="{StaticResource PinkUser}"
                 Canvas.Left="313"
                 Canvas.Top="10">
                 <local:UserConsole.RenderTransform>
@@ -83,9 +83,9 @@
             </local:UserConsole>
 
             <local:UserConsole
-                x:Name="StarUser"
-                DataContext="{Binding StarUserVM}"
-                Style="{StaticResource StarUser}"
+                x:Name="BlueUser"
+                DataContext="{Binding BlueUserVM}"
+                Style="{StaticResource BlueUser}"
                 Canvas.Left="1039"
                 Canvas.Top="10">
                 <local:UserConsole.RenderTransform>
@@ -94,9 +94,9 @@
             </local:UserConsole>
 
             <local:UserConsole
-                x:Name="EarthUser"
-                DataContext="{Binding EarthUserVM}"
-                Style="{StaticResource EarthUser}"
+                x:Name="GreenUser"
+                DataContext="{Binding GreenUserVM}"
+                Style="{StaticResource GreenUser}"
                 Canvas.Left="10"
                 Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>
@@ -105,9 +105,9 @@
             </local:UserConsole>
 
             <local:UserConsole
-                x:Name="LightUser"
-                DataContext="{Binding LightUserVM}"
-                Style="{StaticResource LightUser}"
+                x:Name="AquaUser"
+                DataContext="{Binding AquaUserVM}"
+                Style="{StaticResource AquaUser}"
                 Canvas.Right="10"
                 Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>

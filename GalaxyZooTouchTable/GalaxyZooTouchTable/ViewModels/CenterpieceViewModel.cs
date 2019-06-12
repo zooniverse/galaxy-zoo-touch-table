@@ -37,12 +37,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
             AllUsers.CollectionChanged += AllUsersCollectionChanged;
 
-            AllUsers.Add(GlobalData.GetInstance().PersonUser);
-            AllUsers.Add(GlobalData.GetInstance().LightUser);
-            AllUsers.Add(GlobalData.GetInstance().StarUser);
-            AllUsers.Add(GlobalData.GetInstance().HeartUser);
-            AllUsers.Add(GlobalData.GetInstance().FaceUser);
-            AllUsers.Add(GlobalData.GetInstance().EarthUser);
+            AllUsers.Add(GlobalData.GetInstance().PurpleUser);
+            AllUsers.Add(GlobalData.GetInstance().AquaUser);
+            AllUsers.Add(GlobalData.GetInstance().BlueUser);
+            AllUsers.Add(GlobalData.GetInstance().PinkUser);
+            AllUsers.Add(GlobalData.GetInstance().PeachUser);
+            AllUsers.Add(GlobalData.GetInstance().GreenUser);
         }
 
         private void AllUsersCollectionChanged(object sender, NotifyCollectionChangedEventArgs changedEventArgs)

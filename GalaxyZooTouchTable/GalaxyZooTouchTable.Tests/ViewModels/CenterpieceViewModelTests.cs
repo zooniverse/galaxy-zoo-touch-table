@@ -25,7 +25,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldHideJoinMessageWithActiveUser()
         {
             Assert.True(_viewModel.IsDormant);
-            GlobalData.GetInstance().StarUser.Active = true;
+            GlobalData.GetInstance().BlueUser.Active = true;
             Assert.False(_viewModel.IsDormant);
         }
     }

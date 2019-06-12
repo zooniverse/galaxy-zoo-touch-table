@@ -33,13 +33,13 @@ namespace GalaxyZooTouchTable.Models
         {
             switch (type)
             {
-                case UserType.Person: return GlobalData.GetInstance().PersonUser;
-                case UserType.Star: return GlobalData.GetInstance().StarUser;
-                case UserType.Earth: return GlobalData.GetInstance().EarthUser;
-                case UserType.Light: return GlobalData.GetInstance().LightUser;
-                case UserType.Face: return GlobalData.GetInstance().FaceUser;
-                case UserType.Heart: return GlobalData.GetInstance().HeartUser;
-                default: return GlobalData.GetInstance().HeartUser;
+                case UserType.Purple: return GlobalData.GetInstance().PurpleUser;
+                case UserType.Blue: return GlobalData.GetInstance().BlueUser;
+                case UserType.Green: return GlobalData.GetInstance().GreenUser;
+                case UserType.Aqua: return GlobalData.GetInstance().AquaUser;
+                case UserType.Peach: return GlobalData.GetInstance().PeachUser;
+                case UserType.Pink: return GlobalData.GetInstance().PinkUser;
+                default: return GlobalData.GetInstance().PinkUser;
             }
         }
     }

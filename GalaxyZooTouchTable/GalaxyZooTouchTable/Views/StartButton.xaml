@@ -57,6 +57,7 @@
                 <Path
                     x:Name="ButtonArc"
                     StrokeThickness="30"
+                    StrokeDashArray="{Binding User.DashArray}"
                     StrokeDashCap="Round"
                     Data="M 10,400 A 200,200 45 1 1 700,400"
                     HorizontalAlignment="Center"
@@ -76,7 +77,7 @@
                         </TextBlock.LayoutTransform>
                     </TextBlock>
                 </Viewbox>
-                <Image Grid.Row="1" Source="{Binding User.StartButton}" Stretch="Uniform"/>
+                <Image Grid.Row="1" Source="{Binding User.Avatar}" Stretch="Uniform"/>
                 <Viewbox Height="{Binding Path=ActualHeight, ElementName=ButtonContainer, Converter={StaticResource PercentSizeConverter}, ConverterParameter='0.15'}">
                     <TextBlock
                         Text="HERE"

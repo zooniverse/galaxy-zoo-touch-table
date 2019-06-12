@@ -1,7 +1,6 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Tests.Mock;
-using PanoptesNetClient.Models;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.Models
@@ -12,29 +11,29 @@ namespace GalaxyZooTouchTable.Tests.Models
 
         public TableSubjectTests()
         {
-            _tableSubject.GalaxyRings.Add(new GalaxyRing(1, GlobalData.GetInstance().StarUser));
-            _tableSubject.GalaxyRings.Add(new GalaxyRing(2, GlobalData.GetInstance().EarthUser));
+            _tableSubject.GalaxyRings.Add(new GalaxyRing(1, GlobalData.GetInstance().BlueUser));
+            _tableSubject.GalaxyRings.Add(new GalaxyRing(2, GlobalData.GetInstance().GreenUser));
         }
 
         [Fact]
         private void ShouldRemoveRing()
         {
             Assert.Equal(3, _tableSubject.GalaxyRings.Count);
-            _tableSubject.RemoveRing(GlobalData.GetInstance().StarUser);
+            _tableSubject.RemoveRing(GlobalData.GetInstance().BlueUser);
             Assert.Equal(2, _tableSubject.GalaxyRings.Count);
         }
 
         [Fact]
         private void ShouldMarkARingAsClassified()
         {
-            _tableSubject.DimRing(GlobalData.GetInstance().EarthUser);
-            GalaxyRing EarthRing;
+            _tableSubject.DimRing(GlobalData.GetInstance().GreenUser);
+            GalaxyRing GreenRing;
             foreach (GalaxyRing Ring in _tableSubject.GalaxyRings)
             {
-                if (Ring.UserName == GlobalData.GetInstance().EarthUser.Name)
+                if (Ring.UserName == GlobalData.GetInstance().GreenUser.Name)
                 {
-                    EarthRing = Ring;
-                    Assert.False(EarthRing.CurrentlyClassifying);
+                    GreenRing = Ring;
+                    Assert.False(GreenRing.CurrentlyClassifying);
                 }
             }
         }
@@ -42,7 +41,7 @@ namespace GalaxyZooTouchTable.Tests.Models
         [Fact]
         private void ShouldAddARing()
         {
-            _tableSubject.AddRing(GlobalData.GetInstance().LightUser);
+            _tableSubject.AddRing(GlobalData.GetInstance().AquaUser);
             Assert.Equal(4, _tableSubject.GalaxyRings.Count);
         }
     }

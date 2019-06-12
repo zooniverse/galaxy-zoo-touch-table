@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.ViewModels;
+using GalaxyZooTouchTable.Lib;
 using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Models
@@ -13,6 +14,9 @@ namespace GalaxyZooTouchTable.Models
         public BitmapImage UserAvatar { get; set; }
         public string UserColor { get; set; } = "#E5FF4D";
         public string UserName { get; set; }
+        public string UserDash { get; set; } = "1 0";
+        VerticalPosition RingVerticalPos;
+        HorizontalPosition RingHorizontalPos;
 
         private int _avatarX = 0;
         public int AvatarX
@@ -49,6 +53,9 @@ namespace GalaxyZooTouchTable.Models
                 UserName = user.Name;
                 UserColor = user.ThemeColor;
                 UserAvatar = user.Avatar;
+                UserDash = user.DashArray;
+                RingHorizontalPos = user.WorkspaceHorizontalPosition;
+                RingVerticalPos = user.WorkspaceVerticalPosition;
             }
             SetProperties(index);
         }
@@ -56,39 +63,40 @@ namespace GalaxyZooTouchTable.Models
         public void SetProperties(int index)
         {
             Diameter = INITIAL_RING_WIDTH + (RING_WIDTH_STEP * index);
-            AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * (AVATAR_WIDTH_STEP));
-            AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * (AVATAR_WIDTH_STEP));
-
-            PlaceAvatar();
-        }
-
-        private void PlaceAvatar()
-        {
             if (UserName != null)
             {
-                switch (UserName)
-                {
-                    case "HeartUser":
-                        AvatarY *= -1;
-                        AvatarX *= -1;
-                        break;
-                    case "StarUser":
-                        AvatarY *= -1;
-                        break;
-                    case "LightUser":
-                        AvatarY = 0;
-                        AvatarX = Diameter / 2;
-                        break;
-                    case "PersonUser":
-                        AvatarX *= -1;
-                        break;
-                    case "EarthUser":
-                        AvatarY = 0;
-                        AvatarX = Diameter / 2 * -1;
-                        break;
-                    default:
-                        break;
-                }
+                AvatarX = INITIAL_AVATAR_RADIUS_POSITION + (index * AVATAR_WIDTH_STEP);
+                AvatarY = INITIAL_AVATAR_RADIUS_POSITION + (index * AVATAR_WIDTH_STEP);
+                PlaceAvatarYPosition();
+                PlaceAvatarXPosition();
+            }
+        }
+
+        void PlaceAvatarYPosition()
+        {
+            switch (RingVerticalPos)
+            {
+                case VerticalPosition.Top:
+                    AvatarY *= -1;
+                    break;
+                case VerticalPosition.Middle:
+                    AvatarX = Diameter / 2;
+                    AvatarY = 0;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void PlaceAvatarXPosition()
+        {
+            switch (RingHorizontalPos)
+            {
+                case HorizontalPosition.Left:
+                    AvatarX *= -1;
+                    break;
+                default:
+                    break;
             }
         }
     }
