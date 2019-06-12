@@ -224,7 +224,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void OnGetSubjectById(string subjectID)
         {
-            TotalVotes = 0;
             NotifySpaceView(RingNotifierStatus.IsHelping);
             TableSubject subject = _localDBService.GetLocalSubject(subjectID);
             LoadSubject(subject);
@@ -251,12 +250,6 @@ namespace GalaxyZooTouchTable.ViewModels
             User.Active = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
-        }
-
-        private void PrepareForNewClassification()
-        {
-            GetSubjectQueue();
-            OnChangeView(ClassifierViewEnum.SubjectView);
         }
 
         public void OnChangeView(ClassifierViewEnum view)
@@ -351,6 +344,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void LoadSubject(TableSubject subject)
         {
+            PrepareForNewClassification();
             CurrentSubject = subject;
             StartNewClassification(subject);
         }
@@ -368,9 +362,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
-            TotalVotes = 0;
-            Subjects.Insert(0, subject);
-            GetSubjectQueue();
             LoadSubject(subject);
             NotifySpaceView(RingNotifierStatus.IsCreating);
         }
