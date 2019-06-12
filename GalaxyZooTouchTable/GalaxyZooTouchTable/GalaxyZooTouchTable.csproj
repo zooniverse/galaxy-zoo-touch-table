@@ -192,6 +192,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\TempDisableBorder.cs" />
     <Compile Include="Behaviors\UIElementDragBehavior.cs" />
     <Compile Include="Behaviors\UIElementDropBehavior.cs" />
     <Compile Include="Behaviors\DisableOpacityMaskOnEndScroll.cs" />
@@ -203,6 +204,7 @@
     <Compile Include="Converters\ObjectEqualityStringConverter.cs" />
     <Compile Include="Converters\ObjectToTypeStringConverter.cs" />
     <Compile Include="Converters\ProgressWidthConverter.cs" />
+    <Compile Include="Lib\CardinalDirectionEnum.cs" />
     <Compile Include="Lib\ClassifierViewEnum.cs" />
     <Compile Include="Lib\GlobalData.cs" />
     <Compile Include="Lib\ContainerHelper.cs" />
@@ -335,6 +337,8 @@
     <Resource Include="Images\GalaxyExamples\star4.jpg" />
     <Resource Include="Images\GalaxyExamples\star5.jpg" />
     <Resource Include="Images\GalaxyExamples\star6.jpg" />
+    <Resource Include="Images\General\background.jpg" />
+    <Resource Include="Images\General\logo-badge.png" />
     <Resource Include="Images\General\zooniverse-logo.png" />
     <Resource Include="zooniverse_icon.ico" />
     <Resource Include="Images\General\Uwhite.png" />

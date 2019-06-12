@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GalaxyZooTouchTable"
-        xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowState="Maximized"
@@ -12,33 +11,72 @@
         Stylus.IsPressAndHoldEnabled="False"
         Title="MainWindow" d:DesignWidth="1920" d:DesignHeight="1080">
 
+    <Window.Resources>
+        <Style x:Key="Centerpiece" TargetType="{x:Type local:Centerpiece}">
+            <Setter Property="Panel.ZIndex" Value="1"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value ="False">
+                    <Setter Property="Panel.ZIndex" Value="0"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BackgroundImage" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsDormant}" Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0.25" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.25" To="1" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <local:DragCanvas x:Name="RootCanvas" Background="Black" Width="1920" Height="1080">
-            <local:Centerpiece x:Name="Centerpiece" Canvas.Left="333" Canvas.Top="330"/>
+            <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource BackgroundImage}">
+                <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
+            </Grid>
+            <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324"/>
+
+            <Image Margin="40" Height="52" Width="124" Source="../Images/General/logo-badge.png">
+                <Image.LayoutTransform>
+                    <RotateTransform Angle="180"/>
+                </Image.LayoutTransform>
+            </Image>
+            <Image Canvas.Right="40" Canvas.Bottom="40" HorizontalAlignment="Right" Height="52" Width="124" Source="../Images/General/logo-badge.png"/>
 
             <local:UserConsole
                 x:Name="PersonUser"
                 DataContext="{Binding PersonUserVM}"
                 Style="{StaticResource PersonUser}"
                 Canvas.Left="333"
-                Canvas.Bottom="10"
-                VerticalAlignment="Bottom"/>
+                Canvas.Bottom="10"/>
 
             <local:UserConsole
                 x:Name="FaceUser"
                 DataContext="{Binding FaceUserVM}"
                 Style="{StaticResource FaceUser}"
                 Canvas.Left="1059"
-                Canvas.Bottom="10"
-                VerticalAlignment="Bottom"/>
+                Canvas.Bottom="10"/>
 
             <local:UserConsole
                 x:Name="HeartUser"
                 DataContext="{Binding HeartUserVM}"
                 Style="{StaticResource HeartUser}"
                 Canvas.Left="313"
-                Canvas.Top="10"
-                VerticalAlignment="Top">
+                Canvas.Top="10">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -49,8 +87,7 @@
                 DataContext="{Binding StarUserVM}"
                 Style="{StaticResource StarUser}"
                 Canvas.Left="1039"
-                Canvas.Top="10"
-                VerticalAlignment="Top">
+                Canvas.Top="10">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -61,8 +98,7 @@
                 DataContext="{Binding EarthUserVM}"
                 Style="{StaticResource EarthUser}"
                 Canvas.Left="10"
-                Canvas.Top="266"
-                HorizontalAlignment="Left">
+                Canvas.Top="266">
                 <local:UserConsole.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </local:UserConsole.LayoutTransform>

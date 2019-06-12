@@ -1,7 +1,6 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.ViewModels;
 using System.Windows;
 using System.Windows.Input;
-using GalaxyZooTouchTable.ViewModels;
 
 namespace GalaxyZooTouchTable
 {
@@ -15,12 +14,12 @@ namespace GalaxyZooTouchTable
         public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
-            this.Loaded += MainWindow_Loaded;
+            Loaded += MainWindow_Loaded;
 
             _viewModel = viewModel;
             DataContext = viewModel;
 
-            this.Cursor = Cursors.None;
+            Cursor = Cursors.None;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

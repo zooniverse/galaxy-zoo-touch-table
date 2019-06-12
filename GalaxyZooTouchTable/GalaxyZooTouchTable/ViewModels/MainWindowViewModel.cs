@@ -13,8 +13,16 @@ namespace GalaxyZooTouchTable.ViewModels
         public ClassificationPanelViewModel HeartUserVM { get; private set; }
         public ClassificationPanelViewModel EarthUserVM { get; private set; }
 
+        private bool _isDormant = true;
+        public bool IsDormant
+        {
+            get => _isDormant;
+            set => SetProperty(ref _isDormant, value);
+        }
+
         public MainWindowViewModel()
         {
+            RegisterMessengerActions();
             PersonUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Person);
             LightUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Light);
             StarUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Star);
@@ -22,6 +30,13 @@ namespace GalaxyZooTouchTable.ViewModels
             FaceUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Face);
             EarthUserVM = ContainerHelper.Container.Resolve<IClassificationPanelViewModelFactory>().Create(UserType.Earth);
         }
+
+        void RegisterMessengerActions()
+        {
+            Messenger.Default.Register<bool>(this, OnTableActivity, "TableStateChanged");
+        }
+
+        void OnTableActivity(bool dormant) => IsDormant = dormant;
 
         public void Load()
         {

@@ -14,9 +14,10 @@ namespace GalaxyZooTouchTable.ViewModels
         private double RaRange { get; set; }
         private double DecRange { get; set; }
         public SpaceNavigation CurrentLocation { get; set; }
+        public event Action<CardinalDirectionEnum> AnimateMovement = delegate { };
 
         public ICommand MoveViewNorth { get; private set; }
-        public ICommand MoveViewEast { get; private set; }
+        public ICommand MoveViewEast { get; set; }
         public ICommand MoveViewSouth { get; private set; }
         public ICommand MoveViewWest { get; private set; }
         public ICommand HideError { get; private set; }
@@ -41,16 +42,28 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _currentGalaxies;
             set 
             {
-                SpaceCutoutUrl = UpdateSpaceCutout();
+                if (value.Count > 0)
+                    SpaceCutoutUrl = UpdateSpaceCutout();
                 SetProperty(ref _currentGalaxies, value);
             }
+        }
+
+        private string _previousSpaceCutoutUrl;
+        public string PreviousSpaceCutoutUrl
+        {
+            get => _previousSpaceCutoutUrl;
+            set => SetProperty(ref _previousSpaceCutoutUrl, value);
         }
 
         private string _spaceCutoutUrl;
         public string SpaceCutoutUrl
         {
             get => _spaceCutoutUrl;
-            set => SetProperty(ref _spaceCutoutUrl, value);
+            set
+            {
+                PreviousSpaceCutoutUrl = _spaceCutoutUrl;
+                SetProperty(ref _spaceCutoutUrl, value);
+            }
         }
 
         public SpaceViewModel(ILocalDBService localDBService)
@@ -120,48 +133,48 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnMoveViewWest(object obj)
         {
             CurrentLocation.MoveWest();
-            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
 
             if (CurrentGalaxies.Count == 0)
             {
                 CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
-                CurrentGalaxies = FindGalaxiesAtNewBounds();
+                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
             }
         }
 
         private void OnMoveViewSouth(object obj)
         {
             CurrentLocation.MoveSouth();
-            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
 
             if (CurrentGalaxies.Count == 0)
             {
                 CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
-                CurrentGalaxies = FindGalaxiesAtNewBounds();
+                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
             }
         }
 
         private void OnMoveViewEast(object obj)
         {
             CurrentLocation.MoveEast();
-            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
 
             if (CurrentGalaxies.Count == 0)
             {
                 CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
-                CurrentGalaxies = FindGalaxiesAtNewBounds();
+                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
             }
         }
 
         private void OnMoveViewNorth(object obj)
         {
             CurrentLocation.MoveNorth();
-            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
 
             if (CurrentGalaxies.Count == 0)
             {
                 CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
-                CurrentGalaxies = FindGalaxiesAtNewBounds();
+                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
             }
         }
 
@@ -171,9 +184,11 @@ namespace GalaxyZooTouchTable.ViewModels
             return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&width=1248&height=432&scale={WidenedPlateScale}";
         }
 
-        private List<TableSubject> FindGalaxiesAtNewBounds()
+        private List<TableSubject> FindGalaxiesAtNewBounds(CardinalDirectionEnum direction = CardinalDirectionEnum.None)
         {
-            return _localDBService.GetLocalSubjects(CurrentLocation);
+            List<TableSubject> newSubjects = _localDBService.GetLocalSubjects(CurrentLocation);
+            if (newSubjects.Count > 0) AnimateMovement(direction);
+            return newSubjects;
         }
     }
 }
