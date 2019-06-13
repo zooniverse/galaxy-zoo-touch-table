@@ -5,11 +5,8 @@ using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
-=======
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
->>>>>>> Use Random Summary String
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,12 +36,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
-<<<<<<< HEAD
         public List<TableSubject> Subjects = new List<TableSubject>();
-=======
-        public List<TableSubject> Subjects { get; set; } = new List<TableSubject>();
         static Random random = new Random();
->>>>>>> Use Random Summary String
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -294,11 +287,15 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 TotalVotes = counts.Total;
 =======
                 //await _panoptesService.CreateClassificationAsync(CurrentClassification);
 >>>>>>> Use Random Summary String
+=======
+                await _panoptesService.CreateClassificationAsync(CurrentClassification);
+>>>>>>> Uncomment Classification Creation
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
