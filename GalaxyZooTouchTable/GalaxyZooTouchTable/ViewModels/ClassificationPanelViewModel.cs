@@ -54,7 +54,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _classificationSummaryViewModel, value);
         }
 
-        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; } = new CloseConfirmationViewModel();
+        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; };
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public StillThereViewModel StillThere { get; private set; }
@@ -132,6 +132,7 @@ namespace GalaxyZooTouchTable.ViewModels
             _localDBService = localDBService;
             User = user;
             
+            CloseConfirmationViewModel = new CloseConfirmationViewModel(User);
             ExamplesViewModel = new ExamplesPanelViewModel(User);
             LevelerViewModel = new LevelerViewModel(User);
             Notifications = new NotificationsViewModel(User);
@@ -179,7 +180,6 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadCommands()
         {
             CloseClassifier = new CustomCommand(OnCloseClassifier);
-            SubmitClassification = new CustomCommand(OnSubmitClassification);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);

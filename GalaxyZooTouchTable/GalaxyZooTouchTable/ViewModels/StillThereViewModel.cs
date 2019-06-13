@@ -77,7 +77,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             CloseClassificationPanel(sender);
-            Visible = false;
+            IsVisible = false;
             GlobalData.GetInstance().Logger.AddEntry("Close_From_Still_There", User.Name);
         }
 
