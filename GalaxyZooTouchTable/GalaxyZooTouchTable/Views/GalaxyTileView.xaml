@@ -9,16 +9,6 @@
              d:DesignHeight="100" d:DesignWidth="100">
 
     <UserControl.Resources>
-        <Style x:Key="SubjectImage" TargetType="{x:Type Image}">
-            <Setter Property="Source" Value="{Binding SubjectLocation}"/>
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SubjectLocation}" Value="{x:Null}">
-                    <Setter Property="Source" Value="pack://application:,,,/Images/General/Uwhite.png"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        
         <Style x:Key="ColoredRing" TargetType="{x:Type Border}">
             <Setter Property="Opacity" Value="1"/>
 
@@ -50,7 +40,7 @@
             <i:Interaction.Behaviors>
                 <Behaviors:UIElementDragBehavior/>
             </i:Interaction.Behaviors>
-            <Image Style="{StaticResource SubjectImage}" Opacity="0.5" Width="30" Height="30"/>
+            <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
         </Border>
         <ItemsControl x:Name="RingCollection" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding GalaxyRings}">
             <ItemsControl.ItemsPanel>
