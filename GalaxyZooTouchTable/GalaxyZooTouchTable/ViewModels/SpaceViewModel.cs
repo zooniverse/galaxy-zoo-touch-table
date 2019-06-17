@@ -167,7 +167,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SetSpaceCutout()
         {
-            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination);
+            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation);
         }
 
         private async void SetPeripheralItems()
@@ -193,7 +193,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingDec(location.MaxDec));
                 periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
             }
-            periphery.Cutout = await CutoutService.GetSpaceCutout(periphery.Location.Center.RightAscension, periphery.Location.Center.Declination);
+            periphery.Cutout = await CutoutService.GetSpaceCutout(periphery.Location);
             return periphery;
         }
     }

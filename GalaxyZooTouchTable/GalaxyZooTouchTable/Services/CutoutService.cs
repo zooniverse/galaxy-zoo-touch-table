@@ -5,8 +5,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -51,7 +51,7 @@ namespace GalaxyZooTouchTable.Services
             DECALSIsResponding = true;
             DECALSTimer.Stop();
         }
-
+        
         async Task<WebResponse> FetchDECALSCutout(double ra, double dec, double plateScale)
         {
             WebResponse response = null;
@@ -88,13 +88,13 @@ namespace GalaxyZooTouchTable.Services
             return response;
         }
 
-        public async Task<BitmapImage> GetSpaceCutout(double ra, double dec)
+        public async Task<BitmapImage> GetSpaceCutout(SpaceNavigation location)
         {
             double plateScale = 1.75;
             BitmapImage image = null;
             //if (SDSSIsResponding)
             //{
-            //    using (WebResponse response = await FetchSDSSCutout(ra, dec, plateScale))
+            //    using (WebResponse response = await FetchSDSSCutout(location.Center.RightAscension, location.Center.Declination, plateScale))
             //        if (response != null)
             //        {
             //            string url = response.ResponseUri.ToString();
@@ -103,11 +103,12 @@ namespace GalaxyZooTouchTable.Services
             //}
             if (DECALSIsResponding && image == null)
             {
-                using (WebResponse response = await FetchDECALSCutout(ra, dec, plateScale))
+                using (WebResponse response = await FetchDECALSCutout(location.Center.RightAscension, location.Center.Declination, plateScale))
                     if (response != null)
                     {
-                        string url = response.ResponseUri.ToString();
-                        image = BitmapFromUrl(url);
+                        //string url = response.ResponseUri.ToString();
+                        //image = BitmapFromUrl(url);
+                        image = await StitchImagesTogether(location, plateScale);
                     }
             }
             //return CreateImage(successfulResponse);
@@ -123,32 +124,38 @@ namespace GalaxyZooTouchTable.Services
             return image;
         }
 
-        //BitmapImage StitchImagesTogether(SpaceNavigation currentLocation, double plateScale)
-        //{
-        //    double RaStep = (currentLocation.RaRange / 3);
-        //    double RightImageCenterRa = currentLocation.Center.RightAscension - RaStep;
-        //    double LeftImageCenterRa = currentLocation.Center.RightAscension + RaStep;
-        //    double[] imageRAs = { LeftImageCenterRa, currentLocation.Center.RightAscension, RightImageCenterRa };
-        //    List<string> urls = new List<string>();
+        async Task<BitmapImage> StitchImagesTogether(SpaceNavigation currentLocation, double plateScale)
+        {
+            //TODO: Remove 0.05 constant below when finding cutouts directly aside one another
+            double RaStep = (currentLocation.RaRange / 3) + (currentLocation.RaRange * 0.05);
+            double RightImageCenterRa = currentLocation.Center.RightAscension - RaStep;
+            double LeftImageCenterRa = currentLocation.Center.RightAscension + RaStep;
+            double[] imageRAs = { LeftImageCenterRa, currentLocation.Center.RightAscension, RightImageCenterRa };
+            List<Bitmap> bitmaps = new List<Bitmap>();
 
-        //    foreach (double ra in imageRAs)
-        //    {
-        //        string url = $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={currentLocation.Center.Declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
-        //        urls.Add(url);
-        //    }
-        //    List<Bitmap> Bitmaps = ConvertUrlsToBitmaps(urls);
+            foreach (double ra in imageRAs)
+            {
+                string url = $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={currentLocation.Center.Declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
+                bitmaps.Add(await ReturnBitmap(url));
+            }
 
-        //    var finalBitmap = new Bitmap(1248, 432);
-        //    using (var g = Graphics.FromImage(finalBitmap))
-        //    {
-        //        int index = 0;
-        //        foreach (var image in Bitmaps)
-        //        {
-        //            g.DrawImage(image, 0, 0);
-        //        }
-        //    }
-        //    return ToBitmapImage(finalBitmap);
-        //}
+            Bitmap finalBitmap = new Bitmap(1248, 432);
+            using (Graphics g = Graphics.FromImage(finalBitmap))
+            {
+                int index = 0;
+                foreach (var image in bitmaps)
+                {
+                    if (index == 0)
+                        g.DrawImage(image, 0, 0);
+                    if (index == 1)
+                        g.DrawImage(image, 408, 0);
+                    if (index == 2)
+                        g.DrawImage(image, 816, 0);
+                    index++;
+                }
+            }
+            return ToBitmapImage(finalBitmap);
+        }
 
         BitmapImage ToBitmapImage(Bitmap bitmap)
         {
@@ -166,39 +173,23 @@ namespace GalaxyZooTouchTable.Services
             }
         }
 
-        Bitmap ConvertUrlToBitmap(string url)
+        async Task<Bitmap> ReturnBitmap(string url)
         {
-            WebClient wc = new WebClient();
-            byte[] bytes = wc.DownloadData(url);
-            using (var ms = new MemoryStream(bytes))
+            Bitmap bitmap = null;
+            using (var client = new HttpClient())
             {
-                return new Bitmap(ms);
-            }
-        }
-
-        private static List<Bitmap> ConvertUrlsToBitmaps(List<string> imageUrls, WebProxy proxy = null)
-        {
-            List<Bitmap> bitmapList = new List<Bitmap>();
-            foreach (string imgUrl in imageUrls)
-            {
-                try
+                var response = await client.GetAsync(url);
+                if (response != null && response.StatusCode == HttpStatusCode.OK)
                 {
-                    WebClient wc = new WebClient();
-                    // If proxy setting then set 
-                    if (proxy != null)
-                        wc.Proxy = proxy;
-                    // Download image 
-                    byte[] bytes = wc.DownloadData(imgUrl);
-                    MemoryStream ms = new MemoryStream(bytes);
-                    Image img = Image.FromStream(ms);
-                    bitmapList.Add((Bitmap)img);
-                }
-                catch (Exception ex)
-                {
-                    Console.Write(ex.Message);
+                    using (var stream = await response.Content.ReadAsStreamAsync())
+                    {
+                        var memStream = new MemoryStream();
+                        await stream.CopyToAsync(memStream);
+                        bitmap = new Bitmap(memStream);
+                    }
                 }
             }
-            return bitmapList;
+            return bitmap;
         }
     }
 }
