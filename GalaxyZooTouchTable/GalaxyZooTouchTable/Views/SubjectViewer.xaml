@@ -5,7 +5,6 @@
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
-             xmlns:Lib="clr-namespace:GalaxyZooTouchTable.Lib"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -19,7 +18,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Width="122">
-                <Image Height="120" Width="120" Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
+                <Image Height="120" Width="120" Source="{Binding CurrentSubject.SubjectLocation, Converter={StaticResource NullImageConverter}}"/>
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="DropTemplate">
@@ -123,7 +122,7 @@
                 <Style TargetType="{x:Type ContentControl}">
                     <Setter Property="ContentTemplate" Value="{StaticResource SubjectTemplate}" />
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding SubjectView}" Value="{x:Static Lib:SubjectViewEnum.DragSubject}">
+                        <DataTrigger Binding="{Binding CurrentSubject}" Value="{x:Null}">
                             <Setter Property="ContentTemplate" Value="{StaticResource DropTemplate}" />
                         </DataTrigger>
                     </Style.Triggers>

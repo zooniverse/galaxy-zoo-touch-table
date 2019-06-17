@@ -1,6 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
 ﻿using GalaxyZooTouchTable.Lib;
-using Newtonsoft.Json.Linq;
+using GalaxyZooTouchTable.Models;
 using PanoptesNetClient.Models;
 using System.Collections.Generic;
 

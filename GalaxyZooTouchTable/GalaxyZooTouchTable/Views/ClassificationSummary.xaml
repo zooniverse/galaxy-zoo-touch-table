@@ -74,7 +74,7 @@
             Text="Your classification has been recorded to the Zooniverse database. Once 25 people have voted, the data will be sent to astronomers."/>
 
         <Border BorderThickness="1.5" Margin="14,56,0,0" CornerRadius="2.85" BorderBrush="White" Width="63" Height="63" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Source="{Binding SubjectImageSource, Converter={StaticResource NullImageConverter}}"/>
+            <Image Source="{Binding CurrentSubject.SubjectLocation, Converter={StaticResource NullImageConverter}}"/>
         </Border>
 
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="84,54,14,0">

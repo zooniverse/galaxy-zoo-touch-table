@@ -1,7 +1,9 @@
 ﻿using GalaxyZooTouchTable.Models;
-using System;
+using PanoptesNetClient.Models;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Xml.Linq;
 
 namespace GalaxyZooTouchTable.Lib
 {
@@ -15,10 +17,32 @@ namespace GalaxyZooTouchTable.Lib
         public TableUser PinkUser = new PinkUser();
         public TableUser PeachUser = new PeachUser();
         public TableUser GreenUser = new GreenUser();
+        public Workflow OfflineWorkflow = new Workflow();
 
         protected GlobalData()
         {
             PopulateUsers();
+            PopulateOfflineWorkflow();
+        }
+
+        private void PopulateOfflineWorkflow()
+        {
+            OfflineWorkflow = new Workflow();
+            foreach (XElement element in XElement.Load("../../Data/OfflineWorkflow.xml").Elements("Workflow"))
+            {
+                List<TaskAnswer> answers = new List<TaskAnswer>();
+                OfflineWorkflow.Version = element.Element("version").Value;
+                OfflineWorkflow.FirstTask = element.Element("firstTask").Value;
+                var task = element.Element("tasks").Element("task");
+                foreach (XElement answer in task.Elements())
+                {
+                    TaskAnswer taskAnswer = new TaskAnswer(answer.Value);
+                    answers.Add(taskAnswer);
+                }
+                WorkflowTask offlineTask = new WorkflowTask("Choose an Answer", answers);
+                OfflineWorkflow.Tasks = new Dictionary<string, WorkflowTask>();
+                OfflineWorkflow.Tasks.Add("T0", offlineTask);
+            }
         }
 
         public static GlobalData GetInstance()

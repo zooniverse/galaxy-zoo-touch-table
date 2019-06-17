@@ -26,7 +26,7 @@ namespace GalaxyZooTouchTable.Models
         public ClassificationPanelViewModel Create(UserType type)
         {
             TableUser User = AssignUser(type);
-            return new ClassificationPanelViewModel(_panoptesService, _graphQLService, _localDBService, User);
+            return new ClassificationPanelViewModel(_panoptesService, _localDBService, User);
         }
 
         private TableUser AssignUser(UserType type)

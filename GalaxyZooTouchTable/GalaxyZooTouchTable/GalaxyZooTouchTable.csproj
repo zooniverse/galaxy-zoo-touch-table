@@ -96,7 +96,7 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PanoptesNetClient, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PanoptesNetClient.1.1.1\lib\net461\PanoptesNetClient.dll</HintPath>
+      <HintPath>..\packages\PanoptesNetClient.1.1.2\lib\net461\PanoptesNetClient.dll</HintPath>
     </Reference>
     <Reference Include="SQLitePCLRaw.batteries_green, Version=1.1.13.388, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
       <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.13\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
@@ -214,13 +214,13 @@
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
     <Compile Include="Lib\WorkspacePositions.cs" />
+    <Compile Include="Models\ClassificationCounts.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\ClassificationRingNotifier.cs" />
     <Compile Include="Models\CompletedClassification.cs" />
     <Compile Include="Models\GalaxyRing.cs" />
     <Compile Include="Models\HelpNotification.cs" />
     <Compile Include="Models\IClassificationPanelViewModelFactory.cs" />
-    <Compile Include="Lib\SubjectViewEnum.cs" />
     <Compile Include="Models\NotificationAvatar.cs" />
     <Compile Include="Models\NotificationOverlay.cs" />
     <Compile Include="Models\NotificationPanel.cs" />
@@ -365,6 +365,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Data\OfflineWorkflow.xml" />
     <Content Include="Fonts\Karla-Bold.ttf" />
     <Content Include="Fonts\Karla-BoldItalic.ttf" />
     <Content Include="Fonts\Karla-Italic.ttf" />
@@ -488,7 +489,6 @@
   <ItemGroup>
     <Resource Include="Images\General\Logo.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

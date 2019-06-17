@@ -44,7 +44,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldntNotifyIfUserInactive()
         {
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             PinkUser.Busy = true;
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
@@ -58,7 +58,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Messenger.Default.Send(PanoptesServiceMockData.CompletedClassification(), "PinkUser_AddCompletedClassification");
             PinkUser.Active = true;
             _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             NotificationAvatarViewModel PinkAvatar = _viewModel.AvailableUsers.Find(x => x.User.Name == "PinkUser");
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
@@ -71,7 +71,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             PinkUser.Active = true;
             PinkUser.Busy = true;
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.NotNull(_viewModel.Overlay);
             Assert.Equal("Sorry,", _viewModel.Overlay.MessageOne);
@@ -92,7 +92,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldNotifyIfPendingRequest()
         {
             PurpleUser.Active = true;
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             _viewModel.NotifyUser.Execute(PurpleUser);
@@ -104,7 +104,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         void ShouldNotifyIfAlreadyAsked()
         {
             PinkUser.Active = true;
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             _viewModel.NotifyUser.Execute(PinkUser);
             Assert.Null(_viewModel.Overlay);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.Decline);
@@ -148,7 +148,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void ShouldWarnAcceptingInviteClearsGalaxy()
         {
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             HelpNotification Notification = new HelpNotification(PinkUser, HelpNotificationStatus.AskForHelp, "1");
             Messenger.Default.Send(Notification, "BlueUser_PostNotification");
             Assert.NotNull(_viewModel.NotificationPanel);
@@ -197,7 +197,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             NotificationsViewModel PinkNotifier = new NotificationsViewModel(PinkUser);
             PinkUser.Active = true;
-            _viewModel.OnSubjectStatusChange(SubjectViewEnum.MatchedSubject);
+            _viewModel.OnSubjectStatusChange(true);
             _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());
             _viewModel.NotifyUser.Execute(PinkUser);
             PinkNotifier.AcceptGalaxy.Execute(null);

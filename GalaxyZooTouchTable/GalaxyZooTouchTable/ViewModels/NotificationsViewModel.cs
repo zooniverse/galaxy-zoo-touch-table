@@ -110,7 +110,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         void RegisterMessengerActions(TableUser user)
         {
-            Messenger.Default.Register<SubjectViewEnum>(this, OnSubjectStatusChange, $"{user.Name}_SubjectStatus");
+            Messenger.Default.Register<bool>(this, OnSubjectStatusChange, $"{user.Name}_SubjectStatus");
             Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"{user.Name}_PostNotification");
             Messenger.Default.Register<HelpNotification>(this, OnReceiveNotification, $"UserLeaving");
         }
@@ -369,10 +369,10 @@ namespace GalaxyZooTouchTable.ViewModels
             ResetNotifications();
         }
 
-        public void OnSubjectStatusChange(SubjectViewEnum status)
+        public void OnSubjectStatusChange(bool isClassifying)
         {
             Overlay = null;
-            CurrentlyClassifying = status == SubjectViewEnum.MatchedSubject;
+            CurrentlyClassifying = isClassifying;
         }
     }
 }

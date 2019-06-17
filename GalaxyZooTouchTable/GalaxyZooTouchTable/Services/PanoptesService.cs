@@ -1,7 +1,11 @@
-﻿using PanoptesNetClient;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
+using PanoptesNetClient;
 using PanoptesNetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
@@ -9,10 +13,39 @@ namespace GalaxyZooTouchTable.Services
     public class PanoptesService : IPanoptesService
     {
         ApiClient _panoptesClient = new ApiClient();
+        List<Classification> QueuedClassifications { get; set; } = new List<Classification>();
+        ILocalDBService _localDBService { get; set; }
 
-        public async Task CreateClassificationAsync(Classification classification)
+        public PanoptesService(ILocalDBService dbService)
         {
-            await _panoptesClient.Classifications.Create(classification);
+            _localDBService = dbService;
+        }
+
+        public async Task<ClassificationCounts> CreateClassificationAsync(Classification classification)
+        {
+            classification.Metadata.FinishedAt = System.DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'");
+            QueuedClassifications.Add(classification);
+            await SaveAllQueuedClassifications();
+            return _localDBService.IncrementClassificationCount(classification);
+        }
+
+        private async Task SaveAllQueuedClassifications()
+        {
+            List<Classification> newQueue = new List<Classification>();
+            foreach (Classification classification in QueuedClassifications)
+            {
+                try
+                {
+                    HttpResponseMessage response = await _panoptesClient.Classifications.Create(classification);
+                    if ((int)response.StatusCode != 422) response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException error)
+                {
+                    newQueue.Add(classification);
+                    System.Console.WriteLine(error.Message);
+                }
+            }
+            QueuedClassifications = newQueue;
         }
 
         public async Task<Subject> GetSubjectAsync(string id)
@@ -27,7 +60,14 @@ namespace GalaxyZooTouchTable.Services
 
         public async Task<Workflow> GetWorkflowAsync(string id)
         {
-            return await _panoptesClient.Workflows.Get(id);
+            try
+            {
+                return await _panoptesClient.Workflows.Get(id);
+            } catch(Exception e)
+            {
+                Console.WriteLine($"Error retrieving workflow: {e.Message}");
+                return GlobalData.GetInstance().OfflineWorkflow;
+            }
         }
     }
 }
