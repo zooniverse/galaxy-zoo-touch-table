@@ -49,28 +49,24 @@
             return (Degrees * System.Math.PI) / 180.0;
         }
 
-        public void MoveNorth()
+        public SpacePoint NextNorthernPoint()
         {
-            Center.Declination += DecRange;
-            UpdateBounds();
+            return new SpacePoint(Center.RightAscension, Center.Declination + DecRange);
         }
 
-        public void MoveSouth()
+        public SpacePoint NextSouthernPoint()
         {
-            Center.Declination -= DecRange;
-            UpdateBounds();
+            return new SpacePoint(Center.RightAscension, Center.Declination - DecRange);
         }
 
-        public void MoveEast()
+        public SpacePoint NextEasternPoint()
         {
-            Center.RightAscension -= RaRangeFunc();
-            UpdateBounds();
+            return new SpacePoint(Center.RightAscension - RaRangeFunc(), Center.Declination);
         }
 
-        public void MoveWest()
+        public SpacePoint NextWesternPoint()
         {
-            Center.RightAscension += RaRangeFunc();
-            UpdateBounds();
+            return new SpacePoint(Center.RightAscension + RaRangeFunc(), Center.Declination);
         }
     }
 }

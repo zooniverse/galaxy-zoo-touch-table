@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -40,11 +41,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<TableSubject> CurrentGalaxies
         {
             get => _currentGalaxies;
-            set 
-            {
-                UpdateSpaceCutout();
-                SetProperty(ref _currentGalaxies, value);
-            }
+            set => SetProperty(ref _currentGalaxies, value);
         }
 
         private BitmapImage _previousSpaceCutoutUrl;
@@ -65,14 +62,16 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
+        private PeripheralItems PeripheralItems { get; set; } = new PeripheralItems();
+
         public SpaceViewModel(ILocalDBService localDBService)
         {
             _localDBService = localDBService;
 
-            SpacePoint StartingLocation = _localDBService.GetRandomPoint();
-            CurrentLocation = new SpaceNavigation(StartingLocation);
-
-            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            CurrentLocation = new SpaceNavigation(_localDBService.GetRandomPoint());
+            CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation);
+            SetSpaceCutout();
+            SetPeripheralItems();
             LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
             Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
@@ -132,67 +131,70 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
-            CurrentLocation.MoveWest();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
-
-            if (CurrentGalaxies.Count == 0)
-            {
-                CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
-            }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "West");
+            SpaceCutoutUrl = PeripheralItems.Western.Cutout;
+            CurrentGalaxies = PeripheralItems.Western.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.West);
+            CurrentLocation = PeripheralItems.Western.Location;
+            SetPeripheralItems();
         }
 
         private void OnMoveViewSouth(object obj)
         {
-            CurrentLocation.MoveSouth();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
-
-            if (CurrentGalaxies.Count == 0)
-            {
-                CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
-            }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "South");
+            SpaceCutoutUrl = PeripheralItems.Southern.Cutout;
+            CurrentGalaxies = PeripheralItems.Southern.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.South);
+            CurrentLocation = PeripheralItems.Southern.Location;
+            SetPeripheralItems();
         }
 
         private void OnMoveViewEast(object obj)
         {
-            CurrentLocation.MoveEast();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
-
-            if (CurrentGalaxies.Count == 0)
-            {
-                CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
-            }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "East");
+            SpaceCutoutUrl = PeripheralItems.Eastern.Cutout;
+            CurrentGalaxies = PeripheralItems.Eastern.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.East);
+            CurrentLocation = PeripheralItems.Eastern.Location;
+            SetPeripheralItems();
         }
 
         private void OnMoveViewNorth(object obj)
         {
-            CurrentLocation.MoveNorth();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
+            SpaceCutoutUrl = PeripheralItems.Northern.Cutout;
+            CurrentGalaxies = PeripheralItems.Northern.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.North);
+            CurrentLocation = PeripheralItems.Northern.Location;
+            SetPeripheralItems();
+        }
 
-            if (CurrentGalaxies.Count == 0)
+        private async void SetSpaceCutout()
+        {
+            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination);
+        }
+
+        private async void SetPeripheralItems()
+        {
+            SpaceNavigation northern = new SpaceNavigation(CurrentLocation.NextNorthernPoint());
+            SpaceNavigation southern = new SpaceNavigation(CurrentLocation.NextSouthernPoint());
+            SpaceNavigation eastern = new SpaceNavigation(CurrentLocation.NextEasternPoint());
+            SpaceNavigation western = new SpaceNavigation(CurrentLocation.NextWesternPoint());
+
+            PeripheralItems.Northern = await GetPeripheralItem(northern);
+            PeripheralItems.Southern = await GetPeripheralItem(southern);
+            PeripheralItems.Eastern = await GetPeripheralItem(eastern);
+            PeripheralItems.Western = await GetPeripheralItem(western);
+        }
+
+        private async Task<PeripheralItem> GetPeripheralItem(SpaceNavigation location)
+        {
+            PeripheralItem periphery = new PeripheralItem(location);
+            periphery.Galaxies = _localDBService.GetLocalSubjects(location);
+
+            if (periphery.Galaxies.Count == 0)
             {
-                CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
+                periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingDec(location.MaxDec));
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
             }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "North");
-        }
-
-        private async void UpdateSpaceCutout()
-        {
-            double WidenedPlateScale = 1.75;
-            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation.Center.RightAscension, CurrentLocation.Center.Declination, WidenedPlateScale, CurrentLocation);
-        }
-
-        private List<TableSubject> FindGalaxiesAtNewBounds(CardinalDirectionEnum direction = CardinalDirectionEnum.None)
-        {
-            List<TableSubject> newSubjects = _localDBService.GetLocalSubjects(CurrentLocation);
-            if (newSubjects.Count > 0) AnimateMovement(direction);
-            return newSubjects;
+            periphery.Cutout = await CutoutService.GetSpaceCutout(periphery.Location.Center.RightAscension, periphery.Location.Center.Declination);
+            return periphery;
         }
     }
 }

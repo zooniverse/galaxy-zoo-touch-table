@@ -88,8 +88,9 @@ namespace GalaxyZooTouchTable.Services
             return response;
         }
 
-        public async Task<BitmapImage> GetSpaceCutout(double ra, double dec, double plateScale, SpaceNavigation currentLocation)
+        public async Task<BitmapImage> GetSpaceCutout(double ra, double dec)
         {
+            double plateScale = 1.75;
             BitmapImage image = null;
             //if (SDSSIsResponding)
             //{
