@@ -96,7 +96,10 @@ namespace GalaxyZooTouchTable.Services
             //{
             //    using (WebResponse response = await FetchSDSSCutout(ra, dec, plateScale))
             //        if (response != null)
-            //            successfulResponse = response.ResponseUri.ToString();
+            //        {
+            //            string url = response.ResponseUri.ToString();
+            //            image = BitmapFromUrl(url);
+            //        }
             //}
             if (DECALSIsResponding && image == null)
             {

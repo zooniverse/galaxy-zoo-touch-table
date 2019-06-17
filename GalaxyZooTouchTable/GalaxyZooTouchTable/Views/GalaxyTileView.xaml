@@ -69,8 +69,8 @@
                                         Stroke="{Binding UserColor}"
                                         RadiusX="100"
                                         RadiusY="100"
-                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+                                        Width="100"
+                                        Height="100"/>
                                 </VisualBrush.Visual>
                             </VisualBrush>
                         </Border.BorderBrush>
