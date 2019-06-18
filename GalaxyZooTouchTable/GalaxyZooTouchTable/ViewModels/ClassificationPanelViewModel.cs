@@ -6,7 +6,6 @@ using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +53,13 @@ namespace GalaxyZooTouchTable.ViewModels
                 AllowSelection = value != null;
                 SetProperty(ref _currentSubject, value);
             }
+        }
+
+        private ClassificationSummaryViewModel _classificationSummaryViewModel;
+        public ClassificationSummaryViewModel ClassificationSummaryViewModel
+        {
+            get => _classificationSummaryViewModel;
+            set => SetProperty(ref _classificationSummaryViewModel, value);
         }
 
         public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; } = new CloseConfirmationViewModel();
@@ -212,6 +218,9 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
+
+            Messenger.Default.Register<object>(this, GetSubjectQueue, $"{User.Name}_RandomGalaxy");
+            Messenger.Default.Register<object>(this, PrepareForNewClassification, $"{User.Name}_ChooseAnother");
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -274,11 +283,11 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             if (CurrentView == ClassifierViewEnum.SubjectView)
             {
-                NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
                 ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                TotalVotes = counts.Total;
-                SelectedAnswer.AnswerCount += 1;
+                ClassificationSummaryViewModel = new ClassificationSummaryViewModel(
+                    CurrentSubject.SubjectLocation, Notifications, counts, User, CurrentAnswers, SelectedAnswer);
+                NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
                 OnChangeView(ClassifierViewEnum.SummaryView);
@@ -286,10 +295,6 @@ namespace GalaxyZooTouchTable.ViewModels
                 CompletedClassifications.Add(FinishedClassification);
                 Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
                 Notifications.HandleAnswer(FinishedClassification);
-            }
-            else
-            {
-                GetSubjectQueue();
             }
         }
 
@@ -369,7 +374,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(subject);
         }
 
-        public void GetSubjectQueue()
+        public void GetSubjectQueue(object obj)
         {
             PrepareForNewClassification();
             if (Subjects.Count == 0)
@@ -391,14 +396,6 @@ namespace GalaxyZooTouchTable.ViewModels
             bool AlreadyCompleted = CompletedClassifications.Any(x => x.SubjectId == subject.Id);
             if (AlreadyCompleted) Notifications.AlreadySeen();
             return AlreadyCompleted;
-        }
-
-        public void ResetAnswerCount()
-        {
-            foreach (AnswerButton Answer in CurrentAnswers)
-            {
-                Answer.AnswerCount = 0;
-            }
         }
     }
 }

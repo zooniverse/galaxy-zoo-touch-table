@@ -1,7 +1,5 @@
-﻿using GalaxyZooTouchTable.Utility;
-using PanoptesNetClient.Models;
+﻿using PanoptesNetClient.Models;
 using System.Text.RegularExpressions;
-using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.Models
 {

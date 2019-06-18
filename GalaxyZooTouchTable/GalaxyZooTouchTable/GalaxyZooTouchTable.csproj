@@ -235,6 +235,7 @@
     <Compile Include="Services\LocalDBService.cs" />
     <Compile Include="Services\PanoptesService.cs" />
     <Compile Include="ViewModels\CenterpieceViewModel.cs" />
+    <Compile Include="ViewModels\ClassificationSummaryViewModel.cs" />
     <Compile Include="ViewModels\CloseConfirmationViewModel.cs" />
     <Compile Include="ViewModels\NotificationAvatarViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />

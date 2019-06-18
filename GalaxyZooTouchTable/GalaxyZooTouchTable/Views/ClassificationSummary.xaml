@@ -5,9 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
-             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -76,11 +74,11 @@
             Text="Your classification has been recorded to the Zooniverse database. Once 25 people have voted, the data will be sent to astronomers."/>
 
         <Border BorderThickness="1.5" Margin="14,56,0,0" CornerRadius="2.85" BorderBrush="White" Width="63" Height="63" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Source="{Binding CurrentSubject.SubjectLocation, Converter={StaticResource NullImageConverter}}"/>
+            <Image Source="{Binding SubjectLocation, Converter={StaticResource NullImageConverter}}"/>
         </Border>
 
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="84,54,14,0">
-            <Run Text="Here are the results so far ("/><Run Text="{Binding TotalVotes}"/><Run Text="/25)"/>
+            <Run Text="Here are the results so far ("/><Run Text="{Binding TotalVotes, Mode=OneWay}"/><Run Text="/25)"/>
         </TextBlock>
 
         <ListView
@@ -92,7 +90,7 @@
             ItemsSource="{Binding CurrentAnswers}"
             Margin="85,70,0,0"
             ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            SelectedItem="{Binding SelectedAnswer}"
+            SelectedItem="{Binding SelectedAnswer, Mode=OneWay}"
             VerticalAlignment="Top"
             Width="217">
             <ListView.ItemContainerStyle>
@@ -228,7 +226,7 @@
             Width="137"
             VerticalAlignment="Bottom"
             Style="{StaticResource SubmitWithDownstate}"
-            PressCommand="{Binding ContinueClassification}">
+            PressCommand="{Binding RandomGalaxy}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
