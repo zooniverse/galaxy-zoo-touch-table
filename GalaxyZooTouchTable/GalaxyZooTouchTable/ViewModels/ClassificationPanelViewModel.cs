@@ -226,6 +226,7 @@ namespace GalaxyZooTouchTable.ViewModels
             OnChangeView(ClassifierViewEnum.SubjectView);
             CurrentAnnotation = null;
             SelectedAnswer = null;
+            SummaryString = SelectSummaryString();
         }
 
         private void OnSelectAnswer(object sender)
@@ -264,17 +265,6 @@ namespace GalaxyZooTouchTable.ViewModels
             CompletedClassifications.Clear();
         }
 
-<<<<<<< HEAD
-=======
-        private void PrepareForNewClassification()
-        {
-            SummaryString = SelectSummaryString();
-            GetSubjectQueue();
-            OnChangeView(ClassifierViewEnum.SubjectView);
-            TotalVotes = 0;
-        }
-
->>>>>>> Use Random Summary String
         public void OnChangeView(ClassifierViewEnum view)
         {
             CurrentView = view;
@@ -286,16 +276,8 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 NotifySpaceView(RingNotifierStatus.IsSubmitting);
                 CurrentClassification.Annotations.Add(CurrentAnnotation);
-<<<<<<< HEAD
-<<<<<<< HEAD
                 ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
                 TotalVotes = counts.Total;
-=======
-                //await _panoptesService.CreateClassificationAsync(CurrentClassification);
->>>>>>> Use Random Summary String
-=======
-                await _panoptesService.CreateClassificationAsync(CurrentClassification);
->>>>>>> Uncomment Classification Creation
                 SelectedAnswer.AnswerCount += 1;
                 ClassificationsThisSession += 1;
                 LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
