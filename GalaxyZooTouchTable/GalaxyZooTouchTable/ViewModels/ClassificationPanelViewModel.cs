@@ -157,6 +157,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StillThere.CheckOverlay += OnShouldShowOverlay;
             ClassificationSummaryViewModel.RandomGalaxyDelegate += GetSubjectQueue;
             ClassificationSummaryViewModel.ChooseAnotherGalaxyDelegate += PrepareForNewClassification;
+            ClassificationSummaryViewModel.DropSubjectDelegate += DropSubject;
         }
 
         private void OnShouldShowOverlay()

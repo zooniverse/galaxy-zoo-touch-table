@@ -24,8 +24,7 @@ namespace GalaxyZooTouchTable
         void IDroppableArea.Drop(FrameworkElement element)
         {
             TableSubject passedSubject = element.DataContext as TableSubject;
-            ClassificationPanelViewModel viewModel = DataContext as ClassificationPanelViewModel;
-
+            ClassificationSummaryViewModel viewModel = DataContext as ClassificationSummaryViewModel;
             viewModel.DropSubject(passedSubject);
         }
 

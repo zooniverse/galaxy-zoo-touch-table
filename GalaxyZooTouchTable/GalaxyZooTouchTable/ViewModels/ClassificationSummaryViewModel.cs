@@ -15,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ChooseAnotherGalaxy { get; private set; }
         public event Action RandomGalaxyDelegate = delegate { };
         public event Action ChooseAnotherGalaxyDelegate = delegate { };
+        public event Action<TableSubject> DropSubjectDelegate = delegate { };
 
         readonly List<string> SummaryStrings = new List<string>
         {
@@ -58,6 +59,11 @@ namespace GalaxyZooTouchTable.ViewModels
         void OnChooseAnotherGalaxy(object obj)
         {
             ChooseAnotherGalaxyDelegate();
+        }
+
+        public void DropSubject(TableSubject subject)
+        {
+            DropSubjectDelegate(subject);
         }
     }
 }

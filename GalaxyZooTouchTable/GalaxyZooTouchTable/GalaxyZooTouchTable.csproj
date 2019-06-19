@@ -255,8 +255,8 @@
     <Compile Include="Views\Centerpiece.xaml.cs">
       <DependentUpon>Centerpiece.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ClassificationSummary.xaml.cs">
-      <DependentUpon>ClassificationSummary.xaml</DependentUpon>
+    <Compile Include="Views\ClassificationSummaryView.xaml.cs">
+      <DependentUpon>ClassificationSummaryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Config.cs" />
     <Compile Include="Views\DropZone.xaml.cs">
@@ -403,7 +403,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ClassificationSummary.xaml">
+    <Page Include="Views\ClassificationSummaryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
