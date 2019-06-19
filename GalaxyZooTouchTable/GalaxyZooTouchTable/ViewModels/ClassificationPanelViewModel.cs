@@ -3,6 +3,7 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -133,6 +134,7 @@ namespace GalaxyZooTouchTable.ViewModels
             
             LevelerViewModel = new LevelerViewModel(User);
             Notifications = new NotificationsViewModel(User);
+            ClassificationSummaryViewModel = new ClassificationSummaryViewModel(Notifications);
 
             LoadCommands();
             AddSubscribers();
@@ -153,6 +155,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
             CloseConfirmationViewModel.CheckOverlay += OnShouldShowOverlay;
             StillThere.CheckOverlay += OnShouldShowOverlay;
+            ClassificationSummaryViewModel.RandomGalaxyDelegate += GetSubjectQueue;
+            ClassificationSummaryViewModel.ChooseAnotherGalaxyDelegate += PrepareForNewClassification;
         }
 
         private void OnShouldShowOverlay()
@@ -176,9 +180,6 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
-
-            Messenger.Default.Register<object>(this, GetSubjectQueue, $"{User.Name}_RandomGalaxy");
-            Messenger.Default.Register<object>(this, PrepareForNewClassification, $"{User.Name}_ChooseAnother");
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -186,7 +187,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseConfirmationViewModel.OnToggleCloseConfirmation();
         }
 
-        private void PrepareForNewClassification(object sender = null)
+        private void PrepareForNewClassification()
         {
             CurrentSubject = null;
             OnChangeView(ClassifierViewEnum.SubjectView);
@@ -236,8 +237,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CurrentClassification.Annotations.Add(CurrentAnnotation);
             ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-            ClassificationSummaryViewModel = new ClassificationSummaryViewModel(
-                CurrentSubject.SubjectLocation, Notifications, counts, User.Name, CurrentAnswers, SelectedAnswer);
+            ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
 
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
@@ -316,7 +316,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(subject);
         }
 
-        public void GetSubjectQueue(object obj)
+        public void GetSubjectQueue()
         {
             PrepareForNewClassification();
             if (Subjects.Count == 0)

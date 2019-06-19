@@ -1,62 +1,36 @@
-﻿using GalaxyZooTouchTable.Lib;
-using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationSummaryViewModel : ViewModelBase
     {
-        static Random random = new Random();
-
-        public ClassificationCounts Counts { get; private set; }
-        public string SubjectLocation { get; private set; }
-        public string SummaryString { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
-        public int TotalVotes { get; private set; }
-        public string UserName { get; private set; }
-        public AnswerButton SelectedAnswer { get; private set; }
-        public List<AnswerButton> CurrentAnswers { get; private set; }
 
         public ICommand RandomGalaxy { get; private set; }
         public ICommand ChooseAnotherGalaxy { get; private set; }
+        public event Action RandomGalaxyDelegate = delegate { };
+        public event Action ChooseAnotherGalaxyDelegate = delegate { };
 
-        public ClassificationSummaryViewModel(string subjectLocation, NotificationsViewModel notifications, ClassificationCounts counts, string userName, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer)
+        private ClassificationSummary classificationSummary;
+        public ClassificationSummary ClassificationSummary
         {
-            Counts = counts;
-            CurrentAnswers = currentAnswers;
-            Notifications = notifications;
-            SelectedAnswer = selectedAnswer;
-            SubjectLocation = subjectLocation;
-            SummaryString = SelectSummaryString();
-            TotalVotes = counts.Total;
-            UserName = userName;
+            get => classificationSummary;
+            set => SetProperty(ref classificationSummary, value);
+        }
 
-            ParseAnswerCounts(currentAnswers, counts);
+        public ClassificationSummaryViewModel(NotificationsViewModel notifications)
+        {
+            Notifications = notifications;
             LoadCommands();
         }
 
-        void ParseAnswerCounts(List<AnswerButton> answers, ClassificationCounts counts)
+        public void ProcessNewClassification(string subjectLocation, ClassificationCounts counts, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer)
         {
-            foreach (AnswerButton answer in answers)
-            {
-                switch (answer.Label)
-                {
-                    case "Smooth":
-                        answer.AnswerCount = counts.Smooth;
-                        break;
-                    case "Features":
-                        answer.AnswerCount = counts.Features;
-                        break;
-                    default:
-                        answer.AnswerCount = counts.Star;
-                        break;
-                }
-            }
+            ClassificationSummary = new ClassificationSummary(subjectLocation, counts, currentAnswers, selectedAnswer);
         }
 
         void LoadCommands()
@@ -67,19 +41,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
         void OnRandomGalaxy(object obj)
         {
-            Messenger.Default.Send(obj, $"{UserName}_RandomGalaxy");
+            RandomGalaxyDelegate();
         }
 
         void OnChooseAnotherGalaxy(object obj)
         {
-            Messenger.Default.Send(obj, $"{UserName}_ChooseAnother");
-        }
-
-        string SelectSummaryString()
-        {
-            ObservableCollection<string> summaryStrings = Application.Current.FindResource("SummaryStrings") as ObservableCollection<string>;
-            int index = random.Next(summaryStrings.Count);
-            return summaryStrings[index];
+            ChooseAnotherGalaxyDelegate();
         }
     }
 }

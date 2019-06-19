@@ -9,9 +9,9 @@ namespace GalaxyZooTouchTable
     /// <summary>
     /// Interaction logic for ClassificationSummary.xaml
     /// </summary>
-    public partial class ClassificationSummary : UserControl, IDroppableArea
+    public partial class ClassificationSummaryView : UserControl, IDroppableArea
     {
-        public ClassificationSummary()
+        public ClassificationSummaryView()
         {
             InitializeComponent();
         }
