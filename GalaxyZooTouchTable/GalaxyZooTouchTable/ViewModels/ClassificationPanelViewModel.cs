@@ -195,7 +195,7 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectedAnswer = null;
         }
 
-        private void OnSelectAnswer(object sender)
+        public void OnSelectAnswer(object sender)
         {
             SelectedAnswer = sender as AnswerButton;
             CurrentAnnotation = new Annotation(Workflow.FirstTask, SelectedAnswer.Index);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Collections.Generic;
 
 namespace GalaxyZooTouchTable.Models
 {
@@ -12,14 +9,13 @@ namespace GalaxyZooTouchTable.Models
         public string SubjectLocation { get; private set; }
         public string SummaryString { get; private set; }
         public int TotalVotes { get; private set; }
-        static Random random = new Random();
 
-        public ClassificationSummary(string subjectLocation, ClassificationCounts counts, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer)
+        public ClassificationSummary(string subjectLocation, ClassificationCounts counts, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer, string summaryString)
         {
             CurrentAnswers = ParseAnswerCounts(currentAnswers, counts);
             SelectedAnswer = selectedAnswer;
             SubjectLocation = subjectLocation;
-            SummaryString = SelectSummaryString();
+            SummaryString = summaryString;
             TotalVotes = counts.Total;
         }
 
@@ -41,13 +37,6 @@ namespace GalaxyZooTouchTable.Models
                 }
             }
             return answers;
-        }
-
-        string SelectSummaryString()
-        {
-            ObservableCollection<string> summaryStrings = Application.Current.FindResource("SummaryStrings") as ObservableCollection<string>;
-            int index = random.Next(summaryStrings.Count);
-            return summaryStrings[index];
         }
     }
 }

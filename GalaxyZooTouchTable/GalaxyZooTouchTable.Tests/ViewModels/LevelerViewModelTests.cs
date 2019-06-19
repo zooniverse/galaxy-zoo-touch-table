@@ -28,8 +28,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         public void ShouldIncrementCount()
         {
-            _viewModel.OnIncrementCount(5);
-            Assert.Equal(5, _viewModel.ClassificationsThisSession);
+            _viewModel.OnIncrementCount();
+            Assert.Equal(1, _viewModel.ClassificationsThisSession);
         }
 
         [Fact]

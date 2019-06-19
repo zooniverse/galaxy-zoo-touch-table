@@ -8,12 +8,22 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationSummaryViewModel : ViewModelBase
     {
+        static Random random = new Random();
         public NotificationsViewModel Notifications { get; private set; }
 
         public ICommand RandomGalaxy { get; private set; }
         public ICommand ChooseAnotherGalaxy { get; private set; }
         public event Action RandomGalaxyDelegate = delegate { };
         public event Action ChooseAnotherGalaxyDelegate = delegate { };
+
+        readonly List<string> SummaryStrings = new List<string>
+        {
+            "Nice work! You just science'd.",
+            "Thanks for your help!",
+            "You're a real scientist!",
+            "Don't stop now!",
+            "You can do this at home on zooniverse.org."
+        };
 
         private ClassificationSummary classificationSummary;
         public ClassificationSummary ClassificationSummary
@@ -30,7 +40,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void ProcessNewClassification(string subjectLocation, ClassificationCounts counts, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer)
         {
-            ClassificationSummary = new ClassificationSummary(subjectLocation, counts, currentAnswers, selectedAnswer);
+            int index = random.Next(SummaryStrings.Count);
+            ClassificationSummary = new ClassificationSummary(subjectLocation, counts, currentAnswers, selectedAnswer, SummaryStrings[index]);
         }
 
         void LoadCommands()

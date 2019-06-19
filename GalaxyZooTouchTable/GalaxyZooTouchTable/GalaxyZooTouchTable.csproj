@@ -228,7 +228,6 @@
     <Compile Include="Models\SpaceNavigation.cs" />
     <Compile Include="Models\SpacePoint.cs" />
     <Compile Include="Models\PendingRequest.cs" />
-    <Compile Include="Models\StringCollection.cs" />
     <Compile Include="Services\GraphQLService.cs" />
     <Compile Include="Services\IGraphQLService.cs" />
     <Compile Include="Services\ILocalDBService.cs" />
