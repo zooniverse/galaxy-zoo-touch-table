@@ -60,9 +60,9 @@ namespace GalaxyZooTouchTable.ViewModels
             LoadCommands();
         }
 
-        public void OnIncrementCount(int TotalClassifications)
+        public void OnIncrementCount()
         {
-            ClassificationsThisSession = TotalClassifications;
+            ClassificationsThisSession += 1;
         }
 
         private void LoadCommands()

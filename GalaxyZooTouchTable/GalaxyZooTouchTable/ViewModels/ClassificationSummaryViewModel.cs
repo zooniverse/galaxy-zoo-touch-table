@@ -18,14 +18,14 @@ namespace GalaxyZooTouchTable.ViewModels
         public string SummaryString { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public int TotalVotes { get; private set; }
-        public TableUser User { get; private set; }
-        public List<AnswerButton> CurrentAnswers { get; private set; }
+        public string UserName { get; private set; }
         public AnswerButton SelectedAnswer { get; private set; }
+        public List<AnswerButton> CurrentAnswers { get; private set; }
 
         public ICommand RandomGalaxy { get; private set; }
         public ICommand ChooseAnotherGalaxy { get; private set; }
 
-        public ClassificationSummaryViewModel(string subjectLocation, NotificationsViewModel notifications, ClassificationCounts counts, TableUser user, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer)
+        public ClassificationSummaryViewModel(string subjectLocation, NotificationsViewModel notifications, ClassificationCounts counts, string userName, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer)
         {
             Counts = counts;
             CurrentAnswers = currentAnswers;
@@ -34,13 +34,13 @@ namespace GalaxyZooTouchTable.ViewModels
             SubjectLocation = subjectLocation;
             SummaryString = SelectSummaryString();
             TotalVotes = counts.Total;
-            User = user;
+            UserName = userName;
 
             ParseAnswerCounts(currentAnswers, counts);
             LoadCommands();
         }
 
-        private void ParseAnswerCounts(List<AnswerButton> answers, ClassificationCounts counts)
+        void ParseAnswerCounts(List<AnswerButton> answers, ClassificationCounts counts)
         {
             foreach (AnswerButton answer in answers)
             {
@@ -65,14 +65,14 @@ namespace GalaxyZooTouchTable.ViewModels
             ChooseAnotherGalaxy = new CustomCommand(OnChooseAnotherGalaxy);
         }
 
-        private void OnRandomGalaxy(object obj)
+        void OnRandomGalaxy(object obj)
         {
-            Messenger.Default.Send(obj, $"{User.Name}_RandomGalaxy");
+            Messenger.Default.Send(obj, $"{UserName}_RandomGalaxy");
         }
 
-        private void OnChooseAnotherGalaxy(object obj)
+        void OnChooseAnotherGalaxy(object obj)
         {
-            Messenger.Default.Send(obj, $"{User.Name}_ChooseAnother");
+            Messenger.Default.Send(obj, $"{UserName}_ChooseAnother");
         }
 
         string SelectSummaryString()

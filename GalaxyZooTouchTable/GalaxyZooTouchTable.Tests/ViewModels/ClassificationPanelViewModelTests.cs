@@ -95,7 +95,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldLoadSubjects()
         {
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
-            _viewModel.GetSubjectQueue();
+            _viewModel.GetSubjectQueue(null);
             _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
@@ -104,11 +104,11 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldSubmitClassificationOnSubmission()
         {
             _viewModel.Load();
-            _viewModel.GetSubjectQueue();
+            _viewModel.GetSubjectQueue(null);
             Assert.Empty(_viewModel.CurrentClassification.Annotations);
 
             _viewModel.SelectAnswer.Execute(PanoptesServiceMockData.AnswerButton());
-            _viewModel.ContinueClassification.Execute(null);
+            _viewModel.SubmitClassification.Execute(null);
             //_panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
 
             //Assert.Equal(1, _viewModel.SelectedAnswer.AnswerCount);
@@ -124,7 +124,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.Empty(_viewModel.Subjects);
 
             _viewModel.CurrentView = ClassifierViewEnum.SummaryView;
-            _viewModel.ContinueClassification.Execute(null);
+            _viewModel.SubmitClassification.Execute(null);
 
             _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Exactly(1));
         }
@@ -170,7 +170,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.CurrentAnswers[0].AnswerCount = 5;
             _viewModel.CurrentAnswers[1].AnswerCount = 7;
 
-            _viewModel.ResetAnswerCount();
             Assert.Equal(0, _viewModel.CurrentAnswers[0].AnswerCount);
             Assert.Equal(0, _viewModel.CurrentAnswers[1].AnswerCount);
         }

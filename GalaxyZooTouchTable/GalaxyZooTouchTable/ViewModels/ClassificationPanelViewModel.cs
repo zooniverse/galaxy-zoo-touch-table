@@ -3,13 +3,10 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -19,24 +16,18 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         private IPanoptesService _panoptesService;
         private ILocalDBService _localDBService;
-
-        private string CurrentTaskIndex { get; set; }
+        private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
         private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
 
         public Classification CurrentClassification { get; set; } = new Classification();
-        public Workflow Workflow { get; set; }
+        public List<TableSubject> Subjects = new List<TableSubject>();
         public TableUser User { get; set; }
-        private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
-
-        public int ClassificationsThisSession { get; set; } = 0;
-        public ICommand ChooseAnotherGalaxy { get; set; }
+        public Workflow Workflow { get; set; }
         public ICommand CloseClassifier { get; private set; }
-        public ICommand ContinueClassification { get; private set; }
+        public ICommand SubmitClassification { get; private set; }
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
-        public List<TableSubject> Subjects = new List<TableSubject>();
-        static Random random = new Random();
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -81,13 +72,6 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _currentAnswers, value);
         }
 
-        private int _totalVotes = 0;
-        public int TotalVotes
-        {
-            get => _totalVotes;
-            set => SetProperty(ref _totalVotes, value);
-        }
-
         private ClassifierViewEnum _currentView = ClassifierViewEnum.SubjectView;
         public ClassifierViewEnum CurrentView
         {
@@ -100,13 +84,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             get => _showOverlay;
             set => SetProperty(ref _showOverlay, value);
-        }
-
-        private bool _closeConfirmationVisible = false;
-        public bool CloseConfirmationVisible
-        {
-            get => _closeConfirmationVisible;
-            set => SetProperty(ref _closeConfirmationVisible, value);
         }
 
         private bool _classifierOpen = false;
@@ -138,21 +115,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public AnswerButton SelectedAnswer
         {
             get => _selectedAnswer;
-            set
-            {
-                if (value != null)
-                {
-                    ChooseAnswer(value);
-                }
-                SetProperty(ref _selectedAnswer, value);
-            }
-        }
-
-        private string _summaryString;
-        public string SummaryString
-        {
-            get => _summaryString;
-            set => SetProperty(ref _summaryString, value);
+            set => SetProperty(ref _selectedAnswer, value);
         }
 
         private bool _allowSelection;
@@ -197,24 +160,19 @@ namespace GalaxyZooTouchTable.ViewModels
             ShowOverlay = CloseConfirmationViewModel.IsVisible || StillThere.IsVisible;
         }
 
-        public async void Load()
-        {
-            await GetWorkflow();
-        }
+        public async void Load() { await GetWorkflow(); }
 
         public async Task GetWorkflow()
         {
             Workflow = await _panoptesService.GetWorkflowAsync(Config.WorkflowId);
             WorkflowTask CurrentTask = Workflow.Tasks[Workflow.FirstTask];
-            CurrentTaskIndex = Workflow.FirstTask;
             CurrentAnswers = ParseTaskAnswers(CurrentTask.Answers);
         }
 
         private void LoadCommands()
         {
-            ChooseAnotherGalaxy = new CustomCommand(PrepareForNewClassification);
             CloseClassifier = new CustomCommand(OnCloseClassifier);
-            ContinueClassification = new CustomCommand(OnContinueClassification);
+            SubmitClassification = new CustomCommand(OnSubmitClassification);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
@@ -230,18 +188,16 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void PrepareForNewClassification(object sender = null)
         {
-            TotalVotes = 0;
             CurrentSubject = null;
             OnChangeView(ClassifierViewEnum.SubjectView);
             CurrentAnnotation = null;
             SelectedAnswer = null;
-            SummaryString = SelectSummaryString();
         }
 
         private void OnSelectAnswer(object sender)
         {
-            AnswerButton Button = sender as AnswerButton;
-            SelectedAnswer = Button;
+            SelectedAnswer = sender as AnswerButton;
+            CurrentAnnotation = new Annotation(Workflow.FirstTask, SelectedAnswer.Index);
         }
 
         public void OnGetSubjectById(string subjectID)
@@ -274,41 +230,32 @@ namespace GalaxyZooTouchTable.ViewModels
             CompletedClassifications.Clear();
         }
 
-        public void OnChangeView(ClassifierViewEnum view)
+        public void OnChangeView(ClassifierViewEnum view) { CurrentView = view; }
+
+        private async void OnSubmitClassification(object sender)
         {
-            CurrentView = view;
+            CurrentClassification.Annotations.Add(CurrentAnnotation);
+            ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+            ClassificationSummaryViewModel = new ClassificationSummaryViewModel(
+                CurrentSubject.SubjectLocation, Notifications, counts, User.Name, CurrentAnswers, SelectedAnswer);
+
+            NotifySpaceView(RingNotifierStatus.IsSubmitting);
+            LevelerViewModel.OnIncrementCount();
+            OnChangeView(ClassifierViewEnum.SummaryView);
+            HandleCompletedClassification();
         }
 
-        private async void OnContinueClassification(object sender)
+        void HandleCompletedClassification()
         {
-            if (CurrentView == ClassifierViewEnum.SubjectView)
-            {
-                CurrentClassification.Annotations.Add(CurrentAnnotation);
-                ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
-                ClassificationSummaryViewModel = new ClassificationSummaryViewModel(
-                    CurrentSubject.SubjectLocation, Notifications, counts, User, CurrentAnswers, SelectedAnswer);
-                NotifySpaceView(RingNotifierStatus.IsSubmitting);
-                ClassificationsThisSession += 1;
-                LevelerViewModel.OnIncrementCount(ClassificationsThisSession);
-                OnChangeView(ClassifierViewEnum.SummaryView);
-                CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
-                CompletedClassifications.Add(FinishedClassification);
-                Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
-                Notifications.HandleAnswer(FinishedClassification);
-            }
-        }
-
-        string SelectSummaryString()
-        {
-            ObservableCollection<string> summaryStrings = Application.Current.FindResource("SummaryStrings") as ObservableCollection<string>;
-            int index = random.Next(summaryStrings.Count);
-            return summaryStrings[index];
+            CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
+            CompletedClassifications.Add(FinishedClassification);
+            Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
+            Notifications.HandleAnswer(FinishedClassification);
         }
 
         private void NotifySpaceView(RingNotifierStatus Status)
         {
-            ClassificationRingNotifier Notification = new ClassificationRingNotifier(CurrentSubject, User, Status);
-            Messenger.Default.Send(Notification);
+            Messenger.Default.Send(new ClassificationRingNotifier(CurrentSubject, User, Status));
         }
 
         private void SetTimer()
@@ -329,11 +276,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             StillThereTimer.Stop();
             StillThere.IsVisible = true;
-        }
-
-        public void ChooseAnswer(AnswerButton button)
-        {
-            CurrentAnnotation = new Annotation(CurrentTaskIndex, button.Index);
         }
 
         private void ResetStillThereModalTimer(object sender, PropertyChangedEventArgs e)
