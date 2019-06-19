@@ -104,6 +104,7 @@
     <Compile Include="ViewModels\CenterpieceViewModelTests.cs" />
     <Compile Include="ViewModels\ClassificationPanelOfflineTests.cs" />
     <Compile Include="ViewModels\ClassificationPanelViewModelTests.cs" />
+    <Compile Include="ViewModels\ClassificationSummaryViewModelTests.cs" />
     <Compile Include="ViewModels\CloseConfirmationViewModelTests.cs" />
     <Compile Include="ViewModels\ExamplesPanelViewModelTests.cs" />
     <Compile Include="ViewModels\LevelerViewModelTests.cs" />
