@@ -23,7 +23,7 @@ namespace GalaxyZooTouchTable.ViewModels
             "Thanks for your help!",
             "You're a real scientist!",
             "Don't stop now!",
-            "You can do this at home on zooniverse.org."
+            "Do this at home on adler.zooniverse.org."
         };
 
         private ClassificationSummary classificationSummary;
