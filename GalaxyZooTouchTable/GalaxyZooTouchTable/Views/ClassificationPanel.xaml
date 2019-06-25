@@ -18,7 +18,7 @@
             <local:SubjectViewer/>
         </DataTemplate>
         <DataTemplate x:Key="ClassificationSummaryTemplate">
-            <local:ClassificationSummary/>
+            <local:ClassificationSummaryView DataContext="{Binding ClassificationSummaryViewModel}"/>
         </DataTemplate>
     </UserControl.Resources>
  

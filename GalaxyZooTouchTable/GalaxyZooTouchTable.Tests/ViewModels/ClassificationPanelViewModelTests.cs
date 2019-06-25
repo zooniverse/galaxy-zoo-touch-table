@@ -49,6 +49,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldSelectAnswerAndMakeAnnotation()
         {
             AnswerButton AnswerButton = PanoptesServiceMockData.AnswerButton();
+            _viewModel.Load();
             _viewModel.SelectAnswer.Execute(AnswerButton);
             Assert.Equal(AnswerButton, _viewModel.SelectedAnswer);
             Assert.Equal(AnswerButton.Index, _viewModel.CurrentAnnotation.Value);
@@ -108,32 +109,17 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.Empty(_viewModel.CurrentClassification.Annotations);
 
             _viewModel.SelectAnswer.Execute(PanoptesServiceMockData.AnswerButton());
-            _viewModel.ContinueClassification.Execute(null);
-            //_panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
-
-            //Assert.Equal(1, _viewModel.SelectedAnswer.AnswerCount);
-            //Assert.Equal(1, _viewModel.TotalVotes);
-            //Assert.Equal(1, _viewModel.ClassificationsThisSession);
-            //Assert.Single(_viewModel.CurrentClassification.Annotations);
-        }
-
-        [Fact]
-        private void ShouldLoadANewSubjectWhenContinuingSummary()
-        {
-            _viewModel.Load();
-            Assert.Empty(_viewModel.Subjects);
-
-            _viewModel.CurrentView = ClassifierViewEnum.SummaryView;
-            _viewModel.ContinueClassification.Execute(null);
-
-            _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Exactly(1));
+            _viewModel.SubmitClassification.Execute(null);
+            _panoptesServiceMock.Verify(vm => vm.CreateClassificationAsync(_viewModel.CurrentClassification), Times.Once);
+            Assert.Single(_viewModel.CurrentClassification.Annotations);
         }
 
         [Fact]
         private void ShouldCreateAnAnnotationWhenSelectingAnswer()
         {
             AnswerButton SelectedAnswer = PanoptesServiceMockData.AnswerButton();
-            _viewModel.ChooseAnswer(SelectedAnswer);
+            _viewModel.Load();
+            _viewModel.OnSelectAnswer(SelectedAnswer);
             Assert.Equal(SelectedAnswer.Index, _viewModel.CurrentAnnotation.Value);
         }
 
@@ -160,19 +146,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.Null(_viewModel.CurrentAnnotation);
             Assert.Null(_viewModel.SelectedAnswer);
             Assert.NotNull(_viewModel.CurrentClassification);
-        }
-
-        [Fact]
-        private void ShouldResetAnswerCount()
-        {
-            List<TaskAnswer> Answers = PanoptesServiceMockData.TaskAnswerList();
-            _viewModel.CurrentAnswers = _viewModel.ParseTaskAnswers(Answers);
-            _viewModel.CurrentAnswers[0].AnswerCount = 5;
-            _viewModel.CurrentAnswers[1].AnswerCount = 7;
-
-            _viewModel.ResetAnswerCount();
-            Assert.Equal(0, _viewModel.CurrentAnswers[0].AnswerCount);
-            Assert.Equal(0, _viewModel.CurrentAnswers[1].AnswerCount);
         }
 
         [Fact]

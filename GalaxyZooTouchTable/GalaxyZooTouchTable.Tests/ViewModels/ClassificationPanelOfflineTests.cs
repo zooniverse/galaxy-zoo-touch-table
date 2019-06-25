@@ -1,8 +1,8 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.ViewModels;
 using Moq;
-using PanoptesNetClient.Models;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -16,9 +16,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public ClassificationPanelOfflineTests()
         {
             _panoptesServiceMock.Setup(dp => dp.GetWorkflowAsync(It.IsAny<string>()))
-                .ReturnsAsync((Workflow)null);
+                .ReturnsAsync(GlobalData.GetInstance().OfflineWorkflow);
 
-            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new StarUser());
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
         }
 
         [Fact]

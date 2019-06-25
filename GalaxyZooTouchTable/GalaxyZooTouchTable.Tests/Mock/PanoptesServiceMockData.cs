@@ -47,6 +47,19 @@ namespace GalaxyZooTouchTable.Tests.Mock
             return new AnswerButton(Answer, 1);
         }
 
+        public static List<AnswerButton> AnswerButtons()
+        {
+            TaskAnswer firstAnswer = new TaskAnswer("Smooth", "T1");
+            TaskAnswer secondAnswer = new TaskAnswer("Features", "T1");
+            TaskAnswer thirdAnswer = new TaskAnswer("Star", "T1");
+            return new List<AnswerButton>
+            {
+                new AnswerButton(firstAnswer, 0),
+                new AnswerButton(secondAnswer, 1),
+                new AnswerButton(thirdAnswer, 2),
+            };
+        }
+
         public static List<TableSubject> TableSubjects()
         {
             List<TableSubject> subjectList = new List<TableSubject>();

@@ -9,9 +9,9 @@ namespace GalaxyZooTouchTable
     /// <summary>
     /// Interaction logic for ClassificationSummary.xaml
     /// </summary>
-    public partial class ClassificationSummary : UserControl, IDroppableArea
+    public partial class ClassificationSummaryView : UserControl, IDroppableArea
     {
-        public ClassificationSummary()
+        public ClassificationSummaryView()
         {
             InitializeComponent();
         }
@@ -24,8 +24,7 @@ namespace GalaxyZooTouchTable
         void IDroppableArea.Drop(FrameworkElement element)
         {
             TableSubject passedSubject = element.DataContext as TableSubject;
-            ClassificationPanelViewModel viewModel = DataContext as ClassificationPanelViewModel;
-
+            ClassificationSummaryViewModel viewModel = DataContext as ClassificationSummaryViewModel;
             viewModel.DropSubject(passedSubject);
         }
 

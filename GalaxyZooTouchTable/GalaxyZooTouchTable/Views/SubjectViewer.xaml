@@ -172,7 +172,7 @@
             Width="285"
             VerticalAlignment="Bottom"
             IsEnabled="{Binding CanSendClassification}"
-            PressCommand="{Binding ContinueClassification}">
+            PressCommand="{Binding SubmitClassification}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
