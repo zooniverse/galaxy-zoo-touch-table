@@ -57,7 +57,7 @@ namespace GalaxyZooTouchTable.Lib
 
             AddHeaders();
 
-            AddEntry("LOG_STARTED");
+            AddEntry(entry: "LOG_STARTED", context: DateTime.Now.ToString("HH:mm:ss"));
             writerThread = new Thread(new ThreadStart(WriteLoop)) { IsBackground = true, Priority = ThreadPriority.BelowNormal };
             writerThread.Start();
         }
@@ -76,7 +76,7 @@ namespace GalaxyZooTouchTable.Lib
 
         public void FinalizeLog()
         {
-            AddEntry("LOG_ENDED");
+            AddEntry(entry: "LOG_ENDED", context: DateTime.Now.ToString("HH:mm:ss"));
             while (writingInactiveBufferToFile)
             {
                 // wait
@@ -93,24 +93,21 @@ namespace GalaxyZooTouchTable.Lib
         {
             lock (gate)
             {
-                string headers = "time,event,user,context";
+                string headers = "time,event,user,subjectId,state,context";
                 activeEntryBuffer.Add(headers);
                 if (EnableDebugOutput) System.Diagnostics.Debug.WriteLine(headers);
             }
             CheckActiveBuffer();
         }
 
-        public void AddEntry(string entry, string user = null, string context = null)
+        public void AddEntry(string entry, string user = null, string subjectId = null, ClassifierViewEnum state = ClassifierViewEnum.None, string context = null)
         {
             lock (gate)
             {
-                TimeSpan logTime = DateTime.Now - logStartTime;
-                //activeEntryBuffer.Add(logTime.Ticks + ";" + entry);
                 String entryString = DateTime.Now.Ticks + ";" + entry;
-                LogEntry logEntry = new LogEntry(entry, user, context, DateTime.Now.Ticks);
+                LogEntry logEntry = new LogEntry(entry, user, subjectId, state, context, DateTime.Now.Ticks);
                 activeEntryBuffer.Add(logEntry.Print());
                 if (EnableDebugOutput) System.Diagnostics.Debug.WriteLine(entryString);
-                //DateTime test = new DateTime(DateTime.Now.Ticks);
             }
             CheckActiveBuffer();
         }

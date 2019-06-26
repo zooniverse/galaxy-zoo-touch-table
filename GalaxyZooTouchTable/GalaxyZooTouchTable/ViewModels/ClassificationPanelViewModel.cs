@@ -3,7 +3,6 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -238,13 +237,25 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void OnChangeView(ClassifierViewEnum view) { CurrentView = view; }
 
+        private async void OnSubmitClassification(object sender)
+        {
+            CurrentClassification.Annotations.Add(CurrentAnnotation);
+            ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
+            ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
+
+            NotifySpaceView(RingNotifierStatus.IsSubmitting);
+            LevelerViewModel.OnIncrementCount();
+            GlobalData.GetInstance().Logger.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, LevelerViewModel.ClassificationsThisSession.ToString());
+            OnChangeView(ClassifierViewEnum.SummaryView);
+            HandleCompletedClassification();
+        }
+
         void HandleCompletedClassification()
         {
             CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
             CompletedClassifications.Add(FinishedClassification);
             Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
             Notifications.HandleAnswer(FinishedClassification);
-            GlobalData.GetInstance().Logger.AddEntry("Submit_Classification", User.Name);
         }
 
         private void NotifySpaceView(RingNotifierStatus Status)
@@ -320,11 +331,11 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void DropSubject(TableSubject subject)
         {
+            GlobalData.GetInstance().Logger.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             LoadSubject(subject);
             NotifySpaceView(RingNotifierStatus.IsCreating);
-            GlobalData.GetInstance().Logger.AddEntry("Drop_Galaxy", User.Name);
         }
 
         private bool CheckAlreadyCompleted(TableSubject subject)

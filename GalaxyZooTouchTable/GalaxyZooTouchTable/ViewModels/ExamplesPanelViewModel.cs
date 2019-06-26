@@ -74,7 +74,7 @@ namespace GalaxyZooTouchTable.ViewModels
             } else
             {
                 SelectedExample = example;
-                GlobalData.GetInstance().Logger.AddEntry("Selected_Galaxy_Example", User.Name);
+                GlobalData.GetInstance().Logger.AddEntry("Selected_Galaxy_Example", User.Name, SelectedExample.Title);
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace GalaxyZooTouchTable.Log
+﻿using GalaxyZooTouchTable.Lib;
+
+namespace GalaxyZooTouchTable.Log
 {
     public class LogEntry
     {
@@ -6,22 +8,28 @@
         string User;
         long Time;
         string Context;
+        string SubjectId;
+        ClassifierViewEnum State;
 
-        public LogEntry(string entry, string user, string context, long time)
+        public LogEntry(string entry, string user, string subjectId, ClassifierViewEnum state, string context, long time)
         {
-            Event = entry;
-            User = user;
             Context = context;
+            Event = entry;
+            State = state;
+            SubjectId = subjectId;
             Time = time;
+            User = user;
         }
 
         public string Print()
         {
-            if (User == null)
-                return $"{Time},{Event}";
-            if (Context == null)
-                return $"{Time},{Event},{User}";
-            return $"{Time},{Event},{User},{Context}";
+            string stateString = null;
+            if (State == ClassifierViewEnum.SubjectView)
+                stateString = "Classifier";
+            else if (State == ClassifierViewEnum.SummaryView)
+                stateString = "Summary";
+
+            return $"{Time},{Event},{User ?? ""},{SubjectId ?? ""},{stateString ?? ""},{Context ?? ""}";
         }
     }
 }
