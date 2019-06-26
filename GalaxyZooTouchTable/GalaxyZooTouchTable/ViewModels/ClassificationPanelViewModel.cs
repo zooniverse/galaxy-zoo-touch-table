@@ -189,6 +189,7 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
+            SubmitClassification = new CustomCommand(OnSubmitClassification);
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -223,7 +224,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StartStillThereModalTimer();
             ClassifierOpen = true;
             User.Active = true;
-            LevelerViewModel = new LevelerViewModel(User, this);
+            LevelerViewModel.Reset();
             GlobalData.GetInstance().Logger.AddEntry("Open_Classifier", User.Name);
         }
 

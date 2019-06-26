@@ -37,7 +37,8 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _classificationsThisSession;
             set
             {
-                ClassificationsUntilUpgrade--;
+                if (value != 0)
+                    ClassificationsUntilUpgrade--;
                 SetProperty(ref _classificationsThisSession, value);
             }
         }
@@ -82,6 +83,14 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             IsOpen = !IsOpen;
             GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+        }
+
+        public void Reset()
+        {
+            ClassificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
+            ClassificationsThisSession = DEFAULT_CLASSIFICATIONS_COUNT;
+            ClassificationLevel = DEFAULT_CLASSIFICATION_LEVEL;
+            IsOpen = DEFAULT_CLASSIFICATION_OPEN;
         }
 
         private void LevelUp()
