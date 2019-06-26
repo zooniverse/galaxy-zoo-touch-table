@@ -54,7 +54,7 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _classificationSummaryViewModel, value);
         }
 
-        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; };
+        public CloseConfirmationViewModel CloseConfirmationViewModel { get; private set; }
         public ExamplesPanelViewModel ExamplesViewModel { get; private set; }
         public NotificationsViewModel Notifications { get; private set; }
         public StillThereViewModel StillThere { get; private set; }
@@ -244,6 +244,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CompletedClassifications.Add(FinishedClassification);
             Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
             Notifications.HandleAnswer(FinishedClassification);
+            GlobalData.GetInstance().Logger.AddEntry("Submit_Classification", User.Name);
         }
 
         private void NotifySpaceView(RingNotifierStatus Status)
