@@ -16,6 +16,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand ToggleCloseConfirmation { get; private set; }
         public ICommand HideCloseConfirmation { get; private set; }
         public ICommand KeepClassifying { get; private set; }
+        ClassificationPanelViewModel Classifier;
         TableUser User { get; set; }
 
         private bool _intent;
@@ -36,8 +37,9 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public CloseConfirmationViewModel(TableUser user)
+        public CloseConfirmationViewModel(TableUser user, ClassificationPanelViewModel classifier)
         {
+            Classifier = classifier;
             User = user;
             CheckIntent = new CustomCommand(OnCheckIntent, CanCheckIntent);
             ToggleCloseConfirmation = new CustomCommand(OnToggleCloseConfirmation);
@@ -49,26 +51,26 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnHideCloseConfirmation(object sender)
         {
             OnToggleCloseConfirmation();
-            GlobalData.GetInstance().Logger.AddEntry("Hide_Close_Confirmation", User.Name);
+            LogEvent("Hide_Close_Confirmation");
         }
 
         private void OnKeepClassifying(object sender)
         {
             OnToggleCloseConfirmation();
-            GlobalData.GetInstance().Logger.AddEntry("Keep_Classifying", User.Name);
+            LogEvent("Keep_Classifying");
         }
 
         private void OnCloseAndEnd(object sender)
         {
             Intent = false;
             EndSession(null);
-            GlobalData.GetInstance().Logger.AddEntry("Close_And_End", User.Name);
+            LogEvent("Close_And_End");
         }
 
         private void OnCheckIntent(object obj)
         {
             Intent = true;
-            GlobalData.GetInstance().Logger.AddEntry("Intent", User.Name);
+            LogEvent("Intent");
         }
 
         public void OnToggleCloseConfirmation(object visible = null)
@@ -80,6 +82,11 @@ namespace GalaxyZooTouchTable.ViewModels
         private bool CanCheckIntent(object obj)
         {
             return !Intent;
+        }
+
+        void LogEvent(string entry)
+        {
+            GlobalData.GetInstance().Logger.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
     }
 }

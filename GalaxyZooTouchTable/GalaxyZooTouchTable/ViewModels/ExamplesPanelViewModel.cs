@@ -15,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand UnselectItem { get; private set; }
         TableUser User { get; set; }
 
+        ClassificationPanelViewModel Classifier;
         public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
         public GalaxyExample Features { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Features);
         public GalaxyExample NotAGalaxy { get; set; } = GalaxyExampleFactory.Create(GalaxyType.NotAGalaxy);
@@ -44,8 +45,9 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public ExamplesPanelViewModel(TableUser user)
+        public ExamplesPanelViewModel(TableUser user, ClassificationPanelViewModel classifier)
         {
+            Classifier = classifier;
             User = user;
 
             LoadCommands();
@@ -74,7 +76,7 @@ namespace GalaxyZooTouchTable.ViewModels
             } else
             {
                 SelectedExample = example;
-                GlobalData.GetInstance().Logger.AddEntry("Selected_Galaxy_Example", User.Name, SelectedExample.Title);
+                GlobalData.GetInstance().Logger.AddEntry("Selected_Galaxy_Example", User.Name, Classifier.CurrentSubject.Id, Classifier.CurrentView, SelectedExample.Title);
             }
         }
 

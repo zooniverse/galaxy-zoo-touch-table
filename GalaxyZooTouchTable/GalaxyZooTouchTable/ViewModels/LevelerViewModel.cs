@@ -14,6 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private const int DEFAULT_CLASSIFICATIONS_COUNT = 0;
         private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
         private const bool DEFAULT_CLASSIFICATION_OPEN = false;
+        ClassificationPanelViewModel Classifier;
 
         private int _classificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
         public int ClassificationsUntilUpgrade
@@ -55,8 +56,9 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _isOpen, value);
         }
 
-        public LevelerViewModel(TableUser user)
+        public LevelerViewModel(TableUser user, ClassificationPanelViewModel classifier)
         {
+            Classifier = classifier;
             User = user;
             LoadCommands();
         }
@@ -79,7 +81,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void OnToggleLeveler(object sender)
         {
             IsOpen = !IsOpen;
-            GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler", User.Name);
+            GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         private void LevelUp()
