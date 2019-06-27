@@ -104,9 +104,8 @@ namespace GalaxyZooTouchTable.Lib
         {
             lock (gate)
             {
+                activeEntryBuffer.Add(PrintLog(entry, user, subjectId, state, context, DateTime.Now.Ticks));
                 String entryString = DateTime.Now.Ticks + ";" + entry;
-                LogEntry logEntry = new LogEntry(entry, user, subjectId, state, context, DateTime.Now.Ticks);
-                activeEntryBuffer.Add(logEntry.Print());
                 if (EnableDebugOutput) System.Diagnostics.Debug.WriteLine(entryString);
             }
             CheckActiveBuffer();
@@ -165,6 +164,17 @@ namespace GalaxyZooTouchTable.Lib
                 }
                 Thread.Sleep(10000);
             }
+        }
+
+        public string PrintLog(string entry, string user, string subjectId, ClassifierViewEnum state, string context, long time)
+        {
+            string stateString = null;
+            if (state == ClassifierViewEnum.SubjectView)
+                stateString = "Classifier";
+            else if (state == ClassifierViewEnum.SummaryView)
+                stateString = "Summary";
+
+            return $"{time},{entry},{user ?? ""},{subjectId ?? ""},{stateString ?? ""},{context ?? ""}";
         }
     }
 }
