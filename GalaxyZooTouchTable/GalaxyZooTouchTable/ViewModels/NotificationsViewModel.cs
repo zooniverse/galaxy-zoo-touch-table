@@ -93,7 +93,7 @@ namespace GalaxyZooTouchTable.ViewModels
             UpdateAvatarsViaRequests();
         }
 
-        void UpdateAvatarsViaRequests()
+        void UpdateAvatarsViaRequests(TableUser userHelping = null)
         {
             foreach (NotificationAvatarViewModel Avatar in AvailableUsers)
             {
@@ -103,9 +103,9 @@ namespace GalaxyZooTouchTable.ViewModels
                 {
                     Avatar.ShowQuestionMark();
                 }
-                else if (Request != null)
+                else if (Request != null && userHelping != null)
                 {
-                    Avatar.ShowExclamationPoint(UserHelping);
+                    Avatar.ShowExclamationPoint(userHelping);
                 }
             } 
         }
@@ -319,16 +319,15 @@ namespace GalaxyZooTouchTable.ViewModels
             }
 
             PendingRequest Request = PendingRequests.First();
-            UserHelping = Request.CooperatingPeer;
-            UpdateAvatarsViaRequests();
             Overlay = null;
             NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
             GetSubjectById(Request.SubjectId);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
-            Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
-            LogEvent(entry: "Accept_Galaxy", peer: Request.CooperatingPeer.Name);
             UserHelping = Request.CooperatingPeer;
+            UpdateAvatarsViaRequests(Request.CooperatingPeer);
+            Messenger.Default.Send(Notification, $"{UserHelping.Name}_PostNotification");
+            LogEvent(entry: "Accept_Galaxy", peer: UserHelping.Name);
         }
 
         void OnDeclineGalaxy(object sender)

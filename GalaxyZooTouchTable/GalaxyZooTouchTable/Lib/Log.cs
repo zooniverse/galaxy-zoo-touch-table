@@ -97,7 +97,7 @@ namespace GalaxyZooTouchTable.Lib
             CheckActiveBuffer();
         }
 
-        public void AddEntry(string entry, string user = null, string subjectId = null, ClassifierViewEnum state = ClassifierViewEnum.None, string peer = null, string context = null)
+        public void AddEntry(string entry, string user = null, string subjectId = null, ClassifierViewEnum state = ClassifierViewEnum.None, string context = null, string peer = null)
         {
             lock (gate)
             {
