@@ -30,6 +30,13 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _showError, value);
         }
 
+        private bool _canMoveMap = false;
+        public bool CanMoveMap
+        {
+            get => _canMoveMap;
+            set => SetProperty(ref _canMoveMap, value);
+        }
+
         private string _errorMessage;
         public string ErrorMessage
         {
@@ -111,17 +118,16 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            MoveViewNorth = new CustomCommand(OnMoveViewNorth);
-            MoveViewEast = new CustomCommand(OnMoveViewEast);
-            MoveViewSouth = new CustomCommand(OnMoveViewSouth);
-            MoveViewWest = new CustomCommand(OnMoveViewWest);
+            MoveViewNorth = new CustomCommand(OnMoveViewNorth, OnCanMoveMap);
+            MoveViewEast = new CustomCommand(OnMoveViewEast, OnCanMoveMap);
+            MoveViewSouth = new CustomCommand(OnMoveViewSouth, OnCanMoveMap);
+            MoveViewWest = new CustomCommand(OnMoveViewWest, OnCanMoveMap);
             HideError = new CustomCommand(OnHideError);
         }
 
-        private void OnHideError(object obj)
-        {
-            ShowError = false;
-        }
+        private bool OnCanMoveMap(object obj) { return CanMoveMap; }
+
+        private void OnHideError(object obj) { ShowError = false; }
 
         private void OnShowError(string message)
         {
@@ -172,6 +178,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SetPeripheralItems()
         {
+            CanMoveMap = false;
             SpaceNavigation northern = new SpaceNavigation(CurrentLocation.NextNorthernPoint());
             SpaceNavigation southern = new SpaceNavigation(CurrentLocation.NextSouthernPoint());
             SpaceNavigation eastern = new SpaceNavigation(CurrentLocation.NextEasternPoint());
@@ -181,6 +188,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PeripheralItems.Southern = await GetPeripheralItem(southern);
             PeripheralItems.Eastern = await GetPeripheralItem(eastern);
             PeripheralItems.Western = await GetPeripheralItem(western);
+            CanMoveMap = true;
         }
 
         private async Task<PeripheralItem> GetPeripheralItem(SpaceNavigation location)

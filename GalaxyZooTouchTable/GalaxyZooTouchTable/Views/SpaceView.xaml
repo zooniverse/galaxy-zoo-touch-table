@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              xmlns:views="clr-namespace:GalaxyZooTouchTable.Views"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              mc:Ignorable="d" 
              Height="432"
              Width="1248"
@@ -26,7 +27,6 @@
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Text" Value="Move map"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -36,6 +36,24 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=ShowError}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DownArrow" TargetType="{x:Type fa:ImageAwesome}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CanMoveMap}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LoadingSpinner" TargetType="{x:Type fa:ImageAwesome}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CanMoveMap}" Value="False">
+                    <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -74,43 +92,55 @@
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewNorth}"/>
                 </i:Interaction.Behaviors>
                 <Border.LayoutTransform>
                     <RotateTransform Angle="180"/>
                 </Border.LayoutTransform>
-                <TextBlock Style="{StaticResource MoveMapText}"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <TextBlock Style="{StaticResource MoveMapText}"/>
+                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                </StackPanel>
             </Border>
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewEast}"/>
                 </i:Interaction.Behaviors>
                 <Border.LayoutTransform>
                     <RotateTransform Angle="-90"/>
                 </Border.LayoutTransform>
-                <TextBlock Style="{StaticResource MoveMapText}"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <TextBlock Style="{StaticResource MoveMapText}"/>
+                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                </StackPanel>
             </Border>
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewWest}"/>
                 </i:Interaction.Behaviors>
                 <Border.LayoutTransform>
                     <RotateTransform Angle="90"/>
                 </Border.LayoutTransform>
-                <TextBlock Style="{StaticResource MoveMapText}"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <TextBlock Style="{StaticResource MoveMapText}"/>
+                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                </StackPanel>
             </Border>
 
             <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TempDisableBorder ObservedElement="{Binding CurrentGalaxies}"/>
                     <Behaviors:TapBehavior Command="{Binding MoveViewSouth}"/>
                 </i:Interaction.Behaviors>
-                <TextBlock Style="{StaticResource MoveMapText}"/>
+                <StackPanel Orientation="Horizontal" Margin="10,0">
+                    <TextBlock Style="{StaticResource MoveMapText}"/>
+                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                </StackPanel>
             </Border>
             <StackPanel Style="{StaticResource ErrorPanel}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
