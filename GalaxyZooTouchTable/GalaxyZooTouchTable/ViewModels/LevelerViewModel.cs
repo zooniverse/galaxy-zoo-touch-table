@@ -82,7 +82,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void OnToggleLeveler(object sender)
         {
             IsOpen = !IsOpen;
-            GlobalData.GetInstance().Logger.AddEntry("Toggle_Leveler", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+            GlobalData.GetInstance().Logger?.AddEntry("Toggle_Leveler", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         public void Reset()

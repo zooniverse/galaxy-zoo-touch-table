@@ -86,7 +86,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         void LogEvent(string entry)
         {
-            GlobalData.GetInstance().Logger.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+            GlobalData.GetInstance().Logger?.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
     }
 }

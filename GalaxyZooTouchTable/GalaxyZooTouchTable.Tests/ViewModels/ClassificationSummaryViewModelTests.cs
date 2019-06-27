@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
         public ClassificationSummaryViewModelTests()
         {
-            NotificationsViewModel notifications = new NotificationsViewModel(new BlueUser());
+            NotificationsViewModel notifications = new NotificationsViewModel(new BlueUser(), ClassificationPanelViewModelTests.MockClassificationPanel());
             _viewModel = new ClassificationSummaryViewModel(notifications);
         }
 

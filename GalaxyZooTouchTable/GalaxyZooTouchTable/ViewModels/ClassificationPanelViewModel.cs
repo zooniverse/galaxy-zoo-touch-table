@@ -165,7 +165,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnChooseAnotherGalaxy()
         {
-            GlobalData.GetInstance().Logger.AddEntry("Choose_Galaxy", User.Name);
+            GlobalData.GetInstance().Logger?.AddEntry("Choose_Galaxy", User.Name);
             PrepareForNewClassification();
         }
 
@@ -225,7 +225,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel.Reset();
-            GlobalData.GetInstance().Logger.AddEntry("Open_Classifier", User.Name);
+            GlobalData.GetInstance().Logger?.AddEntry("Open_Classifier", User.Name);
         }
 
         private void OnCloseClassifier(object sender = null)
@@ -253,7 +253,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
-            GlobalData.GetInstance().Logger.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
+            GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
             OnChangeView(ClassifierViewEnum.SummaryView);
             HandleCompletedClassification();
         }
@@ -330,7 +330,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void OnGetRandomGalaxy()
         {
-            GlobalData.GetInstance().Logger.AddEntry("Random_Galaxy", User.Name);
+            GlobalData.GetInstance().Logger?.AddEntry("Random_Galaxy", User.Name);
             PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
@@ -340,7 +340,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void DropSubject(TableSubject subject)
         {
-            GlobalData.GetInstance().Logger.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
+            GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             LoadSubject(subject);

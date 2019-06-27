@@ -92,9 +92,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GalaxyZooTouchTable\ViewModels\StillThereViewModel.cs">
-      <Link>StillThereViewModel.cs</Link>
-    </Compile>
     <Compile Include="Extensions\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Mock\GraphQLServiceMockData.cs" />
     <Compile Include="Mock\PanoptesServiceMockData.cs" />
@@ -123,16 +120,16 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GalaxyZooTouchTable\GalaxyZooTouchTable.csproj">
-      <Project>{5c767b76-0d94-4520-b639-6ff05eff077d}</Project>
-      <Name>GalaxyZooTouchTable</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Data\OfflineWorkflow.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GalaxyZooTouchTable\GalaxyZooTouchTable.csproj">
+      <Project>{5c767b76-0d94-4520-b639-6ff05eff077d}</Project>
+      <Name>GalaxyZooTouchTable</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

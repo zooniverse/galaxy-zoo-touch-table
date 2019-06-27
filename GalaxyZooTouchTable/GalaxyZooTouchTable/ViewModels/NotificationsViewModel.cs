@@ -328,6 +328,7 @@ namespace GalaxyZooTouchTable.ViewModels
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             LogEvent(entry: "Accept_Galaxy", peer: Request.CooperatingPeer.Name);
+            UserHelping = Request.CooperatingPeer;
         }
 
         void OnDeclineGalaxy(object sender)
@@ -363,7 +364,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void HandleAnswer(CompletedClassification classification)
         {
-            PendingRequest AwaitingRequest = PendingRequests.SingleOrDefault(x => x.SubjectId == classification.SubjectId && x.Assisting);
+            PendingRequest AwaitingRequest = PendingRequests.FirstOrDefault(x => x.SubjectId == classification.SubjectId && x.Assisting);
             if (AwaitingRequest != null)
             {
                 HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.SendAnswer, classification);
@@ -390,7 +391,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         void LogEvent(string entry, string context = null, string peer = null)
         {
-            GlobalData.GetInstance().Logger.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView, context, peer);
+            GlobalData.GetInstance().Logger?.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView, context, peer);
         }
     }
 }

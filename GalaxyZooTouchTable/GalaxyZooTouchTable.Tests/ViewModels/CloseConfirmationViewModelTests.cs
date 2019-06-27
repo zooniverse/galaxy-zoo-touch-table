@@ -1,11 +1,17 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
 {
     public class CloseConfirmationViewModelTests
     {
-        CloseConfirmationViewModel _viewModel = new CloseConfirmationViewModel();
+        CloseConfirmationViewModel _viewModel;
+
+        public CloseConfirmationViewModelTests()
+        {
+            _viewModel = new CloseConfirmationViewModel(new BlueUser(), ClassificationPanelViewModelTests.MockClassificationPanel());
+        }
 
         [Fact]
         private void ShouldInitializeWithDefaultValues()
@@ -28,7 +34,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             bool EndSessionCalled = false;
             _viewModel.CheckIntent.Execute(null);
             _viewModel.EndSession += delegate { EndSessionCalled = true; };
-            _viewModel.CloseClassifier.Execute(null);
+            _viewModel.CloseAndEnd.Execute(null);
             Assert.True(EndSessionCalled);
             Assert.False(_viewModel.Intent);
         }

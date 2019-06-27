@@ -80,14 +80,14 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CloseClassificationPanel(sender);
             IsVisible = false;
-            GlobalData.GetInstance().Logger.AddEntry("Close_From_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+            GlobalData.GetInstance().Logger?.AddEntry("Close_From_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         private void OnCloseModal(object sender)
         {
             IsVisible = false;
             ResetFiveMinuteTimer();
-            GlobalData.GetInstance().Logger.AddEntry("Dismiss_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+            GlobalData.GetInstance().Logger?.AddEntry("Dismiss_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         private void SetTimer()
@@ -118,7 +118,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 CloseClassificationPanel(null);
                 IsVisible = false;
-                GlobalData.GetInstance().Logger.AddEntry("Close_Timeout", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+                GlobalData.GetInstance().Logger?.AddEntry("Close_Timeout", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         public LevelerViewModelTests()
         {
             var User = GlobalData.GetInstance().BlueUser;
-            _viewModel = new LevelerViewModel(User);
+            _viewModel = new LevelerViewModel(User, ClassificationPanelViewModelTests.MockClassificationPanel());
         }
 
         [Fact]

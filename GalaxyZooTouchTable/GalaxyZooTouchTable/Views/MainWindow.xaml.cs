@@ -27,12 +27,13 @@ namespace GalaxyZooTouchTable
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            GlobalData.GetInstance().EstablishLog();
             _viewModel.Load();
         }
 
         private void MainWindow_Closed(object sender, EventArgs e)
         {
-            GlobalData.GetInstance().Logger.FinalizeLog();
+            GlobalData.GetInstance().Logger?.FinalizeLog();
         }
     }
 }

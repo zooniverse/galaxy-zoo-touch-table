@@ -78,7 +78,7 @@ namespace GalaxyZooTouchTable.Behaviors
                 AssociatedObject.OpacityMask = null;
 
                 if (AssociatedObject.ScrollableHeight > 0)
-                    GlobalData.GetInstance().Logger.AddEntry("Scroll_To_Bottom", UserName);
+                    GlobalData.GetInstance().Logger?.AddEntry("Scroll_To_Bottom", UserName);
             }
             else if (AssociatedObject.ScrollableWidth == AssociatedObject.HorizontalOffset && IsHorizontal)
             {

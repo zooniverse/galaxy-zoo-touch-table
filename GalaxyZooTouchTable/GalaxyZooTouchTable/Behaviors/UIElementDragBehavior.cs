@@ -58,7 +58,7 @@ namespace GalaxyZooTouchTable.Behaviors
                 FrameworkElement adornedElement = sender as FrameworkElement;
                 ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
                 using (TableSubject subject = adornedElement.DataContext as TableSubject)
-                    GlobalData.GetInstance().Logger.AddEntry(entry: "Drag_Galaxy", subjectId: subject.Id);
+                    GlobalData.GetInstance().Logger?.AddEntry(entry: "Drag_Galaxy", subjectId: subject.Id);
             }
             isTouchDown = false;
         }

@@ -1,14 +1,14 @@
 ﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Xml.Linq;
 
 namespace GalaxyZooTouchTable.Lib
 {
-    public class GlobalData : INotifyPropertyChanged
+    public class GlobalData : ViewModelBase
     {
         private static GlobalData _instance = null;
         public ObservableCollection<TableUser> AllUsers { get; set; } = new ObservableCollection<TableUser>();
@@ -25,9 +25,6 @@ namespace GalaxyZooTouchTable.Lib
         {
             PopulateUsers();
             PopulateOfflineWorkflow();
-
-            string date = DateTime.Now.ToString("MM-dd-yyyy");
-            Logger = new Log($"log_{date}");
         }
 
         private void PopulateOfflineWorkflow()
@@ -68,12 +65,10 @@ namespace GalaxyZooTouchTable.Lib
             AllUsers.Add(GreenUser);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyRaised(string propertyname)
+        public void EstablishLog()
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            string date = DateTime.Now.ToString("MM-dd-yyyy");
+            Logger = new Log($"log_{date}");
         }
     }
 }

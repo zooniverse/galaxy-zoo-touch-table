@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.Models;
+using GalaxyZooTouchTable.ViewModels;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -9,7 +10,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
         public StillThereViewModelTests()
         {
-            _viewModel = new StillThereViewModel();
+            _viewModel = new StillThereViewModel(new BlueUser(), ClassificationPanelViewModelTests.MockClassificationPanel());
         }
 
         [Fact]
