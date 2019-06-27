@@ -210,13 +210,12 @@
     <Compile Include="Lib\ContainerHelper.cs" />
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
-    <Compile Include="Log\Log.cs" />
+    <Compile Include="Lib\Log.cs" />
     <Compile Include="Lib\NotificationPanelStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
     <Compile Include="Lib\WorkspacePositions.cs" />
     <Compile Include="Models\ClassificationCounts.cs" />
-    <Compile Include="Log\LogEntry.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
     <Compile Include="Models\ClassificationRingNotifier.cs" />
     <Compile Include="Models\ClassificationSummary.cs" />

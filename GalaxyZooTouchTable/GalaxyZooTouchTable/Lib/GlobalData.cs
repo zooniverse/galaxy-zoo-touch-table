@@ -26,7 +26,7 @@ namespace GalaxyZooTouchTable.Lib
             PopulateUsers();
             PopulateOfflineWorkflow();
 
-            string date = DateTime.Now.ToString("dd-MM-yyyy_HHmmss");
+            string date = DateTime.Now.ToString("MM-dd-yyyy");
             Logger = new Log($"log_{date}");
         }
 

@@ -226,7 +226,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (UserIsBusy(UserToNotify)) return;
             if (PendingRequest()) return;
 
-            LogEvent("Ask_For_Help", "Request_Sent");
+            LogEvent("Ask_For_Help", "Request_Sent", UserToNotify.Name);
             UsersAlreadyAsked.Add(UserToNotify);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.AskForHelp, CurrentSubjectId);
             Messenger.Default.Send(Notification, $"{UserToNotify.Name}_PostNotification");
@@ -240,7 +240,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (AlreadyWorkingWith)
             {
                 Overlay = new NotificationOverlay("You are already working with", null, UserToNotify.Avatar);
-                LogEvent("Ask_For_Help", "Already_Helping");
+                LogEvent("Ask_For_Help", "Already_Helping", UserToNotify.Name);
             }
             return AlreadyWorkingWith;
         }
@@ -260,7 +260,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (!userToNotify.Active)
             {
                 Overlay = new NotificationOverlay("Sorry,", "is not at the table. Ask someone else?", userToNotify.Avatar);
-                LogEvent("Ask_For_Help", "User_Unavailable");
+                LogEvent("Ask_For_Help", "User_Unavailable", userToNotify.Name);
             }
             return !userToNotify.Active;
         }
@@ -271,7 +271,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (AlreadyAsked)
             {
                 Overlay = new NotificationOverlay("Sorry, you have already asked", "for help.", userToNotify.Avatar);
-                LogEvent("Ask_For_Help", "Already_Asked");
+                LogEvent("Ask_For_Help", "Already_Asked", userToNotify.Name);
             }
             return AlreadyAsked;
         }
@@ -284,7 +284,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 Overlay = new NotificationOverlay("Sorry,", "has already classified that galaxy.", userToNotify.Avatar);
                 NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowAnswer, userToNotify.Avatar, FinishedClassification.Answer);
-                LogEvent("Ask_For_Help", "Already_Seen");
+                LogEvent("Ask_For_Help", "Already_Seen", userToNotify.Name);
             }
             return FinishedClassification != null;
         }
@@ -294,7 +294,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (userToNotify.Busy)
             {
                 Overlay = new NotificationOverlay("Sorry,", "is busy working with another user.", userToNotify.Avatar);
-                LogEvent("Ask_For_Help", "User_Busy");
+                LogEvent("Ask_For_Help", "User_Busy", userToNotify.Name);
             }
             return userToNotify.Busy;
         }
@@ -327,7 +327,7 @@ namespace GalaxyZooTouchTable.ViewModels
             GetSubjectById(Request.SubjectId);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
-            LogEvent("Accept_Galaxy");
+            LogEvent(entry: "Accept_Galaxy", peer: Request.CooperatingPeer.Name);
         }
 
         void OnDeclineGalaxy(object sender)
@@ -336,7 +336,7 @@ namespace GalaxyZooTouchTable.ViewModels
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Decline);
             Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             ResetNotifications();
-            LogEvent("Decline_Galaxy");
+            LogEvent(entry: "Decline_Galaxy", peer: Request.CooperatingPeer.Name);
         }
 
         void OnClearOverlay(object sender)
@@ -369,7 +369,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.SendAnswer, classification);
                 Messenger.Default.Send(Notification, $"{AwaitingRequest.CooperatingPeer.Name}_PostNotification");
                 PendingRequests.Remove(AwaitingRequest);
-                LogEvent("Helped_User");
+                LogEvent(entry: "Helped_User", peer: AwaitingRequest.CooperatingPeer.Name);
             }
             bool HardReset = false;
             ResetNotifications(HardReset);
@@ -388,9 +388,9 @@ namespace GalaxyZooTouchTable.ViewModels
             CurrentlyClassifying = isClassifying;
         }
 
-        void LogEvent(string entry, string context = null)
+        void LogEvent(string entry, string context = null, string peer = null)
         {
-            GlobalData.GetInstance().Logger.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView, context);
+            GlobalData.GetInstance().Logger.AddEntry(entry, User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView, context, peer);
         }
     }
 }
