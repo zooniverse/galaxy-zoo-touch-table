@@ -30,15 +30,21 @@ namespace GalaxyZooTouchTable.Lib
 
         public Log(String fileNameBase)
         {
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (!Directory.Exists(Path.Combine(folderPath, "TouchTable_Logs")))
+                Directory.CreateDirectory(Path.Combine(folderPath, "TouchTable_Logs"));
+
             String availableFileName = "";
             bool fileExists = true;
             int fileNameIndex = 0;
             while (fileExists)
             {
                 String potentialFileName = fileNameBase + "_" + fileNameIndex + ".csv";
-                if (!File.Exists(potentialFileName))
+                string fullPath = Path.Combine(folderPath, "TouchTable_Logs", potentialFileName);
+
+                if (!File.Exists(fullPath))
                 {
-                    availableFileName = potentialFileName;
+                    availableFileName = fullPath;
                     fileExists = false;
                 }
                 fileNameIndex++;
