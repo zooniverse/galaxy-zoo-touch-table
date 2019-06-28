@@ -3,6 +3,7 @@ The Galaxy Zoo touch table experience at the Adler Planetarium. Please visit the
 
 ## Prerequisites
 - [Local Database](#using-a-local-database)
+- [Local Subjects](#using-local-subjects)
 
 ## Publishing
 Currently, the app is setup to publish through a ClickOnce wizard with Google Drive File Stream, which should be setup on the local computer and synced to the Zooniverse Citizen Science team drive. Publishing can be made directly to the Touch Table folder under that drive. The Publish Version should be incremented to avoid errors with conflicting previous versions.
@@ -19,17 +20,24 @@ The touch table is setup to use a local database to query subject locations base
 - **Staging:** GZ_Staging_Subjects.db
 - **Production:** GZ_Production_Subjects.db
 
-To create the database, a subject export (.csv) retrieved from Panoptes must be preprocessed using a Python script. That .csv can then be imported into a database. I've used the [SQLiteStudio GUI](https://sqlitestudio.pl/index.rvt) to import CSVs.  
+## Using Local Subjects
+In order to stay truly offline-first, the app can run with local subjects to prevent the need to fetch an image source from the internet. To do this, a "Subjects" folder must exist in the system's "Documents" folder containing paths to the local files. Within "Documents/Subjects" the app expects subfolders denoted by the first characters of a filename. Ex: The subject with a filename "J232546.75+153355.2.png" is expected to exist in "Documents/Subjects/J232/J232546.75+153355.2.png". Images should be in .png format. If a local subject is missing, the app falls back to fetching the subject online.
+
+To create the database, a subject export (.csv) retrieved from Panoptes must be preprocessed using a Python script. That .csv can then be imported into a database. I've used the [DBBrowser](https://sqlitebrowser.org/) to import CSVs.  
 
 The local database has the following structure:
 
 ```
 CREATE TABLE Subjects(
-    subject_id STRING,
-    classification_count INTEGER,
-    ra DOUBLE,
-    dec DOUBLE,
-    image STRING
+    subject_id TEXT,
+    classifications_count INTEGER,
+    ra REAL,
+    dec REAL,
+    image TEXT,
+    filename TEXT,
+    smooth INTEGER,
+    features INTEGER,
+    star INTEGER
 );
 ```
 
