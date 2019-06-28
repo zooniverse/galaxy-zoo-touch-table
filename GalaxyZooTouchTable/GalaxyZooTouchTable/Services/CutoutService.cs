@@ -92,26 +92,18 @@ namespace GalaxyZooTouchTable.Services
         {
             double plateScale = 1.75;
             BitmapImage image = null;
-            //if (SDSSIsResponding)
-            //{
-            //    using (WebResponse response = await FetchSDSSCutout(location.Center.RightAscension, location.Center.Declination, plateScale))
-            //        if (response != null)
-            //        {
-            //            string url = response.ResponseUri.ToString();
-            //            image = BitmapFromUrl(url);
-            //        }
-            //}
-            if (DECALSIsResponding && image == null)
+            if (DECALSIsResponding)
             {
                 using (WebResponse response = await FetchDECALSCutout(location.Center.RightAscension, location.Center.Declination, plateScale))
                     if (response != null)
-                    {
-                        //string url = response.ResponseUri.ToString();
-                        //image = BitmapFromUrl(url);
                         image = await StitchImagesTogether(location, plateScale);
-                    }
             }
-            //return CreateImage(successfulResponse);
+            if (SDSSIsResponding && image == null)
+            {
+                using (WebResponse response = await FetchSDSSCutout(location.Center.RightAscension, location.Center.Declination, plateScale))
+                    if (response != null)
+                        image = BitmapFromUrl(response.ResponseUri.ToString());
+            }
             return image;
         }
 

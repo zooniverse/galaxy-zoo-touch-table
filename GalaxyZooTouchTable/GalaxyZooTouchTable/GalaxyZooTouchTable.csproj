@@ -215,7 +215,6 @@
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\PeripheralItems.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
-    <Compile Include="Lib\TableSubjects.cs" />
     <Compile Include="Lib\WorkspacePositions.cs" />
     <Compile Include="Models\ClassificationCounts.cs" />
     <Compile Include="Models\ClassificationPanelViewModelFactory.cs" />
@@ -233,7 +232,6 @@
     <Compile Include="Models\PendingRequest.cs" />
     <Compile Include="Services\CutoutService.cs" />
     <Compile Include="Services\GraphQLService.cs" />
-    <Compile Include="Services\ICutoutService.cs" />
     <Compile Include="Services\IGraphQLService.cs" />
     <Compile Include="Services\ILocalDBService.cs" />
     <Compile Include="Services\IPanoptesService.cs" />
