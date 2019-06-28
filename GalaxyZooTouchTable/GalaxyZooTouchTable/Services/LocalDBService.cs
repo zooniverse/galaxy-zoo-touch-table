@@ -4,6 +4,7 @@ using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
@@ -49,7 +50,8 @@ namespace GalaxyZooTouchTable.Services
 
                     while (reader.Read())
                     {
-                        string image = reader["image"] as string;
+                        string filename = reader["filename"] as string;
+                        string image = CheckLocalPath(filename) ?? reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
                         RetrievedSubject = new TableSubject(id, image, ra, dec);
@@ -91,7 +93,8 @@ namespace GalaxyZooTouchTable.Services
                     {
                         string id = reader["subject_id"] as string;
                         idsToUpdate.Add(id);
-                        string image = reader["image"] as string;
+                        string filename = reader["filename"] as string;
+                        string image = CheckLocalPath(filename) ?? reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
                         TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec, currentLocation);
@@ -246,6 +249,14 @@ namespace GalaxyZooTouchTable.Services
                     Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
             }
+        }
+
+        string CheckLocalPath(string filename)
+        {
+            string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string subFolder = filename.Substring(0, 4);
+            string path = Path.Combine(folderPath, "Subjects", subFolder, $"{filename}.png");
+            return File.Exists(path) ? path : null;
         }
     }
 }

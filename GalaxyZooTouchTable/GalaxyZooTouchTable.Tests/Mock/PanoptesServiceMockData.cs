@@ -19,7 +19,7 @@ namespace GalaxyZooTouchTable.Tests.Mock
 
         public static TableSubject TableSubject()
         {
-            return new TableSubject("1", "www.fakewebsite.com", 22.22, 33.33);
+            return new TableSubject("1", "www.fakewebsite.com", "file/location.png", 22.22, 33.33);
         }
 
         public static Workflow Workflow(string id = null)
