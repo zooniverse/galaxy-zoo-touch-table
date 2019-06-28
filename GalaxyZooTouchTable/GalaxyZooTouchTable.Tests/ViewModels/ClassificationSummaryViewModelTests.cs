@@ -24,8 +24,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         public void ShouldProcessAClassification()
         {
-            _viewModel.ProcessNewClassification(Subject.Location, Counts, Answers, Answers[0]);
-
+            _viewModel.ProcessNewClassification(Subject.SubjectLocation, Counts, Answers, Answers[0]);
             Assert.NotNull(_viewModel.ClassificationSummary.SelectedAnswer);
             Assert.NotNull(_viewModel.ClassificationSummary.CurrentAnswers);
             Assert.NotNull(_viewModel.ClassificationSummary.SubjectLocation);
@@ -36,7 +35,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         public async void ShouldTemporarilyDisableButtons()
         {
-            _viewModel.ProcessNewClassification(Subject.Location, Counts, Answers, Answers[0]);
+            _viewModel.ProcessNewClassification(Subject.SubjectLocation, Counts, Answers, Answers[0]);
             Assert.False(_viewModel.RandomGalaxy.CanExecute(null));
             Assert.False(_viewModel.ChooseAnotherGalaxy.CanExecute(null));
             await Task.Delay(TimeSpan.FromSeconds(1.1));
