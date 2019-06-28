@@ -10,6 +10,9 @@ Currently, the app is setup to publish through a ClickOnce wizard with Google Dr
 ## Installing
 Likewise, the app can be installed via the same Google Drive File Stream location (Zooniverse/Citizen Science/Touch Table/Setup). It may be necessary to uninstall older versions of the app if conflicts appear during setup.
 
+## Log Files
+Log files are placed in a system's "Documents" folder under a "TouchTable_Logs" subdirectory. This should happen in debug and release builds, although logs are only committed in debug if the screen is X'ed out, as opposed to clicking "Stop Debugging" in Visual Studio.
+
 ## Using a Local Database
 The touch table is setup to use a local database to query subject locations based on Right Ascension and Declination. In order for the app to run correctly, a SQLite database (.db) should be inserted in the system's "Documents" folder with the following paths:
 
