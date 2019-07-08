@@ -12,6 +12,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
     {
         private SpaceViewModel _viewModel { get; set; }
         private Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
+        private Mock<ICutoutService> _cutoutServiceMock = new Mock<ICutoutService>();
 
         public SpaceViewModelTests()
         {
@@ -19,7 +20,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _localDBServiceMock.Setup(dp => dp.GetLocalSubjects(It.IsAny<SpaceNavigation>()))
                 .Returns(PanoptesServiceMockData.TableSubjects());
 
-            _viewModel = new SpaceViewModel(_localDBServiceMock.Object);
+            _viewModel = new SpaceViewModel(_localDBServiceMock.Object, _cutoutServiceMock.Object);
         }
 
         [Fact]
@@ -27,15 +28,15 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             Assert.NotNull(_viewModel);
             Assert.NotNull(_viewModel.CurrentGalaxies);
-            Assert.NotNull(_viewModel.SpaceCutoutUrl);
             Assert.False(_viewModel.ShowError);
             _localDBServiceMock.Verify(vm => vm.GetRandomPoint(), Times.Once);
-            _localDBServiceMock.Verify(vm => vm.GetLocalSubjects(It.IsAny<SpaceNavigation>()), Times.Once);
+            _localDBServiceMock.Verify(vm => vm.GetLocalSubjects(It.IsAny<SpaceNavigation>()), Times.Exactly(5));
         }
 
         public class EmptyResultsAtNextTile
         {
             private Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
+            private Mock<ICutoutService> _cutoutServiceMock = new Mock<ICutoutService>();
             private SpaceViewModel _viewModel { get; set; }
             SpaceNavigation CurrentLocation { get; set; } = SpaceNavigationMockData.CurrentLocation();
 
@@ -48,8 +49,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 _localDBServiceMock.Setup(dp => dp.GetRandomPoint()).Returns(SpaceNavigationMockData.Center());
                 _localDBServiceMock.Setup(dp => dp.GetLocalSubjects(It.IsAny<SpaceNavigation>()))
                     .Returns(new List<TableSubject>());
+                _cutoutServiceMock.Setup(dp => dp.GetSpaceCutout(It.IsAny<SpaceNavigation>())).ReturnsAsync(new System.Windows.Media.Imaging.BitmapImage());
 
-                _viewModel = new SpaceViewModel(_localDBServiceMock.Object);
+                _viewModel = new SpaceViewModel(_localDBServiceMock.Object, _cutoutServiceMock.Object);
             }
 
             [Fact]
@@ -58,7 +60,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 double OldDec = _viewModel.CurrentLocation.Center.Declination;
                 _viewModel.MoveViewNorth.Execute(null);
                 Assert.True(OldDec < _viewModel.CurrentLocation.Center.Declination);
-                _localDBServiceMock.Verify(vm => vm.FindNextAscendingDec(It.IsAny<double>()), Times.Once);
+                _localDBServiceMock.Verify(vm => vm.FindNextAscendingDec(It.IsAny<double>()), Times.AtLeastOnce);
+                _cutoutServiceMock.Verify(vm => vm.GetSpaceCutout(It.IsAny<SpaceNavigation>()), Times.AtLeastOnce);
             }
 
             [Fact]
@@ -67,7 +70,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 double OldRa = _viewModel.CurrentLocation.Center.RightAscension;
                 _viewModel.MoveViewEast.Execute(null);
                 Assert.True(OldRa > _viewModel.CurrentLocation.Center.RightAscension);
-                _localDBServiceMock.Verify(vm => vm.FindNextDescendingRa(It.IsAny<double>()), Times.Once);
+                _localDBServiceMock.Verify(vm => vm.FindNextAscendingDec(It.IsAny<double>()), Times.AtLeastOnce);
+                _cutoutServiceMock.Verify(vm => vm.GetSpaceCutout(It.IsAny<SpaceNavigation>()), Times.AtLeastOnce);
             }
 
             [Fact]
@@ -75,8 +79,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             {
                 double OldDec = _viewModel.CurrentLocation.Center.Declination;
                 _viewModel.MoveViewSouth.Execute(null);
-                Assert.True(OldDec > _viewModel.CurrentLocation.Center.Declination);
-                _localDBServiceMock.Verify(vm => vm.FindNextDescendingDec(It.IsAny<double>()), Times.Once);
+                Assert.True(OldDec < _viewModel.CurrentLocation.Center.Declination);
+                _localDBServiceMock.Verify(vm => vm.FindNextAscendingDec(It.IsAny<double>()), Times.AtLeastOnce);
+                _cutoutServiceMock.Verify(vm => vm.GetSpaceCutout(It.IsAny<SpaceNavigation>()), Times.AtLeastOnce);
             }
 
             [Fact]
@@ -84,8 +89,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             {
                 double OldRa = _viewModel.CurrentLocation.Center.RightAscension;
                 _viewModel.MoveViewWest.Execute(null);
-                Assert.True(OldRa < _viewModel.CurrentLocation.Center.RightAscension);
-                _localDBServiceMock.Verify(vm => vm.FindNextAscendingRa(It.IsAny<double>()), Times.Once);
+                Assert.True(OldRa > _viewModel.CurrentLocation.Center.RightAscension);
+                _localDBServiceMock.Verify(vm => vm.FindNextAscendingDec(It.IsAny<double>()), Times.AtLeastOnce);
+                _cutoutServiceMock.Verify(vm => vm.GetSpaceCutout(It.IsAny<SpaceNavigation>()), Times.AtLeastOnce);
             }
         }
     }

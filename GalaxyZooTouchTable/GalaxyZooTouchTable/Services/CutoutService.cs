@@ -12,7 +12,7 @@ using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.Services
 {
-    public class CutoutService
+    public class CutoutService : ICutoutService
     {
         readonly TimeSpan TimeUntilReset = new TimeSpan(0, 10, 0);
         bool SDSSIsResponding { get; set; } = true;
@@ -118,8 +118,8 @@ namespace GalaxyZooTouchTable.Services
 
         async Task<BitmapImage> StitchImagesTogether(SpaceNavigation currentLocation, double plateScale)
         {
-            //TODO: Remove 0.05 constant below when finding cutouts directly aside one another
-            double RaStep = (currentLocation.RaRange / 3) + (currentLocation.RaRange * 0.05);
+            //TODO: Remove 0.049 constant below when finding cutouts directly aside one another
+            double RaStep = (currentLocation.RaRange / 3) + (currentLocation.RaRange * 0.049);
             double RightImageCenterRa = currentLocation.Center.RightAscension - RaStep;
             double LeftImageCenterRa = currentLocation.Center.RightAscension + RaStep;
             double[] imageRAs = { LeftImageCenterRa, currentLocation.Center.RightAscension, RightImageCenterRa };

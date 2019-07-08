@@ -12,10 +12,10 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : ViewModelBase
     {
-        private ILocalDBService _localDBService;
+        ILocalDBService _localDBService;
+        ICutoutService _cutoutService;
         public SpaceNavigation CurrentLocation { get; set; }
         public event Action<CardinalDirectionEnum> AnimateMovement = delegate { };
-        CutoutService CutoutService = new CutoutService();
 
         public ICommand MoveViewNorth { get; private set; }
         public ICommand MoveViewEast { get; set; }
@@ -69,11 +69,12 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private PeripheralItems PeripheralItems { get; set; } = new PeripheralItems();
+        public PeripheralItems PeripheralItems { get; set; } = new PeripheralItems();
 
-        public SpaceViewModel(ILocalDBService localDBService)
+        public SpaceViewModel(ILocalDBService localDBService, ICutoutService cutoutService)
         {
             _localDBService = localDBService;
+            _cutoutService = cutoutService;
 
             CurrentLocation = new SpaceNavigation(_localDBService.GetRandomPoint());
             CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation);
@@ -137,6 +138,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
+            if (PeripheralItems.Northern == null) return;
             SpaceCutoutUrl = PeripheralItems.Western.Cutout;
             CurrentGalaxies = PeripheralItems.Western.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.West);
@@ -146,6 +148,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewSouth(object obj)
         {
+            if (PeripheralItems.Northern == null) return;
             SpaceCutoutUrl = PeripheralItems.Southern.Cutout;
             CurrentGalaxies = PeripheralItems.Southern.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.South);
@@ -155,6 +158,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewEast(object obj)
         {
+            if (PeripheralItems.Northern == null) return;
             SpaceCutoutUrl = PeripheralItems.Eastern.Cutout;
             CurrentGalaxies = PeripheralItems.Eastern.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.East);
@@ -164,6 +168,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewNorth(object obj)
         {
+            if (PeripheralItems.Northern == null) return;
             SpaceCutoutUrl = PeripheralItems.Northern.Cutout;
             CurrentGalaxies = PeripheralItems.Northern.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.North);
@@ -173,21 +178,16 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SetSpaceCutout()
         {
-            SpaceCutoutUrl = await CutoutService.GetSpaceCutout(CurrentLocation);
+            SpaceCutoutUrl = await _cutoutService.GetSpaceCutout(CurrentLocation);
         }
 
         private async void SetPeripheralItems()
         {
             CanMoveMap = false;
-            SpaceNavigation northern = new SpaceNavigation(CurrentLocation.NextNorthernPoint());
-            SpaceNavigation southern = new SpaceNavigation(CurrentLocation.NextSouthernPoint());
-            SpaceNavigation eastern = new SpaceNavigation(CurrentLocation.NextEasternPoint());
-            SpaceNavigation western = new SpaceNavigation(CurrentLocation.NextWesternPoint());
-
-            PeripheralItems.Northern = await GetPeripheralItem(northern);
-            PeripheralItems.Southern = await GetPeripheralItem(southern);
-            PeripheralItems.Eastern = await GetPeripheralItem(eastern);
-            PeripheralItems.Western = await GetPeripheralItem(western);
+            PeripheralItems.Northern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextNorthernPoint()));
+            PeripheralItems.Southern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextSouthernPoint()));
+            PeripheralItems.Eastern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextEasternPoint()));
+            PeripheralItems.Western = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextWesternPoint()));
             CanMoveMap = true;
         }
 
@@ -201,7 +201,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingDec(location.MaxDec));
                 periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
             }
-            periphery.Cutout = await CutoutService.GetSpaceCutout(periphery.Location);
+            periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
             return periphery;
         }
     }
