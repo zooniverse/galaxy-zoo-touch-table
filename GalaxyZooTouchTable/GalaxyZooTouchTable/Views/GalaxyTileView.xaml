@@ -32,11 +32,12 @@
 
     <Grid x:Name="TileGrid">
         <Border x:Name="SubjectImage"
-                CornerRadius="28"
+                CornerRadius="36"
+                Background="Transparent"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Width="56"
-                Height="56">
+                Width="72"
+                Height="72">
             <i:Interaction.Behaviors>
                 <Behaviors:UIElementDragBehavior/>
             </i:Interaction.Behaviors>
@@ -45,7 +46,7 @@
         <ItemsControl x:Name="RingCollection" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding GalaxyRings}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Grid VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                    <Grid VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

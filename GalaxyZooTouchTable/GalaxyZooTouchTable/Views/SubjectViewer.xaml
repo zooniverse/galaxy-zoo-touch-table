@@ -35,6 +35,7 @@
             <Setter Property="Foreground" Value="White" />
             <Setter Property="FontFamily" Value="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
             <Setter Property="Background" Value="#55565A"/>
+            <Setter Property="Opacity" Value="1"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -54,7 +55,7 @@
                                 </Grid>
                             </Border>
                         </Grid>
-                        
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="Button.IsEnabled" Value="True">
                                 <Setter TargetName="OuterBorder" Property="Background" Value="#55565A"/>
@@ -117,10 +118,24 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="AnswerControl" TargetType="{x:Type ItemsControl}">
+            <Setter Property="Height" Value="136"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="IsHitTestVisible" Value="{Binding AllowSelection}"/>
+            <Setter Property="Margin" Value="144,44,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Width" Value="165"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding AllowSelection}" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     
     <Grid Background="{StaticResource DarkGrayColor}" Height="241" Width="314">
-        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help classify the galaxy below."/>
+        <TextBlock Style="{StaticResource CommonBoldFont}" Margin="14,0" FontSize="18" Text="Help us classify these galaxies."/>
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="14,23,0,0" Text="Please consider only the object in the center of the image."/>
 
         <ContentControl Content="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,45,0,0">
@@ -145,14 +160,7 @@
             VerticalAlignment="Top"
             Source="{Binding Notifications.UserHelping.Avatar}"/>
 
-        <ItemsControl
-            Height="136"
-            HorizontalAlignment="Left"
-            IsHitTestVisible="{Binding AllowSelection}"
-            ItemsSource="{Binding CurrentAnswers}"
-            Margin="144,44,0,0"
-            VerticalAlignment="Top"
-            Width="165">
+        <ItemsControl Style="{StaticResource AnswerControl}" ItemsSource="{Binding CurrentAnswers}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Views:MultiTouchButton

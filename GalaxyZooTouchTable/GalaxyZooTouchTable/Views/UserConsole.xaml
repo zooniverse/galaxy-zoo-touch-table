@@ -7,7 +7,7 @@
              d:DesignHeight="366"
              d:DesignWidth="551"
              x:Name="MainConsole"
-             Height="315"
+             Height="325"
              Width="547"
              mc:Ignorable="d">
 
@@ -41,7 +41,7 @@
     <Grid x:Name="ControlPanel">
         <local:StartButton VerticalAlignment="Bottom"/>
 
-        <local:ClassificationPanel VerticalAlignment="Bottom" Style="{StaticResource ClassificationPanelStyle}">
+        <local:ClassificationPanel Margin="0,0,0,10" Style="{StaticResource ClassificationPanelStyle}">
             <local:ClassificationPanel.RenderTransform>
                 <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=MainConsole, Converter={StaticResource HidePanelConverter}, ConverterParameter='1.05'}"/>
             </local:ClassificationPanel.RenderTransform>

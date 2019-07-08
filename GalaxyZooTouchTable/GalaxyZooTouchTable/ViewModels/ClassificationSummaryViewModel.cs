@@ -2,6 +2,7 @@
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -10,6 +11,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         static Random random = new Random();
         public NotificationsViewModel Notifications { get; private set; }
+        bool ButtonsDisabled = false;
 
         public ICommand RandomGalaxy { get; private set; }
         public ICommand ChooseAnotherGalaxy { get; private set; }
@@ -43,12 +45,25 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             int index = random.Next(SummaryStrings.Count);
             ClassificationSummary = new ClassificationSummary(subjectLocation, counts, currentAnswers, selectedAnswer, SummaryStrings[index]);
+            TemporaryDisableButtons();
+        }
+
+        async void TemporaryDisableButtons()
+        {
+            ButtonsDisabled = true;
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            ButtonsDisabled = false;
         }
 
         void LoadCommands()
         {
-            RandomGalaxy = new CustomCommand(OnRandomGalaxy);
-            ChooseAnotherGalaxy = new CustomCommand(OnChooseAnotherGalaxy);
+            RandomGalaxy = new CustomCommand(OnRandomGalaxy, CanBeginNewClassification);
+            ChooseAnotherGalaxy = new CustomCommand(OnChooseAnotherGalaxy, CanBeginNewClassification);
+        }
+
+        private bool CanBeginNewClassification(object obj)
+        {
+            return !ButtonsDisabled;
         }
 
         void OnRandomGalaxy(object obj)
