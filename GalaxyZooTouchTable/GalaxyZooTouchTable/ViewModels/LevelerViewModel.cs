@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
 using System.Windows.Input;
 
@@ -13,6 +14,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private const int DEFAULT_CLASSIFICATIONS_COUNT = 0;
         private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
         private const bool DEFAULT_CLASSIFICATION_OPEN = false;
+        ClassificationPanelViewModel Classifier;
 
         private int _classificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
         public int ClassificationsUntilUpgrade
@@ -35,7 +37,8 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _classificationsThisSession;
             set
             {
-                ClassificationsUntilUpgrade--;
+                if (value != 0)
+                    ClassificationsUntilUpgrade--;
                 SetProperty(ref _classificationsThisSession, value);
             }
         }
@@ -54,8 +57,9 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _isOpen, value);
         }
 
-        public LevelerViewModel(TableUser user)
+        public LevelerViewModel(TableUser user, ClassificationPanelViewModel classifier)
         {
+            Classifier = classifier;
             User = user;
             LoadCommands();
         }
@@ -67,7 +71,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            ToggleLeveler = new CustomCommand(SlideLeveler);
+            ToggleLeveler = new CustomCommand(OnToggleLeveler);
         }
 
         public void CloseLeveler()
@@ -75,9 +79,18 @@ namespace GalaxyZooTouchTable.ViewModels
             IsOpen = false;
         }
 
-        public void SlideLeveler(object sender)
+        public void OnToggleLeveler(object sender)
         {
             IsOpen = !IsOpen;
+            GlobalData.GetInstance().Logger?.AddEntry("Toggle_Leveler", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
+        }
+
+        public void Reset()
+        {
+            ClassificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
+            ClassificationsThisSession = DEFAULT_CLASSIFICATIONS_COUNT;
+            ClassificationLevel = DEFAULT_CLASSIFICATION_LEVEL;
+            IsOpen = DEFAULT_CLASSIFICATION_OPEN;
         }
 
         private void LevelUp()

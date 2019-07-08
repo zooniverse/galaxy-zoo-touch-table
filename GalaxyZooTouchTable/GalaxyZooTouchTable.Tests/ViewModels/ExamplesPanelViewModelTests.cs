@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.Models;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.ViewModels;
 using Xunit;
 
@@ -10,7 +11,8 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
         public ExamplesPanelViewModelTests()
         {
-            _viewModel = new ExamplesPanelViewModel();
+            var user = GlobalData.GetInstance().BlueUser;
+            _viewModel = new ExamplesPanelViewModel(user, ClassificationPanelViewModelTests.MockClassificationPanel());
         }
 
         [Fact]

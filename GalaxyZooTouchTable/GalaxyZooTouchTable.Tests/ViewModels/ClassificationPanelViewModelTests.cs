@@ -28,6 +28,13 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
             _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
         }
+
+        public static ClassificationPanelViewModel MockClassificationPanel()
+        {
+            Mock<IPanoptesService> _panoptesServiceMock = new Mock<IPanoptesService>();
+            Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
+            return new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
+        }
     
         [Fact]
         private void ShouldInitializeWithDefaultValues()
@@ -96,7 +103,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldLoadSubjects()
         {
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
-            _viewModel.GetSubjectQueue();
+            _viewModel.OnGetRandomGalaxy();
             _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
@@ -105,7 +112,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldSubmitClassificationOnSubmission()
         {
             _viewModel.Load();
-            _viewModel.GetSubjectQueue();
+            _viewModel.OnGetRandomGalaxy();
             Assert.Empty(_viewModel.CurrentClassification.Annotations);
 
             _viewModel.SelectAnswer.Execute(PanoptesServiceMockData.AnswerButton());

@@ -18,7 +18,7 @@ namespace GalaxyZooTouchTable.Models
         BitmapImage ImageFour { get; set; }
         BitmapImage ImageFive { get; set; }
         BitmapImage ImageSix { get; set; }
-        string Title { get; set; }
+        public string Title { get; set; }
         string Description { get; set; }
         string Description2 { get; set; }
     }

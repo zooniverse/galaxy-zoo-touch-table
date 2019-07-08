@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Lib;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
@@ -26,7 +27,6 @@ namespace GalaxyZooTouchTable.Behaviors
             gradientCollection.Add(gradientStop1);
             gradientCollection.Add(gradientStop2);
             
-
             Point StartPoint = new Point();
             Point EndPoint = new Point();
             if (IsHorizontal)
@@ -53,6 +53,15 @@ namespace GalaxyZooTouchTable.Behaviors
             set { SetValue(IsHorizontalProperty, value); }
         }
 
+        private static readonly DependencyProperty UserNameProperty =
+            DependencyProperty.Register("UserName", typeof(string), typeof(DisableOpacityMaskOnEndScroll));
+
+        public string UserName
+        {
+            get { return (string)GetValue(UserNameProperty); }
+            set { SetValue(UserNameProperty, value); }
+        }
+
         private static readonly DependencyProperty StartPercentProperty =
             DependencyProperty.Register("StartPercent", typeof(double), typeof(DisableOpacityMaskOnEndScroll));
 
@@ -67,6 +76,9 @@ namespace GalaxyZooTouchTable.Behaviors
             if (AssociatedObject.ScrollableHeight == AssociatedObject.VerticalOffset && !IsHorizontal)
             {
                 AssociatedObject.OpacityMask = null;
+
+                if (AssociatedObject.ScrollableHeight > 0)
+                    GlobalData.GetInstance().Logger?.AddEntry("Scroll_To_Bottom", UserName);
             }
             else if (AssociatedObject.ScrollableWidth == AssociatedObject.HorizontalOffset && IsHorizontal)
             {

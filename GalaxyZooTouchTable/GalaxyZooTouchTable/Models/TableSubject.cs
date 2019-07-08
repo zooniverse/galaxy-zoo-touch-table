@@ -1,10 +1,13 @@
-﻿using PanoptesNetClient.Models;
+﻿using Microsoft.Win32.SafeHandles;
+using PanoptesNetClient.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class TableSubject
+    public class TableSubject : IDisposable
     {
         SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
@@ -17,6 +20,8 @@ namespace GalaxyZooTouchTable.Models
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
         public string Location { get; set; }
         public string Id { get; set; }
+        bool disposed = false;
+        SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public TableSubject(string id, string location, double ra, double dec, SpaceNavigation currentLocation = null)
         {
@@ -97,6 +102,23 @@ namespace GalaxyZooTouchTable.Models
         public bool IsWorkingWithUser(TableUser user)
         {
             return GalaxyRings.Any(X => X.UserName == user.Name && X.CurrentlyClassifying);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+                handle.Dispose();
+
+            disposed = true;
         }
     }
 }

@@ -210,6 +210,7 @@
     <Compile Include="Lib\ContainerHelper.cs" />
     <Compile Include="Lib\GalaxyAdorner.cs" />
     <Compile Include="Lib\GridLengthAnimation.cs" />
+    <Compile Include="Lib\Log.cs" />
     <Compile Include="Lib\NotificationPanelStatus.cs" />
     <Compile Include="Lib\Messenger.cs" />
     <Compile Include="Lib\RingNotifierStatus.cs" />
@@ -491,6 +492,7 @@
   <ItemGroup>
     <Resource Include="Images\General\Logo.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

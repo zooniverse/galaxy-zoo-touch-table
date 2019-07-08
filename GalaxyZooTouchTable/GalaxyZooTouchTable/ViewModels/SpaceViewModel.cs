@@ -141,6 +141,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
                 CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
             }
+            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "West");
         }
 
         private void OnMoveViewSouth(object obj)
@@ -153,6 +154,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
                 CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
             }
+            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "South");
         }
 
         private void OnMoveViewEast(object obj)
@@ -165,6 +167,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
                 CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
             }
+            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "East");
         }
 
         private void OnMoveViewNorth(object obj)
@@ -177,6 +180,7 @@ namespace GalaxyZooTouchTable.ViewModels
                 CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
                 CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
             }
+            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "North");
         }
 
         private string UpdateSpaceCutout()

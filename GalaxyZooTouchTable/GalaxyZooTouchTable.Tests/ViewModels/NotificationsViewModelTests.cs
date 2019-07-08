@@ -2,6 +2,7 @@
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Tests.Mock;
 using GalaxyZooTouchTable.ViewModels;
+using Moq;
 using Xunit;
 
 namespace GalaxyZooTouchTable.Tests.ViewModels
@@ -15,7 +16,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
 
         public NotificationsViewModelTests()
         {
-            _viewModel = new NotificationsViewModel(BlueUser);
+            _viewModel = new NotificationsViewModel(BlueUser, ClassificationPanelViewModelTests.MockClassificationPanel());
         }
 
         [Fact]
@@ -195,7 +196,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         void NotifyWhenUserHasAnswered()
         {
-            NotificationsViewModel PinkNotifier = new NotificationsViewModel(PinkUser);
+            NotificationsViewModel PinkNotifier = new NotificationsViewModel(PinkUser, ClassificationPanelViewModelTests.MockClassificationPanel());
             PinkUser.Active = true;
             _viewModel.OnSubjectStatusChange(true);
             _viewModel.ReceivedNewSubject(PanoptesServiceMockData.TableSubject());

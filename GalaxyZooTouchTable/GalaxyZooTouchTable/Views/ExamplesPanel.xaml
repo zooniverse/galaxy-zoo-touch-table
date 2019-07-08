@@ -484,7 +484,7 @@
 
                     <ScrollViewer x:Name="SmoothScroller" Style="{StaticResource ExampleScrollViewer}">
                         <i:Interaction.Behaviors>
-                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9"/>
+                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9" UserName="{Binding User.Name}"/>
                         </i:Interaction.Behaviors>
                         <StackPanel Style="{StaticResource ScrollableStackPanel}">
                             <Border Style="{StaticResource ExampleImage}">
@@ -557,7 +557,7 @@
 
                     <ScrollViewer x:Name="FeaturesScroller" Style="{StaticResource ExampleScrollViewer}">
                         <i:Interaction.Behaviors>
-                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9"/>
+                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9" UserName="{Binding User.Name}"/>
                         </i:Interaction.Behaviors>
                         <StackPanel Style="{StaticResource ScrollableStackPanel}">
                             <Border Style="{StaticResource ExampleImage}">
@@ -630,7 +630,7 @@
 
                     <ScrollViewer x:Name="NotAGalaxyScroller" Style="{StaticResource ExampleScrollViewer}">
                         <i:Interaction.Behaviors>
-                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9"/>
+                            <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="True" StartPercent="0.9" UserName="{Binding User.Name}"/>
                         </i:Interaction.Behaviors>
                         <StackPanel Style="{StaticResource ScrollableStackPanel}">
                             <Border Style="{StaticResource ExampleImage}">
@@ -669,7 +669,7 @@
 
                 <ScrollViewer Canvas.Top="140" x:Name="ItemText" Style="{StaticResource SelectedItemText}">
                     <i:Interaction.Behaviors>
-                        <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="False" StartPercent="0.6"/>
+                        <Behaviors:DisableOpacityMaskOnEndScroll IsHorizontal="False" StartPercent="0.6" UserName="{Binding User.Name}"/>
                     </i:Interaction.Behaviors>
                     <StackPanel Style="{StaticResource SelectedTextStackPanel}">
                         <StackPanel.RenderTransform>

@@ -1,4 +1,5 @@
 ﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.Models;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -56,6 +57,8 @@ namespace GalaxyZooTouchTable.Behaviors
                 Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
                 FrameworkElement adornedElement = sender as FrameworkElement;
                 ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
+                using (TableSubject subject = adornedElement.DataContext as TableSubject)
+                    GlobalData.GetInstance().Logger?.AddEntry(entry: "Drag_Galaxy", subjectId: subject.Id);
             }
             isTouchDown = false;
         }

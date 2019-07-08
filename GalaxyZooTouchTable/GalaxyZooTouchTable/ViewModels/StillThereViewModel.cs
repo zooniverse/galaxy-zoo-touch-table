@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Utility;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Threading;
+using GalaxyZooTouchTable.Lib;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -14,6 +15,8 @@ namespace GalaxyZooTouchTable.ViewModels
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
         public event Action CheckOverlay = delegate { };
+        ClassificationPanelViewModel Classifier;
+        TableUser User { get; set; }
 
         public ICommand CloseClassifier { get; set; }
         public ICommand CloseModal { get; set; }
@@ -50,8 +53,10 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public StillThereViewModel()
+        public StillThereViewModel(TableUser user, ClassificationPanelViewModel classifier)
         {
+            Classifier = classifier;
+            User = user;
             Circle = new CircularProgress(41);
             LoadCommands();
             Circle.RenderArc(Percentage);
@@ -74,12 +79,15 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnCloseClassifier(object sender)
         {
             CloseClassificationPanel(sender);
+            IsVisible = false;
+            GlobalData.GetInstance().Logger?.AddEntry("Close_From_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         private void OnCloseModal(object sender)
         {
             IsVisible = false;
             ResetFiveMinuteTimer();
+            GlobalData.GetInstance().Logger?.AddEntry("Dismiss_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         private void SetTimer()
@@ -110,6 +118,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 CloseClassificationPanel(null);
                 IsVisible = false;
+                GlobalData.GetInstance().Logger?.AddEntry("Close_Timeout", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
             }
         }
     }

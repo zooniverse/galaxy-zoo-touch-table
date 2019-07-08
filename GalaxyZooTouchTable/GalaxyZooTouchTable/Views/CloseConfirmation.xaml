@@ -43,7 +43,7 @@
         <Grid>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding ToggleCloseConfirmation}"/>
+                    <Behaviors:TapBehavior Command="{Binding HideCloseConfirmation}"/>
                 </i:Interaction.Behaviors>
                 <TextBlock
                     Style="{StaticResource CommonType}"
@@ -123,7 +123,7 @@
                 Margin="15,0,0,14"
                 VerticalAlignment="Bottom"
                 Width="104"
-                PressCommand="{Binding ToggleCloseConfirmation}">
+                PressCommand="{Binding KeepClassifying}">
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
@@ -139,7 +139,7 @@
                 Margin="0,0,15.3,14.59"
                 VerticalAlignment="Bottom"
                 Width="104"
-                PressCommand="{Binding CloseClassifier}">
+                PressCommand="{Binding CloseAndEnd}">
                 <TextBlock
                     Style="{StaticResource CommonType}"
                     FontSize="10"
