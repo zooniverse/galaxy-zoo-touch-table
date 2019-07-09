@@ -68,13 +68,6 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        private bool _isDECALS = false;
-        public bool IsDECALS
-        {
-            get => _isDECALS;
-            set => SetProperty(ref _isDECALS, value);
-        }
-
         public PeripheralItems PeripheralItems { get; set; } = new PeripheralItems();
 
         public SpaceViewModel(ILocalDBService localDBService, ICutoutService cutoutService)
@@ -184,9 +177,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SetSpaceCutout()
         {
-            SpaceCutout cutout = await _cutoutService.GetSpaceCutout(CurrentLocation);
-            IsDECALS = cutout.IsDECALS;
-            SpaceCutoutUrl = cutout;
+            SpaceCutoutUrl = await _cutoutService.GetSpaceCutout(CurrentLocation);
         }
 
         private async void SetPeripheralItems()

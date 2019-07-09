@@ -1,12 +1,7 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -101,20 +96,20 @@ namespace GalaxyZooTouchTable.Services
                 using (WebResponse response = await FetchDECALSCutout(ra, dec, plateScale))
                     if (response != null)
                     {
+                        double RaStep = (location.RaRange / 3) + (location.RaRange * 0.049);
+                        double leftRA = Math.Round(location.Center.RightAscension + RaStep, 3);
+                        double rightRA = Math.Round(location.Center.RightAscension - RaStep, 3);
+
                         cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
-                        cutout.ImageTwo = BitmapFromUrl(LeftDECALImage(location, plateScale));
-                        cutout.ImageThree = BitmapFromUrl(RightDECALImage(location, plateScale));
-                        cutout.IsDECALS = true;
+                        cutout.ImageTwo = BitmapFromUrl(SideDECALImage(plateScale, dec, leftRA));
+                        cutout.ImageThree = BitmapFromUrl(SideDECALImage(plateScale, dec, rightRA));
                     }
             }
             if (SDSSIsResponding && cutout.ImageOne == null)
             {
                 using (WebResponse response = await FetchSDSSCutout(ra, dec, plateScale))
                     if (response != null)
-                    {
                         cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
-                        cutout.IsSDSS = true;
-                    }
             }
             return cutout;
         }
@@ -128,88 +123,9 @@ namespace GalaxyZooTouchTable.Services
             return image;
         }
 
-        string LeftDECALImage(SpaceNavigation currentLocation, double plateScale)
+        string SideDECALImage(double plateScale, double declination, double ra)
         {
-            double RaStep = (currentLocation.RaRange / 3) + (currentLocation.RaRange * 0.049);
-            double ra = Math.Round(currentLocation.Center.RightAscension + RaStep, 3);
-            double declination = Math.Round(currentLocation.Center.Declination, 3);
             return $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
-        }
-
-        string RightDECALImage(SpaceNavigation currentLocation, double plateScale)
-        {
-            double RaStep = (currentLocation.RaRange / 3) + (currentLocation.RaRange * 0.049);
-            double ra = Math.Round(currentLocation.Center.RightAscension - RaStep, 3);
-            double declination = Math.Round(currentLocation.Center.Declination, 3);
-            return $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
-        }
-
-        async Task<BitmapImage> StitchImagesTogether(SpaceNavigation currentLocation, double plateScale, double declination)
-        {
-            //TODO: Remove 0.049 constant below when finding cutouts directly aside one another
-            double RaStep = (currentLocation.RaRange / 3) + (currentLocation.RaRange * 0.049);
-            double RightImageCenterRa = Math.Round(currentLocation.Center.RightAscension - RaStep, 3);
-            double LeftImageCenterRa = Math.Round(currentLocation.Center.RightAscension + RaStep, 3);
-            double[] imageRAs = { LeftImageCenterRa, Math.Round(currentLocation.Center.RightAscension, 3), RightImageCenterRa };
-            List<Bitmap> bitmaps = new List<Bitmap>();
-
-            foreach (double ra in imageRAs)
-            {
-                string url = $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
-                bitmaps.Add(await ReturnBitmap(url));
-            }
-
-            Bitmap finalBitmap = new Bitmap(1248, 432);
-            using (Graphics g = Graphics.FromImage(finalBitmap))
-            {
-                int index = 0;
-                foreach (var image in bitmaps)
-                {
-                    if (index == 0)
-                        g.DrawImage(image, 0, 0);
-                    if (index == 1)
-                        g.DrawImage(image, 408, 0);
-                    if (index == 2)
-                        g.DrawImage(image, 816, 0);
-                    index++;
-                }
-            }
-            return ToBitmapImage(finalBitmap);
-        }
-
-        BitmapImage ToBitmapImage(Bitmap bitmap)
-        {
-            using (var memory = new MemoryStream())
-            {
-                bitmap.Save(memory, ImageFormat.Png);
-                memory.Position = 0;
-
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = memory;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-                return bitmapImage;
-            }
-        }
-
-        async Task<Bitmap> ReturnBitmap(string url)
-        {
-            Bitmap bitmap = null;
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetAsync(url);
-                if (response != null && response.StatusCode == HttpStatusCode.OK)
-                {
-                    using (var stream = await response.Content.ReadAsStreamAsync())
-                    {
-                        var memStream = new MemoryStream();
-                        await stream.CopyToAsync(memStream);
-                        bitmap = new Bitmap(memStream);
-                    }
-                }
-            }
-            return bitmap;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
                 _localDBServiceMock.Setup(dp => dp.GetRandomPoint()).Returns(SpaceNavigationMockData.Center());
                 _localDBServiceMock.Setup(dp => dp.GetLocalSubjects(It.IsAny<SpaceNavigation>()))
                     .Returns(new List<TableSubject>());
-                _cutoutServiceMock.Setup(dp => dp.GetSpaceCutout(It.IsAny<SpaceNavigation>())).ReturnsAsync(new System.Windows.Media.Imaging.BitmapImage());
+                _cutoutServiceMock.Setup(dp => dp.GetSpaceCutout(It.IsAny<SpaceNavigation>())).ReturnsAsync(new Lib.SpaceCutout());
 
                 _viewModel = new SpaceViewModel(_localDBServiceMock.Object, _cutoutServiceMock.Object);
             }
