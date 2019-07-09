@@ -26,6 +26,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public Workflow Workflow { get; set; }
         public ICommand CloseClassifier { get; private set; }
         public ICommand SubmitClassification { get; private set; }
+        public ICommand GetRandomSubject { get; private set; }
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
@@ -186,6 +187,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadCommands()
         {
             CloseClassifier = new CustomCommand(OnCloseClassifier);
+            GetRandomSubject = new CustomCommand(OnGetRandomGalaxy);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
@@ -328,7 +330,7 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(subject);
         }
 
-        public void OnGetRandomGalaxy()
+        public void OnGetRandomGalaxy(object sender = null)
         {
             GlobalData.GetInstance().Logger?.AddEntry("Random_Galaxy", User.Name);
             PrepareForNewClassification();
