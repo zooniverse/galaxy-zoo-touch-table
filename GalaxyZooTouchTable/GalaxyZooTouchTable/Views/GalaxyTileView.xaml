@@ -67,10 +67,10 @@
                                         StrokeDashCap="Round"
                                         StrokeThickness="5"    
                                         Stroke="{Binding UserColor}"
-                                        RadiusX="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.TopRight}"
-                                        RadiusY="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=CornerRadius.BottomLeft}"
-                                        Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                                        Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+                                        RadiusX="100"
+                                        RadiusY="100"
+                                        Width="100"
+                                        Height="100"/>
                                 </VisualBrush.Visual>
                             </VisualBrush>
                         </Border.BorderBrush>

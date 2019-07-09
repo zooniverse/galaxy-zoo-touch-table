@@ -4,15 +4,15 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
     public class SpaceViewModel : ViewModelBase
     {
-        private ILocalDBService _localDBService;
-        private double RaRange { get; set; }
-        private double DecRange { get; set; }
+        ILocalDBService _localDBService;
+        ICutoutService _cutoutService;
         public SpaceNavigation CurrentLocation { get; set; }
         public event Action<CardinalDirectionEnum> AnimateMovement = delegate { };
 
@@ -29,6 +29,13 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _showError, value);
         }
 
+        private bool _canMoveMap = false;
+        public bool CanMoveMap
+        {
+            get => _canMoveMap;
+            set => SetProperty(ref _canMoveMap, value);
+        }
+
         private string _errorMessage;
         public string ErrorMessage
         {
@@ -40,23 +47,18 @@ namespace GalaxyZooTouchTable.ViewModels
         public List<TableSubject> CurrentGalaxies
         {
             get => _currentGalaxies;
-            set 
-            {
-                if (value.Count > 0)
-                    SpaceCutoutUrl = UpdateSpaceCutout();
-                SetProperty(ref _currentGalaxies, value);
-            }
+            set => SetProperty(ref _currentGalaxies, value);
         }
 
-        private string _previousSpaceCutoutUrl;
-        public string PreviousSpaceCutoutUrl
+        private SpaceCutout _previousSpaceCutoutUrl;
+        public SpaceCutout PreviousSpaceCutoutUrl
         {
             get => _previousSpaceCutoutUrl;
             set => SetProperty(ref _previousSpaceCutoutUrl, value);
         }
 
-        private string _spaceCutoutUrl;
-        public string SpaceCutoutUrl
+        private SpaceCutout _spaceCutoutUrl;
+        public SpaceCutout SpaceCutoutUrl
         {
             get => _spaceCutoutUrl;
             set
@@ -66,14 +68,17 @@ namespace GalaxyZooTouchTable.ViewModels
             }
         }
 
-        public SpaceViewModel(ILocalDBService localDBService)
+        public PeripheralItems PeripheralItems { get; set; } = new PeripheralItems();
+
+        public SpaceViewModel(ILocalDBService localDBService, ICutoutService cutoutService)
         {
             _localDBService = localDBService;
+            _cutoutService = cutoutService;
 
-            SpacePoint StartingLocation = _localDBService.GetRandomPoint();
-            CurrentLocation = new SpaceNavigation(StartingLocation);
-
-            CurrentGalaxies = FindGalaxiesAtNewBounds();
+            CurrentLocation = new SpaceNavigation(_localDBService.GetRandomPoint());
+            CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation);
+            SetSpaceCutout();
+            SetPeripheralItems();
             LoadCommands();
             Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
             Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
@@ -113,17 +118,16 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LoadCommands()
         {
-            MoveViewNorth = new CustomCommand(OnMoveViewNorth);
-            MoveViewEast = new CustomCommand(OnMoveViewEast);
-            MoveViewSouth = new CustomCommand(OnMoveViewSouth);
-            MoveViewWest = new CustomCommand(OnMoveViewWest);
+            MoveViewNorth = new CustomCommand(OnMoveViewNorth, OnCanMoveMap);
+            MoveViewEast = new CustomCommand(OnMoveViewEast, OnCanMoveMap);
+            MoveViewSouth = new CustomCommand(OnMoveViewSouth, OnCanMoveMap);
+            MoveViewWest = new CustomCommand(OnMoveViewWest, OnCanMoveMap);
             HideError = new CustomCommand(OnHideError);
         }
 
-        private void OnHideError(object obj)
-        {
-            ShowError = false;
-        }
+        private bool OnCanMoveMap(object obj) { return CanMoveMap; }
+
+        private void OnHideError(object obj) { ShowError = false; }
 
         private void OnShowError(string message)
         {
@@ -133,67 +137,71 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
-            CurrentLocation.MoveWest();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
-
-            if (CurrentGalaxies.Count == 0)
-            {
-                CurrentLocation.Center = _localDBService.FindNextAscendingRa(CurrentLocation.MaxRa);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.West);
-            }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "West");
+            if (PeripheralItems.Northern == null) return;
+            SpaceCutoutUrl = PeripheralItems.Western.Cutout;
+            CurrentGalaxies = PeripheralItems.Western.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.West);
+            CurrentLocation = PeripheralItems.Western.Location;
+            SetPeripheralItems();
         }
 
         private void OnMoveViewSouth(object obj)
         {
-            CurrentLocation.MoveSouth();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
-
-            if (CurrentGalaxies.Count == 0)
-            {
-                CurrentLocation.Center = _localDBService.FindNextDescendingDec(CurrentLocation.MinDec);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.South);
-            }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "South");
+            if (PeripheralItems.Northern == null) return;
+            SpaceCutoutUrl = PeripheralItems.Southern.Cutout;
+            CurrentGalaxies = PeripheralItems.Southern.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.South);
+            CurrentLocation = PeripheralItems.Southern.Location;
+            SetPeripheralItems();
         }
 
         private void OnMoveViewEast(object obj)
         {
-            CurrentLocation.MoveEast();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
-
-            if (CurrentGalaxies.Count == 0)
-            {
-                CurrentLocation.Center = _localDBService.FindNextDescendingRa(CurrentLocation.MinRa);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.East);
-            }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "East");
+            if (PeripheralItems.Northern == null) return;
+            SpaceCutoutUrl = PeripheralItems.Eastern.Cutout;
+            CurrentGalaxies = PeripheralItems.Eastern.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.East);
+            CurrentLocation = PeripheralItems.Eastern.Location;
+            SetPeripheralItems();
         }
 
         private void OnMoveViewNorth(object obj)
         {
-            CurrentLocation.MoveNorth();
-            CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
+            if (PeripheralItems.Northern == null) return;
+            SpaceCutoutUrl = PeripheralItems.Northern.Cutout;
+            CurrentGalaxies = PeripheralItems.Northern.Galaxies;
+            if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.North);
+            CurrentLocation = PeripheralItems.Northern.Location;
+            SetPeripheralItems();
+        }
 
-            if (CurrentGalaxies.Count == 0)
+        private async void SetSpaceCutout()
+        {
+            SpaceCutoutUrl = await _cutoutService.GetSpaceCutout(CurrentLocation);
+        }
+
+        private async void SetPeripheralItems()
+        {
+            CanMoveMap = false;
+            PeripheralItems.Northern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextNorthernPoint()));
+            PeripheralItems.Southern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextSouthernPoint()));
+            PeripheralItems.Eastern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextEasternPoint()));
+            PeripheralItems.Western = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextWesternPoint()));
+            CanMoveMap = true;
+        }
+
+        private async Task<PeripheralItem> GetPeripheralItem(SpaceNavigation location)
+        {
+            PeripheralItem periphery = new PeripheralItem(location);
+            periphery.Galaxies = _localDBService.GetLocalSubjects(location);
+
+            if (periphery.Galaxies.Count == 0)
             {
-                CurrentLocation.Center = _localDBService.FindNextAscendingDec(CurrentLocation.MaxDec);
-                CurrentGalaxies = FindGalaxiesAtNewBounds(CardinalDirectionEnum.North);
+                periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingDec(location.MaxDec));
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
             }
-            GlobalData.GetInstance().Logger?.AddEntry(entry: "Move_Map", context: "North");
-        }
-
-        private string UpdateSpaceCutout()
-        {
-            double WidenedPlateScale = 1.75;
-            return $"http://skyserver.sdss.org/dr14/SkyServerWS/ImgCutout/getjpeg?ra={CurrentLocation.Center.RightAscension}&dec={CurrentLocation.Center.Declination}&width=1248&height=432&scale={WidenedPlateScale}";
-        }
-
-        private List<TableSubject> FindGalaxiesAtNewBounds(CardinalDirectionEnum direction = CardinalDirectionEnum.None)
-        {
-            List<TableSubject> newSubjects = _localDBService.GetLocalSubjects(CurrentLocation);
-            if (newSubjects.Count > 0) AnimateMovement(direction);
-            return newSubjects;
+            periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
+            return periphery;
         }
     }
 }
