@@ -3,11 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              xmlns:Views="clr-namespace:GalaxyZooTouchTable.Views"
-             xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="241" d:DesignWidth="314">
     <UserControl.Resources>
@@ -210,14 +208,14 @@
             Margin="14,0,0,0"
             Width="137"
             VerticalAlignment="Bottom"
-            PressCommand="{Binding ChooseAnotherGalaxy}"
+            PressCommand="{Binding RandomGalaxy}"
             Style="{StaticResource TransparentWithDownstate}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     Style="{StaticResource CommonBoldFont}"
                     FontSize="10"
-                    Text="Choose another galaxy"/>
-                <fa:ImageAwesome Icon="ChevronRight" Foreground="White" Height="8" Margin="5,0,0,0"/>
+                    Text="Random galaxy"/>
+                <fa:ImageAwesome Icon="ChevronRight" Foreground="White"  Height="8" Margin="5,0,0,0"/>
             </StackPanel>
         </Views:MultiTouchButton>
 
@@ -227,14 +225,14 @@
             Margin="0,0,14,0"
             Width="137"
             VerticalAlignment="Bottom"
-            Style="{StaticResource SubmitWithDownstate}"
-            PressCommand="{Binding RandomGalaxy}">
+            PressCommand="{Binding ChooseAnotherGalaxy}"
+            Style="{StaticResource SubmitWithDownstate}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock
                     FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                     FontWeight="Bold"
                     FontSize="10"
-                    Text="Random galaxy"/>
+                    Text="Choose another galaxy"/>
                 <fa:ImageAwesome Icon="ChevronRight" Height="8" Margin="5,0,0,0"/>
             </StackPanel>
         </Views:MultiTouchButton>
