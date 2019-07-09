@@ -18,7 +18,6 @@ namespace GalaxyZooTouchTable.Models
         private readonly double WidenedPlateScale = 1.75;
         public Subject Subject { get; set; }
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
-        public string Location { get; set; }
         public string Id { get; set; }
         bool disposed = false;
         SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
@@ -29,7 +28,6 @@ namespace GalaxyZooTouchTable.Models
             GalaxyRings.Add(new GalaxyRing());
 
             Id = id;
-            Location = location;
             RightAscension = ra;
             Declination = dec;
             SubjectLocation = location;
