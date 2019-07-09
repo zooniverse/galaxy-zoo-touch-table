@@ -40,14 +40,21 @@
                         </DrawingBrush.Drawing>
                     </DrawingBrush>
                 </Border.BorderBrush>
-                <TextBlock
-                    Text="Drag and drop a galaxy here to get started."
-                    TextWrapping="Wrap"
-                    Width="80"
-                    Height="58"
-                    Foreground="White"
-                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                    FontWeight="Bold"/>
+                <Grid>
+                    <Image Height="52" VerticalAlignment="Top" Margin="0,15,0,0" Source="../Images/General/hand.png"/>
+                    <TextBlock
+                        Text="Drag and drop a galaxy here to get started."
+                        TextWrapping="Wrap"
+                        Width="89"
+                        Height="18"
+                        FontSize="7.5"
+                        Foreground="White"
+                        FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                        FontWeight="Bold"
+                        TextAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Margin="0,0,0,13"/>
+                </Grid>
             </Border>
         </Border>
     </Border>
