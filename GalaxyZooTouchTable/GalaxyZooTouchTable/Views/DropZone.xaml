@@ -23,7 +23,7 @@
             <Behaviors:UIElementDropBehavior/>
         </i:Interaction.Behaviors>
         <Border>
-            <local:MultiTouchButton PressCommand="{Binding GetRandomSubject}" Style="{StaticResource StandardBtn}" Background="Transparent">
+            <local:MultiTouchButton PressCommand="{Binding TapDropZone}" Style="{StaticResource StandardBtn}" Background="Transparent">
                 <Border Width="106" Height="106" BorderThickness="2" CornerRadius="3">
                     <Border.BorderBrush>
                         <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">

@@ -26,7 +26,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public Workflow Workflow { get; set; }
         public ICommand CloseClassifier { get; private set; }
         public ICommand SubmitClassification { get; private set; }
-        public ICommand GetRandomSubject { get; private set; }
+        public ICommand TapDropZone { get; private set; }
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
@@ -187,7 +187,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadCommands()
         {
             CloseClassifier = new CustomCommand(OnCloseClassifier);
-            GetRandomSubject = new CustomCommand(OnGetRandomGalaxy);
+            TapDropZone = new CustomCommand(OnTapDropZone);
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
@@ -330,9 +330,20 @@ namespace GalaxyZooTouchTable.ViewModels
             StartNewClassification(subject);
         }
 
-        public void OnGetRandomGalaxy(object sender = null)
+        void OnGetRandomGalaxy()
         {
             GlobalData.GetInstance().Logger?.AddEntry("Random_Galaxy", User.Name);
+            GetNewSubject();
+        }
+
+        void OnTapDropZone(object sender)
+        {
+            GlobalData.GetInstance().Logger?.AddEntry("Tap_Drop_Zone", User.Name);
+            GetNewSubject();
+        }
+
+        public void GetNewSubject()
+        {
             PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
