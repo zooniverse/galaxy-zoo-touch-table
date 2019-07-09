@@ -65,10 +65,18 @@
         </Border.Effect>
         <Grid ClipToBounds="True">
             <Border x:Name="CurrentCutout" RenderTransformOrigin="0.5,0.5" Width="1248" Height="432">
-                <Image x:Name="CurrentCutoutImage" RenderTransformOrigin="0.5,0.5" Source="{Binding SpaceCutoutUrl}"/>
+                <Grid x:Name="CurrentCutoutImage" RenderTransformOrigin="0.5,0.5">
+                    <Image Source="{Binding SpaceCutoutUrl.ImageOne}"/>
+                    <Image Source="{Binding SpaceCutoutUrl.ImageTwo}" HorizontalAlignment="Left"/>
+                    <Image Source="{Binding SpaceCutoutUrl.ImageThree}" HorizontalAlignment="Right"/>
+                </Grid>
             </Border>
             <Border x:Name="PreviousCutout" RenderTransformOrigin="0.5,0.5" Width="1248" Height="432">
-                <Image x:Name="PreviousCutoutImage" RenderTransformOrigin="0.5,0.5" Source="{Binding PreviousSpaceCutoutUrl}"/>
+                <Grid x:Name="PreviousCutoutImage" RenderTransformOrigin="0.5,0.5">
+                    <Image Source="{Binding PreviousSpaceCutoutUrl.ImageOne}"/>
+                    <Image Source="{Binding PreviousSpaceCutoutUrl.ImageTwo}" HorizontalAlignment="Left"/>
+                    <Image Source="{Binding PreviousSpaceCutoutUrl.ImageThree}" HorizontalAlignment="Right"/>
+                </Grid>
             </Border>
 
             <ItemsControl x:Name="VisibleGalaxies" ItemsSource="{Binding CurrentGalaxies}">

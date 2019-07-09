@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.ViewModels
 {
@@ -51,15 +50,15 @@ namespace GalaxyZooTouchTable.ViewModels
             set => SetProperty(ref _currentGalaxies, value);
         }
 
-        private BitmapImage _previousSpaceCutoutUrl;
-        public BitmapImage PreviousSpaceCutoutUrl
+        private SpaceCutout _previousSpaceCutoutUrl;
+        public SpaceCutout PreviousSpaceCutoutUrl
         {
             get => _previousSpaceCutoutUrl;
             set => SetProperty(ref _previousSpaceCutoutUrl, value);
         }
 
-        private BitmapImage _spaceCutoutUrl;
-        public BitmapImage SpaceCutoutUrl
+        private SpaceCutout _spaceCutoutUrl;
+        public SpaceCutout SpaceCutoutUrl
         {
             get => _spaceCutoutUrl;
             set
@@ -67,6 +66,13 @@ namespace GalaxyZooTouchTable.ViewModels
                 PreviousSpaceCutoutUrl = _spaceCutoutUrl;
                 SetProperty(ref _spaceCutoutUrl, value);
             }
+        }
+
+        private bool _isDECALS = false;
+        public bool IsDECALS
+        {
+            get => _isDECALS;
+            set => SetProperty(ref _isDECALS, value);
         }
 
         public PeripheralItems PeripheralItems { get; set; } = new PeripheralItems();
@@ -178,7 +184,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void SetSpaceCutout()
         {
-            SpaceCutoutUrl = await _cutoutService.GetSpaceCutout(CurrentLocation);
+            SpaceCutout cutout = await _cutoutService.GetSpaceCutout(CurrentLocation);
+            IsDECALS = cutout.IsDECALS;
+            SpaceCutoutUrl = cutout;
         }
 
         private async void SetPeripheralItems()

@@ -1,6 +1,5 @@
 ﻿using GalaxyZooTouchTable.Models;
 using System.Collections.Generic;
-using System.Windows.Media.Imaging;
 
 namespace GalaxyZooTouchTable.Lib
 {
@@ -14,7 +13,7 @@ namespace GalaxyZooTouchTable.Lib
 
     public class PeripheralItem
     {
-        public BitmapImage Cutout { get; set; }
+        public SpaceCutout Cutout { get; set; }
         public SpaceNavigation Location { get; set; }
         public List<TableSubject> Galaxies { get; set; }
 
