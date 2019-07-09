@@ -14,8 +14,13 @@ Likewise, the app can be installed via the same Google Drive File Stream locatio
 ## Log Files
 Log files are placed in a system's "Documents" folder under a "TouchTable_Logs" subdirectory. This should happen in debug and release builds, although logs are only committed in debug if the screen is X'ed out, as opposed to clicking "Stop Debugging" in Visual Studio.
 
+## Offline First
+The app is set to run smoothly through temporary internet outages. When offline, finished classifications are placed in a queue and kept there until internet connection is established again. Internet connection is checked with each classification submitted, and queued classifications are submitted if internet is available. However, if the application is closed without internet access, all classifications held in the queue will be lost.
+
+When offline, workflow information is loaded via a static workflow stored on the app. Subject images are collected through the local subject folder (when available) and classification counts are retrieved from the local database. However, the background space cutout in the center of the app will appear black as connection to a third party cutout service is required to retrieve the correct cutout image from a region of space.
+
 ## Using a Local Database
-The touch table is setup to use a local database to query subject locations based on Right Ascension and Declination. In order for the app to run correctly, a SQLite database (.db) should be inserted in the system's "Documents" folder with the following paths:
+The app is setup to use a local database to query subject locations based on Right Ascension and Declination. In order for the app to run correctly, a SQLite database (.db) should be inserted in the system's "Documents" folder with the following paths:
 
 - **Staging:** GZ_Staging_Subjects.db
 - **Production:** GZ_Production_Subjects.db
