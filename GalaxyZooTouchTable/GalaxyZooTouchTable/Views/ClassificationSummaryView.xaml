@@ -192,7 +192,7 @@
             TextWrapping="Wrap"
             Width="181">
             <Run>You can do this same project at home by going to</Run>
-            <Run Foreground="#E5FF4D" FontWeight="Bold">adler.zooniverse.org</Run>
+            <Run Foreground="#E5FF4D" FontWeight="Bold">uscientist.org</Run>
             <Run>or downloading the</Run>
             <Run Foreground="#E5FF4D" FontWeight="Bold">app.</Run>
         </TextBlock>

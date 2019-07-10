@@ -86,7 +86,7 @@
                 Margin="16,93,0,0">
                 <Run>Do real science at home!</Run>
                 <LineBreak/>
-                <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">adler.zooniverse.org</Run> <Run>or</Run>
+                <Run>Go to</Run> <Run Foreground="{StaticResource LimeGreenColor}">uscientist.org</Run> <Run>or</Run>
                 <LineBreak/>
                 <Run>download the Zooniverse app for</Run>
                 <LineBreak/>
