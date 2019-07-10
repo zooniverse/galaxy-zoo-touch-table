@@ -111,7 +111,7 @@
 
         <Style x:Key="DoMoreFont" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource JoinCommonFont}">
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Text" Value="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG"/>
+            <Setter Property="Text" Value="DO MORE ONLINE AT USCIENTIST.ORG"/>
             <Setter Property="FontSize" Value="14.5"/>
         </Style>
 
@@ -157,7 +157,7 @@
                 FontSize="20.75"
                 Foreground="White"
                 Margin="0,288,0,0"
-                Text="DO MORE ONLINE AT ADLER.ZOONIVERSE.ORG"/>
+                Text="DO MORE ONLINE AT USCIENTIST.ORG"/>
 
             <StackPanel Orientation="Horizontal" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Image

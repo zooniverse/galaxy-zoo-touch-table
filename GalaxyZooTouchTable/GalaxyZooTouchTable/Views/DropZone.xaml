@@ -22,33 +22,42 @@
         <i:Interaction.Behaviors>
             <Behaviors:UIElementDropBehavior/>
         </i:Interaction.Behaviors>
-            <Border>
+        <Border>
+            <local:MultiTouchButton PressCommand="{Binding TapDropZone}" Style="{StaticResource StandardBtn}" Background="Transparent">
                 <Border Width="106" Height="106" BorderThickness="2" CornerRadius="3">
-                <Border.BorderBrush>
-                    <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
-                        <DrawingBrush.Drawing>
-                            <DrawingGroup>
-                                <GeometryDrawing Brush="{StaticResource AttentionColor}">
-                                    <GeometryDrawing.Geometry>
-                                        <GeometryGroup>
-                                            <RectangleGeometry Rect="0,0,50,50"/>
-                                            <RectangleGeometry Rect="50,50,50,50"/>
-                                        </GeometryGroup>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingGroup>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Border.BorderBrush>
-                <TextBlock
-                    Text="Drag and drop a galaxy here to get started."
-                    TextWrapping="Wrap"
-                    Width="80"
-                    Height="58"
-                    Foreground="White"
-                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                    FontWeight="Bold"/>
-            </Border>
+                    <Border.BorderBrush>
+                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing Brush="{StaticResource AttentionColor}">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry Rect="0,0,50,50"/>
+                                                <RectangleGeometry Rect="50,50,50,50"/>
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Border.BorderBrush>
+                    <Grid>
+                        <Image Height="52" VerticalAlignment="Top" Margin="0,15,0,0" Source="../Images/General/hand.png"/>
+                        <TextBlock
+                            Text="Drag and drop a galaxy here to get started."
+                            TextWrapping="Wrap"
+                            Width="89"
+                            Height="18"
+                            FontSize="7.5"
+                            Foreground="White"
+                            FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                            FontWeight="Bold"
+                            TextAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,13"/>
+                    </Grid>
+                </Border>
+            </local:MultiTouchButton>
         </Border>
     </Border>
 </UserControl>

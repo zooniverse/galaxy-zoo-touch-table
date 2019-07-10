@@ -17,7 +17,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>G:\Team Drives\Citizen Science\Touch Table\</PublishUrl>
+    <PublishUrl>G:\Shared drives\Citizen Science\Touch Table\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -27,7 +27,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>37</ApplicationRevision>
     <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -337,6 +337,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Content Include="x64\SQLite.Interop.dll" />
+    <Content Include="x86\SQLite.Interop.dll" />
+    <Resource Include="Images\General\hand.png" />
     <Resource Include="Images\General\background.jpg" />
     <Resource Include="Images\General\logo-badge.png" />
     <Resource Include="Images\Avatars\peach.png" />
@@ -372,7 +375,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Resource Include="Data\OfflineWorkflow.xml" />
     <Content Include="Fonts\Karla-Bold.ttf" />
     <Content Include="Fonts\Karla-BoldItalic.ttf" />
     <Content Include="Fonts\Karla-Italic.ttf" />
