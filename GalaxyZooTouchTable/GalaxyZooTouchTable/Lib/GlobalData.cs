@@ -30,21 +30,18 @@ namespace GalaxyZooTouchTable.Lib
         private void PopulateOfflineWorkflow()
         {
             OfflineWorkflow = new Workflow();
-            foreach (XElement element in XElement.Load("../../Data/OfflineWorkflow.xml").Elements("Workflow"))
-            {
-                List<TaskAnswer> answers = new List<TaskAnswer>();
-                OfflineWorkflow.Version = element.Element("version").Value;
-                OfflineWorkflow.FirstTask = element.Element("firstTask").Value;
-                var task = element.Element("tasks").Element("task");
-                foreach (XElement answer in task.Elements())
-                {
-                    TaskAnswer taskAnswer = new TaskAnswer(answer.Value);
-                    answers.Add(taskAnswer);
-                }
-                WorkflowTask offlineTask = new WorkflowTask("Choose an Answer", answers);
-                OfflineWorkflow.Tasks = new Dictionary<string, WorkflowTask>();
-                OfflineWorkflow.Tasks.Add("T0", offlineTask);
-            }
+
+            OfflineWorkflow.Version = "1.4";
+            OfflineWorkflow.FirstTask = "T0";
+
+            List<TaskAnswer> answers = new List<TaskAnswer>();
+            answers.Add(new TaskAnswer("![smooth_triple_flat.png](https://panoptes-uploads.zooniverse.org/staging/project_attached_image/810958cc-54bc-40f5-8871-628a5b0257ea.png) Smooth _Gradually fades from the center_"));
+            answers.Add(new TaskAnswer("![features_or_disk.png](https://panoptes-uploads.zooniverse.org/staging/project_attached_image/4a4333a4-3e8b-42d3-9b81-8d6a2d296d16.png) Features _Irregularities; not smooth_"));
+            answers.Add(new TaskAnswer("![star_inverted.png](https://panoptes-uploads.zooniverse.org/staging/project_attached_image/f0900323-83f1-4971-829c-6437ba6dd63a.png) Not a Galaxy _Star or artifact_"));
+
+            WorkflowTask offlineTask = new WorkflowTask("Choose an Answer", answers);
+            OfflineWorkflow.Tasks = new Dictionary<string, WorkflowTask>();
+            OfflineWorkflow.Tasks.Add("T0", offlineTask);
         }
 
         public static GlobalData GetInstance()
