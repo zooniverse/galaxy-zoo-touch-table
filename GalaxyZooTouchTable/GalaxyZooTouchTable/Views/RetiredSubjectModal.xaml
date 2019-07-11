@@ -18,9 +18,19 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
+
+        <Style x:Key="RetiredModal" TargetType="{x:Type Border}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ShowRetirementModal}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
 
-    <Border Background="{StaticResource MedGrayColor}" CornerRadius="3">
+    <Border Style="{StaticResource RetiredModal}" Background="{StaticResource MedGrayColor}" CornerRadius="3">
         <Border.Effect>
             <DropShadowEffect BlurRadius="20" ShadowDepth="2"/>
         </Border.Effect>
@@ -34,7 +44,7 @@
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,8,15,0">
                 <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding HideCloseConfirmation}"/>
+                    <Behaviors:TapBehavior Command="{Binding HideRetirementModal}"/>
                 </i:Interaction.Behaviors>
                 <TextBlock
                     Style="{StaticResource CommonType}"
@@ -55,33 +65,43 @@
 
             <TextBlock
                 Text="This galaxy is ready to go"
-                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                Foreground="White"
+                Style="{StaticResource CommonType}"
                 FontSize="17"
-                FontWeight="Bold"
                 Margin="0,44,0,0"
                 HorizontalAlignment="Center"/>
 
             <TextBlock
                 Text="Thanks to people like you, this galaxy has had enough classifications that it's ready to be sent to the Galaxy Zoo database."
-                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                Foreground="White"
+                Style="{StaticResource CommonType}"
                 FontSize="9"
                 Margin="16,72,16,0"
                 TextWrapping="Wrap"
-                FontWeight="Bold"
                 HorizontalAlignment="Center"/>
 
             <TextBlock
                 Text="Then scientists will use that information to study the universe."
-                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
-                Foreground="White"
+                Style="{StaticResource CommonType}"
                 FontSize="9"
                 Margin="20,122,20,0"
-                FontWeight="Bold"
                 TextWrapping="Wrap"
                 HorizontalAlignment="Center" Width="203"/>
 
+            <Views:MultiTouchButton
+                Style="{StaticResource SubmitWithDownstate}"
+                Height="20"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,14.59"
+                VerticalAlignment="Bottom"
+                Width="211"
+                PressCommand="{Binding HideRetirementModal}">
+                <TextBlock
+                    Style="{StaticResource CommonType}"
+                    FontSize="10"
+                    Foreground="Black"
+                    HorizontalAlignment="Center"
+                    Text="Choose another galaxy"
+                    VerticalAlignment="Center"/>
+            </Views:MultiTouchButton>
         </Grid>
     </Border>
 </UserControl>

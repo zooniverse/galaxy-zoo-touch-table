@@ -46,11 +46,15 @@
 
         <Views:StillThereModal
             DataContext="{Binding StillThere}"
-            Panel.ZIndex="2"
+            Panel.ZIndex="3"
             Margin="108,20,128,0"/>
 
         <local:CloseConfirmation
             DataContext="{Binding CloseConfirmationViewModel}"
+            Panel.ZIndex="2"
+            Margin="108,20,128,0"/>
+
+        <Views:RetiredSubjectModal
             Panel.ZIndex="1"
             Margin="108,20,128,0"/>
 

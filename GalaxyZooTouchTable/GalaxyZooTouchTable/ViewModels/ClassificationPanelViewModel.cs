@@ -3,6 +3,7 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -30,7 +31,19 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
+        public ICommand HideRetirementModal { get; private set; }
         public event Action LevelUpAnimation = delegate { };
+
+        private bool _showRetirementModal;
+        public bool ShowRetirementModal
+        {
+            get => _showRetirementModal;
+            set
+            {
+                ShowOverlay = value;
+                SetProperty(ref _showRetirementModal, value);
+            }
+        }
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -196,11 +209,17 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
             SubmitClassification = new CustomCommand(OnSubmitClassification, CanSubmitClassification);
+            HideRetirementModal = new CustomCommand(OnHideRetirementModal);
         }
 
         private bool CanSubmitClassification(object obj)
         {
             return !IsSubmittingClassification;
+        }
+
+        private void OnHideRetirementModal(object obj)
+        {
+            ShowRetirementModal = false;
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -359,8 +378,6 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
-            bool isRetired = _localDBService.CheckIfSubjectRetired(Subjects[0].Id);
-
             LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
         }
@@ -370,10 +387,16 @@ namespace GalaxyZooTouchTable.ViewModels
             GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
-            bool isRetired = _localDBService.CheckIfSubjectRetired(subject.Id);
-
-            LoadSubject(subject);
-            NotifySpaceView(RingNotifierStatus.IsCreating);
+            if (_localDBService.CheckIfSubjectRetired(subject.Id))
+            {
+                GlobalData.GetInstance().Logger?.AddEntry("Hide_Retirement_Modal", User.Name, subject.Id, CurrentView);
+                ShowRetirementModal = true;
+            }
+            else
+            {
+                LoadSubject(subject);
+                NotifySpaceView(RingNotifierStatus.IsCreating);
+            }
         }
 
         private bool CheckAlreadyCompleted(TableSubject subject)
