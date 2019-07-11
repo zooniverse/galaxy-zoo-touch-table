@@ -338,7 +338,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void LoadSubject(TableSubject subject)
         {
-            bool isRetired = _localDBService.CheckIfSubjectRetired(subject.Id);
             PrepareForNewClassification();
             CurrentSubject = subject;
             StartNewClassification(subject);
@@ -361,6 +360,7 @@ namespace GalaxyZooTouchTable.ViewModels
             PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
+            bool isRetired = _localDBService.CheckIfSubjectRetired(Subjects[0].Id);
             LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
         }
@@ -370,6 +370,8 @@ namespace GalaxyZooTouchTable.ViewModels
             GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
+            bool isRetired = _localDBService.CheckIfSubjectRetired(subject.Id);
+
             LoadSubject(subject);
             NotifySpaceView(RingNotifierStatus.IsCreating);
         }
