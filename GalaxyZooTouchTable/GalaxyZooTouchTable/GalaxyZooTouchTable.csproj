@@ -287,6 +287,9 @@
     <Compile Include="Views\MultiTouchButton.xaml.cs">
       <DependentUpon>MultiTouchButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RetiredSubjectModal.xaml.cs">
+      <DependentUpon>RetiredSubjectModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SpaceView.xaml.cs">
       <DependentUpon>SpaceView.xaml</DependentUpon>
     </Compile>
@@ -448,6 +451,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MultiTouchButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RetiredSubjectModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

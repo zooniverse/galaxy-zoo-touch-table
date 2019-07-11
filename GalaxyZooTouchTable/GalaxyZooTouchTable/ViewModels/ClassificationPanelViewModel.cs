@@ -3,7 +3,6 @@ using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using PanoptesNetClient.Models;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -361,6 +360,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
             bool isRetired = _localDBService.CheckIfSubjectRetired(Subjects[0].Id);
+
             LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
         }
