@@ -27,5 +27,6 @@ namespace GalaxyZooTouchTable.Services
         Task UpdateDBFromGraphQL(string id);
 
         void UpdateSubject(string id, ClassificationCounts counts);
+        bool CheckIfSubjectRetired(string id);
     }
 }

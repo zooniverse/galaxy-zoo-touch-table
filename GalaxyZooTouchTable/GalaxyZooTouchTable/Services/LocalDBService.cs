@@ -11,6 +11,7 @@ namespace GalaxyZooTouchTable.Services
 {
     public class LocalDBService : ILocalDBService
     {
+        readonly int RETIREMENT_LIMIT = 25;
         readonly string HighestRaQuery = "select * from Subjects order by ra desc limit 1";
         readonly string HighestDecQuery = "select * from Subjects order by dec desc limit 1";
         readonly string LowestRaQuery = "select * from Subjects order by ra asc limit 1";
@@ -257,6 +258,32 @@ namespace GalaxyZooTouchTable.Services
             string subFolder = filename.Substring(0, 4);
             string path = Path.Combine(folderPath, "Subjects", subFolder, $"{filename}.png");
             return File.Exists(path) ? path : null;
+        }
+
+        public bool CheckIfSubjectRetired(string id)
+        {
+            string query = GetCurrentClassificationCount(id);
+            bool isRetired = false;
+            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
+            {
+                try
+                {
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand(query, connection);
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int total = Convert.ToInt32(reader["classifications_count"]);
+                        isRetired = total >= RETIREMENT_LIMIT;
+                    }
+                }
+                catch (SQLiteException exception)
+                {
+                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
+                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
+                }
+            }
+            return isRetired;
         }
     }
 }

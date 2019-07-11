@@ -338,6 +338,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void LoadSubject(TableSubject subject)
         {
+            bool isRetired = _localDBService.CheckIfSubjectRetired(subject.Id);
             PrepareForNewClassification();
             CurrentSubject = subject;
             StartNewClassification(subject);
