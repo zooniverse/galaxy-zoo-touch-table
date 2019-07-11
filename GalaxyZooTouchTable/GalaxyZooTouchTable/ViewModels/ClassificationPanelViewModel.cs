@@ -220,6 +220,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void OnHideRetirementModal(object obj)
         {
             ShowRetirementModal = false;
+            StartStillThereModalTimer();
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -269,6 +270,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassifierOpen = false;
             CloseConfirmationViewModel.OnToggleCloseConfirmation(false);
             User.Active = false;
+            ShowRetirementModal = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
         }
@@ -387,7 +389,7 @@ namespace GalaxyZooTouchTable.ViewModels
             GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
-            if (_localDBService.CheckIfSubjectRetired(subject.Id))
+            if (true)
             {
                 GlobalData.GetInstance().Logger?.AddEntry("Hide_Retirement_Modal", User.Name, subject.Id, CurrentView);
                 ShowRetirementModal = true;
