@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GalaxyZooTouchTable"
              xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
-             xmlns:Models="clr-namespace:GalaxyZooTouchTable.Models"
              xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+             Startup="Application_Startup"
+             Exit="Application_Exit">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
