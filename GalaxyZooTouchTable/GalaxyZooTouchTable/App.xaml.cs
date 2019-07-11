@@ -1,4 +1,5 @@
-﻿using GalaxyZooTouchTable.ViewModels;
+﻿using GalaxyZooTouchTable.Lib;
+using GalaxyZooTouchTable.ViewModels;
 using System;
 using System.Windows;
 
@@ -18,6 +19,16 @@ namespace GalaxyZooTouchTable
 
             var mainWindow = new MainWindow(new MainWindowViewModel());
             mainWindow.Show();
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            GlobalData.GetInstance().EstablishLog();
+        }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            GlobalData.GetInstance().Logger?.FinalizeLog();
         }
     }
 }
