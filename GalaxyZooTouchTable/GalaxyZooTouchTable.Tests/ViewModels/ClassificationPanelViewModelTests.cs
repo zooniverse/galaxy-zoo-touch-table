@@ -23,6 +23,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _panoptesServiceMock.Setup(dp => dp.CreateClassificationAsync(It.IsAny<Classification>()))
                 .ReturnsAsync(new ClassificationCounts(1,0,0,1));
 
+            _localDBServiceMock.Setup(dp => dp.CheckIfSubjectRetired(It.IsAny<string>())).Returns(false);
             _localDBServiceMock.Setup(dp => dp.GetLocalSubject(It.IsAny<string>())).Returns(PanoptesServiceMockData.TableSubject());
             _localDBServiceMock.Setup(dp => dp.GetQueuedSubjects()).Returns(PanoptesServiceMockData.TableSubjects());
 
@@ -160,6 +161,34 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             _viewModel.ShowCloseConfirmation.Execute(null);
             Assert.True(_viewModel.ShowOverlay);
+        }
+
+        [Fact]
+        private void ShouldNotShowSubjectRetired()
+        {
+            _viewModel.Load();
+            _viewModel.DropSubject(PanoptesServiceMockData.TableSubject());
+            Assert.False(_viewModel.ShowRetirementModal);
+        }
+    }
+
+    public class ClassificationPanelRetiredSubjectTests
+    {
+        private ClassificationPanelViewModel _viewModel { get; set; }
+        private Mock<IPanoptesService> _panoptesServiceMock = new Mock<IPanoptesService>();
+        private Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
+
+        public ClassificationPanelRetiredSubjectTests()
+        {
+            _localDBServiceMock.Setup(dp => dp.CheckIfSubjectRetired(It.IsAny<string>())).Returns(true);
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
+        }
+
+        [Fact]
+        private void ShouldShowRetirementModal()
+        {
+            _viewModel.DropSubject(PanoptesServiceMockData.TableSubject());
+            Assert.True(_viewModel.ShowRetirementModal);
         }
     }
 }
