@@ -41,7 +41,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             Classifier = classifier;
             User = user;
-            CheckIntent = new CustomCommand(OnCheckIntent, CanCheckIntent);
+            CheckIntent = new CustomCommand(OnCheckIntent);
             ToggleCloseConfirmation = new CustomCommand(OnToggleCloseConfirmation);
             HideCloseConfirmation = new CustomCommand(OnHideCloseConfirmation);
             KeepClassifying = new CustomCommand(OnKeepClassifying);
@@ -69,7 +69,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCheckIntent(object obj)
         {
-            Intent = true;
+            Intent = !Intent;
             LogEvent("Intent");
         }
 
@@ -77,11 +77,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             bool? show = visible as bool?;
             IsVisible = show ?? !IsVisible;
-        }
-
-        private bool CanCheckIntent(object obj)
-        {
-            return !Intent;
         }
 
         void LogEvent(string entry)
