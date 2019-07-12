@@ -100,7 +100,7 @@
                 VerticalAlignment="Bottom"
                 Width="57"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,42">
+            <StackPanel Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,42">
                 <i:Interaction.Behaviors>
                     <Behaviors:TapBehavior Command="{Binding CheckIntent}"/>
                 </i:Interaction.Behaviors>
