@@ -91,20 +91,20 @@ namespace GalaxyZooTouchTable.Services
             double dec = Math.Round(location.Center.Declination, 3);
             SpaceCutout cutout = new SpaceCutout();
 
-            if (DECALSIsResponding)
-            {
-                using (WebResponse response = await FetchDECALSCutout(ra, dec, plateScale))
-                    if (response != null)
-                    {
-                        double RaStep = (location.RaRange / 3) + (location.RaRange * 0.049);
-                        double leftRA = Math.Round(location.Center.RightAscension + RaStep, 3);
-                        double rightRA = Math.Round(location.Center.RightAscension - RaStep, 3);
+            //if (DECALSIsResponding)
+            //{
+            //    using (WebResponse response = await FetchDECALSCutout(ra, dec, plateScale))
+            //        if (response != null)
+            //        {
+            //            double RaStep = (location.RaRange / 3) + (location.RaRange * 0.049);
+            //            double leftRA = Math.Round(location.Center.RightAscension + RaStep, 3);
+            //            double rightRA = Math.Round(location.Center.RightAscension - RaStep, 3);
 
-                        cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
-                        cutout.ImageTwo = BitmapFromUrl(SideDECALImage(plateScale, dec, leftRA));
-                        cutout.ImageThree = BitmapFromUrl(SideDECALImage(plateScale, dec, rightRA));
-                    }
-            }
+            //            cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
+            //            cutout.ImageTwo = BitmapFromUrl(SideDECALImage(plateScale, dec, leftRA));
+            //            cutout.ImageThree = BitmapFromUrl(SideDECALImage(plateScale, dec, rightRA));
+            //        }
+            //}
             if (SDSSIsResponding && cutout.ImageOne == null)
             {
                 using (WebResponse response = await FetchSDSSCutout(ra, dec, plateScale))

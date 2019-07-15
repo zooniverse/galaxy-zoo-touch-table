@@ -15,6 +15,7 @@ namespace GalaxyZooTouchTable.Lib
         public GalaxyAdorner(FrameworkElement adornedElement, Point offset)
           : base(adornedElement)
         {
+            RenderTransform = null;
             Offset = offset;
             DataContext = adornedElement.DataContext;
             IsHitTestVisible = false;

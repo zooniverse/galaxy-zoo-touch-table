@@ -6,8 +6,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Behaviors="clr-namespace:GalaxyZooTouchTable.Behaviors"
              mc:Ignorable="d" 
+             x:Name="MainItem"
+             RenderTransformOrigin="0.5,0.5"
              d:DesignHeight="100" d:DesignWidth="100">
-
     <UserControl.Resources>
         <Style x:Key="ColoredRing" TargetType="{x:Type Border}">
             <Setter Property="Opacity" Value="1"/>
@@ -26,6 +27,20 @@
                 <DataTrigger Binding="{Binding Path=CurrentlyClassifying}" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"/>
                 </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TileGrid" TargetType="{x:Type Grid}">
+            <Setter Property="Background" Value="Red"/>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Grid.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)"
+                                             To="100" Duration="0:0:1" RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
