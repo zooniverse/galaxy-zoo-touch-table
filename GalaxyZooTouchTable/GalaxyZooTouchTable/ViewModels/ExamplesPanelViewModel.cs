@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand SelectItem { get; private set; }
         public ICommand ToggleItem { get; private set; }
         public ICommand UnselectItem { get; private set; }
-        TableUser User { get; set; }
+        public TableUser User { get; set; }
 
         ClassificationPanelViewModel Classifier;
         public GalaxyExample Smooth { get; set; } = GalaxyExampleFactory.Create(GalaxyType.Smooth);
