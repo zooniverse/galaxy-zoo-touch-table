@@ -257,6 +257,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             IsSubmittingClassification = true; 
             CurrentClassification.Annotations.Add(CurrentAnnotation);
+            HandleCompletedClassification();
             ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
             ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
 
@@ -264,12 +265,12 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel.OnIncrementCount();
             GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
             OnChangeView(ClassifierViewEnum.SummaryView);
-            HandleCompletedClassification();
             IsSubmittingClassification = false;
         }
 
         void HandleCompletedClassification()
         {
+            if (SelectedAnswer == null || User == null || CurrentSubject == null) return;
             CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
             CompletedClassifications.Add(FinishedClassification);
             Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");
