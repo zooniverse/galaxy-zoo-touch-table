@@ -318,9 +318,9 @@ namespace GalaxyZooTouchTable.ViewModels
                 return;
             }
             PendingRequest Request = PendingRequests.FirstOrDefault();
-            if (Request == null) return;
             Overlay = null;
             NotificationPanel = null;
+            if (Request == null) return;
             ChangeView(ClassifierViewEnum.SubjectView);
             GetSubjectById(Request.SubjectId);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);
