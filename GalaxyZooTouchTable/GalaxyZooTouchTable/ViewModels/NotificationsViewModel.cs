@@ -317,8 +317,8 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowWarning);
                 return;
             }
-
-            PendingRequest Request = PendingRequests.First();
+            PendingRequest Request = PendingRequests.FirstOrDefault();
+            if (Request == null) return;
             Overlay = null;
             NotificationPanel = null;
             ChangeView(ClassifierViewEnum.SubjectView);
