@@ -56,7 +56,8 @@ namespace GalaxyZooTouchTable.Behaviors
                 TouchPoint touchPosition = e.GetTouchPoint(DragOverlay);
                 Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
                 FrameworkElement adornedElement = sender as FrameworkElement;
-                ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
+                if (initialPoint != null && adornedElement != null && e != null)
+                    ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
                 using (TableSubject subject = adornedElement.DataContext as TableSubject)
                     GlobalData.GetInstance().Logger?.AddEntry(entry: "Drag_Galaxy", subjectId: subject.Id);
             }
@@ -67,7 +68,9 @@ namespace GalaxyZooTouchTable.Behaviors
         {
             AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(adornedElement);
             GalaxyAdorner adorner = new GalaxyAdorner(adornedElement, initialPoint);
-            adornerLayer.Add(adorner);
+            if (adornerLayer != null && adorner != null)
+                adornerLayer.Add(adorner);
+            else return;
 
             EventHandler<TouchEventArgs> moveHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchMove(s, e, adorner));
             EventHandler<TouchEventArgs> upHandler = new EventHandler<TouchEventArgs>((s, evt) => DragDropContainer_TouchUp(s, evt, adorner, adornedElement));
