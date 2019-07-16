@@ -391,7 +391,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             if (_localDBService.CheckIfSubjectRetired(subject.Id))
             {
-                GlobalData.GetInstance().Logger?.AddEntry("Hide_Retirement_Modal", User.Name, subject.Id, CurrentView);
+                GlobalData.GetInstance().Logger?.AddEntry("Show_Retirement_Modal", User.Name, subject.Id, CurrentView);
                 ShowRetirementModal = true;
             }
             else
