@@ -34,7 +34,6 @@ namespace GalaxyZooTouchTable
             base.OnClosed(e);
 
             GlobalData.GetInstance().Logger?.FinalizeLog();
-            Application.Current.Dispatcher.InvokeShutdown();
         }
     }
 }
