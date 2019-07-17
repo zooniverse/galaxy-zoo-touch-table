@@ -50,16 +50,20 @@ namespace GalaxyZooTouchTable.Behaviors
                 var visual = e.OriginalSource as Visual;
                 DragOverlay = (DragCanvas)UIElementDragBehavior.FindAncestor(typeof(DragCanvas), visual);
             }
-
-            if (isTouchDown)
+            if (isTouchDown && DragOverlay != null)
             {
                 TouchPoint touchPosition = e.GetTouchPoint(DragOverlay);
-                Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
-                FrameworkElement adornedElement = sender as FrameworkElement;
-                if (initialPoint != null && adornedElement != null && e != null)
-                    ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
-                using (TableSubject subject = adornedElement.DataContext as TableSubject)
-                    GlobalData.GetInstance().Logger?.AddEntry(entry: "Drag_Galaxy", subjectId: subject.Id);
+                if (touchPosition != null)
+                {
+                    Point initialPoint = new Point(touchPosition.Position.X, touchPosition.Position.Y);
+                    FrameworkElement adornedElement = sender as FrameworkElement;
+                    if (initialPoint != null && adornedElement != null)
+                    {
+                        ConstructGhostAdornerWithHandlers(initialPoint, adornedElement, e);
+                        using (TableSubject subject = adornedElement.DataContext as TableSubject)
+                            GlobalData.GetInstance().Logger?.AddEntry(entry: "Drag_Galaxy", subjectId: subject?.Id);
+                    }
+                }
             }
             isTouchDown = false;
         }
