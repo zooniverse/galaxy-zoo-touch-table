@@ -85,10 +85,7 @@ namespace GalaxyZooTouchTable.Lib
                 // wait
             }
             WriteActiveBufferToFile();
-            while (writingInactiveBufferToFile)
-            {
-                // wait
-            }
+            WriteLinesToFile();
             Close();
         }
 
@@ -145,26 +142,31 @@ namespace GalaxyZooTouchTable.Lib
             }
         }
 
+        void WriteLinesToFile()
+        {
+            if (writingInactiveBufferToFile && isOpen)
+            {
+                foreach (String entry in inactiveEntryBuffer)
+                {
+                    log.WriteLine(entry);
+                }
+                inactiveEntryBuffer.Clear();
+                TimeSpan timeSinceLastCommit = DateTime.Now - lastCommitted;
+                if (timeSinceLastCommit > commitInterval)
+                {
+                    Close();
+                    Open();
+                    lastCommitted = DateTime.Now;
+                }
+                writingInactiveBufferToFile = false;
+            }
+        }
+
         public void WriteLoop()
         {
             while (true)
             {
-                if (writingInactiveBufferToFile && isOpen)
-                {
-                    foreach (String entry in inactiveEntryBuffer)
-                    {
-                        log.WriteLine(entry);
-                    }
-                    inactiveEntryBuffer.Clear();
-                    TimeSpan timeSinceLastCommit = DateTime.Now - lastCommitted;
-                    if (timeSinceLastCommit > commitInterval)
-                    {
-                        Close();
-                        Open();
-                        lastCommitted = DateTime.Now;
-                    }
-                    writingInactiveBufferToFile = false;
-                }
+                WriteLinesToFile();
                 Thread.Sleep(10000);
             }
         }
