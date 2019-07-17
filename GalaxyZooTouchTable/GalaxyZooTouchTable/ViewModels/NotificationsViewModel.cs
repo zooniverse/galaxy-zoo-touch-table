@@ -317,10 +317,10 @@ namespace GalaxyZooTouchTable.ViewModels
                 NotificationPanel = new NotificationPanel(NotificationPanelStatus.ShowWarning);
                 return;
             }
-
-            PendingRequest Request = PendingRequests.First();
+            PendingRequest Request = PendingRequests.FirstOrDefault();
             Overlay = null;
             NotificationPanel = null;
+            if (Request == null) return;
             ChangeView(ClassifierViewEnum.SubjectView);
             GetSubjectById(Request.SubjectId);
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Accepted);

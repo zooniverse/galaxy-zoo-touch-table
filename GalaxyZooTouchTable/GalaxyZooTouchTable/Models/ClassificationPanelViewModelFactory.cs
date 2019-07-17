@@ -11,22 +11,21 @@ namespace GalaxyZooTouchTable.Models
         private IGraphQLService _graphQLService;
         private IPanoptesService _panoptesService;
 
-        public ClassificationPanelViewModelFactory(IPanoptesService panoptesService, IGraphQLService graphQLService, ILocalDBService localDBService)
+        public ClassificationPanelViewModelFactory(IGraphQLService graphQLService, ILocalDBService localDBService)
         {
-            if (panoptesService == null || graphQLService == null || localDBService == null)
+            if (graphQLService == null || localDBService == null)
             {
                 throw new ArgumentNullException("RepoDependency");
             }
 
             _localDBService = localDBService;
             _graphQLService = graphQLService; 
-            _panoptesService = panoptesService;
         }
 
         public ClassificationPanelViewModel Create(UserType type)
         {
             TableUser User = AssignUser(type);
-            return new ClassificationPanelViewModel(_panoptesService, _localDBService, User);
+            return new ClassificationPanelViewModel(new PanoptesService(_localDBService), _localDBService, User);
         }
 
         private TableUser AssignUser(UserType type)

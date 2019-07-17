@@ -19,6 +19,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private ILocalDBService _localDBService;
         private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
         private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
+        private bool IsSubmittingClassification;
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public List<TableSubject> Subjects = new List<TableSubject>();
@@ -191,7 +192,12 @@ namespace GalaxyZooTouchTable.ViewModels
             OpenClassifier = new CustomCommand(OnOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
-            SubmitClassification = new CustomCommand(OnSubmitClassification);
+            SubmitClassification = new CustomCommand(OnSubmitClassification, CanSubmitClassification);
+        }
+
+        private bool CanSubmitClassification(object obj)
+        {
+            return !IsSubmittingClassification;
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -249,7 +255,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private async void OnSubmitClassification(object sender)
         {
+            IsSubmittingClassification = true; 
             CurrentClassification.Annotations.Add(CurrentAnnotation);
+            HandleCompletedClassification();
             ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
             ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
 
@@ -257,11 +265,12 @@ namespace GalaxyZooTouchTable.ViewModels
             LevelerViewModel.OnIncrementCount();
             GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
             OnChangeView(ClassifierViewEnum.SummaryView);
-            HandleCompletedClassification();
+            IsSubmittingClassification = false;
         }
 
         void HandleCompletedClassification()
         {
+            if (SelectedAnswer == null || User == null || CurrentSubject == null) return;
             CompletedClassification FinishedClassification = new CompletedClassification(SelectedAnswer, User, CurrentSubject.Id);
             CompletedClassifications.Add(FinishedClassification);
             Messenger.Default.Send(FinishedClassification, $"{User.Name}_AddCompletedClassification");

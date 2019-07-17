@@ -90,9 +90,6 @@
                 <DataTrigger Binding="{Binding Path=Opacity, RelativeSource={RelativeSource Self}}" Value="0">
                     <Setter Property="Visibility" Value="Hidden"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -279,9 +276,6 @@
                 <DataTrigger Binding="{Binding Path=IsSelected}" Value="True">
                     <Setter Property="Visibility" Value="Visible"/>
                 </DataTrigger>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
             </Style.Triggers>
         </Style>
 
@@ -310,11 +304,6 @@
             <Setter Property="Width" Value="100"/>
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Background" Value="{StaticResource DarkGrayColor}"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
-                    <Setter Property="Visibility" Value="Hidden"/>
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style x:Key="HidingGridSeparators" BasedOn="{StaticResource GridSeparators}" TargetType="{x:Type Separator}">
@@ -337,16 +326,6 @@
             <Setter Property="Panel.ZIndex" Value="1"/>
             <Setter Property="Canvas.Top" Value="28"/>
             <Setter Property="Canvas.Left" Value="123"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsOpen}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard Storyboard="{StaticResource FadeOutStoryboard}"/>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard Storyboard="{StaticResource FadeInStoryboard}"/>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
         </Style>
 
         <Style x:Key="ToggleText" BasedOn="{StaticResource ExampleText}" TargetType="{x:Type TextBlock}">
