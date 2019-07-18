@@ -29,20 +29,6 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-
-        <Style x:Key="TileGrid" TargetType="{x:Type Grid}">
-            <Setter Property="Background" Value="Red"/>
-            <Style.Triggers>
-                <EventTrigger RoutedEvent="Grid.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="(Grid.RenderTransform).(RotateTransform.Angle)"
-                                             To="100" Duration="0:0:1" RepeatBehavior="Forever"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
 
     <Grid x:Name="TileGrid">
@@ -58,10 +44,7 @@
             </i:Interaction.Behaviors>
             <Image Opacity="0.5" Width="30" Height="30" Source="{Binding SubjectLocation}"/>
         </Border>
-        <ItemsControl x:Name="RingCollection" RenderTransformOrigin="0.5,0.5" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding GalaxyRings}">
-            <ItemsControl.RenderTransform>
-                <RotateTransform Angle="0"/>
-            </ItemsControl.RenderTransform>
+        <ItemsControl x:Name="RingCollection" SizeChanged="RingCollection_SizeChanged" ItemsSource="{Binding GalaxyRings}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid VerticalAlignment="Center" HorizontalAlignment="Center"/>
