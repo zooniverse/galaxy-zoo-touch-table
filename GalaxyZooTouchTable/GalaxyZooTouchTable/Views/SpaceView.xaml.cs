@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.Views
 {
@@ -14,12 +15,22 @@ namespace GalaxyZooTouchTable.Views
     public partial class SpaceView : UserControl
     {
         SpaceViewModel ViewModel { get; set; }
+        DispatcherTimer Timer = new DispatcherTimer();
 
         public SpaceView()
         {
             InitializeComponent();
             ViewModel = DataContext as SpaceViewModel;
             ViewModel.AnimateMovement += AnimateCutoutMovement;
+
+            Timer.Tick += new EventHandler(PulseGalaxies);
+            Timer.Interval = new TimeSpan(0, 0, 10);
+            Timer.Start();
+        }
+
+        private void PulseGalaxies(object sender, EventArgs e)
+        {
+            Messenger.Default.Send(sender, "Pulse_Galaxies");
         }
 
         void AnimateCutoutMovement(CardinalDirectionEnum direction)
@@ -124,6 +135,12 @@ namespace GalaxyZooTouchTable.Views
             storyboard.Children.Add(animateIn);
 
             storyboard.Begin(this);
+        }
+
+        private void ResetGalaxyPulseTimer(object sender, System.Windows.Input.TouchEventArgs e)
+        {
+            Timer.Stop();
+            Timer.Start();
         }
     }
 }

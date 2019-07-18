@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaxyZooTouchTable.Lib;
+using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -17,13 +18,10 @@ namespace GalaxyZooTouchTable.Views
         public GalaxyTileView()
         {
             InitializeComponent();
-
-            Timer.Tick += new EventHandler(AddPulse);
-            Timer.Interval = new TimeSpan(0, 0, 10);
-            Timer.Start();
+            Messenger.Default.Register<object>(this, OnPulseGalaxies, "Pulse_Galaxies");
         }
 
-        private void AddPulse(object sender, EventArgs e)
+        private void OnPulseGalaxies(object obj)
         {
             Storyboard storyboard = new Storyboard();
             ScaleTransform scale = new ScaleTransform(1.0, 1.0);

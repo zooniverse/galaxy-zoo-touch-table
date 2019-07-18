@@ -59,7 +59,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Border BorderBrush="#3C3C3C" BorderThickness="2" Background="Black">
+    <Border BorderBrush="#3C3C3C" BorderThickness="2" Background="Black" TouchUp="ResetGalaxyPulseTimer">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="0" BlurRadius="25"/>
         </Border.Effect>
