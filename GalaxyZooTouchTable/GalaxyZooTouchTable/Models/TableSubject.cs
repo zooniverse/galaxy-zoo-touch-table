@@ -10,6 +10,7 @@ namespace GalaxyZooTouchTable.Models
 {
     public class TableSubject : ViewModelBase,  IDisposable
     {
+        readonly int RETIRED_LIMIT = 25;
         SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -31,7 +32,7 @@ namespace GalaxyZooTouchTable.Models
 
         SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
-        public TableSubject(string id, string location, double ra, double dec, SpaceNavigation currentLocation = null)
+        public TableSubject(string id, string location, double ra, double dec, int classificationCount, SpaceNavigation currentLocation = null)
         {
             CurrentLocation = currentLocation;
             GalaxyRings.Add(new GalaxyRing());
@@ -41,6 +42,7 @@ namespace GalaxyZooTouchTable.Models
             Declination = dec;
             SubjectLocation = location;
             if (currentLocation != null) XYConvert();
+            IsRetired = classificationCount >= RETIRED_LIMIT;
         }
 
         private void XYConvert()

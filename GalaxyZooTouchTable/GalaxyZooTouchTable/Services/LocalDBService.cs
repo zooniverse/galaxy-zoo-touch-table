@@ -55,7 +55,8 @@ namespace GalaxyZooTouchTable.Services
                         string image = CheckLocalPath(filename) ?? reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
-                        RetrievedSubject = new TableSubject(id, image, ra, dec);
+                        int classificationCount = Convert.ToInt32(reader["classifications_count"]);
+                        RetrievedSubject = new TableSubject(id, image, ra, dec, classificationCount);
                     }
                     connection.Close();
                 } catch (SQLiteException exception)
@@ -98,7 +99,8 @@ namespace GalaxyZooTouchTable.Services
                         string image = CheckLocalPath(filename) ?? reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
-                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec, currentLocation);
+                        int classificationCount = Convert.ToInt32(reader["classifications_count"]);
+                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec, classificationCount, currentLocation);
                         Subjects.Add(RetrievedSubject);
                     }
 

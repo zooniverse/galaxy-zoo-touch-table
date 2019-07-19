@@ -15,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
+        readonly int RETIRED_LIMIT = 25;
         private IPanoptesService _panoptesService;
         private ILocalDBService _localDBService;
         private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
@@ -284,9 +285,7 @@ namespace GalaxyZooTouchTable.ViewModels
             HandleCompletedClassification();
             ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
             ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
-
-            CurrentSubject.IsRetired = true;
-
+            if (counts.Total >= RETIRED_LIMIT) CurrentSubject.IsRetired = true;
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
             GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
@@ -391,7 +390,7 @@ namespace GalaxyZooTouchTable.ViewModels
             GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
-            if (_localDBService.CheckIfSubjectRetired(subject.Id))
+            if (subject.IsRetired)
             {
                 GlobalData.GetInstance().Logger?.AddEntry("Show_Retirement_Modal", User.Name, subject.Id, CurrentView);
                 ShowRetirementModal = true;
