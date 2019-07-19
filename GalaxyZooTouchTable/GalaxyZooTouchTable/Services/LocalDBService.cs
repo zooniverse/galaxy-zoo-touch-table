@@ -14,6 +14,7 @@ namespace GalaxyZooTouchTable.Services
     {
         readonly int RETIREMENT_LIMIT = 25;
         readonly string QueuedSubjectsQuery = "select * from Subjects order by classifications_count asc, random() limit 10";
+        readonly string QueuedSubjectQuery = "select * from Subjects order by classifications_count asc, random() limit 1";
         string HighestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra desc limit 1"; }
         string HighestDecQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by dec desc limit 1"; }
         string LowestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra asc limit 1"; }
@@ -156,22 +157,22 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint FindNextAscendingRa(double bounds)
         {
-            return GetPoint(NextAscendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestRaQuery(RETIREMENT_LIMIT));
+            return GetPoint(NextAscendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestRaQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextDescendingRa(double bounds)
         {
-            return GetPoint(NextDescendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestRaQuery(RETIREMENT_LIMIT));
+            return GetPoint(NextDescendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestRaQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextAscendingDec(double bounds)
         {
-            return GetPoint(NextAscendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestDecQuery(RETIREMENT_LIMIT));
+            return GetPoint(NextAscendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestDecQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextDescendingDec(double bounds)
         {
-            return GetPoint(NextDescendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestDecQuery(RETIREMENT_LIMIT));
+            return GetPoint(NextDescendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestDecQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public ClassificationCounts IncrementClassificationCount(Classification classification)
