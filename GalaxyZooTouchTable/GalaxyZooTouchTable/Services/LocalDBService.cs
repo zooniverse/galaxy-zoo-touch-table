@@ -23,7 +23,7 @@ namespace GalaxyZooTouchTable.Services
         string NextAscendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra > {bounds} and classifications_count < {limit} order by ra asc limit 1"; }
         string NextDescendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra < {bounds} and classifications_count < {limit} order by ra desc limit 1"; }
         string NextAscendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec > {bounds} and classifications_count < {limit} order by dec asc limit 1"; }
-        string NextDescendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec < {bounds} classifications_count < {limit} order by dec desc limit 1"; }
+        string NextDescendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec < {bounds} and classifications_count < {limit} order by dec desc limit 1"; }
         string GetCurrentClassificationCount(string id) { return $"select * from Subjects where subject_id = {id}"; }
         string UpdateSubjectCounts(string id, ClassificationCounts counts) { return $"update Subjects set classifications_count = {counts.Total}, smooth = {counts.Smooth}, features = {counts.Features}, star = {counts.Star} where subject_id = {id}"; } 
 

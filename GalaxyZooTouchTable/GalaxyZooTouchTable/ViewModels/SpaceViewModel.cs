@@ -183,14 +183,14 @@ namespace GalaxyZooTouchTable.ViewModels
         private async void SetPeripheralItems()
         {
             CanMoveMap = false;
-            PeripheralItems.Northern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextNorthernPoint()));
-            PeripheralItems.Southern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextSouthernPoint()));
-            PeripheralItems.Eastern = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextEasternPoint()));
-            PeripheralItems.Western = await GetPeripheralItem(new SpaceNavigation(CurrentLocation.NextWesternPoint()));
+            PeripheralItems.Northern = await GetPeripheralNorth(new SpaceNavigation(CurrentLocation.NextNorthernPoint()));
+            PeripheralItems.Southern = await GetPeripheralSouth(new SpaceNavigation(CurrentLocation.NextSouthernPoint()));
+            PeripheralItems.Eastern = await GetPeripheralEast(new SpaceNavigation(CurrentLocation.NextEasternPoint()));
+            PeripheralItems.Western = await GetPeripheralWest(new SpaceNavigation(CurrentLocation.NextWesternPoint()));
             CanMoveMap = true;
         }
 
-        private async Task<PeripheralItem> GetPeripheralItem(SpaceNavigation location)
+        private async Task<PeripheralItem> GetPeripheralNorth(SpaceNavigation location)
         {
             PeripheralItem periphery = new PeripheralItem(location);
             periphery.Galaxies = _localDBService.GetLocalSubjects(location);
@@ -198,6 +198,48 @@ namespace GalaxyZooTouchTable.ViewModels
             if (periphery.Galaxies.Count == 0)
             {
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingDec(location.MaxDec));
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+            }
+            periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
+            return periphery;
+        }
+
+        private async Task<PeripheralItem> GetPeripheralSouth(SpaceNavigation location)
+        {
+            PeripheralItem periphery = new PeripheralItem(location);
+            periphery.Galaxies = _localDBService.GetLocalSubjects(location);
+
+            if (periphery.Galaxies.Count == 0)
+            {
+                periphery.Location = new SpaceNavigation(_localDBService.FindNextDescendingDec(location.MinDec));
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+            }
+            periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
+            return periphery;
+        }
+
+        private async Task<PeripheralItem> GetPeripheralEast(SpaceNavigation location)
+        {
+            PeripheralItem periphery = new PeripheralItem(location);
+            periphery.Galaxies = _localDBService.GetLocalSubjects(location);
+
+            if (periphery.Galaxies.Count == 0)
+            {
+                periphery.Location = new SpaceNavigation(_localDBService.FindNextDescendingRa(location.MinRa));
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+            }
+            periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
+            return periphery;
+        }
+
+        private async Task<PeripheralItem> GetPeripheralWest(SpaceNavigation location)
+        {
+            PeripheralItem periphery = new PeripheralItem(location);
+            periphery.Galaxies = _localDBService.GetLocalSubjects(location);
+
+            if (periphery.Galaxies.Count == 0)
+            {
+                periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingRa(location.MaxRa));
                 periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
             }
             periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
