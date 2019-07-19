@@ -7,8 +7,8 @@
              d:DesignHeight="366"
              d:DesignWidth="551"
              x:Name="MainConsole"
-             Height="325"
-             Width="547"
+             Height="375"
+             Width="647"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -39,12 +39,23 @@
     </UserControl.Resources>
 
     <Grid x:Name="ControlPanel">
+        
         <local:StartButton VerticalAlignment="Bottom"/>
 
-        <local:ClassificationPanel Margin="0,0,0,10" Style="{StaticResource ClassificationPanelStyle}">
+        <local:ClassificationPanel Margin="0,0,0,10" Style="{StaticResource ClassificationPanelStyle}" VerticalAlignment="Bottom">
             <local:ClassificationPanel.RenderTransform>
                 <TranslateTransform Y="{Binding Path=ActualHeight, ElementName=MainConsole, Converter={StaticResource HidePanelConverter}, ConverterParameter='1.05'}"/>
             </local:ClassificationPanel.RenderTransform>
         </local:ClassificationPanel>
+        <Ellipse x:Name="Aura" Width="100" Height="100" VerticalAlignment="Bottom" Margin="0,0,0,0">
+            <Ellipse.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                    <RadialGradientBrush.GradientStops>
+                        <GradientStop Color="Red" Offset="0.5"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </RadialGradientBrush.GradientStops>
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
     </Grid>
 </UserControl>

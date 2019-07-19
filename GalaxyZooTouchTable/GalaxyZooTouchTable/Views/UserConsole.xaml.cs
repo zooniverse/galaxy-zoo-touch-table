@@ -1,3 +1,4 @@
+using GalaxyZooTouchTable.ViewModels;
 using System.Windows.Controls;
 
 namespace GalaxyZooTouchTable
