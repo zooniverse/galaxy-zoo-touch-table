@@ -152,6 +152,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseConfirmationViewModel.EndSession += OnCloseClassifier;
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
+            LevelerViewModel.LevelUpAnimation += OnLevelUpAnimation;
             Notifications.PropertyChanged += ResetStillThereModalTimer;
 
             Notifications.GetSubjectById += OnGetSubjectById;
@@ -165,6 +166,8 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassificationSummaryViewModel.ChooseAnotherGalaxyDelegate += OnChooseAnotherGalaxy;
             ClassificationSummaryViewModel.DropSubjectDelegate += DropSubject;
         }
+
+        private void OnLevelUpAnimation() { LevelUpAnimation(); }
 
         private void OnChooseAnotherGalaxy()
         {
@@ -218,7 +221,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             SelectedAnswer = sender as AnswerButton;
             CurrentAnnotation = new Annotation(Workflow.FirstTask, SelectedAnswer.Index);
-            LevelUpAnimation();
         }
 
         public void OnGetSubjectById(string subjectID)
