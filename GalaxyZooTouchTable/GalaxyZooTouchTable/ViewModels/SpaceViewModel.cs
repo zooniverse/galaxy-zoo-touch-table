@@ -4,6 +4,7 @@ using GalaxyZooTouchTable.Services;
 using GalaxyZooTouchTable.Utility;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -75,13 +76,25 @@ namespace GalaxyZooTouchTable.ViewModels
             _localDBService = localDBService;
             _cutoutService = cutoutService;
 
+            LoadSpace();
+            LoadCommands();
+            Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
+            Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
+            Messenger.Default.Register<bool>(this, OnFlipCenterpiece, "TableStateChanged");
+        }
+
+        private void LoadSpace()
+        {
             CurrentLocation = new SpaceNavigation(_localDBService.GetRandomPoint());
             CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation);
             SetSpaceCutout();
             SetPeripheralItems();
-            LoadCommands();
-            Messenger.Default.Register<ClassificationRingNotifier>(this, OnGalaxyInteraction);
-            Messenger.Default.Register<string>(this, OnShowError, "DatabaseError");
+        }
+
+        private void OnFlipCenterpiece(bool SpaceIsHidden)
+        {
+            if (SpaceIsHidden && CurrentGalaxies.All(subject=>subject.IsRetired))
+                LoadSpace();
         }
 
         private void OnGalaxyInteraction(ClassificationRingNotifier RingNotifier)
