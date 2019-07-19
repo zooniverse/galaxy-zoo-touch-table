@@ -72,16 +72,16 @@ namespace GalaxyZooTouchTable.Services
 
         public List<TableSubject> GetQueuedSubjects()
         {
-            return GetSubjects(QueuedSubjectsQuery);
+            return GetSubjects(QueuedSubjectsQuery, true);
         }
 
-        public List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation)
+        public List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation, bool returnIfRetired = false)
         {
             string query = SubjectsWithinBoundsQuery(currentLocation);
-            return GetSubjects(query, currentLocation);
+            return GetSubjects(query, returnIfRetired, currentLocation);
         }
 
-        public List<TableSubject> GetSubjects(string query, SpaceNavigation currentLocation = null)
+        public List<TableSubject> GetSubjects(string query, bool returnIfRetired, SpaceNavigation currentLocation = null)
         {
             List<string> idsToUpdate = new List<string>();
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
@@ -113,7 +113,11 @@ namespace GalaxyZooTouchTable.Services
                     Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
                 UpdateDBFromIds(idsToUpdate);
-                return Subjects.Any(subject => !subject.IsRetired) ? Subjects : new List<TableSubject>();
+
+                if (returnIfRetired)
+                    return Subjects;
+                else
+                    return Subjects.Any(subject => !subject.IsRetired) ? Subjects : new List<TableSubject>();
             }
         }
 
@@ -152,7 +156,7 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint GetRandomPoint()
         {
-            return GetPoint(RandomSubjectQuery(RETIREMENT_LIMIT)) ?? new SpacePoint(0,0);
+            return GetPoint(RandomSubjectQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextAscendingRa(double bounds)

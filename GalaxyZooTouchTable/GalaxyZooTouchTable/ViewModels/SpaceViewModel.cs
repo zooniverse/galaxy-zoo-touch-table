@@ -86,7 +86,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void LoadSpace()
         {
             CurrentLocation = new SpaceNavigation(_localDBService.GetRandomPoint());
-            CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation);
+            CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation, true);
             SetSpaceCutout();
             SetPeripheralItems();
         }
@@ -211,7 +211,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (periphery.Galaxies.Count == 0)
             {
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingDec(location.MaxDec));
-                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location, true);
             }
             periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
             return periphery;
@@ -225,7 +225,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (periphery.Galaxies.Count == 0)
             {
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextDescendingDec(location.MinDec));
-                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location, true);
             }
             periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
             return periphery;
@@ -239,7 +239,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (periphery.Galaxies.Count == 0)
             {
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextDescendingRa(location.MinRa));
-                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location, true);
             }
             periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
             return periphery;
@@ -253,7 +253,7 @@ namespace GalaxyZooTouchTable.ViewModels
             if (periphery.Galaxies.Count == 0)
             {
                 periphery.Location = new SpaceNavigation(_localDBService.FindNextAscendingRa(location.MaxRa));
-                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location);
+                periphery.Galaxies = _localDBService.GetLocalSubjects(periphery.Location, true);
             }
             periphery.Cutout = await _cutoutService.GetSpaceCutout(periphery.Location);
             return periphery;

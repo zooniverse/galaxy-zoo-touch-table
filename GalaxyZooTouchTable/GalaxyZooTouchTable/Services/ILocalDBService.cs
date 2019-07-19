@@ -9,7 +9,7 @@ namespace GalaxyZooTouchTable.Services
     {
         TableSubject GetLocalSubject(string id);
 
-        List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation);
+        List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation, bool returnIfRetired = false);
         List<TableSubject> GetQueuedSubjects();
         List<TableSubject> GetSubjects(string query, SpaceNavigation currentLocation = null);
 
