@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32.SafeHandles;
+﻿using GalaxyZooTouchTable.ViewModels;
+using Microsoft.Win32.SafeHandles;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.ObjectModel;
@@ -7,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace GalaxyZooTouchTable.Models
 {
-    public class TableSubject : IDisposable
+    public class TableSubject : ViewModelBase,  IDisposable
     {
         SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
@@ -20,6 +21,14 @@ namespace GalaxyZooTouchTable.Models
         public ObservableCollection<GalaxyRing> GalaxyRings { get; set; } = new ObservableCollection<GalaxyRing>();
         public string Id { get; set; }
         bool disposed = false;
+
+        private bool _isRetired = false;
+        public bool IsRetired
+        {
+            get => _isRetired;
+            set => SetProperty(ref _isRetired, value);
+        }
+
         SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public TableSubject(string id, string location, double ra, double dec, SpaceNavigation currentLocation = null)

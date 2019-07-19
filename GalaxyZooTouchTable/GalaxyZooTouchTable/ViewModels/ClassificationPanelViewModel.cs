@@ -285,6 +285,8 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
             ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
 
+            CurrentSubject.IsRetired = true;
+
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
             GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
