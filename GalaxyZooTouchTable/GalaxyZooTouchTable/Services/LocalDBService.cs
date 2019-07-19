@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
@@ -12,17 +13,17 @@ namespace GalaxyZooTouchTable.Services
     public class LocalDBService : ILocalDBService
     {
         readonly int RETIREMENT_LIMIT = 25;
-        readonly string HighestRaQuery = "select * from Subjects order by ra desc limit 1";
-        readonly string HighestDecQuery = "select * from Subjects order by dec desc limit 1";
-        readonly string LowestRaQuery = "select * from Subjects order by ra asc limit 1";
-        readonly string LowestDecQuery = "select * from Subjects order by dec asc limit 1";
         readonly string QueuedSubjectsQuery = "select * from Subjects order by classifications_count asc, random() limit 10";
-        readonly string RandomSubjectQuery = "select * from Subjects order by random() limit 1";
+        string HighestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra desc limit 1"; }
+        string HighestDecQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by dec desc limit 1"; }
+        string LowestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra asc limit 1"; }
+        string LowestDecQuery(int limit) { return $"select * from Subjects order by dec asc limit 1"; }
+        string RandomSubjectQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by random() limit 1"; }
         string SubjectByIdQuery(string id) { return $"select * from Subjects where subject_id = {id}"; }
-        string NextAscendingRaQuery(double bounds) { return $"select * from Subjects where ra > {bounds} order by ra asc limit 1"; }
-        string NextDescendingRaQuery(double bounds) { return $"select * from Subjects where ra < {bounds} order by ra desc limit 1"; }
-        string NextAscendingDecQuery(double bounds) { return $"select * from Subjects where dec > {bounds} order by dec asc limit 1"; }
-        string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
+        string NextAscendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra > {bounds} and classifications_count < {limit} order by ra asc limit 1"; }
+        string NextDescendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra < {bounds} and classifications_count < {limit} order by ra desc limit 1"; }
+        string NextAscendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec > {bounds} and classifications_count < {limit} order by dec asc limit 1"; }
+        string NextDescendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec < {bounds} classifications_count < {limit} order by dec desc limit 1"; }
         string GetCurrentClassificationCount(string id) { return $"select * from Subjects where subject_id = {id}"; }
         string UpdateSubjectCounts(string id, ClassificationCounts counts) { return $"update Subjects set classifications_count = {counts.Total}, smooth = {counts.Smooth}, features = {counts.Features}, star = {counts.Star} where subject_id = {id}"; } 
 
@@ -111,7 +112,7 @@ namespace GalaxyZooTouchTable.Services
                     Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
                 UpdateDBFromIds(idsToUpdate);
-                return Subjects;
+                return Subjects.Any(subject => !subject.IsRetired) ? Subjects : new List<TableSubject>();
             }
         }
 
@@ -150,27 +151,27 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint GetRandomPoint()
         {
-            return GetPoint(RandomSubjectQuery) ?? new SpacePoint(0,0);
+            return GetPoint(RandomSubjectQuery(RETIREMENT_LIMIT)) ?? new SpacePoint(0,0);
         }
 
         public SpacePoint FindNextAscendingRa(double bounds)
         {
-            return GetPoint(NextAscendingRaQuery(bounds)) ?? GetPoint(LowestRaQuery);
+            return GetPoint(NextAscendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestRaQuery(RETIREMENT_LIMIT));
         }
 
         public SpacePoint FindNextDescendingRa(double bounds)
         {
-            return GetPoint(NextDescendingRaQuery(bounds)) ?? GetPoint(HighestRaQuery);
+            return GetPoint(NextDescendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestRaQuery(RETIREMENT_LIMIT));
         }
 
         public SpacePoint FindNextAscendingDec(double bounds)
         {
-            return GetPoint(NextAscendingDecQuery(bounds)) ?? GetPoint(LowestDecQuery);
+            return GetPoint(NextAscendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestDecQuery(RETIREMENT_LIMIT));
         }
 
         public SpacePoint FindNextDescendingDec(double bounds)
         {
-            return GetPoint(NextDescendingDecQuery(bounds)) ?? GetPoint(HighestDecQuery);
+            return GetPoint(NextDescendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestDecQuery(RETIREMENT_LIMIT));
         }
 
         public ClassificationCounts IncrementClassificationCount(Classification classification)
@@ -260,32 +261,6 @@ namespace GalaxyZooTouchTable.Services
             string subFolder = filename.Substring(0, 4);
             string path = Path.Combine(folderPath, "Subjects", subFolder, $"{filename}.png");
             return File.Exists(path) ? path : null;
-        }
-
-        public bool CheckIfSubjectRetired(string id)
-        {
-            string query = GetCurrentClassificationCount(id);
-            bool isRetired = false;
-            using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
-            {
-                try
-                {
-                    connection.Open();
-                    SQLiteCommand command = new SQLiteCommand(query, connection);
-                    SQLiteDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        int total = Convert.ToInt32(reader["classifications_count"]);
-                        isRetired = total >= RETIREMENT_LIMIT;
-                    }
-                }
-                catch (SQLiteException exception)
-                {
-                    string ErrorMessage = $"Error Connecting to Database. Error: {exception.Message}";
-                    Messenger.Default.Send(ErrorMessage, "DatabaseError");
-                }
-            }
-            return isRetired;
         }
     }
 }
