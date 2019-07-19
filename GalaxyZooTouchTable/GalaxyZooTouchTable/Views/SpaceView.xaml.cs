@@ -24,6 +24,8 @@ namespace GalaxyZooTouchTable.Views
             ViewModel.AnimateMovement += AnimateCutoutMovement;
 
             Timer.Tick += new EventHandler(PulseGalaxies);
+            Timer.Tick += new EventHandler(PulseButtons);
+
             Timer.Interval = new TimeSpan(0, 0, 10);
             Timer.Start();
         }
@@ -31,6 +33,27 @@ namespace GalaxyZooTouchTable.Views
         private void PulseGalaxies(object sender, EventArgs e)
         {
             Messenger.Default.Send(sender, "Pulse_Galaxies");
+        }
+
+        private void PulseButtons(object sender, EventArgs e)
+        {
+            DoubleAnimation expandHeight = new DoubleAnimation(24, 32, TimeSpan.FromSeconds(0.75));
+            DoubleAnimation expandWidth = new DoubleAnimation(94, 110, TimeSpan.FromSeconds(0.75));
+            expandHeight.AutoReverse = expandWidth.AutoReverse = true;
+            expandHeight.RepeatBehavior = expandWidth.RepeatBehavior = new RepeatBehavior(2);
+            expandHeight.EasingFunction = expandWidth.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn };
+
+            MoveMapNorth.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapNorth.BeginAnimation(WidthProperty, expandWidth);
+
+            MoveMapSouth.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapSouth.BeginAnimation(WidthProperty, expandWidth);
+
+            MoveMapEast.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapEast.BeginAnimation(WidthProperty, expandWidth);
+
+            MoveMapWest.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapWest.BeginAnimation(WidthProperty, expandWidth);
         }
 
         void AnimateCutoutMovement(CardinalDirectionEnum direction)

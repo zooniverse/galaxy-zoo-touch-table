@@ -21,6 +21,7 @@
             <Setter Property="CornerRadius" Value="3"/>
             <Setter Property="Background" Value="{StaticResource SuccessColor}"/>
             <Setter Property="Margin" Value="10"/>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
         </Style>
 
         <Style x:Key="MoveMapText" TargetType="{x:Type TextBlock}">
@@ -98,58 +99,67 @@
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
 
-            <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding MoveViewNorth}"/>
-                </i:Interaction.Behaviors>
-                <Border.LayoutTransform>
-                    <RotateTransform Angle="180"/>
-                </Border.LayoutTransform>
-                <StackPanel Orientation="Horizontal" Margin="10,0">
-                    <TextBlock Style="{StaticResource MoveMapText}"/>
-                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
-                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
-                </StackPanel>
+            <Border Height="55" Width="135" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Border x:Name="MoveMapNorth" Style="{StaticResource MoveMapBorder}">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding MoveViewNorth}"/>
+                    </i:Interaction.Behaviors>
+                    <Border.LayoutTransform>
+                        <RotateTransform Angle="180"/>
+                    </Border.LayoutTransform>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource MoveMapText}"/>
+                        <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                        <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Border>
             </Border>
 
-            <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding MoveViewEast}"/>
-                </i:Interaction.Behaviors>
-                <Border.LayoutTransform>
-                    <RotateTransform Angle="-90"/>
-                </Border.LayoutTransform>
-                <StackPanel Orientation="Horizontal" Margin="10,0">
-                    <TextBlock Style="{StaticResource MoveMapText}"/>
-                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
-                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
-                </StackPanel>
+            <Border Height="135" Width="55" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Border x:Name="MoveMapEast" Style="{StaticResource MoveMapBorder}">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding MoveViewEast}"/>
+                    </i:Interaction.Behaviors>
+                    <Border.LayoutTransform>
+                        <RotateTransform Angle="-90"/>
+                    </Border.LayoutTransform>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource MoveMapText}"/>
+                        <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                        <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Border>
             </Border>
 
-            <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding MoveViewWest}"/>
-                </i:Interaction.Behaviors>
-                <Border.LayoutTransform>
-                    <RotateTransform Angle="90"/>
-                </Border.LayoutTransform>
-                <StackPanel Orientation="Horizontal" Margin="10,0">
-                    <TextBlock Style="{StaticResource MoveMapText}"/>
-                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
-                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
-                </StackPanel>
+            <Border Width="55" Height="135" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <Border x:Name="MoveMapWest" Style="{StaticResource MoveMapBorder}">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding MoveViewWest}"/>
+                    </i:Interaction.Behaviors>
+                    <Border.LayoutTransform>
+                        <RotateTransform Angle="90"/>
+                    </Border.LayoutTransform>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource MoveMapText}"/>
+                        <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                        <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Border>
             </Border>
 
-            <Border Style="{StaticResource MoveMapBorder}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <i:Interaction.Behaviors>
-                    <Behaviors:TapBehavior Command="{Binding MoveViewSouth}"/>
-                </i:Interaction.Behaviors>
-                <StackPanel Orientation="Horizontal" Margin="10,0">
-                    <TextBlock Style="{StaticResource MoveMapText}"/>
-                    <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
-                    <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
-                </StackPanel>
+            <Border Width="135" Height="55" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Border x:Name="MoveMapSouth" Style="{StaticResource MoveMapBorder}">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:TapBehavior Command="{Binding MoveViewSouth}"/>
+                    </i:Interaction.Behaviors>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource MoveMapText}"/>
+                        <fa:ImageAwesome Style="{StaticResource LoadingSpinner}" Icon="Refresh" Spin="True" Height="12" Width="12" Margin="10,0,0,0"/>
+                        <fa:ImageAwesome Style="{StaticResource DownArrow}" Icon="ArrowDown" Height="10" Width="10" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Border>
             </Border>
+            
             <StackPanel Style="{StaticResource ErrorPanel}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="Red"/>
                 <Button Content="X" Command="{Binding HideError}" Foreground="White" Background="Transparent" Margin="5,0" BorderThickness="0"/>
