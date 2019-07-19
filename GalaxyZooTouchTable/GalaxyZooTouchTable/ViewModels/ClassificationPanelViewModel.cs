@@ -31,6 +31,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
+        public event Action LevelUpAnimation = delegate { };
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -217,6 +218,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             SelectedAnswer = sender as AnswerButton;
             CurrentAnnotation = new Annotation(Workflow.FirstTask, SelectedAnswer.Index);
+            LevelUpAnimation();
         }
 
         public void OnGetSubjectById(string subjectID)
