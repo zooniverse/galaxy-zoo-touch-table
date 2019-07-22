@@ -11,7 +11,7 @@ namespace GalaxyZooTouchTable.Services
 
         List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation, bool returnIfRetired = false);
         List<TableSubject> GetQueuedSubjects();
-        List<TableSubject> GetSubjects(string query, SpaceNavigation currentLocation = null);
+        List<TableSubject> GetSubjects(string query, bool returnIfRetired, SpaceNavigation currentLocation = null);
 
         SpacePoint FindNextAscendingRa(double raLowerBounds);
         SpacePoint FindNextDescendingRa(double raUpperBounds);

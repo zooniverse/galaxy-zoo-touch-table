@@ -83,7 +83,7 @@ namespace GalaxyZooTouchTable.ViewModels
             Messenger.Default.Register<bool>(this, OnFlipCenterpiece, "TableStateChanged");
         }
 
-        private void LoadSpace()
+        public void LoadSpace()
         {
             CurrentLocation = new SpaceNavigation(_localDBService.GetRandomPoint());
             CurrentGalaxies = _localDBService.GetLocalSubjects(CurrentLocation, true);
@@ -150,7 +150,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
-            if (PeripheralItems.Northern == null) return;
+            if (PeripheralItems.Western == null) return;
             SpaceCutoutUrl = PeripheralItems.Western.Cutout;
             CurrentGalaxies = PeripheralItems.Western.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.West);
@@ -160,7 +160,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewSouth(object obj)
         {
-            if (PeripheralItems.Northern == null) return;
+            if (PeripheralItems.Southern == null) return;
             SpaceCutoutUrl = PeripheralItems.Southern.Cutout;
             CurrentGalaxies = PeripheralItems.Southern.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.South);
@@ -170,7 +170,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewEast(object obj)
         {
-            if (PeripheralItems.Northern == null) return;
+            if (PeripheralItems.Eastern == null) return;
             SpaceCutoutUrl = PeripheralItems.Eastern.Cutout;
             CurrentGalaxies = PeripheralItems.Eastern.Galaxies;
             if (CurrentGalaxies.Count > 0) AnimateMovement(CardinalDirectionEnum.East);

@@ -185,7 +185,9 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         [Fact]
         private void ShouldShowRetirementModal()
         {
-            _viewModel.DropSubject(PanoptesServiceMockData.TableSubject());
+            TableSubject subject = PanoptesServiceMockData.TableSubject();
+            subject.IsRetired = true;
+            _viewModel.DropSubject(subject);
             Assert.True(_viewModel.ShowRetirementModal);
         }
     }

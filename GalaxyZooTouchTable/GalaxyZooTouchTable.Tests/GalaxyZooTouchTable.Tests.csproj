@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="Mock\CutoutServiceMockData.cs" />
     <Compile Include="Mock\GraphQLServiceMockData.cs" />
     <Compile Include="Mock\PanoptesServiceMockData.cs" />
     <Compile Include="Mock\SpaceNavigationMockData.cs" />
