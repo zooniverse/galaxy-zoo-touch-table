@@ -18,7 +18,7 @@ namespace GalaxyZooTouchTable.Services
         string HighestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra desc limit 1"; }
         string HighestDecQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by dec desc limit 1"; }
         string LowestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra asc limit 1"; }
-        string LowestDecQuery(int limit) { return $"select * from Subjects order by dec asc limit 1"; }
+        string LowestDecQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by dec asc limit 1"; }
         string RandomSubjectQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by random() limit 1"; }
         string SubjectByIdQuery(string id) { return $"select * from Subjects where subject_id = {id}"; }
         string NextAscendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra > {bounds} and classifications_count < {limit} order by ra asc limit 1"; }
