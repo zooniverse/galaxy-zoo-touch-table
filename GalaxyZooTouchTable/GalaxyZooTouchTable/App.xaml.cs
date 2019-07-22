@@ -1,5 +1,6 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.ViewModels;
+using Sentry;
 using System;
 using System.Windows;
 
@@ -24,6 +25,18 @@ namespace GalaxyZooTouchTable
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             GlobalData.GetInstance().EstablishLog();
+        }
+
+        [STAThread]
+        public static void Main()
+        {
+            string dsn = Environment.GetEnvironmentVariable("SENTRY_DSN", EnvironmentVariableTarget.User);
+            using (SentrySdk.Init(dsn))
+            {
+                var application = new App();
+                application.InitializeComponent();
+                application.Run();
+            }
         }
     }
 }
