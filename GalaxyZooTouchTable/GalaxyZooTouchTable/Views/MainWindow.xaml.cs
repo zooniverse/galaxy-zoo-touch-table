@@ -1,4 +1,6 @@
+using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -25,6 +27,13 @@ namespace GalaxyZooTouchTable
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _viewModel.Load();
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+
+            GlobalData.GetInstance().Logger?.FinalizeLog();
         }
     }
 }

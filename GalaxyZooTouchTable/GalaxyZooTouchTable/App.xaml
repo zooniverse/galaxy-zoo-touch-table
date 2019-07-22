@@ -5,7 +5,7 @@
              xmlns:ViewModels="clr-namespace:GalaxyZooTouchTable.ViewModels"
              xmlns:Converters="clr-namespace:GalaxyZooTouchTable.Converters"
              Startup="Application_Startup"
-             Exit="Application_Exit">
+             ShutdownMode="OnMainWindowClose">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
