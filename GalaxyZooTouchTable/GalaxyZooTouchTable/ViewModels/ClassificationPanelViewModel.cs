@@ -31,6 +31,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
+        public event Action LevelUpAnimation = delegate { };
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -151,6 +152,7 @@ namespace GalaxyZooTouchTable.ViewModels
             CloseConfirmationViewModel.EndSession += OnCloseClassifier;
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
+            LevelerViewModel.LevelUpAnimation += OnLevelUpAnimation;
             Notifications.PropertyChanged += ResetStillThereModalTimer;
 
             Notifications.GetSubjectById += OnGetSubjectById;
@@ -164,6 +166,8 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassificationSummaryViewModel.ChooseAnotherGalaxyDelegate += OnChooseAnotherGalaxy;
             ClassificationSummaryViewModel.DropSubjectDelegate += DropSubject;
         }
+
+        private void OnLevelUpAnimation() { LevelUpAnimation(); }
 
         private void OnChooseAnotherGalaxy()
         {

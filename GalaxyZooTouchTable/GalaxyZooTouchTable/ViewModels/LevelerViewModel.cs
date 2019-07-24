@@ -1,6 +1,7 @@
 ﻿using GalaxyZooTouchTable.Lib;
 using GalaxyZooTouchTable.Models;
 using GalaxyZooTouchTable.Utility;
+using System;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable.ViewModels
@@ -14,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private const int DEFAULT_CLASSIFICATIONS_COUNT = 0;
         private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
         private const bool DEFAULT_CLASSIFICATION_OPEN = false;
+        public event Action LevelUpAnimation = delegate { };
         ClassificationPanelViewModel Classifier;
 
         private int _classificationsUntilUpgrade = DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE;
@@ -95,6 +97,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LevelUp()
         {
+            LevelUpAnimation();
+            IsOpen = true;
             if (ClassificationLevel == MAX_LEVEL)
             {
                 return;

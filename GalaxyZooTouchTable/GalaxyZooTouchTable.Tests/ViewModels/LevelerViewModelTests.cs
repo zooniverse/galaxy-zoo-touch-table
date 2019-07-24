@@ -69,5 +69,15 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.ClassificationsUntilUpgrade = 0;
             Assert.Equal("Five", _viewModel.ClassificationLevel);
         }
+
+        [Fact]
+        public void ShouldAnimateLevelUp()
+        {
+            bool LevelUpAnimationFired = false;
+            _viewModel.LevelUpAnimation += delegate { LevelUpAnimationFired = true; };
+            _viewModel.ClassificationsUntilUpgrade = 0;
+            Assert.True(_viewModel.IsOpen);
+            Assert.True(LevelUpAnimationFired);
+        }
     }
 }

@@ -48,7 +48,7 @@
             <Grid Width="1920" Height="1080" IsHitTestVisible="False" Style="{StaticResource BackgroundImage}">
                 <Image Stretch="UniformToFill" Source="../Images/General/background.jpg"/>
             </Grid>
-            <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324"/>
+            <local:Centerpiece Style="{StaticResource Centerpiece}" Canvas.Left="333" Canvas.Top="324" Panel.ZIndex="1"/>
 
             <Image Margin="40" Height="52" Width="124" Source="../Images/General/logo-badge.png">
                 <Image.LayoutTransform>
@@ -58,24 +58,45 @@
             <Image Canvas.Right="40" Canvas.Bottom="40" HorizontalAlignment="Right" Height="52" Width="124" Source="../Images/General/logo-badge.png"/>
 
             <local:UserConsole
+                x:Name="GreenUser"
+                DataContext="{Binding GreenUserVM}"
+                Style="{StaticResource GreenUser}"
+                Canvas.Top="216">
+                <local:UserConsole.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </local:UserConsole.LayoutTransform>
+            </local:UserConsole>
+
+            <local:UserConsole
+                x:Name="AquaUser"
+                DataContext="{Binding AquaUserVM}"
+                Style="{StaticResource AquaUser}"
+                Canvas.Right="0"
+                Canvas.Top="216">
+                <local:UserConsole.LayoutTransform>
+                    <RotateTransform Angle="-90"/>
+                </local:UserConsole.LayoutTransform>
+            </local:UserConsole>
+
+            <local:UserConsole
                 x:Name="PurpleUser"
                 DataContext="{Binding PurpleUserVM}"
                 Style="{StaticResource PurpleUser}"
-                Canvas.Left="333"
+                Canvas.Left="283"
                 Canvas.Bottom="0"/>
 
             <local:UserConsole
                 x:Name="PeachUser"
                 DataContext="{Binding PeachUserVM}"
                 Style="{StaticResource PeachUser}"
-                Canvas.Left="1059"
+                Canvas.Left="1009"
                 Canvas.Bottom="0"/>
 
             <local:UserConsole
                 x:Name="PinkUser"
                 DataContext="{Binding PinkUserVM}"
                 Style="{StaticResource PinkUser}"
-                Canvas.Left="313">
+                Canvas.Left="263">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
@@ -85,31 +106,10 @@
                 x:Name="BlueUser"
                 DataContext="{Binding BlueUserVM}"
                 Style="{StaticResource BlueUser}"
-                Canvas.Left="1039">
+                Canvas.Left="989">
                 <local:UserConsole.RenderTransform>
                     <RotateTransform Angle="180"/>
                 </local:UserConsole.RenderTransform>
-            </local:UserConsole>
-
-            <local:UserConsole
-                x:Name="GreenUser"
-                DataContext="{Binding GreenUserVM}"
-                Style="{StaticResource GreenUser}"
-                Canvas.Top="266">
-                <local:UserConsole.LayoutTransform>
-                    <RotateTransform Angle="90"/>
-                </local:UserConsole.LayoutTransform>
-            </local:UserConsole>
-
-            <local:UserConsole
-                x:Name="LightUser"
-                DataContext="{Binding AquaUserVM}"
-                Style="{StaticResource AquaUser}"
-                Canvas.Right="0"
-                Canvas.Top="266">
-                <local:UserConsole.LayoutTransform>
-                    <RotateTransform Angle="-90"/>
-                </local:UserConsole.LayoutTransform>
             </local:UserConsole>
         </local:DragCanvas>
     </Viewbox>
