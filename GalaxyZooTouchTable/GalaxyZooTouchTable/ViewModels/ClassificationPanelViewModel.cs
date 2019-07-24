@@ -310,7 +310,7 @@ namespace GalaxyZooTouchTable.ViewModels
         private void SetTimer()
         {
             StillThereTimer.Tick += new System.EventHandler(ShowStillThereModal);
-            StillThereTimer.Interval = new System.TimeSpan(0, 2, 30);
+            StillThereTimer.Interval = new System.TimeSpan(0, 1, 30);
         }
 
         public void StartStillThereModalTimer()
