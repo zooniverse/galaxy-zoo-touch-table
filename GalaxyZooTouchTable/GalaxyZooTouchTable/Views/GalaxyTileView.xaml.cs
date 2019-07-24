@@ -1,5 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using GalaxyZooTouchTable.Lib;
+using System;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace GalaxyZooTouchTable.Views
 {
@@ -9,10 +13,43 @@ namespace GalaxyZooTouchTable.Views
     public partial class GalaxyTileView : UserControl
     {
         readonly int INITIAL_RING_WIDTH = 56;
+        DispatcherTimer Timer = new DispatcherTimer();
 
         public GalaxyTileView()
         {
             InitializeComponent();
+            Messenger.Default.Register<object>(this, OnPulseGalaxies, "Pulse_Galaxies");
+        }
+
+        private void OnPulseGalaxies(object obj)
+        {
+            Storyboard storyboard = new Storyboard();
+            ScaleTransform scale = new ScaleTransform(1.0, 1.0);
+            TileGrid.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            TileGrid.RenderTransform = scale;
+
+            DoubleAnimation growAnimation = new DoubleAnimation();
+            growAnimation.Duration = TimeSpan.FromSeconds(0.5);
+            growAnimation.From = 1;
+            growAnimation.To = 1.1;
+            growAnimation.AutoReverse = true;
+            growAnimation.RepeatBehavior = new RepeatBehavior(2);
+
+            DoubleAnimation growYAnimation = new DoubleAnimation();
+            growYAnimation.Duration = TimeSpan.FromSeconds(0.5);
+            growYAnimation.From = 1;
+            growYAnimation.To = 1.1;
+            growYAnimation.AutoReverse = true;
+            growYAnimation.RepeatBehavior = new RepeatBehavior(2);
+
+            storyboard.Children.Add(growAnimation);
+            storyboard.Children.Add(growYAnimation);
+
+            Storyboard.SetTargetProperty(growAnimation, new System.Windows.PropertyPath("RenderTransform.ScaleX"));
+            Storyboard.SetTargetProperty(growYAnimation, new System.Windows.PropertyPath("RenderTransform.ScaleY"));
+            Storyboard.SetTarget(growAnimation, TileGrid);
+            Storyboard.SetTarget(growYAnimation, TileGrid);
+            storyboard.Begin();
         }
 
         /// <summary>
@@ -27,7 +64,7 @@ namespace GalaxyZooTouchTable.Views
             TranslateTransform Transform = new TranslateTransform();
             Transform.X = (OffsetX * -1) - 28;
             Transform.Y = (OffsetY * -1) - 28;
-            TileGrid.RenderTransform = Transform;
+            MainTile.RenderTransform = Transform;
         }
     }
 }
