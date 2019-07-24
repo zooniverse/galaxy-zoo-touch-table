@@ -46,6 +46,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void ResetExamples()
         {
             SelectedExample = null;
+            Messenger.Default.Send(this, "ScrollExamplesToLeft");
         }
 
         private void LoadCommands()

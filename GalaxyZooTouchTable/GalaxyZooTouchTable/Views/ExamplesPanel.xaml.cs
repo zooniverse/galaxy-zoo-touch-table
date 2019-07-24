@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using GalaxyZooTouchTable.Lib;
+using System;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GalaxyZooTouchTable
@@ -11,6 +13,14 @@ namespace GalaxyZooTouchTable
         public ExamplesPanel()
         {
             InitializeComponent();
+            Messenger.Default.Register<object>(this, OnScrollExamplesToLeft, "ScrollExamplesToLeft");
+        }
+
+        private void OnScrollExamplesToLeft(object obj)
+        {
+            SmoothScroller.ScrollToLeftEnd();
+            FeaturesScroller.ScrollToLeftEnd();
+            NotAGalaxyScroller.ScrollToLeftEnd();
         }
 
         protected override void OnManipulationBoundaryFeedback(ManipulationBoundaryFeedbackEventArgs e)

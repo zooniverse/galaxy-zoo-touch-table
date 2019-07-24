@@ -172,7 +172,7 @@
                     Source="../Images/General/NSF.png"
                     Margin="24,0,0,0"/>
                 <TextBlock
-                    FontFamily="Garamond"
+                    FontFamily="/GalaxyZooTouchTable;component/Fonts/#Garamond"
                     FontSize="15"
                     Foreground="White"
                     Margin="6,0,0,0"

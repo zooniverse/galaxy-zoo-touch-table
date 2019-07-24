@@ -386,6 +386,7 @@
     <None Include="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
     </None>
+    <Resource Include="Fonts\Garamond.ttf" />
     <None Include="GalaxyZooTouchTable_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
