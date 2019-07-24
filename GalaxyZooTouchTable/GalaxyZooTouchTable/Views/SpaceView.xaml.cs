@@ -15,7 +15,8 @@ namespace GalaxyZooTouchTable.Views
     public partial class SpaceView : UserControl
     {
         SpaceViewModel ViewModel { get; set; }
-        DispatcherTimer Timer = new DispatcherTimer();
+        DispatcherTimer GalaxyPulseTimer = new DispatcherTimer();
+        DispatcherTimer MoveMapPulseTimer = new DispatcherTimer();
 
         public SpaceView()
         {
@@ -23,11 +24,13 @@ namespace GalaxyZooTouchTable.Views
             ViewModel = DataContext as SpaceViewModel;
             ViewModel.AnimateMovement += AnimateCutoutMovement;
 
-            Timer.Tick += new EventHandler(PulseGalaxies);
-            Timer.Tick += new EventHandler(PulseButtons);
+            GalaxyPulseTimer.Tick += new EventHandler(PulseGalaxies);
+            MoveMapPulseTimer.Tick += new EventHandler(PulseButtons);
 
-            Timer.Interval = new TimeSpan(0, 0, 10);
-            Timer.Start();
+            GalaxyPulseTimer.Interval = new TimeSpan(0, 0, 10);
+            MoveMapPulseTimer.Interval = new TimeSpan(0, 0, 10);
+            GalaxyPulseTimer.Start();
+            MoveMapPulseTimer.Start();
         }
 
         private void PulseGalaxies(object sender, EventArgs e)
@@ -162,8 +165,8 @@ namespace GalaxyZooTouchTable.Views
 
         private void ResetGalaxyPulseTimer(object sender, System.Windows.Input.TouchEventArgs e)
         {
-            Timer.Stop();
-            Timer.Start();
+            GalaxyPulseTimer.Stop();
+            GalaxyPulseTimer.Start();
         }
     }
 }
