@@ -14,3 +14,5 @@ Accepted
 
 ### Consequences
 Adopting this approach should help future developers wishing to contribute to the project or wanting to create their own touch table application.
+
+**Note**: Although not mentioned in the ADR blog post, I will be adding an "in retrospect" section to each ADR to provide insight on how beneficial each decision has been.
