@@ -334,8 +334,9 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             PendingRequest Request = PendingRequests.FirstOrDefault();
             HelpNotification Notification = new HelpNotification(User, HelpNotificationStatus.Decline);
-            Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             ResetNotifications();
+            if (Request == null) return;
+            Messenger.Default.Send(Notification, $"{Request.CooperatingPeer.Name}_PostNotification");
             LogEvent(entry: "Decline_Galaxy", peer: Request.CooperatingPeer.Name);
         }
 
