@@ -32,8 +32,8 @@ namespace GalaxyZooTouchTable.Services
 
         public void TemporarilyDisableDECALS()
         {
-            SDSSIsResponding = false;
-            SDSSTimer.Start();
+            DECALSIsResponding = false;
+            DECALSTimer.Start();
         }
 
         private void ResetSDSS(object sender, EventArgs e)
