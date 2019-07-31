@@ -15,7 +15,8 @@ namespace GalaxyZooTouchTable.Views
     public partial class SpaceView : UserControl
     {
         SpaceViewModel ViewModel { get; set; }
-        DispatcherTimer Timer = new DispatcherTimer();
+        DispatcherTimer GalaxyPulseTimer = new DispatcherTimer();
+        DispatcherTimer MoveMapPulseTimer = new DispatcherTimer();
 
         public SpaceView()
         {
@@ -23,14 +24,39 @@ namespace GalaxyZooTouchTable.Views
             ViewModel = DataContext as SpaceViewModel;
             ViewModel.AnimateMovement += AnimateCutoutMovement;
 
-            Timer.Tick += new EventHandler(PulseGalaxies);
-            Timer.Interval = new TimeSpan(0, 0, 10);
-            Timer.Start();
+            GalaxyPulseTimer.Tick += new EventHandler(PulseGalaxies);
+            MoveMapPulseTimer.Tick += new EventHandler(PulseButtons);
+
+            GalaxyPulseTimer.Interval = new TimeSpan(0, 0, 10);
+            MoveMapPulseTimer.Interval = new TimeSpan(0, 0, 10);
+            GalaxyPulseTimer.Start();
+            MoveMapPulseTimer.Start();
         }
 
         private void PulseGalaxies(object sender, EventArgs e)
         {
             Messenger.Default.Send(sender, "Pulse_Galaxies");
+        }
+
+        private void PulseButtons(object sender, EventArgs e)
+        {
+            DoubleAnimation expandHeight = new DoubleAnimation(24, 32, TimeSpan.FromSeconds(0.75));
+            DoubleAnimation expandWidth = new DoubleAnimation(94, 110, TimeSpan.FromSeconds(0.75));
+            expandHeight.AutoReverse = expandWidth.AutoReverse = true;
+            expandHeight.RepeatBehavior = expandWidth.RepeatBehavior = new RepeatBehavior(2);
+            expandHeight.EasingFunction = expandWidth.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn };
+
+            MoveMapNorth.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapNorth.BeginAnimation(WidthProperty, expandWidth);
+
+            MoveMapSouth.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapSouth.BeginAnimation(WidthProperty, expandWidth);
+
+            MoveMapEast.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapEast.BeginAnimation(WidthProperty, expandWidth);
+
+            MoveMapWest.BeginAnimation(HeightProperty, expandHeight);
+            MoveMapWest.BeginAnimation(WidthProperty, expandWidth);
         }
 
         void AnimateCutoutMovement(CardinalDirectionEnum direction)
@@ -139,8 +165,8 @@ namespace GalaxyZooTouchTable.Views
 
         private void ResetGalaxyPulseTimer(object sender, System.Windows.Input.TouchEventArgs e)
         {
-            Timer.Stop();
-            Timer.Start();
+            GalaxyPulseTimer.Stop();
+            GalaxyPulseTimer.Start();
         }
     }
 }

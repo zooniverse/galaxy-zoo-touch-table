@@ -161,5 +161,34 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             _viewModel.ShowCloseConfirmation.Execute(null);
             Assert.True(_viewModel.ShowOverlay);
         }
+
+        [Fact]
+        private void ShouldNotShowSubjectRetired()
+        {
+            _viewModel.Load();
+            _viewModel.DropSubject(PanoptesServiceMockData.TableSubject());
+            Assert.False(_viewModel.ShowRetirementModal);
+        }
+    }
+
+    public class ClassificationPanelRetiredSubjectTests
+    {
+        private ClassificationPanelViewModel _viewModel { get; set; }
+        private Mock<IPanoptesService> _panoptesServiceMock = new Mock<IPanoptesService>();
+        private Mock<ILocalDBService> _localDBServiceMock = new Mock<ILocalDBService>();
+
+        public ClassificationPanelRetiredSubjectTests()
+        {
+            _viewModel = new ClassificationPanelViewModel(_panoptesServiceMock.Object, _localDBServiceMock.Object, new BlueUser());
+        }
+
+        [Fact]
+        private void ShouldShowRetirementModal()
+        {
+            TableSubject subject = PanoptesServiceMockData.TableSubject();
+            subject.IsRetired = true;
+            _viewModel.DropSubject(subject);
+            Assert.True(_viewModel.ShowRetirementModal);
+        }
     }
 }

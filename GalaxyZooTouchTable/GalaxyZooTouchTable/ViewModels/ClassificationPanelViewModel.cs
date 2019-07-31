@@ -15,6 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
+        readonly int RETIRED_LIMIT = 25;
         private IPanoptesService _panoptesService;
         private ILocalDBService _localDBService;
         private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
@@ -31,7 +32,19 @@ namespace GalaxyZooTouchTable.ViewModels
         public ICommand OpenClassifier { get; private set; }
         public ICommand SelectAnswer { get; private set; }
         public ICommand ShowCloseConfirmation { get; private set; }
+        public ICommand HideRetirementModal { get; private set; }
         public event Action LevelUpAnimation = delegate { };
+
+        private bool _showRetirementModal;
+        public bool ShowRetirementModal
+        {
+            get => _showRetirementModal;
+            set
+            {
+                ShowOverlay = value;
+                SetProperty(ref _showRetirementModal, value);
+            }
+        }
 
         private TableSubject _currentSubject;
         public TableSubject CurrentSubject
@@ -197,11 +210,18 @@ namespace GalaxyZooTouchTable.ViewModels
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
             SubmitClassification = new CustomCommand(OnSubmitClassification, CanSubmitClassification);
+            HideRetirementModal = new CustomCommand(OnHideRetirementModal);
         }
 
         private bool CanSubmitClassification(object obj)
         {
             return !IsSubmittingClassification;
+        }
+
+        private void OnHideRetirementModal(object obj)
+        {
+            ShowRetirementModal = false;
+            StartStillThereModalTimer();
         }
 
         private void OnShowCloseConfirmation(object obj)
@@ -251,6 +271,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ClassifierOpen = false;
             CloseConfirmationViewModel.OnToggleCloseConfirmation(false);
             User.Active = false;
+            ShowRetirementModal = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
         }
@@ -264,7 +285,7 @@ namespace GalaxyZooTouchTable.ViewModels
             HandleCompletedClassification();
             ClassificationCounts counts = await _panoptesService.CreateClassificationAsync(CurrentClassification);
             ClassificationSummaryViewModel.ProcessNewClassification(CurrentSubject.SubjectLocation, counts, CurrentAnswers, SelectedAnswer);
-
+            if (counts.Total >= RETIRED_LIMIT) CurrentSubject.IsRetired = true;
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
             GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
@@ -369,8 +390,16 @@ namespace GalaxyZooTouchTable.ViewModels
             GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
             if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
-            LoadSubject(subject);
-            NotifySpaceView(RingNotifierStatus.IsCreating);
+            if (subject.IsRetired)
+            {
+                GlobalData.GetInstance().Logger?.AddEntry("Show_Retirement_Modal", User.Name, subject.Id, CurrentView);
+                ShowRetirementModal = true;
+            }
+            else
+            {
+                LoadSubject(subject);
+                NotifySpaceView(RingNotifierStatus.IsCreating);
+            }
         }
 
         private bool CheckAlreadyCompleted(TableSubject subject)

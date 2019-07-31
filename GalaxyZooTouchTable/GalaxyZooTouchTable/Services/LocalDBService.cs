@@ -5,23 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GalaxyZooTouchTable.Services
 {
     public class LocalDBService : ILocalDBService
     {
-        readonly string HighestRaQuery = "select * from Subjects order by ra desc limit 1";
-        readonly string HighestDecQuery = "select * from Subjects order by dec desc limit 1";
-        readonly string LowestRaQuery = "select * from Subjects order by ra asc limit 1";
-        readonly string LowestDecQuery = "select * from Subjects order by dec asc limit 1";
+        readonly int RETIREMENT_LIMIT = 25;
         readonly string QueuedSubjectsQuery = "select * from Subjects order by classifications_count asc, random() limit 10";
-        readonly string RandomSubjectQuery = "select * from Subjects order by random() limit 1";
+        readonly string QueuedSubjectQuery = "select * from Subjects order by classifications_count asc, random() limit 1";
+        string HighestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra desc limit 1"; }
+        string HighestDecQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by dec desc limit 1"; }
+        string LowestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra asc limit 1"; }
+        string LowestDecQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by dec asc limit 1"; }
+        string RandomSubjectQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by random() limit 1"; }
         string SubjectByIdQuery(string id) { return $"select * from Subjects where subject_id = {id}"; }
-        string NextAscendingRaQuery(double bounds) { return $"select * from Subjects where ra > {bounds} order by ra asc limit 1"; }
-        string NextDescendingRaQuery(double bounds) { return $"select * from Subjects where ra < {bounds} order by ra desc limit 1"; }
-        string NextAscendingDecQuery(double bounds) { return $"select * from Subjects where dec > {bounds} order by dec asc limit 1"; }
-        string NextDescendingDecQuery(double bounds) { return $"select * from Subjects where dec < {bounds} order by dec desc limit 1"; }
+        string NextAscendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra > {bounds} and classifications_count < {limit} order by ra asc limit 1"; }
+        string NextDescendingRaQuery(double bounds, int limit) { return $"select * from Subjects where ra < {bounds} and classifications_count < {limit} order by ra desc limit 1"; }
+        string NextAscendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec > {bounds} and classifications_count < {limit} order by dec asc limit 1"; }
+        string NextDescendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec < {bounds} and classifications_count < {limit} order by dec desc limit 1"; }
         string GetCurrentClassificationCount(string id) { return $"select * from Subjects where subject_id = {id}"; }
         string UpdateSubjectCounts(string id, ClassificationCounts counts) { return $"update Subjects set classifications_count = {counts.Total}, smooth = {counts.Smooth}, features = {counts.Features}, star = {counts.Star} where subject_id = {id}"; } 
 
@@ -54,7 +57,8 @@ namespace GalaxyZooTouchTable.Services
                         string image = CheckLocalPath(filename) ?? reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
-                        RetrievedSubject = new TableSubject(id, image, ra, dec);
+                        int classificationCount = Convert.ToInt32(reader["classifications_count"]);
+                        RetrievedSubject = new TableSubject(id, image, ra, dec, classificationCount);
                     }
                     connection.Close();
                 } catch (SQLiteException exception)
@@ -68,16 +72,16 @@ namespace GalaxyZooTouchTable.Services
 
         public List<TableSubject> GetQueuedSubjects()
         {
-            return GetSubjects(QueuedSubjectsQuery);
+            return GetSubjects(QueuedSubjectsQuery, true);
         }
 
-        public List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation)
+        public List<TableSubject> GetLocalSubjects(SpaceNavigation currentLocation, bool returnIfRetired = false)
         {
             string query = SubjectsWithinBoundsQuery(currentLocation);
-            return GetSubjects(query, currentLocation);
+            return GetSubjects(query, returnIfRetired, currentLocation);
         }
 
-        public List<TableSubject> GetSubjects(string query, SpaceNavigation currentLocation = null)
+        public List<TableSubject> GetSubjects(string query, bool returnIfRetired, SpaceNavigation currentLocation = null)
         {
             List<string> idsToUpdate = new List<string>();
             using (SQLiteConnection connection = new SQLiteConnection($"Data Source={App.DatabasePath}"))
@@ -97,7 +101,8 @@ namespace GalaxyZooTouchTable.Services
                         string image = CheckLocalPath(filename) ?? reader["image"] as string;
                         double ra = (double)reader["ra"];
                         double dec = (double)reader["dec"];
-                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec, currentLocation);
+                        int classificationCount = Convert.ToInt32(reader["classifications_count"]);
+                        TableSubject RetrievedSubject = new TableSubject(id, image, ra, dec, classificationCount, currentLocation);
                         Subjects.Add(RetrievedSubject);
                     }
 
@@ -108,7 +113,11 @@ namespace GalaxyZooTouchTable.Services
                     Messenger.Default.Send(ErrorMessage, "DatabaseError");
                 }
                 UpdateDBFromIds(idsToUpdate);
-                return Subjects;
+
+                if (returnIfRetired)
+                    return Subjects;
+                else
+                    return Subjects.Any(subject => !subject.IsRetired) ? Subjects : new List<TableSubject>();
             }
         }
 
@@ -147,27 +156,27 @@ namespace GalaxyZooTouchTable.Services
 
         public SpacePoint GetRandomPoint()
         {
-            return GetPoint(RandomSubjectQuery) ?? new SpacePoint(0,0);
+            return GetPoint(RandomSubjectQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextAscendingRa(double bounds)
         {
-            return GetPoint(NextAscendingRaQuery(bounds)) ?? GetPoint(LowestRaQuery);
+            return GetPoint(NextAscendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestRaQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextDescendingRa(double bounds)
         {
-            return GetPoint(NextDescendingRaQuery(bounds)) ?? GetPoint(HighestRaQuery);
+            return GetPoint(NextDescendingRaQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestRaQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextAscendingDec(double bounds)
         {
-            return GetPoint(NextAscendingDecQuery(bounds)) ?? GetPoint(LowestDecQuery);
+            return GetPoint(NextAscendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(LowestDecQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public SpacePoint FindNextDescendingDec(double bounds)
         {
-            return GetPoint(NextDescendingDecQuery(bounds)) ?? GetPoint(HighestDecQuery);
+            return GetPoint(NextDescendingDecQuery(bounds, RETIREMENT_LIMIT)) ?? GetPoint(HighestDecQuery(RETIREMENT_LIMIT)) ?? GetPoint(QueuedSubjectQuery);
         }
 
         public ClassificationCounts IncrementClassificationCount(Classification classification)
