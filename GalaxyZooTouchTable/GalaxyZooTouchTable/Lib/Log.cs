@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 
@@ -104,7 +105,7 @@ namespace GalaxyZooTouchTable.Lib
         {
             lock (gate)
             {
-                String entryString = PrintLog(entry, user, subjectId, state, context, peer, DateTime.Now.Ticks);
+                String entryString = PrintLog(entry, user, subjectId, state, context, peer, DateTime.Now.ToString("HH:mm:ss.ffff"));
                 activeEntryBuffer.Add(entryString);
                 if (EnableDebugOutput) System.Diagnostics.Debug.WriteLine(entryString);
             }
@@ -171,7 +172,7 @@ namespace GalaxyZooTouchTable.Lib
             }
         }
 
-        public string PrintLog(string entry, string user, string subjectId, ClassifierViewEnum state, string context, string peer, long time)
+        public string PrintLog(string entry, string user, string subjectId, ClassifierViewEnum state, string context, string peer, string time)
         {
             string stateString = null;
             if (state == ClassifierViewEnum.SubjectView)
