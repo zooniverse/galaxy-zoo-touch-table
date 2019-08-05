@@ -366,21 +366,20 @@ namespace GalaxyZooTouchTable.ViewModels
 
         void OnGetRandomGalaxy()
         {
-            GlobalData.GetInstance().Logger?.AddEntry("Random_Galaxy", User.Name);
-            GetNewSubject();
+            GetNewSubject("Random_Galaxy");
         }
 
         void OnTapDropZone(object sender)
         {
-            GlobalData.GetInstance().Logger?.AddEntry("Tap_Drop_Zone", User.Name);
-            GetNewSubject();
+            GetNewSubject("Tap_Drop_Zone");
         }
 
-        public void GetNewSubject()
+        public void GetNewSubject(string logStatement)
         {
             PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
+            GlobalData.GetInstance().Logger?.AddEntry(logStatement, User.Name, Subjects[0].Id);
             LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
         }
