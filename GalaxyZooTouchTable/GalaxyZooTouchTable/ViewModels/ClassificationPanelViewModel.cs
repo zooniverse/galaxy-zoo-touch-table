@@ -288,7 +288,8 @@ namespace GalaxyZooTouchTable.ViewModels
             if (counts.Total >= RETIRED_LIMIT) CurrentSubject.IsRetired = true;
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
-            GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
+            GlobalData.GetInstance().Logger?.AddEntry(
+                "Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString(), answer: SelectedAnswer.Label);
             OnChangeView(ClassifierViewEnum.SummaryView);
             IsSubmittingClassification = false;
         }
