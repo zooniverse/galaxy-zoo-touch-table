@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
         NotAGalaxy
     }
 
-    public class GalaxyExample
+    public abstract class GalaxyExample
     {
         BitmapImage ImageOne { get; }
         BitmapImage ImageTwo { get; set; }
@@ -18,7 +18,7 @@ namespace GalaxyZooTouchTable.Models
         BitmapImage ImageFour { get; set; }
         BitmapImage ImageFive { get; set; }
         BitmapImage ImageSix { get; set; }
-        public string Title { get; set; }
+        public abstract string Title { get; }
         string Description { get; set; }
         string Description2 { get; set; }
     }
@@ -48,7 +48,7 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageFour => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/smooth4.jpg"));
             public BitmapImage ImageFive => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/smooth5.jpg"));
             public BitmapImage ImageSix => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/smooth6.jpg"));
-            public string Title => "Smooth";
+            public override string Title => "Smooth";
             public string Description => "Smooth galaxies fade gradually in all directions from the center.";
             public string Description2 => "There may be a small bright symmetric core.";
         }
@@ -61,7 +61,7 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageFour => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/features4.jpg"));
             public BitmapImage ImageFive => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/features5.jpg"));
             public BitmapImage ImageSix => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/features6.jpg"));
-            public string Title => "Features";
+            public override string Title => "Features";
             public string Description => "Galaxies might have spiral arms, a bulge or bar, or any other interesting feature.";
             public string Description2 => "Choose this option if you see anything unique about the galaxy.";
         }
@@ -74,7 +74,7 @@ namespace GalaxyZooTouchTable.Models
             public BitmapImage ImageFour => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/star4.jpg"));
             public BitmapImage ImageFive => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/star5.jpg"));
             public BitmapImage ImageSix => new BitmapImage(new Uri("pack://application:,,,/Images/GalaxyExamples/star6.jpg"));
-            public string Title => "Not a Galaxy";
+            public override string Title => "Not a Galaxy";
             public string Description => "Choose \"Not a Galaxy\" if there is no central galaxy to classify or if the artifact is so badly displayed that you can't ignore it and classify the galaxy with reasonable confidence.";
             public string Description2 => "The telescopes taking our data were designed to look at faint galaxies, which means that bright, compact objects like stars sometimes look a bit strange.";
         }
