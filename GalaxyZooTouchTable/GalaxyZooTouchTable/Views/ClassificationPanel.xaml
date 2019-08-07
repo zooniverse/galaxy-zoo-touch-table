@@ -82,14 +82,16 @@
                 <StackPanel
                     Background="{StaticResource DarkGrayColor}"
                     HorizontalAlignment="Right"
-                    Margin="13,7"
+                    Height="25"
+                    Width="120"
+                    Margin="0,5,5,0"
                     Orientation="Horizontal"
                     VerticalAlignment="Top">
                     <i:Interaction.Behaviors>
                         <Behaviors:TapBehavior Command="{Binding ShowCloseConfirmation}"/>
                     </i:Interaction.Behaviors>
                     <TextBlock
-                        Margin="0,0,6,0"
+                        Margin="10,6"
                         FontSize="10"
                         Foreground="White"
                         VerticalAlignment="Center"
