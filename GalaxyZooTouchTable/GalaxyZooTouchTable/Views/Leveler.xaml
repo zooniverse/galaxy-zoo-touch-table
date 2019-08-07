@@ -12,6 +12,42 @@
              Height="88.35">
 
     <UserControl.Resources>
+        <Style x:Key="LeveledRank" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ClassificationLevel}" Value="Master">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MasterRank" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ClassificationLevel}" Value="Master">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="LeftToClassify" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ClassificationLevel}" Value="Master">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ProStatus" TargetType="{x:Type TextBlock}">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=ClassificationLevel}" Value="Master">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
         <Style x:Key="LevelerPanelStyle" TargetType="{x:Type Border}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsOpen}" Value="False">
@@ -85,6 +121,7 @@
                 FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
 
             <TextBlock
+                Style="{StaticResource LeveledRank}"
                 Foreground="White"
                 FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
                 FontWeight="Bold"
@@ -95,6 +132,16 @@
             </TextBlock>
 
             <TextBlock
+                Style="{StaticResource MasterRank}"
+                Foreground="White"
+                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"
+                FontWeight="Bold"
+                Margin="28.5,27.23,0,0"
+                FontSize="10.5"
+                Text="Master"/>
+
+            <TextBlock
+                Style="{StaticResource LeftToClassify}"
                 Foreground="White"
                 Margin="28.5,44.67,0,0"
                 FontSize="8"
@@ -104,6 +151,14 @@
                     <Run Text="more"/><LineBreak/>
                     <Run Text="Galaxies to level up."/>
             </TextBlock>
+
+            <TextBlock
+                Style="{StaticResource ProStatus}"
+                Foreground="White"
+                Margin="28.5,44.67,0,0"
+                Text="You're a Pro!"
+                FontSize="8"
+                FontFamily="/GalaxyZooTouchTable;component/Fonts/#Karla"/>
         </Grid>
     </Border>
 </UserControl>

@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.ViewModels
     {
         public TableUser User { get; set; }
         public ICommand ToggleLeveler { get; private set; }
-        private const string MAX_LEVEL = "Five";
+        private const string MAX_LEVEL = "Master";
         private const int DEFAULT_CLASSIFICATIONS_UNTIL_UPGRADE = 5;
         private const int DEFAULT_CLASSIFICATIONS_COUNT = 0;
         private const string DEFAULT_CLASSIFICATION_LEVEL = "One";
@@ -26,8 +26,9 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 if (value <= 0)
                 {
-                    value = 5;
                     LevelUp();
+                    if (ClassificationLevel != MAX_LEVEL)
+                        value = 5;
                 }
                 SetProperty(ref _classificationsUntilUpgrade, value);
             }
@@ -39,9 +40,11 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _classificationsThisSession;
             set
             {
-                if (value != 0)
+                if (value != 0 && ClassificationLevel != MAX_LEVEL)
+                {
+                    SetProperty(ref _classificationsThisSession, value);
                     ClassificationsUntilUpgrade--;
-                SetProperty(ref _classificationsThisSession, value);
+                }
             }
         }
 
@@ -97,24 +100,24 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void LevelUp()
         {
+            if (ClassificationLevel == MAX_LEVEL) return;
             LevelUpAnimation();
             IsOpen = true;
-            if (ClassificationLevel == MAX_LEVEL)
-            {
-                return;
-            }
             switch (ClassificationsThisSession)
             {
-                case int n when (n <= 6):
+                case int n when (n <= 5):
                     ClassificationLevel = "Two";
                     break;
-                case int n when (n <= 12):
+                case int n when (n <= 10):
                     ClassificationLevel = "Three";
                     break;
-                case int n when (n <= 18):
+                case int n when (n <= 15):
                     ClassificationLevel = "Four";
                     break;
-                case int n when (n <= 24):
+                case int n when (n <= 20):
+                    ClassificationLevel = "Five";
+                    break;
+                case int n when (n <= 25):
                     ClassificationLevel = MAX_LEVEL;
                     break;
                 default:
