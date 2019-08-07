@@ -53,21 +53,25 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         {
             Assert.Equal("One", _viewModel.ClassificationLevel);
 
-            _viewModel.ClassificationsThisSession = 6;
+            _viewModel.ClassificationsThisSession = 5;
             _viewModel.ClassificationsUntilUpgrade = 0;
             Assert.Equal("Two", _viewModel.ClassificationLevel);
 
-            _viewModel.ClassificationsThisSession = 12;
+            _viewModel.ClassificationsThisSession = 10;
             _viewModel.ClassificationsUntilUpgrade = 0;
             Assert.Equal("Three", _viewModel.ClassificationLevel);
 
-            _viewModel.ClassificationsThisSession = 18;
+            _viewModel.ClassificationsThisSession = 15;
             _viewModel.ClassificationsUntilUpgrade = 0;
             Assert.Equal("Four", _viewModel.ClassificationLevel);
 
-            _viewModel.ClassificationsThisSession = 24;
+            _viewModel.ClassificationsThisSession = 20;
             _viewModel.ClassificationsUntilUpgrade = 0;
             Assert.Equal("Five", _viewModel.ClassificationLevel);
+
+            _viewModel.ClassificationsThisSession = 25;
+            _viewModel.ClassificationsUntilUpgrade = 0;
+            Assert.Equal("Master", _viewModel.ClassificationLevel);
         }
 
         [Fact]
