@@ -253,6 +253,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnOpenClassifier(object sender)
         {
+            Messenger.Default.Send(this, "New_User_Galaxy_Pulse");
             StartStillThereModalTimer();
             ClassifierOpen = true;
             User.Active = true;

@@ -31,6 +31,15 @@ namespace GalaxyZooTouchTable.Views
             MoveMapPulseTimer.Interval = new TimeSpan(0, 0, 10);
             GalaxyPulseTimer.Start();
             MoveMapPulseTimer.Start();
+
+            Messenger.Default.Register<object>(this, OnNewUserGalaxyPulse, "New_User_Galaxy_Pulse");
+        }
+
+        private void OnNewUserGalaxyPulse(object sender)
+        {
+            Messenger.Default.Send(sender, "Pulse_Galaxies");
+            GalaxyPulseTimer.Stop();
+            GalaxyPulseTimer.Start();
         }
 
         private void PulseGalaxies(object sender, EventArgs e)
