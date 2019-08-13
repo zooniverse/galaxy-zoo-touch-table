@@ -103,7 +103,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldLoadSubjects()
         {
             _viewModel.Workflow = PanoptesServiceMockData.Workflow("1");
-            _viewModel.GetNewSubject();
+            _viewModel.GetNewSubject("Random_Galaxy");
             _localDBServiceMock.Verify(vm => vm.GetQueuedSubjects(), Times.Once);
             Assert.NotNull(_viewModel.CurrentSubject);
         }
@@ -112,7 +112,7 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         private void ShouldSubmitClassificationOnSubmission()
         {
             _viewModel.Load();
-            _viewModel.GetNewSubject();
+            _viewModel.GetNewSubject("Random_Galaxy");
             Assert.Empty(_viewModel.CurrentClassification.Annotations);
 
             _viewModel.SelectAnswer.Execute(PanoptesServiceMockData.AnswerButton());

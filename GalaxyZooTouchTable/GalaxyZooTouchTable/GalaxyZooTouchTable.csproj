@@ -53,10 +53,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3F13CEEDA8A2CEE96FA4D0ECD0B5F57431DBABB9</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>D4A326B02C19A4F1BE50957DBF0F89E4A9E603EB</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>GalaxyZooTouchTable_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -390,7 +391,7 @@
       <DependentUpon>App.config</DependentUpon>
     </None>
     <Resource Include="Fonts\Garamond.ttf" />
-    <None Include="GalaxyZooTouchTable_TemporaryKey.pfx" />
+    <None Include="GalaxyZooTouchTable_1_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

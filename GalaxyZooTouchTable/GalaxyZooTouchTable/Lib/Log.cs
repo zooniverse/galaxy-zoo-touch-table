@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 
@@ -60,7 +61,7 @@ namespace GalaxyZooTouchTable.Lib
             logStartTime = DateTime.Now;
 
             AddHeaders();
-            AddEntry(entry: "Log_Started", context: DateTime.Now.ToString("HH:mm:ss"));
+            AddEntry(entry: "Log_Started");
             writerThread = new Thread(new ThreadStart(WriteLoop)) { IsBackground = true, Priority = ThreadPriority.BelowNormal };
             writerThread.Start();
         }
@@ -79,7 +80,7 @@ namespace GalaxyZooTouchTable.Lib
 
         public void FinalizeLog()
         {
-            AddEntry(entry: "Log_Ended", context: DateTime.Now.ToString("HH:mm:ss"));
+            AddEntry(entry: "Log_Ended");
             while (writingInactiveBufferToFile)
             {
                 // wait
@@ -93,18 +94,18 @@ namespace GalaxyZooTouchTable.Lib
         {
             lock (gate)
             {
-                string headers = "time,event,user,subjectId,state,context,peer";
+                string headers = "time,event,user,subjectId,state,context,peer,answer";
                 activeEntryBuffer.Add(headers);
                 if (EnableDebugOutput) System.Diagnostics.Debug.WriteLine(headers);
             }
             CheckActiveBuffer();
         }
 
-        public void AddEntry(string entry, string user = null, string subjectId = null, ClassifierViewEnum state = ClassifierViewEnum.None, string context = null, string peer = null)
+        public void AddEntry(string entry, string user = null, string subjectId = null, ClassifierViewEnum state = ClassifierViewEnum.None, string context = null, string peer = null, string answer = null)
         {
             lock (gate)
             {
-                String entryString = PrintLog(entry, user, subjectId, state, context, peer, DateTime.Now.Ticks);
+                String entryString = PrintLog(entry, user, subjectId, state, context, peer, answer, DateTime.Now.ToString("HH:mm:ss.ffff"));
                 activeEntryBuffer.Add(entryString);
                 if (EnableDebugOutput) System.Diagnostics.Debug.WriteLine(entryString);
             }
@@ -171,7 +172,7 @@ namespace GalaxyZooTouchTable.Lib
             }
         }
 
-        public string PrintLog(string entry, string user, string subjectId, ClassifierViewEnum state, string context, string peer, long time)
+        public string PrintLog(string entry, string user, string subjectId, ClassifierViewEnum state, string context, string peer, string answer, string time)
         {
             string stateString = null;
             if (state == ClassifierViewEnum.SubjectView)
@@ -179,7 +180,7 @@ namespace GalaxyZooTouchTable.Lib
             else if (state == ClassifierViewEnum.SummaryView)
                 stateString = "Summary";
 
-            return $"{time},{entry},{user ?? ""},{subjectId ?? ""},{stateString ?? ""},{context ?? ""},{peer ?? ""}";
+            return $"{time},{entry},{user ?? ""},{subjectId ?? ""},{stateString ?? ""},{context ?? ""},{peer ?? ""},{answer ?? ""}";
         }
     }
 }

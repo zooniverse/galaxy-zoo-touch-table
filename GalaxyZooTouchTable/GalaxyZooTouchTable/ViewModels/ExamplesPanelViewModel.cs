@@ -59,9 +59,8 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             var example = sender as GalaxyExample;
             if (example == SelectedExample)
-            {
                 SelectedExample = null;
-            } else
+            else
             {
                 SelectedExample = example;
                 GlobalData.GetInstance().Logger?.AddEntry("Selected_Galaxy_Example", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView, SelectedExample.Title);

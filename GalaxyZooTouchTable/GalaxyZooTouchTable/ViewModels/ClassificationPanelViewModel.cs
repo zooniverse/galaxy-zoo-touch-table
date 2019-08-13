@@ -288,7 +288,8 @@ namespace GalaxyZooTouchTable.ViewModels
             if (counts.Total >= RETIRED_LIMIT) CurrentSubject.IsRetired = true;
             NotifySpaceView(RingNotifierStatus.IsSubmitting);
             LevelerViewModel.OnIncrementCount();
-            GlobalData.GetInstance().Logger?.AddEntry("Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString());
+            GlobalData.GetInstance().Logger?.AddEntry(
+                "Submit_Classification", User.Name, CurrentSubject.Id, CurrentView, LevelerViewModel.ClassificationsThisSession.ToString(), answer: SelectedAnswer.Label);
             OnChangeView(ClassifierViewEnum.SummaryView);
             IsSubmittingClassification = false;
         }
@@ -366,21 +367,20 @@ namespace GalaxyZooTouchTable.ViewModels
 
         void OnGetRandomGalaxy()
         {
-            GlobalData.GetInstance().Logger?.AddEntry("Random_Galaxy", User.Name);
-            GetNewSubject();
+            GetNewSubject("Random_Galaxy");
         }
 
         void OnTapDropZone(object sender)
         {
-            GlobalData.GetInstance().Logger?.AddEntry("Tap_Drop_Zone", User.Name);
-            GetNewSubject();
+            GetNewSubject("Tap_Drop_Zone");
         }
 
-        public void GetNewSubject()
+        public void GetNewSubject(string logStatement)
         {
             PrepareForNewClassification();
             if (Subjects.Count == 0)
                 Subjects = _localDBService.GetQueuedSubjects();
+            GlobalData.GetInstance().Logger?.AddEntry(logStatement, User.Name, Subjects[0].Id);
             LoadSubject(Subjects[0]);
             Subjects.RemoveAt(0);
         }

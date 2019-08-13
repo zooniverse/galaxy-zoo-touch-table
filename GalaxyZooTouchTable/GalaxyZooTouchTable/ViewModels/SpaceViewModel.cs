@@ -150,6 +150,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewWest(object obj)
         {
+            GlobalData.GetInstance().Logger?.AddEntry("Move_Map", context: "West");
             if (PeripheralItems.Western == null) return;
             SpaceCutoutUrl = PeripheralItems.Western.Cutout;
             CurrentGalaxies = PeripheralItems.Western.Galaxies;
@@ -160,6 +161,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewSouth(object obj)
         {
+            GlobalData.GetInstance().Logger?.AddEntry("Move_Map", context: "South");
             if (PeripheralItems.Southern == null) return;
             SpaceCutoutUrl = PeripheralItems.Southern.Cutout;
             CurrentGalaxies = PeripheralItems.Southern.Galaxies;
@@ -170,6 +172,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewEast(object obj)
         {
+            GlobalData.GetInstance().Logger?.AddEntry("Move_Map", context: "East");
             if (PeripheralItems.Eastern == null) return;
             SpaceCutoutUrl = PeripheralItems.Eastern.Cutout;
             CurrentGalaxies = PeripheralItems.Eastern.Galaxies;
@@ -180,6 +183,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnMoveViewNorth(object obj)
         {
+            GlobalData.GetInstance().Logger?.AddEntry("Move_Map", context: "North");
             if (PeripheralItems.Northern == null) return;
             SpaceCutoutUrl = PeripheralItems.Northern.Cutout;
             CurrentGalaxies = PeripheralItems.Northern.Galaxies;
