@@ -9,7 +9,6 @@ namespace GalaxyZooTouchTable.Models
     {
         private ILocalDBService _localDBService;
         private IGraphQLService _graphQLService;
-        private IPanoptesService _panoptesService;
 
         public ClassificationPanelViewModelFactory(IGraphQLService graphQLService, ILocalDBService localDBService)
         {

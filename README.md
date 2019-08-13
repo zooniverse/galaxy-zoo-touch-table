@@ -14,6 +14,9 @@ Likewise, the app can be installed via the same Google Drive File Stream locatio
 ## Log Files
 Log files are placed in a system's "Documents" folder under a "TouchTable_Logs" subdirectory. This should happen in debug and release builds, although logs are only committed in debug if the screen is X'ed out, as opposed to clicking "Stop Debugging" in Visual Studio.
 
+## Error Reporting
+The app is able to automatically report crashing errors to Sentry if a valid Sentry DSN is defined in the user's system environments under the variable `SENTRY_DSN`. If no environment variable is provided, the app will still run without error reporting.
+
 ## Offline First
 The app is set to run smoothly through temporary internet outages. When offline, finished classifications are placed in a queue and kept there until internet connection is established again. Internet connection is checked with each classification submitted, and queued classifications are submitted if internet is available. However, if the application is closed without internet access, all classifications held in the queue will be lost.
 
