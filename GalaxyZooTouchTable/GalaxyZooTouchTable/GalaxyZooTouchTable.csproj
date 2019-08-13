@@ -407,6 +407,7 @@
     </None>
     <None Include="App.Release.config">
       <DependentUpon>App.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <Resource Include="Fonts\Garamond.ttf" />
     <None Include="GalaxyZooTouchTable_1_TemporaryKey.pfx" />
