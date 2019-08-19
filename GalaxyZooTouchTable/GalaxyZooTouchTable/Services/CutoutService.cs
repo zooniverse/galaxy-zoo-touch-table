@@ -112,7 +112,11 @@ namespace GalaxyZooTouchTable.Services
                         cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
             }
             if (cutout.ImageOne == null)
+            {
                 GlobalData.GetInstance().Logger?.AddEntry("Cutout_Services_Down");
+                cutout.ImageOne = BitmapFromUrl("pack://application:,,,/Images/General/star-bg.jpg");
+            }
+                
             return cutout;
         }
 
