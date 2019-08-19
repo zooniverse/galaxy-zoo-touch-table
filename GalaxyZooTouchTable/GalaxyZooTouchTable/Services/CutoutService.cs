@@ -53,7 +53,7 @@ namespace GalaxyZooTouchTable.Services
             WebResponse response = null;
             try
             {
-                string url = $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={dec}&pixscale={plateScale}&layer=decals-dr7&size=432";
+                string url = DECaLSEndpoint(plateScale, dec, ra);
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Timeout = 1000;
                 response = await request.GetResponseAsync();
@@ -101,8 +101,8 @@ namespace GalaxyZooTouchTable.Services
                         double rightRA = Math.Round(location.Center.RightAscension - RaStep, 3);
 
                         cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
-                        cutout.ImageTwo = BitmapFromUrl(SideDECALImage(plateScale, dec, leftRA));
-                        cutout.ImageThree = BitmapFromUrl(SideDECALImage(plateScale, dec, rightRA));
+                        cutout.ImageTwo = BitmapFromUrl(DECaLSEndpoint(plateScale, dec, leftRA));
+                        cutout.ImageThree = BitmapFromUrl(DECaLSEndpoint(plateScale, dec, rightRA));
                     }
             }
             if (SDSSIsResponding && cutout.ImageOne == null)
@@ -129,9 +129,9 @@ namespace GalaxyZooTouchTable.Services
             return image;
         }
 
-        string SideDECALImage(double plateScale, double declination, double ra)
+        string DECaLSEndpoint(double plateScale, double declination, double ra)
         {
-            return $"http://legacysurvey.org/viewer-dev/jpeg-cutout/?ra={ra}&dec={declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
+            return $"http://legacysurvey.org/viewer/jpeg-cutout/?ra={ra}&dec={declination}&pixscale={plateScale}&layer=decals-dr7&size=432";
         }
     }
 }
