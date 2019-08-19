@@ -111,6 +111,8 @@ namespace GalaxyZooTouchTable.Services
                     if (response != null)
                         cutout.ImageOne = BitmapFromUrl(response.ResponseUri.ToString());
             }
+            if (cutout.ImageOne == null)
+                GlobalData.GetInstance().Logger?.AddEntry("Cutout_Services_Down");
             return cutout;
         }
 
