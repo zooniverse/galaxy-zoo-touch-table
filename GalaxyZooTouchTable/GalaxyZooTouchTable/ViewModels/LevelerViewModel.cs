@@ -40,11 +40,9 @@ namespace GalaxyZooTouchTable.ViewModels
             get => _classificationsThisSession;
             set
             {
+                SetProperty(ref _classificationsThisSession, value);
                 if (value != 0 && ClassificationLevel != MAX_LEVEL)
-                {
-                    SetProperty(ref _classificationsThisSession, value);
                     ClassificationsUntilUpgrade--;
-                }
             }
         }
 
