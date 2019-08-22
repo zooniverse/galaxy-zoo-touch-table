@@ -83,5 +83,14 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
             Assert.True(_viewModel.IsOpen);
             Assert.True(LevelUpAnimationFired);
         }
+
+        [Fact]
+        public void ShouldResetClassificationCounts()
+        {
+            _viewModel.OnIncrementCount();
+            Assert.Equal(1, _viewModel.ClassificationsThisSession);
+            _viewModel.Reset();
+            Assert.Equal(0, _viewModel.ClassificationsThisSession);
+        }
     }
 }
