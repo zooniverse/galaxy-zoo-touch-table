@@ -16,11 +16,12 @@ namespace GalaxyZooTouchTable.ViewModels
     public class ClassificationPanelViewModel : ViewModelBase
     {
         readonly int RETIRED_LIMIT = 25;
-        private IPanoptesService _panoptesService;
-        private ILocalDBService _localDBService;
-        private List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
-        private DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
-        private bool IsSubmittingClassification;
+        IPanoptesService _panoptesService;
+        ILocalDBService _localDBService;
+        List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
+        DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
+        bool IsSubmittingClassification;
+        Session Session { get; set; }
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public List<TableSubject> Subjects = new List<TableSubject>();
@@ -160,6 +161,11 @@ namespace GalaxyZooTouchTable.ViewModels
             SetTimer();
         }
 
+        public void LogClosure(string message)
+        {
+            GlobalData.GetInstance().Logger?.AddEntry(message, User.Name, CurrentSubject?.Id, CurrentView, Session.Duration());
+        }
+
         private void AddSubscribers()
         {
             CloseConfirmationViewModel.EndSession += OnCloseClassifier;
@@ -253,6 +259,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnOpenClassifier(object sender)
         {
+            Session = new Session();
             Messenger.Default.Send(this, "New_User_Galaxy_Pulse");
             StartStillThereModalTimer();
             ClassifierOpen = true;
@@ -263,6 +270,7 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender = null)
         {
+            Session = null;
             PrepareForNewClassification();
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();

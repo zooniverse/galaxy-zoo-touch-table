@@ -78,9 +78,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
+            Classifier.LogClosure("Close_From_Still_There");
             CloseClassificationPanel(sender);
             IsVisible = false;
-            GlobalData.GetInstance().Logger?.AddEntry("Close_From_Still_There", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
         }
 
         private void OnCloseModal(object sender)
@@ -116,9 +116,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (CurrentSeconds == 0)
             {
+                Classifier.LogClosure("Close_Timeout");
                 CloseClassificationPanel(null);
                 IsVisible = false;
-                GlobalData.GetInstance().Logger?.AddEntry("Close_Timeout", User.Name, Classifier.CurrentSubject?.Id, Classifier.CurrentView);
             }
         }
     }
