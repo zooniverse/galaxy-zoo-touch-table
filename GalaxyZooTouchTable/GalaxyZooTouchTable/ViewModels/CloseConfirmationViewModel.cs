@@ -62,9 +62,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseAndEnd(object sender)
         {
+            Classifier.LogClosure("Close_And_End");
             Intent = false;
             EndSession(null);
-            LogEvent("Close_And_End");
         }
 
         private void OnCheckIntent(object obj)
