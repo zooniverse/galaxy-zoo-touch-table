@@ -212,17 +212,15 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             CloseClassifier = new CustomCommand(OnCloseClassifier);
             TapDropZone = new CustomCommand(OnTapDropZone);
-            OpenClassifier = new CustomCommand(OnOpenClassifier);
+            OpenClassifier = new CustomCommand(OnOpenClassifier, CanOpenClassifier);
             SelectAnswer = new CustomCommand(OnSelectAnswer);
             ShowCloseConfirmation = new CustomCommand(OnShowCloseConfirmation);
             SubmitClassification = new CustomCommand(OnSubmitClassification, CanSubmitClassification);
             HideRetirementModal = new CustomCommand(OnHideRetirementModal);
         }
 
-        private bool CanSubmitClassification(object obj)
-        {
-            return !IsSubmittingClassification;
-        }
+        private bool CanOpenClassifier(object obj) { return !ClassifierOpen; }
+        private bool CanSubmitClassification(object obj) { return !IsSubmittingClassification; }
 
         private void OnHideRetirementModal(object obj)
         {
