@@ -21,15 +21,6 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        public void ShouldCloseParentClassifier()
-        {
-            var closeClassificationPanelFired = false;
-            _viewModel.CloseClassificationPanel += (s) => closeClassificationPanelFired = true;
-            _viewModel.CloseClassifier.Execute(null);
-            Assert.True(closeClassificationPanelFired);
-        }
-
-        [Fact]
         public void ShouldCloseModal()
         {
             var resetFiveMinuteTimerFired = false;

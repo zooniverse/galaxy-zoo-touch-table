@@ -29,13 +29,10 @@ namespace GalaxyZooTouchTable.Tests.ViewModels
         }
 
         [Fact]
-        private void ShouldCloseClassifier()
+        private void ShouldResetIntentWhenClassifierClosed()
         {
-            bool EndSessionCalled = false;
+            _viewModel.Intent = true;
             _viewModel.CheckIntent.Execute(null);
-            _viewModel.EndSession += delegate { EndSessionCalled = true; };
-            _viewModel.CloseAndEnd.Execute(null);
-            Assert.True(EndSessionCalled);
             Assert.False(_viewModel.Intent);
         }
 
