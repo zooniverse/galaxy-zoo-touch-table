@@ -11,7 +11,6 @@ namespace GalaxyZooTouchTable.ViewModels
     public class StillThereViewModel : ViewModelBase
     {
         public DispatcherTimer SecondTimer { get; set; } = new DispatcherTimer();
-        public event Action<object> CloseClassificationPanel = delegate { };
         public event Action ResetFiveMinuteTimer = delegate { };
         private int Percentage { get; set; } = 100;
         public event Action CheckOverlay = delegate { };
@@ -78,9 +77,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender)
         {
-            Classifier.LogClosure("Close_From_Still_There");
-            CloseClassificationPanel(sender);
             IsVisible = false;
+            Classifier.LogClosure("Close_From_Still_There");
         }
 
         private void OnCloseModal(object sender)
@@ -116,9 +114,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
             if (CurrentSeconds == 0)
             {
-                Classifier.LogClosure("Close_Timeout");
-                CloseClassificationPanel(null);
                 IsVisible = false;
+                Classifier.LogClosure("Close_Timeout");
             }
         }
     }

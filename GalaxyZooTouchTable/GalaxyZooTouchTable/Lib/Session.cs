@@ -6,7 +6,7 @@ namespace GalaxyZooTouchTable.Lib
     {
         TimeSpan StartTime;
 
-        public Session() { StartTime = DateTime.Now.TimeOfDay; }
+        public void Begin() { StartTime = DateTime.Now.TimeOfDay; }
 
         public string Duration()
         {

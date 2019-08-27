@@ -9,7 +9,6 @@ namespace GalaxyZooTouchTable.ViewModels
     public class CloseConfirmationViewModel : ViewModelBase
     {
         public event Action CheckOverlay = delegate { };
-        public event Action<object> EndSession = delegate { };
 
         public ICommand CheckIntent { get; private set; }
         public ICommand CloseAndEnd { get; private set; }
@@ -62,9 +61,8 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseAndEnd(object sender)
         {
-            Classifier.LogClosure("Close_And_End");
             Intent = false;
-            EndSession(null);
+            Classifier.LogClosure("Close_And_End");
         }
 
         private void OnCheckIntent(object obj)
