@@ -109,7 +109,7 @@ namespace GalaxyZooTouchTable.ViewModels
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
             Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
             Circle.RenderArc(Percentage);
-            Console.WriteLine("Second Timer");
+
             if (CurrentSeconds == 0)
             {
                 IsVisible = false;
