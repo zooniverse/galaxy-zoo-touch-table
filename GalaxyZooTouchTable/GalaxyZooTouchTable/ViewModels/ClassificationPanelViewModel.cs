@@ -258,7 +258,7 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             Session.Begin();
             Messenger.Default.Send(this, "New_User_Galaxy_Pulse");
-            StartStillThereModalTimer();
+            StillThereTimer.Start();
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel.Reset();
@@ -279,6 +279,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ShowRetirementModal = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
+            StillThere.Reset();
         }
 
         public void OnChangeView(ClassifierViewEnum view) { CurrentView = view; }
@@ -322,7 +323,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void StartStillThereModalTimer()
         {
             StillThereTimer.Stop();
-            StillThereTimer.Start();
+            if (ClassifierOpen) StillThereTimer.Start();
             if (StillThere.IsVisible) { StillThere.IsVisible = false; }
         }
 

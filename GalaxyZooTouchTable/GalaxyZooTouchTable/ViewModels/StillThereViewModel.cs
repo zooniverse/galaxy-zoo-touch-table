@@ -64,10 +64,8 @@ namespace GalaxyZooTouchTable.ViewModels
             SetTimer();
         }
 
-        private void CircleChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged("Circle");
-        }
+        public void Reset() { SecondTimer.Stop(); }
+        private void CircleChanged(object sender, PropertyChangedEventArgs e) { OnPropertyChanged("Circle"); }
 
         private void LoadCommands()
         {
@@ -111,7 +109,7 @@ namespace GalaxyZooTouchTable.ViewModels
             decimal PercentOfSeconds = (CurrentSeconds / StartingSeconds) * 100;
             Percentage = Convert.ToInt16(Math.Floor(PercentOfSeconds));
             Circle.RenderArc(Percentage);
-
+            Console.WriteLine("Second Timer");
             if (CurrentSeconds == 0)
             {
                 IsVisible = false;
