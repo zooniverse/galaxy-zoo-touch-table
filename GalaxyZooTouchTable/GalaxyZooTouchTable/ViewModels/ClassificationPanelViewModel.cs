@@ -21,7 +21,7 @@ namespace GalaxyZooTouchTable.ViewModels
         List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
         DispatcherTimer StillThereTimer { get; set; } = new DispatcherTimer();
         bool IsSubmittingClassification;
-        Session Session { get; set; }
+        Session Session { get; set; } = new Session();
 
         public Classification CurrentClassification { get; set; } = new Classification();
         public List<TableSubject> Subjects = new List<TableSubject>();
@@ -163,12 +163,12 @@ namespace GalaxyZooTouchTable.ViewModels
 
         public void LogClosure(string message)
         {
-            GlobalData.GetInstance().Logger?.AddEntry(message, User.Name, CurrentSubject?.Id, CurrentView, Session.Duration());
+            GlobalData.GetInstance().Logger?.AddEntry(message, User?.Name, CurrentSubject?.Id, CurrentView, Session?.Duration());
+            OnCloseClassifier();
         }
 
         private void AddSubscribers()
         {
-            CloseConfirmationViewModel.EndSession += OnCloseClassifier;
             ExamplesViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.PropertyChanged += ResetStillThereModalTimer;
             LevelerViewModel.LevelUpAnimation += OnLevelUpAnimation;
@@ -177,7 +177,6 @@ namespace GalaxyZooTouchTable.ViewModels
             Notifications.GetSubjectById += OnGetSubjectById;
             Notifications.ChangeView += OnChangeView;
             StillThere.ResetFiveMinuteTimer += StartStillThereModalTimer;
-            StillThere.CloseClassificationPanel += OnCloseClassifier;
 
             CloseConfirmationViewModel.CheckOverlay += OnShouldShowOverlay;
             StillThere.CheckOverlay += OnShouldShowOverlay;
@@ -257,9 +256,9 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnOpenClassifier(object sender)
         {
-            Session = new Session();
+            Session.Begin();
             Messenger.Default.Send(this, "New_User_Galaxy_Pulse");
-            StartStillThereModalTimer();
+            StillThereTimer.Start();
             ClassifierOpen = true;
             User.Active = true;
             LevelerViewModel.Reset();
@@ -268,7 +267,6 @@ namespace GalaxyZooTouchTable.ViewModels
 
         private void OnCloseClassifier(object sender = null)
         {
-            Session = null;
             PrepareForNewClassification();
             LevelerViewModel.CloseLeveler();
             ExamplesViewModel.ResetExamples();
@@ -281,6 +279,7 @@ namespace GalaxyZooTouchTable.ViewModels
             ShowRetirementModal = false;
             NotifySpaceView(RingNotifierStatus.IsLeaving);
             CompletedClassifications.Clear();
+            StillThere.Reset();
         }
 
         public void OnChangeView(ClassifierViewEnum view) { CurrentView = view; }
@@ -324,7 +323,7 @@ namespace GalaxyZooTouchTable.ViewModels
         public void StartStillThereModalTimer()
         {
             StillThereTimer.Stop();
-            StillThereTimer.Start();
+            if (ClassifierOpen) StillThereTimer.Start();
             if (StillThere.IsVisible) { StillThere.IsVisible = false; }
         }
 
