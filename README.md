@@ -31,7 +31,7 @@ The app is setup to use a local database to query subject locations based on Rig
 ## Using Local Subjects
 In order to stay truly offline-first, the app can run with local subjects to prevent the need to fetch an image source from the internet. To do this, a "Subjects" folder must exist in the system's "Documents" folder containing paths to the local files. Within "Documents/Subjects" the app expects subfolders denoted by the first characters of a filename. Ex: The subject with a filename "J232546.75+153355.2.png" is expected to exist in "Documents/Subjects/J232/J232546.75+153355.2.png". Images should be in .png format. If a local subject is missing, the app falls back to fetching the subject online.
 
-To create the database, a subject export (.csv) retrieved from Panoptes must be preprocessed using a Python script. That .csv can then be imported into a database. I've used the [DBBrowser](https://sqlitebrowser.org/) to import CSVs.  
+To create the database, a subject export (.csv) retrieved from Panoptes must be preprocessed using a [Python script](https://github.com/zooniverse/Data-digging/blob/master/example_scripts/galaxy_zoo_touch_table/prepare_db_from_classification_export.py). That .csv can then be imported into a database. I've used the [DBBrowser](https://sqlitebrowser.org/) to import CSVs.  
 
 The local database has the following structure:
 
