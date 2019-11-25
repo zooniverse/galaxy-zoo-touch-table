@@ -15,7 +15,7 @@ namespace GalaxyZooTouchTable.ViewModels
 {
     public class ClassificationPanelViewModel : ViewModelBase
     {
-        readonly int RETIRED_LIMIT = 25;
+        readonly int RETIRED_LIMIT = 10;
         IPanoptesService _panoptesService;
         ILocalDBService _localDBService;
         List<CompletedClassification> CompletedClassifications { get; set; } = new List<CompletedClassification>();
