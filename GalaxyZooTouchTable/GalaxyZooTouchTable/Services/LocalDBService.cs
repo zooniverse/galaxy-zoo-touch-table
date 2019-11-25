@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.Services
 {
     public class LocalDBService : ILocalDBService
     {
-        readonly int RETIREMENT_LIMIT = 25;
+        readonly int RETIREMENT_LIMIT = 10;
         readonly string QueuedSubjectsQuery = "select * from Subjects order by classifications_count asc, random() limit 10";
         readonly string QueuedSubjectQuery = "select * from Subjects order by classifications_count asc, random() limit 1";
         string HighestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra desc limit 1"; }
@@ -26,7 +26,7 @@ namespace GalaxyZooTouchTable.Services
         string NextAscendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec > {bounds} and classifications_count < {limit} order by dec asc limit 1"; }
         string NextDescendingDecQuery(double bounds, int limit) { return $"select * from Subjects where dec < {bounds} and classifications_count < {limit} order by dec desc limit 1"; }
         string GetCurrentClassificationCount(string id) { return $"select * from Subjects where subject_id = {id}"; }
-        string UpdateSubjectCounts(string id, ClassificationCounts counts) { return $"update Subjects set classifications_count = {counts.Total}, smooth = {counts.Smooth}, features = {counts.Features}, star = {counts.Star} where subject_id = {id}"; } 
+        string UpdateSubjectCounts(string id, ClassificationCounts counts) { return $"update Subjects set classifications_count = {counts.Total}, smooth = {counts.Smooth}, features = {counts.Features}, star = {counts.Star} where subject_id = {id}"; }
 
         IGraphQLService _graphQLService { get; set; }
 

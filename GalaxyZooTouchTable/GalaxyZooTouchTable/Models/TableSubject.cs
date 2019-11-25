@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
 {
     public class TableSubject : ViewModelBase,  IDisposable
     {
-        readonly int RETIRED_LIMIT = 25;
+        readonly int RETIRED_LIMIT = 10;
         SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
@@ -47,7 +47,7 @@ namespace GalaxyZooTouchTable.Models
 
         private void XYConvert()
         {
-            int CutoutWidth = 1248; 
+            int CutoutWidth = 1248;
             int CutoutHeight = 432;
             const int ArcDegreeInSeconds = 3600;
 
