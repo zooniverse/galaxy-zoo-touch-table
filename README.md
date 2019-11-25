@@ -1,5 +1,7 @@
 # Galaxy Zoo Touch Table
-The Galaxy Zoo touch table experience at the Adler Planetarium. Please visit the [wiki](https://github.com/zooniverse/galaxy-zoo-touch-table/wiki) for more information.
+The Galaxy Zoo touch table experience at the Adler Planetarium. The Galaxy Zoo touch table is a multi-touch app built in C# and XAML with the Windows Presentation Foundation (WPF) framework. The app allows volunteers to classify galaxies according to their shape by dragging galaxy images from a central cutout in the center of the table into one of six classifiers positioned around the table. 
+
+Please visit the [wiki](https://github.com/zooniverse/galaxy-zoo-touch-table/wiki) for more information.
 
 ## Prerequisites
 - [Local Database](#using-a-local-database)
