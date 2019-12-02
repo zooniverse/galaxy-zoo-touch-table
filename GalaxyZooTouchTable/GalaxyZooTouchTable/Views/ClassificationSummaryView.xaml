@@ -78,7 +78,7 @@
         </Border>
 
         <TextBlock Style="{StaticResource CommonBoldFont}" FontSize="9" Margin="84,54,14,0">
-            <Run Text="Here are the results so far ("/><Run Text="{Binding ClassificationSummary.TotalVotes, Mode=OneWay}"/><Run Text="/25)"/>
+            <Run Text="Here are the results so far ("/><Run Text="{Binding ClassificationSummary.TotalVotes, Mode=OneWay}"/><Run Text="/"/><Run Text="{Binding ClassificationSummary.VoteLimit, Mode=OneWay}"/><Run Text=")"/>
         </TextBlock>
 
         <ListView

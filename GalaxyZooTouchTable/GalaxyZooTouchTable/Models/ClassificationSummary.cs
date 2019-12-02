@@ -9,6 +9,7 @@ namespace GalaxyZooTouchTable.Models
         public string SubjectLocation { get; private set; }
         public string SummaryString { get; private set; }
         public int TotalVotes { get; private set; }
+        public int VoteLimit { get; private set; } = 10;
 
         public ClassificationSummary(string subjectLocation, ClassificationCounts counts, List<AnswerButton> currentAnswers, AnswerButton selectedAnswer, string summaryString)
         {
@@ -17,6 +18,8 @@ namespace GalaxyZooTouchTable.Models
             SubjectLocation = subjectLocation;
             SummaryString = summaryString;
             TotalVotes = counts.Total;
+            if (TotalVotes > 10)
+                VoteLimit = counts.Total;
         }
 
         List<AnswerButton> ParseAnswerCounts(List<AnswerButton> answers, ClassificationCounts counts)
