@@ -395,7 +395,6 @@ namespace GalaxyZooTouchTable.ViewModels
         {
             GlobalData.GetInstance().Logger?.AddEntry("Drop_Galaxy", User.Name, subject.Id, CurrentView);
             if (CheckAlreadyCompleted(subject)) return;
-            if (CurrentView == ClassifierViewEnum.SummaryView) CurrentView = ClassifierViewEnum.SubjectView;
             if (subject.IsRetired)
             {
                 GlobalData.GetInstance().Logger?.AddEntry("Show_Retirement_Modal", User.Name, subject.Id, CurrentView);
@@ -405,6 +404,7 @@ namespace GalaxyZooTouchTable.ViewModels
             {
                 LoadSubject(subject);
                 NotifySpaceView(RingNotifierStatus.IsCreating);
+                CurrentView = ClassifierViewEnum.SubjectView;
             }
         }
 
