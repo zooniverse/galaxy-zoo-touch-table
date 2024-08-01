@@ -12,7 +12,7 @@ namespace GalaxyZooTouchTable.Services
 {
     public class LocalDBService : ILocalDBService
     {
-        readonly int RETIREMENT_LIMIT = 10;
+        readonly int RETIREMENT_LIMIT = 25;
         readonly string QueuedSubjectsQuery = "select * from Subjects order by classifications_count asc, random() limit 10";
         readonly string QueuedSubjectQuery = "select * from Subjects order by classifications_count asc, random() limit 1";
         string HighestRaQuery(int limit) { return $"select * from Subjects where classifications_count < {limit} order by ra desc limit 1"; }
