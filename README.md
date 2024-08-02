@@ -3,17 +3,17 @@ The Galaxy Zoo touch table experience at the Adler Planetarium. The Galaxy Zoo t
 
 Please visit the [wiki](https://github.com/zooniverse/galaxy-zoo-touch-table/wiki) for more technical information. You can also view a writeup of the project through the [blog](https://blog.zooniverse.org/2019/08/14/uscientist-and-the-galaxy-zoo-touch-table-at-adler-planetarium/) (Aug 2019). Stats are available on the [U!Scientist site](https://www.uscientist.org/). Design decisions are contained in the [Architecture Decision Records.](https://github.com/zooniverse/galaxy-zoo-touch-table/tree/master/docs/arch)
 
-The Galaxy Zoo Touch Table is also displayed at the planetarium alongside an [iPad app](https://github.com/zooniverse/touchable-display) that shows project stats.
+The Galaxy Zoo Touch Table was displayed at the planetarium alongside an [iPad app](https://github.com/zooniverse/touchable-display) that shows project stats, but that app is no longer used.
 
 ## Prerequisites
 - [Local Database](#using-a-local-database)
 - [Local Subjects](#using-local-subjects)
 
 ## Publishing
-Currently, the app is setup to publish through a ClickOnce wizard with Google Drive File Stream, which should be setup on the local computer and synced to the Zooniverse Citizen Science team drive. Publishing can be made directly to the Touch Table folder under that drive. The Publish Version should be incremented to avoid errors with conflicting previous versions.
+Currently, the app is setup to publish through a ClickOnce wizard with Google Drive, which should be setup on the local computer and synced to the Science Engagement shared drive. Publishing can be made directly to the Touch Table folder under that shared drive. The Publish Version should be incremented to avoid errors with conflicting previous versions.
 
 ## Installing
-Likewise, the app can be installed via the same Google Drive File Stream location (Zooniverse/Citizen Science/Touch Table/Setup). It may be necessary to uninstall older versions of the app if conflicts appear during setup.
+Likewise, the app can be installed via the same Google Drive location (Science Engagement/Touch Table/Setup). It may be necessary to uninstall older versions of the app if conflicts appear during setup.
 
 ## Log Files
 Log files are placed in a system's "Documents" folder under a "TouchTable_Logs" subdirectory. This should happen in debug and release builds, although logs are only committed in debug if the screen is X'ed out, as opposed to clicking "Stop Debugging" in Visual Studio.
@@ -52,5 +52,3 @@ CREATE TABLE Subjects(
     star INTEGER
 );
 ```
-
-[![pullreminders](https://pullreminders.com/badge.svg)](https://pullreminders.com?ref=badge)
