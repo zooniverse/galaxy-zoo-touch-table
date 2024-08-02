@@ -10,7 +10,7 @@ namespace GalaxyZooTouchTable.Models
 {
     public class TableSubject : ViewModelBase,  IDisposable
     {
-        readonly int RETIRED_LIMIT = 10;
+        readonly int RETIRED_LIMIT = 25;
         SpaceNavigation CurrentLocation { get; set; }
         public int X { get; set; }
         public int Y { get; set; }

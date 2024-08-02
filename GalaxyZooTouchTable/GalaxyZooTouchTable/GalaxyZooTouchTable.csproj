@@ -17,7 +17,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <PublishUrl>G:\Shared drives\Citizen Science\Touch Table\</PublishUrl>
+    <PublishUrl>G:\Shared drives\Science Engagement\Touch Table\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -28,7 +28,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.2.4.%2a</ApplicationVersion>
+    <ApplicationVersion>1.2.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -53,11 +53,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>D4A326B02C19A4F1BE50957DBF0F89E4A9E603EB</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6A9B2AA2DA5B8A7CD0102507CBFA1BA40D6BA46E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>GalaxyZooTouchTable_2_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -179,6 +178,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
@@ -412,7 +412,7 @@
       <SubType>Designer</SubType>
     </None>
     <Resource Include="Fonts\Garamond.ttf" />
-    <None Include="GalaxyZooTouchTable_1_TemporaryKey.pfx" />
+    <None Include="GalaxyZooTouchTable_2_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
